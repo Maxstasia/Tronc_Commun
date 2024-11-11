@@ -1,0 +1,34 @@
+Ex00:
+Hello World!
+
+Ex01:
+ChatGPT car je le connais deja un peu.
+
+Ex02:
+Un modèle de langage large (LLM) apprend à comprendre et générer du langage en analysant de grandes quantités de texte. Il utilise des mécanismes d'attention pour saisir les relations contextuelles. Après un pré-entraînement et ajustement, il sert à des tâches comme la traduction ou les assistants vocaux.
+
+Ex03:
+Des automates comme le canard de Vaucanson et les créations mythologiques, tels que les golems, ont marqué les débuts de l'intelligence artificielle.Des philosophes comme Leibniz et Turing ont posé les bases du raisonnement et de la machine pensante, avec des avancées comme la machine de Turing et le test de Turing. Dans les années 1950, John McCarthy a fondé l'intelligence artificielle en tant que discipline, tandis que des programmes comme ELIZA et Logic Theorist ont démontré les capacités des machines. Après des périodes d'enthousiasme et de désillusion, les années 2010 ont vu l'émergence des assistants personnels et des progrès grâce au big data et à l'apprentissage profond. En 2022, des IA comme ChatGPT et DALL-E ont connu un succès massif, provoquant un « boom » technologique et des inquiétudes sur leurs impacts futurs.
+
+Ex04:
+Les emails portent sur les risques liés à l'utilisation des modèles de langage (LLM) et la protection des données sensibles. Marie Dupuis, DPO, soulève des préoccupations sur le partage accidentel de données sensibles via ces outils, et propose une réunion pour établir des directives claires. Jean Lefebvre, Directeur des Systèmes d'Information, suggère un filtrage des données et une formation pour éviter les erreurs. Claire Martin, Responsable Juridique, insiste sur la nécessité de rédiger une charte d'utilisation stricte pour respecter le RGPD. Thomas Durand, Responsable des Projets Numériques, soutient la proposition d'isoler les LLM dans des environnements contrôlés pour limiter les risques.
+
+Ex05:
+Bonjour, je souhaiterais que vous me rédigez un court résumer de l'entreprise nommée : Google, un résumer de 500 caractère ou moins fera largement l'affaire.
+S'il vous plaît.
+
+Merci d'avance.
+
+Ex06:
+Bonjour, suite à un rendez-vous avec un client, j'ai pris des notes et je souhaiterais que vous utilisez mes notes afin de rédiger un mail de remerciement et contiendrais également une petite synthèse de mes notes.
+Voici mes notes :
+- Meeting le ven. 15 nov. avec BuzzAI
+- Jean dir tech.
+- presentation du produit : analyser le buzz autour d'un produit
+- discussion dune demo avec les equipes tech -> date a fixer
+- evaluation budget pour 2 mois de surveillance par buzzAI
+
+Merci d'avance.
+
+Ex07:
+Module 00 - complet
