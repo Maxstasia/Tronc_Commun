@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 16:14:17 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/11 18:06:59 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/11/11 18:40:45 by mstasiak          #+#    #+#             */
+/*   Updated: 2024/11/11 18:47:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-int ft_memcpy(void *dest, const void *src, size_t n)
+int	ft_toupper(int c)
 {
-    unsigned char *d = (unsigned char *)dest;
-    unsigned char *s = (unsigned char *)src;
-    size_t i;
-
-    i = 0;
-    while (i < n)
-    {
-        d[i] = s[i];
-        i++;
-    }
-    return (dest);
+	if (c >= 'a' || c <= 'z')
+	{
+		return (c - 32);
+	}
+	return (c);	
 }
