@@ -6,13 +6,13 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:36:04 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/11 18:38:13 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:44:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <libft.h>
 
-size_t strlcat(char *  dest , const char *  src , size_t  count)
+size_t	strlcat(char *dest, const char *src, size_t count)
 {
 	unsigned int	i;
 	unsigned int	j;

@@ -6,16 +6,16 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:01:32 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/11 16:10:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:43:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <libft.h>
 
-void bzero(void *s, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
 	int	i;
-	
+
 	i = -1;
 	while (i++, i < n)
 		((unsigned char *)s)[i] = '/0';

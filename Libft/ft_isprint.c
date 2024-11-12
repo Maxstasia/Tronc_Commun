@@ -6,15 +6,17 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 14:53:36 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/11 14:56:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:44:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isprint(int c)
+#include <libft.h>
+
+int	ft_isprint(int c)
 {
 	if (c >= 32 && c <= 126)
 	{
 		return (1);
 	}
-    return (0);
+	return (0);
 }

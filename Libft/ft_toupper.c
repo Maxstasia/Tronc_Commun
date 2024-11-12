@@ -6,9 +6,11 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 18:40:45 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/11 18:47:50 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:42:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <libft.h>
 
 int	ft_toupper(int c)
 {
@@ -16,5 +18,5 @@ int	ft_toupper(int c)
 	{
 		return (c - 32);
 	}
-	return (c);	
+	return (c);
 }
