@@ -6,11 +6,11 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:33:36 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/12 12:44:13 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:51:57 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
 char	*ft_strdup(const char *src)
 {

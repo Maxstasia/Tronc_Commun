@@ -6,7 +6,7 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:26:29 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/12 12:40:58 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/12 16:01:44 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ int		ft_memcpy(void *dest, const void *src, size_t n);
 void	ft_memmove(void *dest, const void *src, size_t n);
 void	ft_memset(void *s, int c, size_t n);
 char	*ft_strdup(const char *src);
+char	*ft_strjoin(char const *s1, char const *s2);
 size_t	strlcat(char *dest, const char *src, size_t count);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(const char *str);
 char	ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 

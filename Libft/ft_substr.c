@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 14:53:36 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/12 15:40:04 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/11/12 14:53:32 by mstasiak          #+#    #+#             */
+/*   Updated: 2024/11/12 15:39:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isprint(int c)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	if (c >= 32 && c <= 126)
-	{
-		return (1);
-	}
-	return (0);
+	
 }

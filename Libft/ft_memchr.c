@@ -6,11 +6,11 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:25:37 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/12 12:44:28 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/12 14:51:54 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
