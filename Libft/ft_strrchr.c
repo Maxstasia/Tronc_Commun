@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 17:56:13 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/13 16:34:20 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/11/13 14:34:55 by mstasiak          #+#    #+#             */
+/*   Updated: 2024/11/13 14:46:32 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_memmove(void *dest, const void *src, size_t n)
+char	*ft_strrchr(const char *str, int c)
 {
-	size_t	i;
+	const char	*last_occurrence;
 
-	i = 0;
-	if (((unsigned char *)dest) < ((const unsigned char *)src))
+	last_occurrence = NULL;
+	while (*str)
 	{
-		while (i < n)
-		{
-			((unsigned char *)dest)[i] = ((const unsigned char *)src)[i];
-			i++;
-		}
+		if (*str == (char)c)
+			last_occurrence = str;
+		str++;
 	}
-	else
-	{
-		while (i > 0)
-		{
-			((unsigned char *)dest)[i--] = ((const unsigned char *)src)[i--];
-			i--;
-		}
-	}
+	if (c == '\0')
+		return ((char *)str);
+	return ((char *)last_occurrence);
 }
