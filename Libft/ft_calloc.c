@@ -6,7 +6,7 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 11:24:24 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/14 18:00:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/15 10:12:51 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	size_max = ((size_t)(-1));
 	if (nmemb == 0 || size == 0)
 		return (malloc(0));
-	if (nmemb > size_max / size)
+	if (nmemb && size > size_max / nmemb)
 		return (NULL);
 	ptr = malloc(nmemb * size);
 	if (!ptr)
