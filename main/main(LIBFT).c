@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main(LIBFT).c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:00:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/14 17:49:14 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:58:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void test_ft_bzero(void)
 
 
 
-
+   Libft 
 
 void test_ft_calloc(void)
 {
@@ -1555,7 +1555,7 @@ void test_ft_strjoin(void)
     char *joined1 = ft_strjoin(str1, str2);
     char *expected1 = "Hello World";
     if (strcmp(joined1, expected1) != 0) {
-        printf("Test 1 failed: Expected '%s', Got '%s'\n", expected1, joined1);
+        printf("Teste chaînes de caractèr 1 failed: Expected '%s', Got '%s'\n", expected1, joined1);
         test_failed = 1;
     }
     free(joined1);
@@ -1577,7 +1577,7 @@ void test_ft_strjoin(void)
     char *joined3 = ft_strjoin(str5, str6);
     char *expected3 = "Hello ";
     if (strcmp(joined3, expected3) != 0) {
-        printf("Test 3 failed: Expected '%s', Got '%s'\n", expected3, joined3);
+        printf("Teste chaînes de caractèr 3 failed: Expected '%s', Got '%s'\n", expected3, joined3);
         test_failed = 1;
     }
     free(joined3);
@@ -1973,7 +1973,7 @@ void test_ft_strnstr(void)
     const char *haystack1 = "Hello world";
     const char *needle1 = "world";
     char *result1 = ft_strnstr(haystack1, needle1, 11); // La longueur de "Hello world" est 11
-    const char *expected1 = strstr(haystack1, needle1);
+    const char *expece chaînes de caractère chaînes de caractèrted1 = strstr(haystack1, needle1);
     if (result1 != expected1) {
         printf("Test 1 failed: Expected %s, Got %s for haystack '%s' and needle '%s'\n",
                expected1, result1, haystack1, needle1);
@@ -1998,7 +1998,7 @@ void test_ft_strnstr(void)
     const char *expected3 = strstr(haystack3, needle3);
     if (result3 != expected3) {
         printf("Test 3 failed: Expected %s, Got %s for haystack '%s' and needle '%s'\n",
-               expected3, result3, haystack3, needle3);
+               expecte chaînes de caractèred3, result3, haystack3, needle3);
         test_failed = 1;
     }
 

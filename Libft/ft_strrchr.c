@@ -6,7 +6,7 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:34:55 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/13 14:46:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/19 15:46:24 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strrchr(const char *str, int c)
 			last_occurrence = str;
 		str++;
 	}
-	if (c == '\0')
+	if ((char)c == '\0')
 		return ((char *)str);
 	return ((char *)last_occurrence);
 }
