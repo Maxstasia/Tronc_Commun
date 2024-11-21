@@ -6,7 +6,7 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:25:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/13 15:26:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:28:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	start = 0;
 	while (s1[start] && ft_isset(s1[start], set))
 		start++;
-	end = strlen(s1);
+	end = ft_strlen(s1);
 	while (end > start && ft_isset(s1[end - 1], set))
 		end--;
 	len = end - start;

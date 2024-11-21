@@ -6,7 +6,7 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:26:29 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/19 15:27:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:29:02 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 /*--bibliotheques--*/
 
 # include <unistd.h>
-# include <stdio.h>
-# include <string.h>
 # include <stdlib.h>
 # include <stddef.h>
 
