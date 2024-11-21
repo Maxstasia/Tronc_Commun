@@ -6,7 +6,7 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:17:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/19 16:11:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/21 11:09:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,17 @@ static int	ft_countword(char *s, char c)
 static char	*ft_dostr(char *s, char c)
 {
 	int		i;
-	int		j;
+	int		len_word;
 	char	*str;
 
 	i = 0;
-	j = 0;
-	while (s[j] != c && s[j])
-		j++;
-	str = (char *)malloc(sizeof(char) * j + 1);
+	len_word = 0;
+	while (s[len_word] != c && s[len_word])
+		len_word++;
+	str = (char *)malloc(sizeof(char) * len_word + 1);
 	if (!str)
 		return (NULL);
-	while (i < j)
+	while (i < len_word)
 	{
 		str[i] = s[i];
 		i++;
@@ -96,11 +96,8 @@ char	**ft_split(char const *s, char c)
 	return (strs);
 }
 
-/*
+/* 
 int main(void)
 {
-	char	**result2 = ft_split("   Test Split Function   ", ' ');
-	for (int i = 0; result2[i]; i++) {
-        printf("Test 2 failed: Got %s\n", result2[i]);
-	}
+	ft_split("   Test Split Function   ", ' ');
 } */
