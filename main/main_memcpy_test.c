@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   main-test.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 16:14:17 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/25 13:17:11 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/11/25 10:10:13 by mstasiak          #+#    #+#             */
+/*   Updated: 2024/11/25 10:14:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
+#include <stdlib.h>
 
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+int	main(void)
 {
-	unsigned char		*d;
-	const unsigned char	*s;
-	size_t				i;
-
-	d = (unsigned char *)dest;
-	s = (const unsigned char *)src;
-	i = 0;
-	while (i < n)
-	{
-		d[i] = s[i];
-		i++;
-	}
-	return (dest);
+	memcpy(((void*)0), ((void*)0), 3);
 }
