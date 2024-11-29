@@ -6,11 +6,11 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:30:42 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/25 19:10:02 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:20:43 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_printf.h"
+#include "ft_printf.h"
 
 void	ft_putchar(char c)
 {

@@ -6,17 +6,17 @@
 #    By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/25 13:19:53 by mstasiak          #+#    #+#              #
-#    Updated: 2024/11/27 13:29:32 by mstasiak         ###   ########.fr        #
+#    Updated: 2024/11/28 11:18:27 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 
-SRC =	ft_printf \
-		ft_putchar \
-		ft_putnbr_fd \
-		ft_putnbr \
-		ft_putstr_fd
+SRC =	ft_printf.c \
+		ft_putchar.c \
+		ft_putnbr_base.c \
+		ft_putnbr.c \
+		ft_putstr_fd.c
 
 OBJ = $(SRC:.c=.o)
 

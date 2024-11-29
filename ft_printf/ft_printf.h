@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft_printf.h                                     :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:25:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/27 14:54:03 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/28 11:20:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_PRINTF_H
-# define LIBFT_PRINTF_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
 /*--bibliotheques--*/
 
