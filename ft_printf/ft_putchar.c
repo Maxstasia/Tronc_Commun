@@ -6,13 +6,14 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 10:30:42 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/28 11:20:43 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:10:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putchar(char c)
+int	ft_putchar(char c)
 {
 	write(1, &c, 1);
+	return (1);
 }
