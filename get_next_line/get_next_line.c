@@ -6,7 +6,7 @@
 /*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:17:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/29 08:53:24 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/11/29 18:02:36 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*extract_line(char **storage)
 static char	*read_and_store(int fd, char *storage)
 {
 	char	buffer[BUFFER_SIZE + 1];
-	ssize_t	bytes_read;
+	size_t	bytes_read;
 
 	while (!ft_strchr(storage, '\n'))
 	{
@@ -60,7 +60,7 @@ char	*get_next_line(int fd)
 {
 	static char	*storage = NULL;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	storage = read_and_store(fd, storage);
 	if (!storage || !*storage)
