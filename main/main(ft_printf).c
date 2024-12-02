@@ -129,6 +129,8 @@ int	ft_printf(const char *format, ...)
 	int		len;
 	va_list	str;
 
+	if (!format)
+		return (-1);
 	va_start(str, format);
 	i = -1;
 	len = 0;

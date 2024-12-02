@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:25:14 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/29 15:46:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/02 12:05:20 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	ft_printf(const char *format, ...)
 	int		len;
 	va_list	str;
 
+	if (!format)
+		return (-1);
 	va_start(str, format);
 	i = -1;
 	len = 0;
