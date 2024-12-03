@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main(get_next_line).c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 08:44:02 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/29 08:44:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/03 08:28:26 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int main(void)
 {
-    int fd = open("test.txt", O_RDONLY);
+    int fd = open("get_next_line_utils.c", O_RDONLY);
     char *line;
 
     while ((line = get_next_line(fd)) != NULL)
