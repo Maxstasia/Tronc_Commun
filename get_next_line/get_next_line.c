@@ -6,19 +6,19 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:17:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/03 08:46:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/03 14:13:25 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 // join and free
-char	*ft_free(char *buffer, char *buf)
+char	*ft_free(char *buffer_static, char *buf)
 {
 	char	*temp;
 
-	temp = ft_strjoin(buffer, buf);
-	free(buffer);
+	temp = ft_strjoin(buffer_static, buf);
+	free(buffer_static);
 	return (temp);
 }
 
@@ -57,7 +57,7 @@ char	*ft_line(char *buffer)
 		return (NULL);
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = ft_calloc(i + 2, sizeof(char));
+	line = ft_calloc(sizeof(char), i + 2);
 	i = 0;
 	while (buffer[i] && buffer[i] != '\n')
 	{
@@ -69,45 +69,42 @@ char	*ft_line(char *buffer)
 	return (line);
 }
 
-char	*read_file(int fd, char *res)
+char	*read_file(int fd, char *buffer_static)
 {
 	char	*buffer;
-	int		byte_read;
+	ssize_t	byte_read;
 
-	if (!res)
-		res = ft_calloc(1, 1);
+	if (!buffer_static)
+		buffer_static = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
-		return(NULL);
+		return (NULL);
 	byte_read = 1;
 	while (byte_read > 0)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read == -1)
-		{
-			free(buffer);
-			return (NULL);
-		}
-		buffer[byte_read] = 0;
-		res = ft_free(res, buffer);
+			return (free(buffer), buffer = NULL);
+		buffer[byte_read] = '\0';
+		buffer_static = ft_free(buffer_static, buffer);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
 	free(buffer);
-	return (res);
+	return (buffer_static);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer_static;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return ((free(buffer_static), buffer_static = NULL));
+	buffer_static = read_file(fd, buffer_static);
+	if (!buffer_static)
 		return (NULL);
-	buffer = read_file(fd, buffer);
-	if (!buffer)
-		return (NULL);
-	line = ft_line(buffer);
-	buffer = ft_next(buffer);
+	line = ft_line(buffer_static);
+	buffer_static = ft_next(buffer_static);
 	return (line);
 }
