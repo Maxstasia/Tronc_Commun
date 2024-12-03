@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:17:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/02 17:01:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/03 08:46:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ char	*read_file(int fd, char *res)
 	if (!res)
 		res = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return(NULL);
 	byte_read = 1;
 	while (byte_read > 0)
 	{
@@ -109,65 +111,3 @@ char	*get_next_line(int fd)
 	buffer = ft_next(buffer);
 	return (line);
 }
-
-/* #include "get_next_line.h"
-
-static char	*extract_line(char **storage)
-{
-	char	*line;
-	char	*temp;
-	size_t	len;
-
-	len = 0;
-	while ((*storage)[len] && (*storage)[len] != '\n')
-		len++;
-	line = ft_calloc(len + 2, sizeof(char));
-	if (!line)
-		return (NULL);
-	len = 0;
-	while ((*storage)[len] && (*storage)[len] != '\n')
-	{
-		line[len] = (*storage)[len];
-		len++;
-	}
-	if ((*storage)[len] == '\n')
-		line[len++] = '\n';
-	temp = ft_strjoin(NULL, *storage + len);
-	free(*storage);
-	*storage = temp;
-	return (line);
-}
-
-static char	*read_and_store(int fd, char *storage)
-{
-	char	buffer[BUFFER_SIZE + 1];
-	size_t	bytes_read;
-
-	while (!ft_strchr(storage, '\n'))
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read <= 0)
-			break ;
-		buffer[bytes_read] = '\0';
-		storage = ft_strjoin(storage, buffer);
-		if (!storage)
-			return (NULL);
-	}
-	return (storage);
-}
-
-char	*get_next_line(int fd)
-{
-	static char	*storage = NULL;
-
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (NULL);
-	storage = read_and_store(fd, storage);
-	if (!storage || !*storage)
-	{
-		free(storage);
-		storage = NULL;
-		return (NULL);
-	}
-	return (extract_line(&storage));
-} */

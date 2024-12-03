@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/02 09:21:13 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/03 08:44:35 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-/* # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif */
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
 /*--fonctions--*/
 
