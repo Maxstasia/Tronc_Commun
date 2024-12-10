@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:17:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/10 18:37:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/10 17:48:01 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_join_and_free(char *buffer_static, char *buffer_temp)
 {
@@ -39,7 +39,7 @@ char	*ft_next(char *buffer_static)
 		return (free(buffer_static), NULL);
 	line = ft_calloc((ft_strlen(buffer_static) - i + 1), sizeof(char));
 	if (!line)
-		return (free(line), free(buffer_static), NULL);
+		return (free(buffer_static), NULL);
 	i++;
 	j = 0;
 	while (buffer_static[i])
@@ -61,7 +61,7 @@ char	*ft_line(char *buffer_static)
 		i++;
 	line = ft_calloc(sizeof(char), i + 2);
 	if (!line)
-		return (free(line), free(buffer_static), NULL);
+		return (free(buffer_static), NULL);
 	i = 0;
 	while (buffer_static[i] && buffer_static[i] != '\n')
 	{
@@ -86,13 +86,13 @@ char	*read_file(int fd, char *buffer_static)
 	}
 	buffer_temp = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer_temp)
-		return (free(buffer_temp), free(buffer_static), NULL);
+		return (free(buffer_static), NULL);
 	byte_read = 1;
 	while (byte_read > 0)
 	{
 		byte_read = read(fd, buffer_temp, BUFFER_SIZE);
 		if (byte_read == -1)
-			return (free(buffer_temp), free(buffer_static), NULL);
+			return (free(buffer_temp), NULL);
 		buffer_temp[byte_read] = '\0';
 		buffer_static = ft_join_and_free(buffer_static, buffer_temp);
 		if (ft_strchr(buffer_temp, '\n'))
@@ -104,17 +104,17 @@ char	*read_file(int fd, char *buffer_static)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer_static;
+	static char	*buffer_static[4096];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (free(buffer_static), NULL);
-	buffer_static = read_file(fd, buffer_static);
-	if (!buffer_static)
-		return (free(buffer_static), NULL);
-	line = ft_line(buffer_static);
+		return (NULL);
+	buffer_static[fd] = read_file(fd, buffer_static[fd]);
+	if (!buffer_static[fd])
+		return (NULL);
+	line = ft_line(buffer_static[fd]);
 	if (!line)
-		return (free(line), NULL);
-	buffer_static = ft_next(buffer_static);
+		return (NULL);
+	buffer_static[fd] = ft_next(buffer_static[fd]);
 	return (line);
 }
