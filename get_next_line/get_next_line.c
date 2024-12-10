@@ -6,13 +6,12 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:17:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/09 18:20:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:09:04 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-// join and free
 char	*ft_join_and_free(char *buffer_static, char *buffer_temp)
 {
 	char	*temp;
@@ -22,7 +21,7 @@ char	*ft_join_and_free(char *buffer_static, char *buffer_temp)
 	return (temp);
 }
 
-// delete line find
+// suprimer la derniere ligne utilisee
 char	*ft_next(char *buffer_static)
 {
 	int		i;
@@ -45,7 +44,7 @@ char	*ft_next(char *buffer_static)
 	return (line);
 }
 
-// take line for return
+// prends une ligne afin de la retourner
 char	*ft_line(char *buffer_static)
 {
 	char	*line;
@@ -105,7 +104,7 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-		return (free(buffer_static), NULL);
+		return (NULL);
 	buffer_static = read_file(fd, buffer_static);
 	if (!buffer_static)
 		return (NULL);
