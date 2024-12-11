@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:25:14 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/02 12:05:20 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:43:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_formatos(va_list str, char i)
 	if (i == 'c')
 		len += ft_putchar(va_arg(str, int));
 	else if (i == 's')
-		len += ft_putstr_fd(va_arg(str, char *), 1);
+		len += ft_putstr_fd_printf(va_arg(str, char *), 1);
 	else if (i == 'p')
 		len += ft_putnbr_base0x(va_arg(str, unsigned long), "0123456789abcdef");
 	else if (i == 'd' || i == 'i')

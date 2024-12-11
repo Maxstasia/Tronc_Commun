@@ -5,28 +5,27 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/11/25 13:19:53 by mstasiak          #+#    #+#              #
-#    Updated: 2024/12/11 18:43:39 by mstasiak         ###   ########.fr        #
+#    Created: 2024/12/11 13:19:53 by mstasiak          #+#    #+#              #
+#    Updated: 2024/12/11 18:30:17 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftprintf.a
+NAME = fractol
 
-SRC =	ft_printf.c \
-		ft_putchar.c \
-		ft_putnbr_base.c \
-		ft_putnbr.c \
-		ft_putstr_fd_printf.c
+SRC =	main.c
 
 OBJ = $(SRC:.c=.o)
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
+PRINTF_A = ./includes/libftprintf.a
+LIBFT_A = ./includes/libft.a
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(PRINTF_A) $(LIBFT_A) -o $(NAME)
 
 clean:
 	rm -f $(OBJ)

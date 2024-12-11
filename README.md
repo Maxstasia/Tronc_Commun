@@ -42,23 +42,23 @@ J'ai commencé le cursus principal en novembre 2024. Voici un résumé des proje
 - **Commencé le :** Décembre 2024
 - **Terminé le :** Décembre 2024
 
-### 04 - Push_swap
+### 04 - Fractol
 
-**Description :** Algorithme pour trier une pile de nombres en utilisant un ensemble d'instructions prédéfinies, avec un focus sur l'optimisation du nombre de mouvements.
+**Description :** Découvrez la programmation 2D et l'univers psychédelique des fractales grâce à ce projet à réaliser avec la minilibX.
 
-- **Commencé le :** [Insère la date]
+- **Commencé le :** Décembre 2024
 - **Terminé le :** [Insère la date]
 
-### 05 - So_long
-
-**Description :** Petit jeu 2D créé avec la MiniLibX, où le joueur doit récupérer des objets et sortir d'un labyrinthe.
-
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
-
-### 06 - Pipex
+### 05 - Pipex
 
 **Description :** Reproduction du fonctionnement de la commande shell `|`, avec gestion des redirections et des fichiers.
+
+- **Commencé le :** [Insère la date]
+- **Terminé le :** [Insère la date]
+
+### 06 - Push_swap
+
+**Description :** Algorithme pour trier une pile de nombres en utilisant un ensemble d'instructions prédéfinies, avec un focus sur l'optimisation du nombre de mouvements.
 
 - **Commencé le :** [Insère la date]
 - **Terminé le :** [Insère la date]
