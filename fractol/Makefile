@@ -6,33 +6,47 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/11 13:19:53 by mstasiak          #+#    #+#              #
-#    Updated: 2024/12/11 18:30:17 by mstasiak         ###   ########.fr        #
+#    Updated: 2024/12/12 17:23:56 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = fractol
+NAME		= fractol
 
-SRC =	main.c
+# Sources et objets
+OBJ			= $(SRC:.c=.o)
+SRC			= \
+		main.c
 
-OBJ = $(SRC:.c=.o)
+# Dossiers
+INCLUDE_DIR	= ./includes
+MLX_DIR		= $(INCLUDE_DIR)/minilibx-linux
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
+# Bibliotheques
+PRINTF_A	= $(INCLUDE_DIR)/libftprintf.a
+LIBFT_A		= $(INCLUDE_DIR)/libft.a
+MLX_A		= $(MLX_DIR)/libmlx.a
 
-PRINTF_A = ./includes/libftprintf.a
-LIBFT_A = ./includes/libft.a
+# Compileur et flags
+CC			= cc
+CFLAGS		= -Wall -Werror -Wextra -I $(MLX_DIR) -I $(INCLUDE_DIR) -g
+LIBS		= -lm -lbsd -lX11 -lXext
 
-all: $(NAME)
+# Rules
+all:		$(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(PRINTF_A) $(LIBFT_A) -o $(NAME)
+$(NAME):	$(OBJ) $(MLX_A)
+	$(CC) $(CFLAGS) $(OBJ) $(PRINTF_A) $(LIBFT_A) $(MLX_A) $(LIBS) -o $(NAME)
+
+$(MLX_A):
+	make -C $(MLX_DIR)
 
 clean:
 	rm -f $(OBJ)
+	make clean -C $(MLX_DIR)
 
-fclean: clean
+fclean:		clean
 	rm -f $(NAME)
 
-re: fclean all
+re:			fclean all
 
-.PHONY: all clean fclean re
+.PHONY:		all clean fclean re
