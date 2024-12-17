@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:17:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/11 17:18:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:41:59 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ char	*ft_join_and_free(char *buffer_static, char *buffer_temp)
 	temp = ft_strjoin(buffer_static, buffer_temp);
 	if (!temp)
 		return (free(buffer_static), NULL);
-	free(buffer_static);
-	return (temp);
+	return (free(buffer_static), temp);
 }
 
 // suprimer la derniere ligne utilisee
@@ -48,8 +47,7 @@ char	*ft_next(char *buffer_static)
 	j = 0;
 	while (buffer_static[i])
 		line[j++] = buffer_static[i++];
-	free(buffer_static);
-	return (line);
+	return (free(buffer_static), line);
 }
 
 // prends une ligne afin de la retourner
@@ -66,12 +64,9 @@ char	*ft_line(char *buffer_static)
 	line = ft_calloc(sizeof(char), i + 2);
 	if (!line)
 		return (free(line), free(buffer_static), NULL);
-	i = 0;
-	while (buffer_static[i] && buffer_static[i] != '\n')
-	{
+	i = -1;
+	while (i++, buffer_static[i] && buffer_static[i] != '\n')
 		line[i] = buffer_static[i];
-		i++;
-	}
 	if (buffer_static[i] && buffer_static[i] == '\n')
 		line[i++] = '\n';
 	return (line);

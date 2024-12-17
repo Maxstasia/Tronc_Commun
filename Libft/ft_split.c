@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:17:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/11/21 11:09:07 by mstasiak         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:57:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@ static void	*ft_free_tab(char **str, int len)
 {
 	int	i;
 
-	i = 0;
-	while (i < len)
-	{
+	i = -1;
+	while (i++, i < len)
 		free(str[i]);
-		i++;
-	}
-	free(str);
-	return (NULL);
+	return (free(str), NULL);
 }
 
 static int	ft_countword(char *s, char c)
@@ -51,20 +47,16 @@ static char	*ft_dostr(char *s, char c)
 	int		len_word;
 	char	*str;
 
-	i = 0;
+	i = -1;
 	len_word = 0;
 	while (s[len_word] != c && s[len_word])
 		len_word++;
 	str = (char *)malloc(sizeof(char) * len_word + 1);
 	if (!str)
-		return (NULL);
-	while (i < len_word)
-	{
+		return (free(str), NULL);
+	while (i++, i < len_word)
 		str[i] = s[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
+	return (str[i] = '\0', str);
 }
 
 char	**ft_split(char const *s, char c)
@@ -76,7 +68,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	strs = (char **)malloc(sizeof(char *) * (ft_countword((char *)s, c) + 1));
 	if (!strs)
-		return (NULL);
+		return (free(strs), NULL);
 	i = 0;
 	while (*s)
 	{
@@ -92,12 +84,10 @@ char	**ft_split(char const *s, char c)
 		while (*s != c && *s)
 			s++;
 	}
-	strs[i] = 0;
-	return (strs);
+	return (strs[i] = 0, strs);
 }
-
-/* 
-int main(void)
+/* int main(void)
 {
-	ft_split("   Test Split Function   ", ' ');
+	char **str = ft_split("   Test Split Function   ", ' ');
+	return(0);
 } */
