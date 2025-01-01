@@ -3,15 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/12 14:28:28 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/01 17:48:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
+
+typedef struct	s_data
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*img_ptr;
+}	t_data;
 
 /*--bibliotheques--*/
 
