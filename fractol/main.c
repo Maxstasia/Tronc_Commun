@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/02 14:36:19 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/02 14:55:44 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,17 @@ void	img_pix_put(t_image *img, int x, int y, int color)
     pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	while (i >= 0)
 	{
-		/* big endian, MSB is the leftmost bit */
+		// big endian, MSB is the leftmost bit
 		if (img->endian != 0)
 			*pixel++ = (color >> i) & 0xFF;
-		/* little endian, LSB is the leftmost bit */
+		// little endian, LSB is the leftmost bit
 		else
 			*pixel++ = (color >> (img->bpp - 8 - i)) & 0xFF;
 		i -= 8;
 	}
 }
 
-/* The x and y coordinates of the rect corresponds to its upper left corner. */
-
+// The x and y coordinates of the rect corresponds to its upper left corner.
 int render_rect(t_image *img, t_rect rect)
 {
 	int	i;
@@ -108,7 +107,7 @@ int	main(void)
 		return (MLX_ERROR);
 	}
 
-	/* Setup hooks */ 
+	// Setup hooks
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
 	
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp,
@@ -119,7 +118,7 @@ int	main(void)
 
 	mlx_loop(data.mlx_ptr);
 
-	/* we will exit the loop if there's no window left, and execute this code */
+	// we will exit the loop if there's no window left, and execute this code
 	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
 	mlx_destroy_display(data.mlx_ptr);
 	free(data.mlx_ptr);
