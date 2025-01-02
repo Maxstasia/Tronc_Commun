@@ -1,3 +1,16 @@
+██████╗ ███████╗ █████╗ ██████╗       ███╗   ███╗███████╗
+██╔══██╗██╔════╝██╔══██╗██╔══██╗      ████╗ ████║██╔════╝
+██████╔╝█████╗  ███████║██║  ██║█████╗██╔████╔██║█████╗  
+██╔══██╗██╔══╝  ██╔══██║██║  ██║╚════╝██║╚██╔╝██║██╔══╝  
+██║  ██║███████╗██║  ██║██████╔╝      ██║ ╚═╝ ██║███████╗
+╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝       ╚═╝     ╚═╝╚══════╝
+
+---
+
+Français (English below)
+
+---
+
 # Mon parcours à 42
 
 Ce repository contient tous les projets que j'ai réalisés dans le cadre du tronc commun à l'école 42, ainsi que quelques informations complémentaires sur la progression de mon cursus. Vous trouverez ci-dessous un résumé de chaque projet, avec leurs dates de commencement et de fin.
@@ -44,7 +57,7 @@ J'ai commencé le cursus principal en novembre 2024. Voici un résumé des proje
 
 ### 04 - Fractol
 
-**Description :** Découvrez la programmation 2D et l'univers psychédelique des fractales grâce à ce projet à réaliser avec la minilibX.
+**Description :** Découvrez la programmation 2D et l'univers psychédélique des fractales grâce à ce projet à réaliser avec la minilibX.
 
 - **Commencé le :** Décembre 2024
 - **Terminé le :** [Insère la date]
@@ -117,3 +130,129 @@ Tous les projets suivent strictement la norme 42, qui impose des règles rigoure
 ## 🔹 **Crédits**
 
 Merci de parcourir mon parcours à 42. Je suis toujours ouvert aux suggestions, aux critiques constructives et aux collaborations !
+
+---
+
+English
+
+---
+
+# My 42 Journey
+
+This repository contains all the projects I have completed as part of the core curriculum at 42, as well as some additional information about my progress. Below is a summary of each project with their start and end dates.
+
+---
+
+## 🔹 **The 42 Pool**
+
+I participated in the 42 pool in September 2024. It was an intense experience that introduced me to the basics of programming, problem-solving in C, and the importance of collaboration in a learning environment.
+
+---
+
+## 🔹 **Core Curriculum**
+
+I started the main curriculum in November 2024. Below is a summary of the projects I have completed so far:
+
+### 00 - Libft
+
+**Description:** Created my own C library, containing reproductions of standard libc functions and other useful functions for future projects.
+
+- **Started on:** November 2024
+- **Finished on:** November 2024
+
+### 01 - ft_printf
+
+**Description:** Partial reproduction of the `printf` function, handling the following conversions: `%c`, `%s`, `%d`, `%i`, `%u`, `%p`, `%x`, `%X`, and `%%`.
+
+- **Started on:** December 2024
+- **Finished on:** December 2024
+
+### 02 - Born2beroot
+
+**Description:** Installation and configuration of a Debian virtual machine, with a strict security policy and user management in line with system standards.
+
+- **Started on:** December 2024
+- **Finished on:** December 2024
+
+### 03 - Get Next Line
+
+**Description:** Function to read a line from a file, compatible with multiple file descriptors simultaneously.
+
+- **Started on:** December 2024
+- **Finished on:** December 2024
+
+### 04 - Fractol
+
+**Description:** Learn 2D programming and the psychedelic world of fractals through this project built with the MinilibX.
+
+- **Started on:** December 2024
+- **Finished on:** [Insert date]
+
+### 05 - Pipex
+
+**Description:** Reproduction of the shell command `|`, with handling of redirections and files.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 06 - Push_swap
+
+**Description:** Algorithm to sort a stack of numbers using a set of predefined instructions, focusing on optimizing the number of moves.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 07 - Philosophers
+
+**Description:** Simulation of the dining philosophers problem using threads and mutexes, focusing on avoiding deadlocks.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 08 - Minishell
+
+**Description:** Reproduction of a basic Unix shell with support for commands, pipes, redirections, and environment variables.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 09 - Netpractice
+
+**Description:** Series of exercises to understand IP addressing and networks.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 10 - Cub3D
+
+**Description:** Implementation of a raycasting engine inspired by Wolfenstein 3D, using MinilibX.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+---
+
+## 🔹 **Exams**
+
+42 includes exams at each level to evaluate the understanding and mastery of the concepts learned. Here are some examples:
+
+- **Exam Rank 02:** Basic C functionalities
+- **Exam Rank 03:** Dynamic memory and file management in C
+- **Exam Rank 04:** Intermediate project
+
+---
+
+## 🔹 **42 Norm**
+
+All projects strictly follow the 42 Norm, which enforces rigorous rules for code formatting:
+
+- No `for`, `do...while` loops, or ternary operators
+- Maximum of 25 lines per function
+- No more than 5 variables per function
+- Lines limited to 80 characters
+
+---
+
+## 🔹 **Credits**
+
+Thank you for checking out my 42 journey. I'm always open to suggestions, constructive criticism, and collaborations!
