@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/02 14:55:44 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/03 18:58:37 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 
 void	img_pix_put(t_image *img, int x, int y, int color)
 {
-	char    *pixel;
+	char	*pixel;
 	int		i;
 
 	i = img->bpp - 8;
-    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	while (i >= 0)
 	{
-		// big endian, MSB is the leftmost bit
 		if (img->endian != 0)
-			*pixel++ = (color >> i) & 0xFF;
-		// little endian, LSB is the leftmost bit
+			*pixel++ = (color >> i) & WHITE_PIXEL;
 		else
-			*pixel++ = (color >> (img->bpp - 8 - i)) & 0xFF;
+			*pixel++ = (color >> (img->bpp - 8 - i)) &  WHITE_PIXEL;
 		i -= 8;
 	}
 }
@@ -71,12 +69,24 @@ int	handle_keypress(int keysym, t_data *data)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		data->win_ptr = NULL;
+		exit(0);
 	}
-	else if (keysym == XK_z)
+	else if ((keysym == XK_space) || (keysym == XK_Return) || (keysym == XK_KP_Enter)) // Changer la palette de couleurs
 	{
-		render_rect(&data->img, (t_rect){0, 0, 300, 300, WHITE_PIXEL});
-		render_rect(&data->img, (t_rect){100, 100, 300, 300, RED_PIXEL});
+		data->color_palette = (data->color_palette + 1) % 10; // Boucle entre 10 palettes
+		render(data); // Réafficher la fractale avec la nouvelle palette
 	}
+	return (0);
+}
+
+int	handle_destroy(t_data *data)
+{
+	if (data->win_ptr)
+	{
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		data->win_ptr = NULL;
+	}
+	exit(0);
 	return (0);
 }
 
@@ -84,22 +94,54 @@ int	render(t_data *data)
 {
 	if (data->win_ptr == NULL)
 		return (1);
-	render_background(&data->img, WHITE_PIXEL);
-	render_rect(&data->img, (t_rect){WINDOW_WIDTH - 300, WINDOW_HEIGHT - 300, 300, 300, GREEN_PIXEL});
-	render_rect(&data->img, (t_rect){0, 0, 300, 300, RED_PIXEL});
+
+	// Dessiner la fractale appropriée en fonction de la fractale choisie
+	if (data->cur_img == 0)
+		mandelbrot(data); // Appelle Mandelbrot si c'est le type de fractale sélectionné
+	else if (data->cur_img == 1)
+		julia(data, data->c_re, data->c_im); // Appelle Julia si c'est le type de fractale sélectionné
 
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
-
 	return (0);
 }
 
-int	main(void)
+void	print_usage(void)
+{
+	ft_printf("Usage: ./fractol <nom de la fractale> <param 1> <param 2>\n");
+	ft_printf("Fractale disponible:\n");
+	ft_printf("mandelbrot\n");
+	ft_printf("julia\n");
+	exit(EXIT_FAILURE);
+}
+
+void	mandelbrot_wrapper(t_data *data)
+{
+	data->cur_img = 0;
+	render_background(&data->img, WHITE_PIXEL); // Effacer l'image
+	mandelbrot(data); // Dessiner Mandelbrot
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
+}
+
+void	julia_wrapper(t_data *data, double c_re, double c_im)
+{
+	data->cur_img = 1;
+	render_background(&data->img, WHITE_PIXEL); // Effacer l'image
+	julia(data, c_re, c_im); // Dessiner Julia avec les constantes données
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
+}
+
+int	main(int argc, char **argv)
 {
 	t_data	data;
 
+	if (argc < 2 || (ft_strcmp(argv[1], "julia") == 0 && argc != 4))
+		print_usage();
+
+	data.color_palette = 0;
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
 		return (MLX_ERROR);
+
 	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "Fractol");
 	if (data.win_ptr == NULL)
 	{
@@ -107,80 +149,30 @@ int	main(void)
 		return (MLX_ERROR);
 	}
 
-	// Setup hooks
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-	
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp,
 			&data.img.line_len, &data.img.endian);
 
-	mlx_loop_hook(data.mlx_ptr, &render, &data);
+	// Vérifier le type de fractale
+	if (ft_strcmp(argv[1], "mandelbrot") == 0)
+		mandelbrot_wrapper(&data);
+	else if (ft_strcmp(argv[1], "julia") == 0)
+	{
+		data.c_re = ft_atof(argv[2]); // Convertir en double
+		data.c_im = ft_atof(argv[3]);
+		julia_wrapper(&data, data.c_re, data.c_im);
+	}
+	else
+		print_usage();
+
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
+	mlx_hook(data.win_ptr, DestroyNotify, NoEventMask, &handle_destroy, &data);
 
 	mlx_loop(data.mlx_ptr);
 
-	// we will exit the loop if there's no window left, and execute this code
+	// Libérer les ressources
 	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
 	mlx_destroy_display(data.mlx_ptr);
 	free(data.mlx_ptr);
+	return (0);
 }
-
-/* int	handle_no_event(void *data)
-{
-    return (data = data, 0);
-}
-
-int	handle_input(int keysym, t_data *data)
-{
-    if (keysym == XK_Escape)
-        mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-    return (0);
-}
-
-int	handle_keyrelease(int keysym, void *data)
-{
-    printf("Keyrelease: %d\n", keysym);
-    return (data = data, 0);
-}
-
-int	main()
-{
-	t_data	data;
-	int		width = 500;
-	int		height = 500;
-	int		x = -1;
-	int		y = -1;
-	int		color = 0x000000;
-
-	data.mlx_ptr = mlx_init();
-	// Protection
-	if (!data.mlx_ptr)
-		return (0);
-	ft_printf("j'execute le programme \n");
-	data.win_ptr = mlx_new_window(data.mlx_ptr, width, height, "Hello");
-	// Protection
-	if (data.win_ptr == NULL)
-		return (free(data.win_ptr), free(data.mlx_ptr), 0);
-	
-	// Setup hooks
-    mlx_loop_hook(data.mlx_ptr, &handle_no_event, &data);
-    mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data); // ADDED
-    mlx_hook(data.win_ptr, KeyRelease, KeyReleaseMask, &handle_keyrelease, &data); // CHANGED
-
-	data.img_ptr = mlx_new_image(data.mlx_ptr, width, height);
-	// Protection
-	if (data.img_ptr == NULL)
-		return (free(data.img_ptr), free(data.win_ptr), free(data.mlx_ptr), 0);
-	mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img_ptr, 0, 0);
-	while(++y, y < height)
-	{
-		while(++x, x < width)
-		{
-			mlx_pixel_put(data.mlx_ptr, data.win_ptr, x, y, color += 1);
-			ft_printf("color : %x\n", color);
-		}
-		x = 0;
-	}
-	mlx_loop(data.mlx_ptr);
-	ft_printf("j'ai fini \n");
-	return (free(data.mlx_ptr), 0);
-} */

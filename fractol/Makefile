@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
+#    By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/11 13:19:53 by mstasiak          #+#    #+#              #
-#    Updated: 2024/12/12 17:23:56 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/01/03 15:40:32 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,12 @@ NAME		= fractol
 # Sources et objets
 OBJ			= $(SRC:.c=.o)
 SRC			= \
-		main.c
+		main.c \
+		sources/colors.c \
+		sources/events.c \
+		sources/julia.c \
+		sources/mandelbrot.c \
+		sources/utils.c
 
 # Dossiers
 INCLUDE_DIR	= ./includes
