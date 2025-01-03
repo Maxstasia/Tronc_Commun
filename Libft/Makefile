@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 14:28:16 by mstasiak          #+#    #+#              #
-#    Updated: 2024/11/27 13:28:11 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/01/03 15:56:39 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC =	ft_atoi.c \
 		ft_putstr_fd.c \
 		ft_split.c \
 		ft_strchr.c \
+		ft_strcmp.c \
 		ft_strdup.c \
 		ft_striteri.c \
 		ft_strjoin.c \
