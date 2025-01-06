@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/11 13:19:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/01/03 15:40:32 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/01/06 16:37:49 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,11 @@ NAME		= fractol
 OBJ			= $(SRC:.c=.o)
 SRC			= \
 		main.c \
+		fractales/julia.c \
+		fractales/mandelbrot.c \
 		sources/colors.c \
 		sources/events.c \
-		sources/julia.c \
-		sources/mandelbrot.c \
+		sources/screen.c \
 		sources/utils.c
 
 # Dossiers

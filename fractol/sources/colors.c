@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:22 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/03 17:29:33 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/06 16:55:45 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	get_color(int iter, int palette)
 {
 	if (palette == 0)
-		return (WHITE_PIXEL / MAX_ITER * iter); 
+		return (WHITE_PIXEL / MAX_ITER * iter);
 	else if (palette == 1)
 		return (GREEN_PIXEL / MAX_ITER * iter);
 	else if (palette == 2)
