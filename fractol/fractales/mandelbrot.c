@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/06 16:47:13 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:53:49 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@ void	mandelbrot(t_data *data)
 			z_im = 0;
 			iter = 0;
 			// Itérations Mandelbrot
-			while (z_re * z_re + z_im * z_im < (1 << 8) && iter < MAX_ITER)
+			while ((z_re * z_re + z_im * z_im) < 4 && ++iter < MAX_ITER)
 			{
 				temp = z_re * z_re - z_im * z_im + c_re;
-				z_im = z_re * z_im * 2 + c_im;
+				z_im = 2 * z_re * z_im + c_im;
 				z_re = temp;
-				iter++;
 			}
 			// Colorier le pixel en fonction du nombre d'itérations
 			if (iter == MAX_ITER)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   julia.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:15 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/06 16:46:56 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:56:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ void	julia(t_data *data, double c_re, double c_im)
 			z_im = data->min_y + y * (data->max_y - data->min_y) / WINDOW_HEIGHT;
 			iter = 0;
 			// Itérations Julia
-			while (z_re * z_re + z_im * z_im <= 4 && iter < MAX_ITER)
+			while ((z_re * z_re + z_im * z_im) < 4 && ++iter < MAX_ITER)
 			{
 				temp = z_re * z_re - z_im * z_im + c_re;
 				z_im = 2 * z_re * z_im + c_im;
 				z_re = temp;
-				iter++;
 			}
 			// Colorier le pixel en fonction du nombre d'itérations
 			if (iter == MAX_ITER)
