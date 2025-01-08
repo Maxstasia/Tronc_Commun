@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_abs.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+        */
+#    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:20:36 by mstasiak          #+#    #+#             */
 /*   Updated: 2024/11/05 16:01:54 by mstasiak         ###   ########.fr       */

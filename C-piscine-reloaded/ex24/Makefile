@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mstasiak <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mstasiak <mstasiak@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/05 15:23:06 by mstasiak          #+#    #+#              #
 #    Updated: 2024/11/05 15:23:10 by mstasiak         ###   ########.fr        #
