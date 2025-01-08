@@ -6,7 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/01/08 17:29:06 by mstasiak         ###   ########.fr       */
+=======
+/*   Updated: 2025/01/07 14:14:26 by mstasiak         ###   ########.fr       */
+>>>>>>> 3eb167efb220bee2cf39692333508d1919ace0d9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +23,7 @@
 # define WINDOW_HEIGHT 800
 
 # define MLX_ERROR 1
-# define MAX_ITER 50
+# define MAX_ITER 500
 
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0x00FF00
