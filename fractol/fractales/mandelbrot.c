@@ -6,11 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:18 by mstasiak          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2025/01/08 14:59:28 by mstasiak         ###   ########.fr       */
-=======
-/*   Updated: 2025/01/07 14:53:49 by mstasiak         ###   ########.fr       */
->>>>>>> 3eb167efb220bee2cf39692333508d1919ace0d9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +34,11 @@ void	mandelbrot(t_data *data)
 			c.z_re = 0;
 			c.z_im = 0;
 			iter = 0;
-<<<<<<< HEAD
 			while ((c.z_re * c.z_re + c.z_im * c.z_im) < 4 && ++iter < MAX_ITER)
 			{
 				temp = c.z_re * c.z_re - c.z_im * c.z_im + c.c_re;
 				c.z_im = 2 * c.z_re * c.z_im + c.c_im;
 				c.z_re = temp;
-=======
-			// Itérations Mandelbrot
-			while ((z_re * z_re + z_im * z_im) < 4 && ++iter < MAX_ITER)
-			{
-				temp = z_re * z_re - z_im * z_im + c_re;
-				z_im = 2 * z_re * z_im + c_im;
-				z_re = temp;
->>>>>>> 3eb167efb220bee2cf39692333508d1919ace0d9
 			}
 			if (iter == MAX_ITER)
 				img_pix_put(&data->img, x, y, BLACK_PIXEL);

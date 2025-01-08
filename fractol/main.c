@@ -6,11 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2025/01/08 17:32:21 by mstasiak         ###   ########.fr       */
-=======
-/*   Updated: 2025/01/07 13:42:51 by mstasiak         ###   ########.fr       */
->>>>>>> 3eb167efb220bee2cf39692333508d1919ace0d9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +35,7 @@ int	main(int argc, char **argv)
 		data.min_x = -3.0;
 		data.max_x = 2.0;
 		data.min_y = -2.0;
-<<<<<<< HEAD
 		data.max_y = 2.0;
-=======
-		data.max_y = 2.3;
->>>>>>> 3eb167efb220bee2cf39692333508d1919ace0d9
 		mandelbrot_wrapper(&data);
 	}
 	else if (ft_strcmp(argv[1], "julia") == 0)
@@ -52,11 +44,7 @@ int	main(int argc, char **argv)
 		data.max_x = 1.5;
 		data.min_y = -1.5;
 		data.max_y = 1.5;
-<<<<<<< HEAD
 		data.c_re = ft_atof(argv[2]);
-=======
-		data.c_re = ft_atof(argv[2]); // Convertir en double
->>>>>>> 3eb167efb220bee2cf39692333508d1919ace0d9
 		data.c_im = ft_atof(argv[3]);
 		julia_wrapper(&data);
 	}
@@ -179,12 +167,3 @@ else if (ft_strcmp(argv[1], "random") == 0)
 }
 ```
 */
-<<<<<<< HEAD
-=======
-
-/*
-j'ai probleme dans mon code pour la fractale de julia mais je comprends pas le probleme, qu'importe les valeur que je lui mets la fractale deviens juste une grosse boule noir et je ne comprends pas pourquoi :
-
-
-*/
->>>>>>> 3eb167efb220bee2cf39692333508d1919ace0d9
