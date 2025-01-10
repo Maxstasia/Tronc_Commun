@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:34:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/08 17:12:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:59:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	render(t_data *data)
 	if (data->cur_img == 0)
 		mandelbrot(data);
 	else if (data->cur_img == 1)
-		//julia(data, data->c_re, data->c_im);
 		julia(data);
 	mlx_put_image_to_window(data->mlx_ptr,
 		data->win_ptr, data->img.mlx_img, 0, 0);

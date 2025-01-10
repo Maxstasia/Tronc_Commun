@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/08 17:29:06 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:05:10 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define WINDOW_HEIGHT 800
 
 # define MLX_ERROR 1
-# define MAX_ITER 50
+# define MAX_ITER 250
 
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0x00FF00
@@ -72,9 +72,9 @@ typedef struct s_complex
  * 
  * - @mlx_img: Pointeur vers l'image créée par la bibliothèque MiniLibX.
  * - @addr: Adresse de départ des pixels dans l'image.
- * - @bpp: Bits par pixel de l'image.
+ * - @bpp: Bits par pixel de l'image. (Bit by Pixel Picture).
  * - @l_len: Longueur d'une ligne de l'image en octets.
- * - @endian: Ordre des octets de l'image
+ * - @endian: Ordre des octets de l'image.
  * (0 pour little-endian, 1 pour big-endian).
  */
 typedef struct s_image
@@ -122,18 +122,23 @@ typedef struct s_rect
  */
 typedef struct s_data
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_image	img;
-	int		color_palette;
-	int		cur_img;
-	double	min_x;
-	double	max_x;
-	double	min_y;
-	double	max_y;
-	double	c_re;
-	double	c_im;
-	double	time;
+	t_complex	complex;
+	t_image		img;
+	t_rect		rect;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	int			color_palette;
+	int			cur_img;
+	double		min_x;
+	double		max_x;
+	double		min_y;
+	double		max_y;
+	double		c_re;
+	double		c_im;
+	double		time;
+	int			animate;
+	int			direction;
+	double		speed;
 }						t_data;
 
 /*----------fonctions----------*/
@@ -219,6 +224,10 @@ int		handle_destroy(t_data *data);
  */
 int		handle_scroll(int button, int x, int y, t_data *data);
 
+int		update_frame(t_data *data);
+
+void	print_command(void);
+
 /*--screen.c--*/
 
 /**
@@ -271,5 +280,10 @@ double	ft_atof(const char *str);
  * print_usage - Affiche un message d'utilisation et quitte le programme.
  */
 void	print_usage(void);
+
+int		is_end(t_data *data);
+
+// void	error(void);
+void	clean_up(t_data *data);
 
 #endif

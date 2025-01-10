@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:20 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/08 17:38:45 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:20:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,31 @@ void	print_usage(void)
 	ft_printf("mandelbrot\n");
 	ft_printf("julia <param 1> <param 2>\n");
 	exit(EXIT_FAILURE);
+}
+
+int	is_end(t_data *data)
+{
+	return (data->c_re < -1.5 || data->c_re > 1.5
+		|| data->c_im < -1.5 || data->c_im > 1.5);
+}
+
+void	clean_up(t_data *data)
+{
+	if (data->img.mlx_img)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
+		free(data->img.mlx_img);
+	}
+	if (data->win_ptr)
+	{
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		free(data->win_ptr);
+	}
+	if (data->mlx_ptr)
+	{
+		mlx_destroy_display(data->mlx_ptr);
+		free(data->mlx_ptr);
+	}
+	if (data->img.addr)
+		free(data->img.addr);
 }

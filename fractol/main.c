@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/08 17:32:21 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/10 18:18:36 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,22 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	//if ((argc < 2) || ((ft_strcmp(argv[1], "julia") == 0) && (argc != 4)))
-	if ((argc < 2))
-		print_usage();
+	ft_bzero(&data, sizeof(t_data));
+	if ((argc < 2) || ((ft_strcmp(argv[1], "julia") == 0) && (argc != 4)))
+		return (clean_up(&data), print_usage(), MLX_ERROR);
 	data.color_palette = 0;
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
-		return (MLX_ERROR);
-	data.win_ptr = mlx_new_window(data.mlx_ptr,
-			WINDOW_WIDTH, WINDOW_HEIGHT, "Fractol");
+		return (clean_up(&data), print_usage(), MLX_ERROR);
+	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "Fractol");
 	if (data.win_ptr == NULL)
-		return (free(data.win_ptr), MLX_ERROR);
+		return (clean_up(&data), print_usage(), MLX_ERROR);
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp,
-			&data.img.l_len, &data.img.endian);
+	if (data.img.mlx_img == NULL)
+		return (clean_up(&data), print_usage(), MLX_ERROR);
+	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, &data.img.l_len, &data.img.endian);
+	if (data.img.addr == NULL)
+		return (clean_up(&data), print_usage(), MLX_ERROR);
 	if (ft_strcmp(argv[1], "mandelbrot") == 0)
 	{
 		data.min_x = -3.0;
@@ -49,16 +51,28 @@ int	main(int argc, char **argv)
 		julia_wrapper(&data);
 	}
 	else
-		print_usage();
+		return (clean_up(&data), print_usage(), MLX_ERROR);
+	print_command();
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
 	mlx_hook(data.win_ptr, DestroyNotify, NoEventMask, &handle_destroy, &data);
 	mlx_mouse_hook(data.win_ptr, &handle_scroll, &data);
 	mlx_loop(data.mlx_ptr);
-	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
-	mlx_destroy_display(data.mlx_ptr);
-	free(data.mlx_ptr);
+	clean_up(&data);
 	return (0);
 }
+
+/*
+Commande :
+	Fol All :
+
+	- Button 5 (mouse scroll) : zoom;
+	- Button 4 (mouse scroll) : unzoom;
+	- Space, Enter and Return : change color;
+
+	For Julia :
+	- Keybord 'e' or 'q': change value/parameter;
+	- Keybord 'a' : change value/parameter automatically;
+*/
 
 /*
 Pour générer des fractales intéressantes avec Julia, tu peux proposer à l'utilisateur des valeurs spécifiques pour les constantes \( c_{re} \) et \( c_{im} \). Ces valeurs influencent directement la forme de la fractale générée. Voici quelques exemples :
@@ -139,31 +153,4 @@ Pour générer des fractales intéressantes avec Julia, tu peux proposer à l'ut
 Tu peux aussi permettre à l'utilisateur d'explorer librement en modifiant légèrement les valeurs :
 - \( c_{re} \) entre \(-2.0\) et \(2.0\).
 - \( c_{im} \) entre \(-2.0\) et \(2.0\).
-
-Tu peux également ajouter un mode aléatoire où \( c_{re} \) et \( c_{im} \) sont générés automatiquement. Cela permettrait de découvrir des fractales uniques à chaque exécution.
-
-Exemple de modification pour un mode aléatoire dans `main.c` :
-```c
-#include <stdlib.h>
-#include <time.h>
-
-void	random_constants(double *c_re, double *c_im)
-{
-	srand(time(NULL));
-	*c_re = -2.0 + (rand() / (double)RAND_MAX) * 4.0;
-	*c_im = -2.0 + (rand() / (double)RAND_MAX) * 4.0;
-}
-```
-Puis, dans le `main`, ajoute une condition :
-```c
-else if (ft_strcmp(argv[1], "random") == 0)
-{
-	data.min_x = -1.5;
-	data.max_x = 1.5;
-	data.min_y = -1.5;
-	data.max_y = 1.5;
-	random_constants(&data.c_re, &data.c_im);
-	julia_wrapper(&data, data.c_re, data.c_im);
-}
-```
 */
