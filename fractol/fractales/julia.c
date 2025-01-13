@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:15 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/10 15:30:59 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/13 13:10:36 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,17 @@ void	julia(t_data *data)
 				iter++;
 			}
 			if (iter == MAX_ITER)
+			{
 				img_pix_put(&data->img, x, y, BLACK_PIXEL);
+				if (data->img.mlx_img == NULL || data->img.addr == NULL)
+					clean_up(data);
+			}
 			else
-				img_pix_put(&data->img, x, y,
-					get_color(iter, data->color_palette));
+			{
+				img_pix_put(&data->img, x, y, get_color(iter, data->color_palette));
+				if (data->img.mlx_img == NULL || data->img.addr == NULL)
+					clean_up(data);
+			}
 		}
 	}
 }

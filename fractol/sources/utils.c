@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:20 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/10 18:20:22 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/13 13:27:00 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,16 @@ int	is_end(t_data *data)
 
 void	clean_up(t_data *data)
 {
+	print_usage();
 	if (data->img.mlx_img)
-	{
 		mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
-		free(data->img.mlx_img);
-	}
 	if (data->win_ptr)
-	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		free(data->win_ptr);
-	}
 	if (data->mlx_ptr)
 	{
 		mlx_destroy_display(data->mlx_ptr);
+		data->win_ptr = NULL;
 		free(data->mlx_ptr);
 	}
-	if (data->img.addr)
-		free(data->img.addr);
+	exit(0);
 }

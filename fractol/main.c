@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/10 18:18:36 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/13 16:56:04 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,23 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	ft_bzero(&data, sizeof(t_data));
-	if ((argc < 2) || ((ft_strcmp(argv[1], "julia") == 0) && (argc != 4)))
-		return (clean_up(&data), print_usage(), MLX_ERROR);
-	data.color_palette = 0;
+	if ((argc < 2) || ((ft_strcmp(argv[1], "julia") == 0) && (argc < 4 || argc > 5)))
+		return (clean_up(&data), MLX_ERROR);
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
-		return (clean_up(&data), print_usage(), MLX_ERROR);
+		return (clean_up(&data), MLX_ERROR);
 	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "Fractol");
 	if (data.win_ptr == NULL)
-		return (clean_up(&data), print_usage(), MLX_ERROR);
+		return (clean_up(&data), MLX_ERROR);
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (data.img.mlx_img == NULL)
-		return (clean_up(&data), print_usage(), MLX_ERROR);
+		return (clean_up(&data), MLX_ERROR);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, &data.img.l_len, &data.img.endian);
 	if (data.img.addr == NULL)
-		return (clean_up(&data), print_usage(), MLX_ERROR);
+		return (clean_up(&data), MLX_ERROR);
 	if (ft_strcmp(argv[1], "mandelbrot") == 0)
 	{
+		data.color_palette = ft_atoi(argv[2]);
 		data.min_x = -3.0;
 		data.max_x = 2.0;
 		data.min_y = -2.0;
@@ -42,6 +41,7 @@ int	main(int argc, char **argv)
 	}
 	else if (ft_strcmp(argv[1], "julia") == 0)
 	{
+		data.color_palette = ft_atoi(argv[4]);
 		data.min_x = -1.5;
 		data.max_x = 1.5;
 		data.min_y = -1.5;
@@ -51,7 +51,7 @@ int	main(int argc, char **argv)
 		julia_wrapper(&data);
 	}
 	else
-		return (clean_up(&data), print_usage(), MLX_ERROR);
+		return (clean_up(&data), MLX_ERROR);
 	print_command();
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
 	mlx_hook(data.win_ptr, DestroyNotify, NoEventMask, &handle_destroy, &data);
