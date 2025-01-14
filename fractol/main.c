@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/13 16:56:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:39:29 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	main(int argc, char **argv)
 		return (clean_up(&data), MLX_ERROR);
 	if (ft_strcmp(argv[1], "mandelbrot") == 0)
 	{
-		data.color_palette = ft_atoi(argv[2]);
+		if (argv[2] && (ft_atoi(argv[2]) >= 0 && ft_atoi(argv[2]) <= 9))
+			data.color_palette = ft_atoi(argv[2]);
+		else
+			data.color_palette = 0;
 		data.min_x = -3.0;
 		data.max_x = 2.0;
 		data.min_y = -2.0;
@@ -41,7 +44,12 @@ int	main(int argc, char **argv)
 	}
 	else if (ft_strcmp(argv[1], "julia") == 0)
 	{
-		data.color_palette = ft_atoi(argv[4]);
+		data.animate = 1;
+		data.direction = -1;
+		if (argv[4] && (ft_atoi(argv[4]) >= 0 && ft_atoi(argv[4]) <= 9))
+			data.color_palette = ft_atoi(argv[4]);
+		else
+			data.color_palette = 0;
 		data.min_x = -1.5;
 		data.max_x = 1.5;
 		data.min_y = -1.5;
@@ -50,6 +58,19 @@ int	main(int argc, char **argv)
 		data.c_im = ft_atof(argv[3]);
 		julia_wrapper(&data);
 	}
+	else if (ft_strcmp(argv[1], "burning_ship") == 0)
+	{
+		if (argv[2])
+			data.color_palette = ft_atoi(argv[2]);
+		else
+			data.color_palette = 0;
+		data.min_x = -2.5;
+		data.max_x = 1.5;
+		data.min_y = -2.0;
+		data.max_y = 2.0;
+		burning_ship_wrapper(&data);
+	}
+
 	else
 		return (clean_up(&data), MLX_ERROR);
 	print_command();

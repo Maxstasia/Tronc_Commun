@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:05:04 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/13 16:47:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:44:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	handle_keypress(int keysym, t_data *data)
 	}
 	else if (keysym == XK_e && data->cur_img == 1)
 	{
-		data->c_re += 0.001;
-		data->c_im -= 0.001;
+		data->c_re += 0.01;
+		data->c_im -= 0.01;
 		render_background(&data->img, WHITE_PIXEL);
 		julia(data);
 		mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
@@ -39,7 +39,7 @@ int	handle_keypress(int keysym, t_data *data)
 			data->img.mlx_img, 0, 0);
 	}
 	else if (keysym == XK_a && data->cur_img == 1)
-		data->animate = !data->animate;
+		data->animate *= -1;
 	else if (keysym == XK_Left)
 	{
 	    double range_x = data->max_x - data->min_x;
@@ -120,15 +120,17 @@ int	handle_scroll(int button, int x, int y, t_data *data)
 
 int	update_frame(t_data *data)
 {
-	if (data->animate)
+	if (data->animate == -1)
 	{
-		if (is_end(data))
-			data->speed = 0.02;
+		if (data->c_re < -1.5 || data->c_re > 1.5
+			|| data->c_im < -1.5 || data->c_im > 1.5)
+			data->speed = 0.04;
 		else
 			data->speed = 0.001;
-		data->c_re += data->speed * data->direction;
-		data->c_im -= data->speed * data->direction;
-		if (data->c_re >= 2 || data->c_re <= -2)
+		data->c_re += (data->speed * data->direction);
+		data->c_im -= (data->speed * data->direction);
+		if (data->c_re < -2 || data->c_re > 2
+			|| data->c_im < -2 || data->c_im > 2)
 			data->direction *= -1;
 		render_background(&data->img, WHITE_PIXEL);
 		julia(data);
@@ -139,7 +141,7 @@ int	update_frame(t_data *data)
 
 void	print_command(void)
 {
-	ft_printf("Commande :\n");
+	ft_printf("Command :\n");
 	ft_printf("	For All :\n");
 	ft_printf("\n");
 	ft_printf("	- Button 5 (mouse scroll) : zoom;\n");

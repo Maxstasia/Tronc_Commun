@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/13 13:31:44 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:38:03 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@
 
 /*----------bibliotheques----------*/
 
-# include <fcntl.h>
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
+# include <fcntl.h>    // Pour open, close
+# include <unistd.h>   // Pour read, write, close
+# include <stdlib.h>   // Pour malloc, free, exit
+# include <stdio.h>    // Pour perror
+# include <string.h>   // Pour strerror
 # include <math.h>
 
 # include "ft_printf.h"
@@ -146,6 +146,22 @@ typedef struct s_data
 /*----------fonctions----------*/
 
 /*----fractales----*/
+/*--burning_ship.c--*/
+
+/**
+ * burning_ship - Calcule et affiche la fractale de Burning Ship.
+ * 
+ * - @data: Pointeur vers la structure contenant les données de l'application.
+ */
+void	burning_ship(t_data *data);
+
+/**
+ * burning_ship_wrapper - Prépare les paramètres et appelle la fonction Burning Ship.
+ * 
+ * - @data: Pointeur vers la structure contenant les données de l'application.
+ */
+void	burning_ship_wrapper(t_data *data);
+
 /*--julia.c--*/
 
 /**
@@ -283,11 +299,6 @@ double	ft_atof(const char *str);
  */
 void	print_usage(void);
 
-int		is_end(t_data *data);
-
-// void	error(void);
 void	clean_up(t_data *data);
-
-void	clean_up_all(t_data *data);
 
 #endif

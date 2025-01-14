@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:20 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/13 13:27:00 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:19:47 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,14 @@ double	ft_atof(const char *str)
 
 void	print_usage(void)
 {
-	ft_printf("Usage: ./fractol <nom de la fractale>\n");
-	ft_printf("Fractale disponible:\n");
-	ft_printf("mandelbrot\n");
-	ft_printf("julia <param 1> <param 2>\n");
-	exit(EXIT_FAILURE);
+	ft_printf("Usage: ./fractol <fractal> [options]\n");
+	ft_printf("Available fractals:\n");
+	ft_printf("- mandelbrot [palette: 0-9]\n");
+	ft_printf("- julia <Re> <Im> [palette: 0-9]\n");
+	ft_printf("- burning_ship [palette: 0-9]\n");
+	exit(MLX_ERROR);
 }
 
-int	is_end(t_data *data)
-{
-	return (data->c_re < -1.5 || data->c_re > 1.5
-		|| data->c_im < -1.5 || data->c_im > 1.5);
-}
 
 void	clean_up(t_data *data)
 {
@@ -74,5 +70,5 @@ void	clean_up(t_data *data)
 		data->win_ptr = NULL;
 		free(data->mlx_ptr);
 	}
-	exit(0);
+	exit(MLX_ERROR);
 }

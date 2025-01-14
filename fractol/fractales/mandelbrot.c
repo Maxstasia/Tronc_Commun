@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/13 11:21:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:47:41 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,9 @@ void	mandelbrot(t_data *data)
 				c.z_re = temp;
 			}
 			if (iter == MAX_ITER)
-			{
 				img_pix_put(&data->img, x, y, BLACK_PIXEL);
-				if (data->img.mlx_img == NULL || data->img.addr == NULL)
-					clean_up(data);
-			}
 			else
-			{
 				img_pix_put(&data->img, x, y, get_color(iter, data->color_palette));
-				if (data->img.mlx_img == NULL || data->img.addr == NULL)
-					clean_up(data);
-			}
 		}
 	}
 }
