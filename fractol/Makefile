@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/11 13:19:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/01/14 16:38:46 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/01/15 15:59:57 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,11 @@ SRC			= \
 		fractales/julia.c \
 		fractales/mandelbrot.c \
 		sources/colors.c \
-		sources/events.c \
+		sources/fractal_security.c \
+		sources/init.c \
+		sources/keyboard_events.c \
+		sources/mouse_events.c \
+		sources/print_function.c \
 		sources/screen.c \
 		sources/utils.c
 

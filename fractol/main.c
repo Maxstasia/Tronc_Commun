@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/14 16:39:29 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:01:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,90 +16,15 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if ((argc < 2) || ((ft_strcmp(argv[1], "julia") == 0) && (argc < 4 || argc > 5)))
+	if ((argc < 2) || ((ft_strcmp(argv[1], (char *)"julia") == 0)
+			&& (argc < 4 || argc > 5)))
 		return (clean_up(&data), MLX_ERROR);
-	data.mlx_ptr = mlx_init();
-	if (data.mlx_ptr == NULL)
-		return (clean_up(&data), MLX_ERROR);
-	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "Fractol");
-	if (data.win_ptr == NULL)
-		return (clean_up(&data), MLX_ERROR);
-	data.img.mlx_img = mlx_new_image(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-	if (data.img.mlx_img == NULL)
-		return (clean_up(&data), MLX_ERROR);
-	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, &data.img.l_len, &data.img.endian);
-	if (data.img.addr == NULL)
-		return (clean_up(&data), MLX_ERROR);
-	if (ft_strcmp(argv[1], "mandelbrot") == 0)
-	{
-		if (argv[2] && (ft_atoi(argv[2]) >= 0 && ft_atoi(argv[2]) <= 9))
-			data.color_palette = ft_atoi(argv[2]);
-		else
-			data.color_palette = 0;
-		data.min_x = -3.0;
-		data.max_x = 2.0;
-		data.min_y = -2.0;
-		data.max_y = 2.0;
-		mandelbrot_wrapper(&data);
-	}
-	else if (ft_strcmp(argv[1], "julia") == 0)
-	{
-		data.animate = 1;
-		data.direction = -1;
-		if (argv[4] && (ft_atoi(argv[4]) >= 0 && ft_atoi(argv[4]) <= 9))
-			data.color_palette = ft_atoi(argv[4]);
-		else
-			data.color_palette = 0;
-		data.min_x = -1.5;
-		data.max_x = 1.5;
-		data.min_y = -1.5;
-		data.max_y = 1.5;
-		data.c_re = ft_atof(argv[2]);
-		data.c_im = ft_atof(argv[3]);
-		julia_wrapper(&data);
-	}
-	else if (ft_strcmp(argv[1], "burning_ship") == 0)
-	{
-		if (argv[2])
-			data.color_palette = ft_atoi(argv[2]);
-		else
-			data.color_palette = 0;
-		data.min_x = -2.5;
-		data.max_x = 1.5;
-		data.min_y = -2.0;
-		data.max_y = 2.0;
-		burning_ship_wrapper(&data);
-	}
-
-	else
-		return (clean_up(&data), MLX_ERROR);
-	print_command();
-	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
-	mlx_hook(data.win_ptr, DestroyNotify, NoEventMask, &handle_destroy, &data);
-	mlx_mouse_hook(data.win_ptr, &handle_scroll, &data);
-	mlx_loop(data.mlx_ptr);
-	clean_up(&data);
+	init_main(argv, &data);
+	loop(&data);
 	return (0);
 }
 
 /*
-Commande :
-	Fol All :
-
-	- Button 5 (mouse scroll) : zoom;
-	- Button 4 (mouse scroll) : unzoom;
-	- Space, Enter and Return : change color;
-
-	For Julia :
-	- Keybord 'e' or 'q': change value/parameter;
-	- Keybord 'a' : change value/parameter automatically;
-*/
-
-/*
-Pour générer des fractales intéressantes avec Julia, tu peux proposer à l'utilisateur des valeurs spécifiques pour les constantes \( c_{re} \) et \( c_{im} \). Ces valeurs influencent directement la forme de la fractale générée. Voici quelques exemples :
-
----
-
 ### 1. **Spirale complexe**
 - Commande :  
   ```bash
@@ -169,9 +94,4 @@ Pour générer des fractales intéressantes avec Julia, tu peux proposer à l'ut
   Ressemble à une toile d'araignée en expansion avec des détails captivants.
 
 ---
-
-### Valeurs personnalisées :
-Tu peux aussi permettre à l'utilisateur d'explorer librement en modifiant légèrement les valeurs :
-- \( c_{re} \) entre \(-2.0\) et \(2.0\).
-- \( c_{im} \) entre \(-2.0\) et \(2.0\).
 */

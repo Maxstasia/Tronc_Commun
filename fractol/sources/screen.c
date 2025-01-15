@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/06 16:34:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/14 16:41:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:28:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,27 @@ int	render(t_data *data)
 		burning_ship(data);
 	mlx_put_image_to_window(data->mlx_ptr,
 		data->win_ptr, data->img.mlx_img, 0, 0);
+	return (0);
+}
+
+int	update_frame(t_data *data)
+{
+	if (data->move.animate == -1)
+	{
+		if (data->c.c_re < -1.5 || data->c.c_re > 1.5
+			|| data->c.c_im < -1.5 || data->c.c_im > 1.5)
+			data->move.speed = 0.04;
+		else
+			data->move.speed = 0.001;
+		data->c.c_re += (data->move.speed * data->move.direction);
+		data->c.c_im -= (data->move.speed * data->move.direction);
+		if (data->c.c_re < -2 || data->c.c_re > 2
+			|| data->c.c_im < -2 || data->c.c_im > 2)
+			data->move.direction *= -1;
+		render_background(&data->img, WHITE_PIXEL);
+		julia(data);
+		mlx_put_image_to_window(data->mlx_ptr,
+			data->win_ptr, data->img.mlx_img, 0, 0);
+	}
 	return (0);
 }

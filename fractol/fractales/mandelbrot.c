@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/14 16:47:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/15 15:26:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	mandelbrot(t_data *data)
 {
-	t_complex	c;
 	int			x;
 	int			y;
 	int			iter;
-	double		temp;
 
 	y = -1;
 	while (y ++, y < WINDOW_HEIGHT)
@@ -26,26 +24,37 @@ void	mandelbrot(t_data *data)
 		x = -1;
 		while (x ++, x < WINDOW_WIDTH)
 		{
-			// Convertir coordonnées pixel -> coordonnées complexes
-			c.c_re = data->min_x + x
-				* (data->max_x - data->min_x) / WINDOW_WIDTH;
-			c.c_im = data->min_y + y
-				* (data->max_y - data->min_y) / WINDOW_HEIGHT;
-			c.z_re = 0;
-			c.z_im = 0;
-			iter = 0;
-			while ((c.z_re * c.z_re + c.z_im * c.z_im) < 4 && ++iter < MAX_ITER)
-			{
-				temp = c.z_re * c.z_re - c.z_im * c.z_im + c.c_re;
-				c.z_im = 2 * c.z_re * c.z_im + c.c_im;
-				c.z_re = temp;
-			}
+			iter = mandelbrot_calcul(data, x, y);
 			if (iter == MAX_ITER)
 				img_pix_put(&data->img, x, y, BLACK_PIXEL);
 			else
-				img_pix_put(&data->img, x, y, get_color(iter, data->color_palette));
+				img_pix_put(&data->img,
+					x, y, get_color(iter, data->color_palette));
 		}
 	}
+}
+
+int	mandelbrot_calcul(t_data *data, int x, int y)
+{
+	double	temp;
+	int		iter;
+
+	data->c.c_re = data->min_x + x
+		* (data->max_x - data->min_x) / WINDOW_WIDTH;
+	data->c.c_im = data->min_y + y
+		* (data->max_y - data->min_y) / WINDOW_HEIGHT;
+	data->c.z_re = 0;
+	data->c.z_im = 0;
+	iter = 0;
+	while ((data->c.z_re * data->c.z_re + data->c.z_im * data->c.z_im)
+		< 4 && ++iter < MAX_ITER)
+	{
+		temp = data->c.z_re
+			* data->c.z_re - data->c.z_im * data->c.z_im + data->c.c_re;
+		data->c.z_im = 2 * data->c.z_re * data->c.z_im + data->c.c_im;
+		data->c.z_re = temp;
+	}
+	return (iter);
 }
 
 void	mandelbrot_wrapper(t_data *data)

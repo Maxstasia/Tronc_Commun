@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 12:26:29 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/08 14:47:50 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:15:41 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 /*--fonctions--*/
 
+double	ft_atof(const char *str);
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);

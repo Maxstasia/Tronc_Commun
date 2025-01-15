@@ -6,13 +6,14 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 14:28:16 by mstasiak          #+#    #+#              #
-#    Updated: 2025/01/08 14:51:50 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/01/15 16:15:16 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 
-SRC =	ft_atoi.c \
+SRC =	ft_atof.c \
+		ft_atoi.c \
 		ft_bzero.c \
 		ft_calloc.c \
 		ft_isalnum.c \
