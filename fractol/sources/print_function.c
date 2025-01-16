@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:43:46 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/15 16:10:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:12:29 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	print_usage(void)
 	ft_printf("- mandelbrot [palette: 0-9]\n");
 	ft_printf("- julia {Re} {Im} [palette: 0-9]\n");
 	ft_printf("- burning_ship [palette: 0-9]\n");
-	exit(MLX_ERROR);
 }
 
 void	print_command(void)

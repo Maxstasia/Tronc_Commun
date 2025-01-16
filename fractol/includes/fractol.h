@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/15 17:35:00 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/16 13:19:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,8 +194,6 @@ void	burning_ship_wrapper(t_data *data);
  * complexes spécifiques.
  * 
  * - @data: Structure contenant les informations globales.
- * - @c_re: Partie réelle du paramètre complexe.
- * - @c_im: Partie imaginaire du paramètre complexe.
  */
 void	julia(t_data *data);
 
@@ -251,26 +249,64 @@ void	mandelbrot_wrapper(t_data *data);
 
 /**
  * get_color - Retourne une couleur en fonction du nombre
- * d'itérations et de la palette.
+ * d'itérations et de la palette sélectionnée.
  * 
- * - @iter: Nombre d'itérations effectuées.
- * - @palette: Indice de la palette de couleurs sélectionnée.
- * Return: Couleur calculée en hexadécimal.
+ * - @iter: Nombre d'itérations effectuées pour un point donné.
+ * - @palette: Indice de la palette de couleurs utilisée.
+ * Return: Couleur calculée en hexadécimal selon la palette choisie.
  */
 int		get_color(int iter, int palette);
 
 /*-----fractal_security.c-----*/
 
+/**
+ * mandelbrot_security - Vérifie les arguments nécessaires à l'affichage
+ * de la fractale de Mandelbrot.
+ * 
+ * - @argv: Tableau contenant les arguments passés en ligne de commande.
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ * Return: 1 si les arguments sont valides, sinon 0.
+ */
 int		mandelbrot_security(char **argv, t_data *data);
 
+/**
+ * julia_security - Vérifie les arguments nécessaires à l'affichage
+ * de la fractale de Julia.
+ * 
+ * - @argv: Tableau contenant les arguments passés en ligne de commande.
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ * Return: 1 si les arguments sont valides, sinon 0.
+ */
 int		julia_security(char **argv, t_data *data);
 
+/**
+ * burning_ship_security - Vérifie les arguments nécessaires à l'affichage
+ * de la fractale de Burning Ship.
+ * 
+ * - @argv: Tableau contenant les arguments passés en ligne de commande.
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ * Return: 1 si les arguments sont valides, sinon 0.
+ */
 int		burning_ship_security(char **argv, t_data *data);
 
 /*-----init.c-----*/
 
+/**
+ * init_main - Initialise les paramètres et les données principales
+ * de l'application en fonction des arguments fournis.
+ * 
+ * - @argv: Tableau contenant les arguments passés en ligne de commande.
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ * Return: 0 si l'initialisation est réussie, sinon 1.
+ */
 int		init_main(char **argv, t_data *data);
 
+/**
+ * loop - Démarre la boucle principale de rendu de l'application.
+ * 
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ * Return: 0 si la boucle se termine correctement.
+ */
 int		loop(t_data *data);
 
 /*-----keyboard_events.c-----*/
@@ -278,24 +314,46 @@ int		loop(t_data *data);
 /**
  * handle_keypress - Gère les événements liés aux touches du clavier.
  * 
- * - @keysym: Code de la touche pressée.
- * - @data: Pointeur vers la structure contenant les données de l'application.
+ * - @keysym: Code de la touche pressée (ex : flèches, touches numériques).
+ * - @data: Structure contenant les paramètres et les données de l'application.
  * Return: 0 en cas de succès.
  */
 int		handle_keypress(int keysym, t_data *data);
 
+/**
+ * julia_keypress - Gère les touches spécifiques pour manipuler la fractale
+ * de Julia (ex : modifier les paramètres complexes).
+ * 
+ * - @keysym: Code de la touche pressée.
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ */
 void	julia_keypress(int keysym, t_data *data);
 
+/**
+ * harrow_x_keypress - Modifie les paramètres liés à l'axe x
+ * via des touches spécifiques.
+ * 
+ * - @keysym: Code de la touche pressée.
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ */
 void	harrow_x_keypress(int keysym, t_data *data);
 
+/**
+ * harrow_y_keypress - Modifie les paramètres liés à l'axe y
+ * via des touches spécifiques.
+ * 
+ * - @keysym: Code de la touche pressée.
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ */
 void	harrow_y_keypress(int keysym, t_data *data);
 
 /*-----mouse_events.c-----*/
 
 /**
- * handle_destroy - Gère la fermeture de la fenêtre.
+ * handle_destroy - Gère la fermeture de la fenêtre et libère
+ * les ressources utilisées par l'application.
  * 
- * - @data: Pointeur vers la structure contenant les données de l'application.
+ * - @data: Structure contenant les paramètres et les données de l'application.
  * Return: 0 en cas de succès.
  */
 int		handle_destroy(t_data *data);
@@ -303,11 +361,10 @@ int		handle_destroy(t_data *data);
 /**
  * handle_scroll - Gère le zoom avant et arrière avec la molette de la souris.
  * 
- * - @button: Bouton de la souris pressé
- * (4 pour zoom avant, 5 pour zoom arrière).
- * - @x: Position x du curseur de la souris.
- * - @y: Position y du curseur de la souris.
- * - @data: Pointeur vers la structure contenant les données de l'application.
+ * - @button: Bouton de la souris utilisé pour le zoom (4 ou 5).
+ * - @x: Position x du curseur au moment du zoom.
+ * - @y: Position y du curseur au moment du zoom.
+ * - @data: Structure contenant les paramètres et les données de l'application.
  * Return: 0 en cas de succès.
  */
 int		handle_scroll(int button, int x, int y, t_data *data);
@@ -315,58 +372,89 @@ int		handle_scroll(int button, int x, int y, t_data *data);
 /*-----print_function-----*/
 
 /**
- * print_usage - Affiche un message d'utilisation et quitte le programme.
+ * print_usage - Affiche un message d'aide expliquant comment utiliser
+ * le programme, puis termine son exécution.
  */
 void	print_usage(void);
 
+/**
+ * print_command - Affiche une liste des commandes disponibles pour manipuler
+ * les fractales et l'application.
+ */
 void	print_command(void);
 
 /*-----screen.c-----*/
 
 /**
- * img_pix_put - Place un pixel de couleur à une position donnée dans l'image.
+ * img_pix_put - Dessine un pixel de couleur dans l'image aux coordonnées citées.
  * 
- * - @img: Pointeur vers la structure contenant l'image.
- * - @x: Coordonnée x du pixel.
- * - @y: Coordonnée y du pixel.
+ * - @img: Structure contenant l'image et ses informations.
+ * - @x: Coordonnée x où dessiner le pixel.
+ * - @y: Coordonnée y où dessiner le pixel.
  * - @color: Couleur du pixel en hexadécimal.
  */
 void	img_pix_put(t_image *img, int x, int y, int color);
 
-int		update_frame(t_data *data);
-
 /**
  * render_rect - Dessine un rectangle de couleur sur l'image.
  * 
- * - @img: Pointeur vers la structure contenant l'image.
- * - @rect: Structure définissant les propriétés du rectangle
- * (position, dimensions, couleur).
- * Return: 0 en cas de succès.
+ * - @img: Structure contenant l'image.
+ * - @rect: Structure définissant les dimensions et la couleur du rectangle.
+ * Return: 0 si le rectangle est dessiné correctement.
  */
 int		render_rect(t_image *img, t_rect rect);
 
 /**
  * render_background - Remplit l'image avec une couleur unie.
  * 
- * - @img: Pointeur vers la structure contenant l'image.
- * - @color: Couleur de fond en hexadécimal.
+ * - @img: Structure contenant l'image.
+ * - @color: Couleur de fond utilisée.
  */
 void	render_background(t_image *img, int color);
 
 /**
- * render - Affiche la fractale actuelle dans la fenêtre graphique.
+ * render - Génère et affiche la fractale dans la fenêtre.
  * 
- * - @data: Pointeur vers la structure contenant les données de l'application.
- * Return: 0 en cas de succès, 1 si la fenêtre n'est pas initialisée.
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ * Return: 0 si la fractale est affichée correctement, 1 sinon.
  */
 int		render(t_data *data);
 
+/**
+ * update_frame - Met à jour l'affichage de la fenêtre après calcul
+ * ou modification des paramètres.
+ * 
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ * Return: 0 si l'affichage est mis à jour correctement.
+ */
+int		update_frame(t_data *data);
+
 /*-----utils.c-----*/
 
+/**
+ * ft_str_is_numeric - Vérifie si une chaîne de caractères contient
+ * uniquement des chiffres.
+ * 
+ * - @str: Chaîne de caractères à vérifier.
+ * Return: 1 si la chaîne est numérique, sinon 0.
+ */
 int		ft_str_is_numeric(char *str);
 
+/**
+ * ft_str_is_float - Vérifie si une chaîne de caractères représente
+ * un nombre décimal valide.
+ * 
+ * - @str: Chaîne de caractères à vérifier.
+ * Return: 1 si la chaîne est un nombre flottant valide, sinon 0.
+ */
 int		ft_str_is_float(char *str);
 
+/**
+ * clean_up - Libère les ressources et nettoie les données avant de
+ * fermer l'application.
+ * 
+ * - @data: Structure contenant les paramètres et les données de l'application.
+ */
 void	clean_up(t_data *data);
 
 #endif
