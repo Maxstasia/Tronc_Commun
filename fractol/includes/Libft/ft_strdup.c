@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:12:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/23 12:34:22 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/11/12 11:33:36 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/01/08 14:48:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+char	*ft_strdup(const char *src)
 {
-	t_stack	*a;
-	t_stack	*b;
+	char	*dup;
+	int		i;
+	int		len;
 
-	if (argc < 2)
-		return (0);
-	a = parse_input(argc, argv);
-	if (!a)
-		return(free_stack(a), ft_printf("Error\n"), 1);
-	b = init_stack();
-	if (!b)
-		return (free_stack(a), free_stack(b), ft_printf("Error\n"), 1);
-	push_swap(a, b);
-	return (free_stack(a), free_stack(b), 0);
+	len = 0;
+	while (src[len] != '\0')
+		len++;
+	dup = (char *)malloc(sizeof(char) * (len + 1));
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		dup[i] = src[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }

@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:12:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/23 12:34:22 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/11/13 18:07:51 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/01/08 14:48:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+void	ft_putstr_fd(char *s, int fd)
 {
-	t_stack	*a;
-	t_stack	*b;
-
-	if (argc < 2)
-		return (0);
-	a = parse_input(argc, argv);
-	if (!a)
-		return(free_stack(a), ft_printf("Error\n"), 1);
-	b = init_stack();
-	if (!b)
-		return (free_stack(a), free_stack(b), ft_printf("Error\n"), 1);
-	push_swap(a, b);
-	return (free_stack(a), free_stack(b), 0);
+	if (!s)
+		return ;
+	while (*s)
+	{
+		write(fd, s, 1);
+		s++;
+	}
 }

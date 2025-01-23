@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putstr_fd_printf_prinft.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:12:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/23 12:34:22 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/11/13 18:07:51 by mstasiak          #+#    #+#             */
+/*   Updated: 2024/12/11 18:43:28 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "ft_printf.h"
 
-int	main(int argc, char **argv)
+int	ft_putstr_fd_printf(char *s, int fd)
 {
-	t_stack	*a;
-	t_stack	*b;
+	int	len;
 
-	if (argc < 2)
-		return (0);
-	a = parse_input(argc, argv);
-	if (!a)
-		return(free_stack(a), ft_printf("Error\n"), 1);
-	b = init_stack();
-	if (!b)
-		return (free_stack(a), free_stack(b), ft_printf("Error\n"), 1);
-	push_swap(a, b);
-	return (free_stack(a), free_stack(b), 0);
+	len = 0;
+	if (!s)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	while (*s)
+	{
+		write(fd, s, 1);
+		s++;
+		len++;
+	}
+	return (len);
 }

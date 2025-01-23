@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:12:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/23 12:34:22 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/09/23 18:50:56 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/01/08 14:47:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
-
-int	main(int argc, char **argv)
+int	ft_strcmp(char *s1, char *s2)
 {
-	t_stack	*a;
-	t_stack	*b;
+	int	i;
 
-	if (argc < 2)
-		return (0);
-	a = parse_input(argc, argv);
-	if (!a)
-		return(free_stack(a), ft_printf("Error\n"), 1);
-	b = init_stack();
-	if (!b)
-		return (free_stack(a), free_stack(b), ft_printf("Error\n"), 1);
-	push_swap(a, b);
-	return (free_stack(a), free_stack(b), 0);
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0')
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

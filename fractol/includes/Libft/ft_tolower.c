@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:12:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/23 12:34:22 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/11/11 18:40:45 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/01/08 14:48:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "libft.h"
 
-int	main(int argc, char **argv)
+int	ft_tolower(int c)
 {
-	t_stack	*a;
-	t_stack	*b;
-
-	if (argc < 2)
-		return (0);
-	a = parse_input(argc, argv);
-	if (!a)
-		return(free_stack(a), ft_printf("Error\n"), 1);
-	b = init_stack();
-	if (!b)
-		return (free_stack(a), free_stack(b), ft_printf("Error\n"), 1);
-	push_swap(a, b);
-	return (free_stack(a), free_stack(b), 0);
+	if (c >= 'A' && c <= 'Z')
+	{
+		return (c + 32);
+	}
+	return (c);
 }

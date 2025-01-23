@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:12:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/23 12:34:22 by mstasiak         ###   ########.fr       */
+/*   Created: 2024/09/25 19:04:06 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/01/08 14:48:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "ft_printf.h"
 
-int	main(int argc, char **argv)
+int	ft_putnbr(int nb)
 {
-	t_stack	*a;
-	t_stack	*b;
+	long int	n;
+	int			len;
 
-	if (argc < 2)
-		return (0);
-	a = parse_input(argc, argv);
-	if (!a)
-		return(free_stack(a), ft_printf("Error\n"), 1);
-	b = init_stack();
-	if (!b)
-		return (free_stack(a), free_stack(b), ft_printf("Error\n"), 1);
-	push_swap(a, b);
-	return (free_stack(a), free_stack(b), 0);
+	n = nb;
+	len = 0;
+	if (nb < 0)
+	{
+		len += ft_putchar('-');
+		n *= -1;
+	}
+	if (n < 10)
+		len += ft_putchar(n + '0');
+	else
+	{
+		len += ft_putnbr(n / 10);
+		len += ft_putnbr(n % 10);
+	}
+	return (len);
 }
