@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:05:04 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/17 12:32:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:45:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,8 @@
 
 int	handle_keypress(int keysym, t_data *data)
 {
-	if ((keysym == XK_space)
-		|| (keysym == XK_Return) || (keysym == XK_KP_Enter))
-	{
-		data->color_palette = (data->color_palette + 1) % 10;
-		render(data);
-	}
-	else if (data->cur_img == 1)
+	if (data->cur_img == 1)
 		julia_keypress(keysym, data);
-	harrow_x_keypress(keysym, data);
-	harrow_y_keypress(keysym, data);
 	if (keysym == XK_Escape
 		|| keysym == XK_BackSpace || keysym == XK_Delete)
 	{
@@ -59,40 +51,4 @@ void	julia_keypress(int keysym, t_data *data)
 	}
 	else if (keysym == XK_a)
 		data->move.animate *= -1;
-}
-
-void	harrow_x_keypress(int keysym, t_data *data)
-{
-	if (keysym == XK_Left)
-	{
-		data->move.range_x = data->max_x - data->min_x;
-		data->min_x -= MOVE_STEP * data->move.range_x;
-		data->max_x -= MOVE_STEP * data->move.range_x;
-		render(data);
-	}
-	else if (keysym == XK_Right)
-	{
-		data->move.range_x = data->max_x - data->min_x;
-		data->min_x += MOVE_STEP * data->move.range_x;
-		data->max_x += MOVE_STEP * data->move.range_x;
-		render(data);
-	}
-}
-
-void	harrow_y_keypress(int keysym, t_data *data)
-{
-	if (keysym == XK_Up)
-	{
-		data->move.range_y = data->max_y - data->min_y;
-		data->min_y -= MOVE_STEP * data->move.range_y;
-		data->max_y -= MOVE_STEP * data->move.range_y;
-		render(data);
-	}
-	else if (keysym == XK_Down)
-	{
-		data->move.range_y = data->max_y - data->min_y;
-		data->min_y += MOVE_STEP * data->move.range_y;
-		data->max_y += MOVE_STEP * data->move.range_y;
-		render(data);
-	}
 }

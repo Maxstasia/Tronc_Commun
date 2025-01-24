@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse_events.c                                     :+:      :+:    :+:   */
+/*   mouse_events_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:05:04 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/15 15:40:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:45:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fractol.h"
+#include "../includes/fractol_bonus.h"
 
 int	handle_destroy(t_data *data)
 {

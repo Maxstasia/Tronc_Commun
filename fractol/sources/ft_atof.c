@@ -5,10 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 16:13:32 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/15 16:13:35 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/01/24 16:32:06 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/01/24 16:32:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/fractol.h"
 
 static const char	*skip_whitespace(const char *str)
 {

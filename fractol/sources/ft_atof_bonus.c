@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*   ft_atof_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/15 16:13:32 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/24 16:31:54 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/01/24 16:32:06 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/01/24 16:41:08 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/fractol.h"
 
 static const char	*skip_whitespace(const char *str)
 {

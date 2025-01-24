@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:05:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/15 16:04:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:45:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int	init_main(char **argv, t_data *data)
 		mandelbrot_security(argv, data);
 	else if (ft_strcmp(argv[1], "julia") == 0)
 		julia_security(argv, data);
-	else if (ft_strcmp(argv[1], "burning_ship") == 0)
-		burning_ship_security(argv, data);
 	else
 		return (clean_up(data), MLX_ERROR);
 	print_command();

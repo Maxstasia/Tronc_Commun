@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:05:04 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/15 15:40:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:05:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,24 @@ int	handle_destroy(t_data *data)
 
 int	handle_scroll(int button, int x, int y, t_data *data)
 {
-	double	mouse_re;
-	double	mouse_im;
+	double	center_re;
+	double	center_im;
 	double	zoom_factor;
 
-	mouse_re = data->min_x + x * (data->max_x - data->min_x) / WINDOW_WIDTH;
-	mouse_im = data->min_y + y * (data->max_y - data->min_y) / WINDOW_HEIGHT;
+	(void)x;
+	(void)y;
+	center_re = (data->min_x + data->max_x) / 2.0;
+	center_im = (data->min_y + data->max_y) / 2.0;
 	if (button == 4)
 		zoom_factor = 0.9;
 	else if (button == 5)
 		zoom_factor = 1.1;
 	else
 		return (0);
-	data->min_x = mouse_re + (data->min_x - mouse_re) * zoom_factor;
-	data->max_x = mouse_re + (data->max_x - mouse_re) * zoom_factor;
-	data->min_y = mouse_im + (data->min_y - mouse_im) * zoom_factor;
-	data->max_y = mouse_im + (data->max_y - mouse_im) * zoom_factor;
+	data->min_x = center_re + (data->min_x - center_re) * zoom_factor;
+	data->max_x = center_re + (data->max_x - center_re) * zoom_factor;
+	data->min_y = center_im + (data->min_y - center_im) * zoom_factor;
+	data->max_y = center_im + (data->max_y - center_im) * zoom_factor;
 	render(data);
 	return (0);
 }

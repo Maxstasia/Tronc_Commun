@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/15 16:01:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:57:03 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/fractol.h"
+#include "includes/fractol_bonus.h"
 
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	if ((argc < 2) || ((ft_strcmp(argv[1], (char *)"julia") == 0)
-			&& (argc < 4 || argc > 5)))
+	if ((argc < 2)
+		|| ((ft_strcmp(argv[1], (char *)"julia") == 0)
+			&& (argc < 4 || argc > 5))
+		|| ((ft_strcmp(argv[1], (char *)"julia") != 0)
+			&& argc > 3))
 		return (clean_up(&data), MLX_ERROR);
 	init_main(argv, &data);
 	loop(&data);

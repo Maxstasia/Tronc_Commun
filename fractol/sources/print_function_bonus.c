@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_function.c                                   :+:      :+:    :+:   */
+/*   print_function_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:43:46 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/17 10:48:28 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 15:45:20 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fractol.h"
+#include "../includes/fractol_bonus.h"
 
 int	print_usage(void)
 {
-	ft_printf("Usage: ./fractol <fractal> [options]\n");
+	ft_printf("Usage: ./fractol_bonus <fractal> [options]\n");
 	ft_printf("Available fractals:\n");
 	ft_printf("- mandelbrot [palette: 0-9]\n");
 	ft_printf("- julia {Re} {Im} [palette: 0-9]\n");

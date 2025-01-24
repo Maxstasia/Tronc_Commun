@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractol.h                                          :+:      :+:    :+:   */
+/*   fractol_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/20 16:50:21 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:45:47 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTOL_H
-# define FRACTOL_H
+#ifndef FRACTOL_BONUS_H
+# define FRACTOL_BONUS_H
 
 /*--------------------macro--------------------*/
 
@@ -37,8 +37,7 @@
 # include <stdlib.h>   // Pour malloc, free, exit
 # include <math.h>
 
-# include "ft_printf.h"
-# include "libft.h"
+# include "ft_printf/ft_printf.h"
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"
 
@@ -152,7 +151,7 @@ typedef struct s_data
 /*--------------------fonctions--------------------*/
 
 /*----------fractales----------*/
-/*-----burning_ship.c-----*/
+/*-----burning_ship_bonus.c-----*/
 
 /**
  * burning_ship - Cette fonction génère et affiche la fractale de Burning Ship.
@@ -183,7 +182,7 @@ int		burning_ship_calcul(t_data *data, int x, int y);
  */
 void	burning_ship_wrapper(t_data *data);
 
-/*-----julia.c-----*/
+/*-----julia_bonus.c-----*/
 
 /**
  * julia - Génère et affiche la fractale de Julia, basée sur des paramètres
@@ -212,7 +211,7 @@ int		julia_calcul(t_data *data, int x, int y);
  */
 void	julia_wrapper(t_data *data);
 
-/*-----mandelbrot.c-----*/
+/*-----mandelbrot_bonus.c-----*/
 
 /**
  * mandelbrot - Génère et affiche la fractale de Mandelbrot.
@@ -241,7 +240,7 @@ int		mandelbrot_calcul(t_data *data, int x, int y);
 void	mandelbrot_wrapper(t_data *data);
 
 /*----------sources----------*/
-/*-----colors.c-----*/
+/*-----colors_bonus.c-----*/
 
 /**
  * get_color - Retourne une couleur en fonction du nombre
@@ -253,7 +252,7 @@ void	mandelbrot_wrapper(t_data *data);
  */
 int		get_color(int iter, int palette);
 
-/*-----fractal_security.c-----*/
+/*-----fractal_security_bonus.c-----*/
 
 /**
  * mandelbrot_security - Vérifie les arguments nécessaires à l'affichage
@@ -285,7 +284,45 @@ int		julia_security(char **argv, t_data *data);
  */
 int		burning_ship_security(char **argv, t_data *data);
 
-/*-----init.c-----*/
+/*-----ft_atof_bonus.c-----*/
+
+/**
+ * ft_atof - Convertit une chaîne de caractères en nombre flottant.
+ * 
+ * - @str: Chaîne de caractères à convertir en nombre flottant.
+ * Return: Le nombre flottant résultant de la conversion. La fonction gère
+ * également les décimales et les signes (positif ou négatif).
+ */
+double	ft_atof(const char *str);
+
+/*-----function_Libft_bonus.c-----*/
+
+/**
+ * ft_strcmp - Compare deux chaînes de caractères lexicographiquement.
+ * 
+ * - @s1: Première chaîne de caractères à comparer.
+ * - @s2: Deuxième chaîne de caractères à comparer.
+ * Return: 
+ * - Un entier négatif si la première chaîne est lexicographiquement
+ * inférieure à la deuxième chaîne.
+ * - Zéro si les deux chaînes sont identiques.
+ * - Un entier positif si la première chaîne est lexicographiquement
+ * supérieure à la deuxième chaîne.
+ */
+int		ft_strcmp(char *s1, char *s2);
+
+/**
+ * ft_atoi - Convertit une chaîne de caractères en entier.
+ * 
+ * - @str: Chaîne de caractères à convertir en entier.
+ * Return: L'entier résultant de la conversion. Si la chaîne
+ * contient des caractères non numériques, le comportement
+ * peut être indéfini, mais généralement la conversion
+ * s'arrête au premier caractère non numérique.
+ */
+int		ft_atoi(const char *str);
+
+/*-----init_bonus.c-----*/
 
 /**
  * init_main - Initialise les paramètres et les données principales
@@ -305,7 +342,7 @@ int		init_main(char **argv, t_data *data);
  */
 int		loop(t_data *data);
 
-/*-----keyboard_events.c-----*/
+/*-----keyboard_events_bonus.c-----*/
 
 /**
  * handle_keypress - Gère les événements liés aux touches du clavier.
@@ -343,7 +380,7 @@ void	harrow_x_keypress(int keysym, t_data *data);
  */
 void	harrow_y_keypress(int keysym, t_data *data);
 
-/*-----mouse_events.c-----*/
+/*-----mouse_events_bonus.c-----*/
 
 /**
  * handle_destroy - Gère la fermeture de la fenêtre et libère
@@ -379,7 +416,7 @@ int		print_usage(void);
  */
 void	print_command(void);
 
-/*-----screen.c-----*/
+/*-----screen_bonus.c-----*/
 
 /**
  * img_pix_put - Dessine un pixel de couleur dans l'image aux coordonnées citées.
@@ -416,7 +453,7 @@ int		render(t_data *data);
  */
 int		update_frame(t_data *data);
 
-/*-----utils.c-----*/
+/*-----utils_bonus.c-----*/
 
 /**
  * ft_str_is_numeric - Vérifie si une chaîne de caractères contient
@@ -443,5 +480,20 @@ int		ft_str_is_float(char *str);
  * - @data: Structure contenant les paramètres et les données de l'application.
  */
 void	clean_up(t_data *data);
+
+/**
+ * ft_strcmp - Compare deux chaînes de caractères lexicographiquement.
+ * 
+ * - @s1: Première chaîne de caractères à comparer.
+ * - @s2: Deuxième chaîne de caractères à comparer.
+ * 
+ * Return: 
+ * - Un entier négatif si la première chaîne est lexicographiquement
+ *   inférieure à la deuxième chaîne.
+ * - Zéro si les deux chaînes sont identiques.
+ * - Un entier positif si la première chaîne est lexicographiquement
+ *   supérieure à la deuxième chaîne.
+ */
+int		ft_strcmp(char *s1, char *s2);
 
 #endif

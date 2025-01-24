@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/17 12:33:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:45:32 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@
 # include <stdlib.h>   // Pour malloc, free, exit
 # include <math.h>
 
-# include "ft_printf.h"
-# include "libft.h"
+# include "ft_printf/ft_printf.h"
 # include "minilibx-linux/mlx.h"
 # include "minilibx-linux/mlx_int.h"
 
@@ -152,37 +151,6 @@ typedef struct s_data
 /*--------------------fonctions--------------------*/
 
 /*----------fractales----------*/
-/*-----burning_ship.c-----*/
-
-/**
- * burning_ship - Cette fonction génère et affiche la fractale de Burning Ship.
- * Elle calcule chaque pixel en fonction de ses coordonnées (x, y) et met à jour
- * l'image en conséquence.
- * 
- * - @data: Structure contenant toutes les informations nécessaires
- * (coordonnées, couleur, etc.).
- */
-void	burning_ship(t_data *data);
-
-/**
- * burning_ship_calcul - Effectue les calculs pour déterminer le nombre
- * d'itérations pour un point donné dans la fractale de Burning Ship.
- * 
- * - @data: Structure contenant les coordonnées et les limites du plan.
- * - @x: Coordonnée horizontale du pixel.
- * - @y: Coordonnée verticale du pixel.
- * Return: Nombre d'itérations avant que le point diverge (ou atteigne MAX_ITER).
- */
-int		burning_ship_calcul(t_data *data, int x, int y);
-
-/**
- * burning_ship_wrapper - Prépare les paramètres nécessaires et appelle la
- * fonction principale de calcul et d'affichage de la fractale de Burning Ship.
- * 
- * - @data: Structure contenant les données globales de l'application.
- */
-void	burning_ship_wrapper(t_data *data);
-
 /*-----julia.c-----*/
 
 /**
@@ -275,15 +243,43 @@ int		mandelbrot_security(char **argv, t_data *data);
  */
 int		julia_security(char **argv, t_data *data);
 
+/*-----ft_atof.c-----*/
+
 /**
- * burning_ship_security - Vérifie les arguments nécessaires à l'affichage
- * de la fractale de Burning Ship.
+ * ft_atof - Convertit une chaîne de caractères en nombre flottant.
  * 
- * - @argv: Tableau contenant les arguments passés en ligne de commande.
- * - @data: Structure contenant les paramètres et les données de l'application.
- * Return: 1 si les arguments sont valides, sinon 0.
+ * - @str: Chaîne de caractères à convertir en nombre flottant.
+ * Return: Le nombre flottant résultant de la conversion. La fonction gère
+ * également les décimales et les signes (positif ou négatif).
  */
-int		burning_ship_security(char **argv, t_data *data);
+double	ft_atof(const char *str);
+
+/*-----function_Libft.c-----*/
+
+/**
+ * ft_strcmp - Compare deux chaînes de caractères lexicographiquement.
+ * 
+ * - @s1: Première chaîne de caractères à comparer.
+ * - @s2: Deuxième chaîne de caractères à comparer.
+ * Return: 
+ * - Un entier négatif si la première chaîne est lexicographiquement
+ * inférieure à la deuxième chaîne.
+ * - Zéro si les deux chaînes sont identiques.
+ * - Un entier positif si la première chaîne est lexicographiquement
+ * supérieure à la deuxième chaîne.
+ */
+int		ft_strcmp(char *s1, char *s2);
+
+/**
+ * ft_atoi - Convertit une chaîne de caractères en entier.
+ * 
+ * - @str: Chaîne de caractères à convertir en entier.
+ * Return: L'entier résultant de la conversion. Si la chaîne
+ * contient des caractères non numériques, le comportement
+ * peut être indéfini, mais généralement la conversion
+ * s'arrête au premier caractère non numérique.
+ */
+int		ft_atoi(const char *str);
 
 /*-----init.c-----*/
 
@@ -325,24 +321,6 @@ int		handle_keypress(int keysym, t_data *data);
  */
 void	julia_keypress(int keysym, t_data *data);
 
-/**
- * harrow_x_keypress - Modifie les paramètres liés à l'axe x
- * via des touches spécifiques.
- * 
- * - @keysym: Code de la touche pressée.
- * - @data: Structure contenant les paramètres et les données de l'application.
- */
-void	harrow_x_keypress(int keysym, t_data *data);
-
-/**
- * harrow_y_keypress - Modifie les paramètres liés à l'axe y
- * via des touches spécifiques.
- * 
- * - @keysym: Code de la touche pressée.
- * - @data: Structure contenant les paramètres et les données de l'application.
- */
-void	harrow_y_keypress(int keysym, t_data *data);
-
 /*-----mouse_events.c-----*/
 
 /**
@@ -358,8 +336,6 @@ int		handle_destroy(t_data *data);
  * handle_scroll - Gère le zoom avant et arrière avec la molette de la souris.
  * 
  * - @button: Bouton de la souris utilisé pour le zoom (4 ou 5).
- * - @x: Position x du curseur au moment du zoom.
- * - @y: Position y du curseur au moment du zoom.
  * - @data: Structure contenant les paramètres et les données de l'application.
  * Return: 0 en cas de succès.
  */
