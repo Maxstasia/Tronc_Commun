@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+         #
+#    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/01/20 17:17:12 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/01/24 18:43:23 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ OBJ			= $(SRC:.c=.o)
 SRC			= \
 		main.c \
 		sources/error.c \
+		sources/function_Libft.c \
 		sources/input.c \
 		sources/instructions.c \
 		sources/sort.c \
@@ -25,25 +26,38 @@ SRC			= \
 
 # Dossiers
 INCLUDE_DIR	= ./includes
+PRINTF_DIR	= $(INCLUDE_DIR)/ft_printf
 
 # Bibliotheques
-PRINTF_A	= $(INCLUDE_DIR)/libftprintf.a
+PRINTF_A	= $(PRINTF_DIR)/libftprintf.a
 
 # Compileur et flags
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -I $(INCLUDE_DIR)
+LIBS		= $(PRINTF_A)
 
 # Rules
 all:		$(NAME)
 
-$(NAME):	$(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(PRINTF_A) -o $(NAME)
+$(NAME):	$(OBJ) $(PRINTF_A)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(PRINTF_A):
+	@echo "Compilation de ft_printf..."
+	@$(MAKE) -s -C $(PRINTF_DIR)
 
 clean:
-	rm -f $(OBJ)
+	@$(MAKE) -s clean -C $(PRINTF_DIR)
+	@rm -f $(OBJ)
+	@echo "Nettoyage des fichiers objets terminé."
 
 fclean:		clean
-	rm -f $(NAME)
+	@$(MAKE) -s fclean -C $(PRINTF_DIR)
+	@rm -f $(NAME)
+	@echo "Nettoyage complet terminé."
 
 re:			fclean all
 

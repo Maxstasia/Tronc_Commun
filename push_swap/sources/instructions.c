@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   instructions.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstasiak <mstasiak@42.fr>                  +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:13:22 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/20 19:13:43 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/24 18:30:59 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/push_swap.h"
+#include "../includes/push_swap.h"
 
 void	sa(t_stack *a)
 {
@@ -39,12 +39,11 @@ void	sb(t_stack *b)
 void	pa(t_stack *a, t_stack *b)
 {
 	if (b && !is_empty(b))
-		push(a, pop(b));	
+		push(a, pop(b));
 }
 
 void	pb(t_stack *a, t_stack *b)
 {
 	if (a && !is_empty(a))
-		push(b, pop(a));	
+		push(b, pop(a));
 }
-
