@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:28:48 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/24 18:44:12 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/29 18:05:06 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <unistd.h>   // Pour read, write
 # include <stdlib.h>   // Pour malloc, free, exit
 
-# include "ft_printf.h"
+# include "ft_printf/ft_printf.h"
 
 /*--------------------structures--------------------*/
 
@@ -56,12 +56,20 @@ typedef struct s_stack
 
 /*--------------------fonctions--------------------*/
 
+void	print_stack(t_stack *stack, char *name);
+
 /*----------sources----------*/
 /*-----error.c-----*/
 
 void	error_exit(t_stack *a, t_stack *b);
 
 void	free_stack(t_stack *stack);
+
+/*-----ft_split.c-----*/
+
+char	**ft_split(char const *s, char c);
+
+void	free_split(char **strs);
 
 /*-----function_Libft.c-----*/
 
@@ -111,9 +119,23 @@ void	sa(t_stack *a);
 
 void	sb(t_stack *b);
 
+void	ss(t_stack *a, t_stack *b);
+
 void	pa(t_stack *a, t_stack *b);
 
 void	pb(t_stack *a, t_stack *b);
+
+void	ra(t_stack *a);
+
+void	rb(t_stack *b);
+
+void	rr(t_stack *a, t_stack *b);
+
+void	rra(t_stack *a);
+
+void	rrb(t_stack *b);
+
+void	rrr(t_stack *a, t_stack *b);
 
 /*-----sort.c-----*/
 
@@ -140,6 +162,10 @@ void	sort_small_stack(t_stack *a);
  * - @b: Pile auxiliaire.
  */
 void	sort_large_stack(t_stack *a, t_stack *b);
+
+int		find_median(t_stack *stack);
+
+void	sort_array(int *arr, int size);
 
 /*-----stack.c-----*/
 
@@ -181,5 +207,9 @@ int		is_empty(t_stack *stack);
  * Return: 1 s'il y a un doublon, sinon 0.
  */
 int		has_duplicate(char **argv, int index);
+
+void	rotate(t_stack *stack);
+
+void	reverse_rotate(t_stack *stack);
 
 #endif
