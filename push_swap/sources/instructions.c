@@ -6,37 +6,38 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:13:22 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/29 15:25:08 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:30:44 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-/* Swap de la pile a */
+/**
+ * sa - Échange les deux premiers éléments de la pile a.
+ * @a: Pile A.
+ */
 void	sa(t_stack *a)
 {
-	int	temp;
+	t_node	*first;
+	t_node	*second;
 
-	if (a && a->size > 1)
-	{
-		temp = a->top->value;
-		a->top->value = a->top->next->value;
-		a->top->next->value = temp;
-	}
+	if (!a || a->size < 2)
+		return;
+	first = a->top;
+	second = first->next;
+	first->next = second->next;
+	second->next = first;
+	a->top = second;
 	ft_putstr_fd("sa\n", 1);
 }
 
-/* Swap de la pile b */
+/**
+ * sb - Échange les deux premiers éléments de la pile b.
+ * @b: Pile B.
+ */
 void	sb(t_stack *b)
 {
-	int	temp;
-
-	if (b && b->size > 1)
-	{
-		temp = b->top->value;
-		b->top->value = b->top->next->value;
-		b->top->next->value = temp;
-	}
+	sa(b);
 	ft_putstr_fd("sb\n", 1);
 }
 
@@ -48,35 +49,74 @@ void	ss(t_stack *a, t_stack *b)
 	ft_putstr_fd("ss\n", 1);
 }
 
-/* Push d'un élément de b vers a */
+/**
+ * pa - Déplace le premier élément de b vers le haut de a.
+ * @a: Pile A.
+ * @b: Pile B.
+ */
 void	pa(t_stack *a, t_stack *b)
 {
-	if (b && !is_empty(b))
-		push(a, pop(b));
+	t_node	*tmp;
+
+	if (!b || !b->top)
+		return;
+	tmp = b->top;
+	b->top = tmp->next;
+	tmp->next = a->top;
+	a->top = tmp;
+	a->size++;
+	b->size--;
 	ft_putstr_fd("pa\n", 1);
 }
 
-/* Push d'un élément de a vers b */
+/**
+ * pb - Déplace le premier élément de a vers le haut de b.
+ * @a: Pile A.
+ * @b: Pile B.
+ */
 void	pb(t_stack *a, t_stack *b)
 {
-	if (a && !is_empty(a))
-		push(b, pop(a));
+	t_node	*tmp;
+
+	if (!a || !a->top)
+		return;
+	tmp = a->top;
+	a->top = tmp->next;
+	tmp->next = b->top;
+	b->top = tmp;
+	a->size--;
+	b->size++;
 	ft_putstr_fd("pb\n", 1);
 }
 
-/* Rotate la pile a */
+/**
+ * ra - Rotation de A vers le haut.
+ * @a: Pile A.
+ */
 void	ra(t_stack *a)
 {
-	if (a && a->size > 1)
-		rotate(a);
+	t_node	*tmp;
+	t_node	*last;
+
+	if (!a || a->size < 2)
+		return;
+	tmp = a->top;
+	a->top = tmp->next;
+	tmp->next = NULL;
+	last = a->top;
+	while (last->next)
+		last = last->next;
+	last->next = tmp;
 	ft_putstr_fd("ra\n", 1);
 }
 
-/* Rotate la pile b */
+/**
+ * rb - Rotation de B vers le haut.
+ * @b: Pile B.
+ */
 void	rb(t_stack *b)
 {
-	if (b && b->size > 1)
-		rotate(b);
+	ra(b);
 	ft_putstr_fd("rb\n", 1);
 }
 
@@ -88,11 +128,27 @@ void	rr(t_stack *a, t_stack *b)
 	ft_putstr_fd("rr\n", 1);
 }
 
-/* Reverse rotate la pile a */
+/**
+ * rra - Rotation inverse de A.
+ * @a: Pile A.
+ */
 void	rra(t_stack *a)
 {
-	if (a && a->size > 1)
-		reverse_rotate(a);
+	t_node	*prev;
+	t_node	*last;
+
+	if (!a || a->size < 2)
+		return;
+	prev = NULL;
+	last = a->top;
+	while (last->next)
+	{
+		prev = last;
+		last = last->next;
+	}
+	prev->next = NULL;
+	last->next = a->top;
+	a->top = last;
 	ft_putstr_fd("rra\n", 1);
 }
 

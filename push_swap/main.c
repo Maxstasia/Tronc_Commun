@@ -6,13 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:12:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/29 17:51:45 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:35:44 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/push_swap.h"
 
-void	print_stack(t_stack *stack, char *name)
+void	print_stack(t_stack *stack, const char *name)
 {
 	t_node	*tmp = stack->top;
 	ft_printf("Stack %s:", name);

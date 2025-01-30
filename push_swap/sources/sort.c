@@ -6,13 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:13:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/29 18:09:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:27:36 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	push_swap(t_stack *a, t_stack *b)
+/* void	push_swap(t_stack *a, t_stack *b)
 {
 	ft_printf("Début du tri...\n");
 
@@ -146,4 +146,167 @@ void sort_array(int *arr, int size)
         }
         i++;
     }
+}
+ */
+
+/**
+ * get_index - Trouve l'index d'un élément dans la pile b.
+ * @b: La pile b.
+ * @value: La valeur à rechercher.
+ * 
+ * Retourne l'index de l'élément dans la pile.
+ */
+int	get_index(t_stack *b, int value)
+{
+	t_node *current;
+	int index;
+
+	if (!b || !b->top)
+		return (-1); // Erreur si la pile est vide
+
+	current = b->top;
+	index = 0;
+	while (current)
+	{
+		if (current->value == value)
+			return (index);
+		current = current->next;
+		index++;
+	}
+	return (-1); // Si la valeur n'est pas trouvée
+}
+
+/**
+ * find_max - Trouve la valeur maximale dans la pile b.
+ * @b: La pile b.
+ * 
+ * Retourne la valeur maximale dans la pile b.
+ */
+int	find_max(t_stack *b)
+{
+	t_node *current;
+	int max;
+
+	if (!b || !b->top)
+		return (-1); // Erreur si la pile est vide
+
+	current = b->top;
+	max = current->value;
+	while (current)
+	{
+		if (current->value > max)
+			max = current->value;
+		current = current->next;
+	}
+	return (max);
+}
+
+/**
+ * swap_nodes - Échange deux nœuds adjacents dans la pile.
+ * @first: Le premier nœud.
+ * @second: Le deuxième nœud.
+ */
+void	swap_nodes(t_node *first, t_node *second)
+{
+	int temp;
+
+	// On échange les valeurs
+	temp = first->value;
+	first->value = second->value;
+	second->value = temp;
+}
+
+void	push_to_b(t_stack *a, t_stack *b)
+{
+	int median = find_median(a);
+	int size = stack_size(a);
+	int pushed = 0;
+	int rotated = 0;
+
+	while (pushed < size / 2)
+	{
+		if (a->top->value < median)
+		{
+			pb(a, b);
+			pushed++;
+		}
+		else
+		{
+			ra(a);
+			rotated++;
+		}
+	}
+	while (rotated--) // Remet les éléments dans l'ordre initial
+		rra(a);
+}
+
+void	sort_b(t_stack *b)
+{
+	t_node *curr;
+	int swapped;
+
+	if (!b || !b->top)
+		return ;
+	do
+	{
+		swapped = 0;
+		curr = b->top;
+		while (curr->next)
+		{
+			if (curr->value < curr->next->value)
+			{
+				swap_nodes(curr, curr->next);
+				swapped = 1;
+			}
+			curr = curr->next;
+		}
+	} while (swapped);
+}
+
+void	push_to_a(t_stack *a, t_stack *b)
+{
+	while (b->size > 0)
+	{
+		int max = find_max(b); // Trouver le plus grand élément de b
+		while (b->top->value != max)
+		{
+			if (get_index(b, max) < b->size / 2)
+				rb(b);
+			else
+				rrb(b);
+		}
+		pa(a, b);
+	}
+}
+
+/**
+ * stack_size - Calcule la taille d'une pile.
+ * @stack: Pile à mesurer.
+ * 
+ * Retourne le nombre d'éléments dans la pile.
+ */
+int	stack_size(t_stack *stack)
+{
+	t_node	*current;
+	int		count;
+
+	if (!stack || !stack->top)
+		return (0);
+	count = 0;
+	current = stack->top;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
+}
+
+void	push_swap(t_stack *a, t_stack *b)
+{
+	if (stack_size(a) <= 1)
+		return ;
+	push_to_b(a, b);
+	sort_b(b);
+	push_to_a(a, b);
 }

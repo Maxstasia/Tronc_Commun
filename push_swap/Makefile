@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/01/29 17:39:06 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/01/30 13:04:50 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC			=						\
 		sources/function_Libft.c	\
 		sources/input.c				\
 		sources/instructions.c		\
+		sources/quick_sort.c		\
 		sources/sort.c				\
 		sources/stack.c				\
 		sources/utils.c

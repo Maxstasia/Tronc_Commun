@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:28:48 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/29 18:05:06 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/01/30 13:30:27 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_stack
 
 /*--------------------fonctions--------------------*/
 
-void	print_stack(t_stack *stack, char *name);
+void	print_stack(t_stack *stack, const char *name);
 
 /*----------sources----------*/
 /*-----error.c-----*/
@@ -137,6 +137,10 @@ void	rrb(t_stack *b);
 
 void	rrr(t_stack *a, t_stack *b);
 
+/*-----quick_sort.c-----*/
+
+int		find_median(t_stack *stack);
+
 /*-----sort.c-----*/
 
 /**
@@ -145,14 +149,14 @@ void	rrr(t_stack *a, t_stack *b);
  * - @a: Pile contenant les éléments à trier.
  * - @b: Pile auxiliaire utilisée pour le tri.
  */
-void	push_swap(t_stack *a, t_stack *b);
+//void	push_swap(t_stack *a, t_stack *b);
 
 /**
  * sort_small_stack - Trie une petite pile (3 éléments maximum).
  * 
  * - @a: Pile principale.
  */
-void	sort_small_stack(t_stack *a);
+//void	sort_small_stack(t_stack *a);
 
 /**
  * sort_large_stack - Trie une pile de grande taille en utilisant
@@ -161,11 +165,19 @@ void	sort_small_stack(t_stack *a);
  * - @a: Pile principale.
  * - @b: Pile auxiliaire.
  */
-void	sort_large_stack(t_stack *a, t_stack *b);
+//void	sort_large_stack(t_stack *a, t_stack *b);
 
-int		find_median(t_stack *stack);
+//int		find_median(t_stack *stack);
 
-void	sort_array(int *arr, int size);
+//void	sort_array(int *arr, int size);
+
+void	push_swap(t_stack *a, t_stack *b);
+
+void	push_to_a(t_stack *a, t_stack *b);
+
+void	push_to_b(t_stack *a, t_stack *b);
+
+int		stack_size(t_stack *stack);
 
 /*-----stack.c-----*/
 
