@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/24 16:45:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:55:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,15 +311,6 @@ int		loop(t_data *data);
  * Return: 0 en cas de succès.
  */
 int		handle_keypress(int keysym, t_data *data);
-
-/**
- * julia_keypress - Gère les touches spécifiques pour manipuler la fractale
- * de Julia (ex : modifier les paramètres complexes).
- * 
- * - @keysym: Code de la touche pressée.
- * - @data: Structure contenant les paramètres et les données de l'application.
- */
-void	julia_keypress(int keysym, t_data *data);
 
 /*-----mouse_events.c-----*/
 

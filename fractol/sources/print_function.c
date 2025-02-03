@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:43:46 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/24 15:45:21 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/03 11:54:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,8 @@ int	print_usage(void)
 void	print_command(void)
 {
 	ft_printf("Command :\n");
-	ft_printf("	For All :\n");
 	ft_printf("\n");
 	ft_printf("	- Button 5 (mouse scroll) : zoom;\n");
 	ft_printf("	- Button 4 (mouse scroll) : unzoom;\n");
 	ft_printf("	- Esc, Backspace and Delete: quit;\n");
-	ft_printf("\n");
-	ft_printf("	For Julia :\n");
-	ft_printf("	- Keybord 'e' or 'q': change value/parameter;\n");
-	ft_printf("	- Keybord 'a' : change value/parameter automatically;\n");
 }
