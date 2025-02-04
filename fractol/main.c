@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 18:23:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/24 16:56:38 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:29:32 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char **argv)
 			&& (argc < 4 || argc > 5))
 		|| ((ft_strcmp(argv[1], (char *)"julia") != 0)
 			&& argc > 3))
-		return (clean_up(&data), MLX_ERROR);
+		return (print_usage(), MLX_ERROR);
 	init_main(argv, &data);
 	loop(&data);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 15:39:20 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/24 16:28:03 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:30:13 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,18 @@ int	ft_str_is_float(char *str)
 void	clean_up(t_data *data)
 {
 	print_usage();
-	if (data->img.mlx_img && data->mlx_ptr)
-		mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
-	if (data->win_ptr && data->mlx_ptr)
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	if (data->mlx_ptr)
+	if (data != NULL)
 	{
-		mlx_destroy_display(data->mlx_ptr);
-		data->win_ptr = NULL;
-		free(data->mlx_ptr);
+		if (data->img.mlx_img && data->mlx_ptr)
+			mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
+		if (data->win_ptr && data->mlx_ptr)
+			mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		if (data->mlx_ptr)
+		{
+			mlx_destroy_display(data->mlx_ptr);
+			data->win_ptr = NULL;
+			free(data->mlx_ptr);
+		}
 	}
-	exit(MLX_ERROR);
+	return ;
 }
