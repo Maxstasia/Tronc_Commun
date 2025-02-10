@@ -1,6 +1,6 @@
-# [submodule "minilibx-linux"]
-#   	path = fractol/includes/minilibx-linux
-#   	url = https://github.com/42Paris/minilibx-linux.git  
+[submodule "minilibx-linux"]
+  	path = fractol/includes/minilibx-linux
+  	url = https://github.com/42Paris/minilibx-linux.git  
 
 [submodule "push_swap_visualizer"]
 	path = push_swap/push_swap_visualizer

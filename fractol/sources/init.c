@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 14:05:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/10 11:17:45 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/10 13:24:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ int	loop(t_data *data)
 {
 	if (data)
 	{
-		mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &handle_keypress, data);
-		mlx_hook(data->win_ptr, DestroyNotify, NoEventMask, &handle_destroy, data);
-		mlx_mouse_hook(data->win_ptr, &handle_scroll, data);
+		mlx_hook(data->win_ptr,
+			KeyPress, KeyPressMask, &handle_keypress, data);
+		mlx_hook(data->win_ptr,
+			DestroyNotify, NoEventMask, &handle_destroy, data);
+		mlx_mouse_hook(data->win_ptr,
+			&handle_scroll, data);
 		mlx_loop(data->mlx_ptr);
 	}
 	else
