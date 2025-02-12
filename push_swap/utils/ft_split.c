@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:15:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/29 17:36:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:51:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,4 @@ char	**ft_split(char const *s, char c)
 	}
 	strs[i] = NULL;
 	return (strs);
-}
-
-void	free_split(char **strs)
-{
-	int	i;
-
-	if (!strs)
-		return;
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
 }

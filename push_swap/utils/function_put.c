@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   function_put.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 17:14:11 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/24 18:30:42 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/02/12 15:47:15 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/02/12 15:51:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
 
-void	error_exit(t_stack *a, t_stack *b)
+void	ft_putchar_fd(char c, int fd)
 {
-	if (a)
-		free_stack(a);
-	if (b)
-		free_stack(b);
-	ft_putstr_fd("Error\n", 2);
-	exit(ERROR);
+	write(fd, &c, sizeof(c));
 }
 
-void	free_stack(t_stack *stack)
+void	ft_putstr_fd(const char *str, int fd)
 {
-	t_node	*current;
-	t_node	*next;
+	int	i;
 
-	if (!stack)
-		return ;
-	current = stack->top;
-	while (current)
+	i = 0;
+	while (str[i])
 	{
-		next = current->next;
-		free(current);
-		current = next;
+		write(fd, &str[i++], 1);
 	}
-	free(stack);
+}
+
+void	ft_putendl_fd(char *str, int fd)
+{
+	if (str)
+	{
+		ft_putstr_fd(str, fd);
+		ft_putchar_fd('\n', fd);
+	}
 }

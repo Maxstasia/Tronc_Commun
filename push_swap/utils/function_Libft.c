@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:27:52 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/24 18:29:26 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:51:06 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,49 @@ int	ft_isdigit(const char c)
 	return (c >= '0' && c <= '9');
 }
 
-int	is_valid_number(const char *str)
+static int	ft_abs(int nbr)
 {
-	int	i;
-
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
+	if (nbr < 0)
+		return (-nbr);
+	else
+		return (nbr);
 }
 
-void	ft_putstr_fd(const char *str, int fd)
+static void	*ft_bzero(void *s, size_t len)
 {
-	while (*str)
+	size_t			i;
+	unsigned char	*str2;
+
+	i = 0;
+	str2 = (unsigned char *)s;
+	while (i < len)
 	{
-		write(fd, str, 1);
-		str++;
+		str2[i] = 0;
+		i++;
 	}
+	return (str2 = s, str2);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	str[13];
+	int		is_neg;
+	int		length;
+
+	is_neg = (n < 0);
+	ft_bzero(str, 13);
+	if (n == 0)
+		str[0] = '0';
+	length = 0;
+	while (n != 0)
+	{
+		str[length++] = '0' + ft_abs(n % 10);
+		n = (n / 10);
+	}
+	if (is_neg)
+		str[length] = '-';
+	else if (length > 0)
+		length--;
+	while (length >= 0)
+		write(fd, &str[length--], 1);
 }

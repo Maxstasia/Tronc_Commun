@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 13:17:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/10 10:58:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/12 14:01:33 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 # define MLX_ERROR 1
 # define MAX_ITER 250
-# define MOVE_STEP 0.1
 
 # define RED_PIXEL 0xFF0000
 # define GREEN_PIXEL 0x00FF00

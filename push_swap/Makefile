@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/01/30 13:04:50 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/02/12 17:45:45 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,17 +14,23 @@ NAME		= push_swap
 
 # Sources et objets
 OBJ			= $(SRC:.c=.o)
-SRC			=						\
-		main.c						\
-		sources/error.c				\
-		sources/ft_split.c			\
-		sources/function_Libft.c	\
-		sources/input.c				\
-		sources/instructions.c		\
-		sources/quick_sort.c		\
-		sources/sort.c				\
-		sources/stack.c				\
-		sources/utils.c
+SRC			=									\
+		main.c									\
+		sources/instructions_push.c				\
+		sources/instructions_reverse_rotate.c	\
+		sources/instructions_rotate.c			\
+		sources/instructions_swap.c				\
+		sources/radix.c							\
+		sources/simple.c						\
+												\
+		utils/check_args.c						\
+		utils/error.c							\
+		utils/ft_split.c						\
+		utils/function_Libft.c					\
+		utils/function_put.c					\
+		utils/index.c							\
+		utils/t_stack.c							\
+		utils/utils.c
 
 # Dossiers
 INCLUDE_DIR	= ./includes
