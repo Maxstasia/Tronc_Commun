@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:19:37 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/13 15:08:22 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:58:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ void	ft_check_args(int argc, char **argv)
 	{
 		tmp = ft_atoi(args[i]);
 		if (!ft_isnum(args[i]))
-			ft_error("Error");
+			ft_error_with_free("Error", argc, args, ft_countword(argv[1], ' '));
 		if (ft_contains(tmp, args, i))
-			ft_error("Error");
+			ft_error_with_free("Error", argc, args, ft_countword(argv[1], ' '));
 		if (tmp < -2147483648 || tmp > 2147483647)
-			ft_error("Error");
+			ft_error_with_free("Error", argc, args, ft_countword(argv[1], ' '));
 		i++;
 	}
 	if (argc == 2)
-		ft_free(args);
+		ft_free_tab(args, ft_countword(argv[1], ' '));
 }

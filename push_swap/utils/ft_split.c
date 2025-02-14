@@ -6,44 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 17:15:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/12 15:51:07 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:00:23 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/push_swap.h"
-
-static void	*ft_free_tab(char **str, int len)
-{
-	int	i;
-
-	i = 0;
-	while (i < len)
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-	return (NULL);
-}
-
-static int	ft_countword(const char *s, char c)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		while (s[i] == c && s[i] != '\0')
-			i++;
-		if (s[i] != '\0')
-			count++;
-		while (s[i] != c && s[i] != '\0')
-			i++;
-	}
-	return (count);
-}
 
 static char	*ft_dostr(const char *s, char c)
 {

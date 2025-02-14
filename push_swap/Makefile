@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/12 17:45:45 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/02/14 12:31:29 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ PRINTF_A	= $(PRINTF_DIR)/libftprintf.a
 
 # Compileur et flags
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -I $(INCLUDE_DIR)
+CFLAGS		= -Wall -Werror -Wextra -g3 -I $(INCLUDE_DIR)
 LIBS		= $(PRINTF_A)
 
 # Rules

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:28:48 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/12 16:00:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:56:40 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int		is_sorted(t_stack **stack);
 int		get_distance(t_stack **stack, int index);
 void	make_top(t_stack **stack, int distance);
 void	free_stack(t_stack **stack);
-void	ft_free(char **str);
+void	*ft_free_tab(char **str, int len);
+void	ft_error_with_free(char *msg, int argc, char **args, int i);
 
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(const char *str, int fd);
@@ -66,6 +67,7 @@ void	ft_putnbr_fd(int n, int fd);
 int		ft_atoi(const char *str);
 char	**ft_split(char const *s, char c);
 int		ft_isdigit(const char c);
+int		ft_countword(const char *s, char c);
 
 // Algorithm utils
 void	radix_sort(t_stack **stack_a, t_stack **stack_b);

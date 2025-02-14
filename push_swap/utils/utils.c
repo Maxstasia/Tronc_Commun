@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:13:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/12 16:02:37 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:55:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,25 @@ void	make_top(t_stack **stack, int distance)
 		while (tmp-- > 0)
 			rra(stack);
 	}
+}
+
+int	ft_countword(const char *s, char c)
+{
+	int	count;
+	int	i;
+
+	if (!s)
+		return (0);
+	count = 0;
+	i = 0;
+	while (s[i])
+	{
+		while (s[i] == c && s[i] != '\0')
+			i++;
+		if (s[i] != '\0')
+			count++;
+		while (s[i] != c && s[i] != '\0')
+			i++;
+	}
+	return (count);
 }
