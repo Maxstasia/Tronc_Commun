@@ -60,32 +60,32 @@ J'ai commencé le cursus principal en novembre 2024. Voici un résumé des proje
 **Description :** Découvrez la programmation 2D et l'univers psychédélique des fractales grâce à ce projet à réaliser avec la minilibX.
 
 - **Commencé le :** Décembre 2024
-- **Terminé le :** [Insère la date]
+- **Terminé le :** Février 2025
 
-### 05 - Pipex
-
-**Description :** Reproduction du fonctionnement de la commande shell `|`, avec gestion des redirections et des fichiers.
-
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
-
-### 06 - Push_swap
+### 05 - Push_swap
 
 **Description :** Algorithme pour trier une pile de nombres en utilisant un ensemble d'instructions prédéfinies, avec un focus sur l'optimisation du nombre de mouvements.
 
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
+- **Commencé le :** Janvier 2025
+- **Terminé le :** Février 2025
 
-### 07 - Philosophers
+### 06 - Pipex
 
-**Description :** Simulation du problème des philosophes mangeurs en utilisant des threads et des mutex, avec un focus sur l'évitement des interblocages.
+**Description :** Reproduction du fonctionnement de la commande shell `|`, avec gestion des redirections et des fichiers.
 
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
+- **Commencé le :** Janvier 2025
+- **Terminé le :** Février 2025
 
-### 08 - Minishell
+### 07 - Minishell
 
 **Description :** Reproduction d'un shell Unix basique avec support des commandes, pipes, redirections et variables d'environnement.
+
+- **Commencé le :** [Insère la date]
+- **Terminé le :** [Insère la date]
+
+### 08 - Philosophers
+
+**Description :** Simulation du problème des philosophes mangeurs en utilisant des threads et des mutex, avec un focus sur l'évitement des interblocages.
 
 - **Commencé le :** [Insère la date]
 - **Terminé le :** [Insère la date]
@@ -186,32 +186,32 @@ I started the main curriculum in November 2024. Below is a summary of the projec
 **Description:** Learn 2D programming and the psychedelic world of fractals through this project built with the MinilibX.
 
 - **Started on:** December 2024
-- **Finished on:** [Insert date]
+- **Finished on:** February 2025
 
-### 05 - Pipex
-
-**Description:** Reproduction of the shell command `|`, with handling of redirections and files.
-
-- **Started on:** [Insert date]
-- **Finished on:** [Insert date]
-
-### 06 - Push_swap
+### 05 - Push_swap
 
 **Description:** Algorithm to sort a stack of numbers using a set of predefined instructions, focusing on optimizing the number of moves.
 
-- **Started on:** [Insert date]
-- **Finished on:** [Insert date]
+- **Started on:** January 2025
+- **Finished on:** February 2025
 
-### 07 - Philosophers
+### 06 - Pipex
 
-**Description:** Simulation of the dining philosophers problem using threads and mutexes, focusing on avoiding deadlocks.
+**Description:** Reproduction of the shell command `|`, with handling of redirections and files.
 
-- **Started on:** [Insert date]
-- **Finished on:** [Insert date]
+- **Started on:** January 2025
+- **Finished on:** February 2025
 
-### 08 - Minishell
+### 07 - Minishell
 
 **Description:** Reproduction of a basic Unix shell with support for commands, pipes, redirections, and environment variables.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 08 - Philosophers
+
+**Description:** Simulation of the dining philosophers problem using threads and mutexes, focusing on avoiding deadlocks.
 
 - **Started on:** [Insert date]
 - **Finished on:** [Insert date]
