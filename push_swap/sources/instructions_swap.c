@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:13:22 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/12 15:58:49 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/17 10:46:08 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	sb(t_stack **stack_b)
 }
 
 int	ss(t_stack **stack_a, t_stack **stack_b)
-{	
+{
 	if ((ft_lstsize(*stack_a) < 2) || (ft_lstsize(*stack_b) < 2))
 		return (-1);
 	swap(stack_a);
