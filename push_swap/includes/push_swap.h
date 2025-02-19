@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:28:48 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/17 13:01:29 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:28:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ void	ft_putnbr_fd(int n, int fd);
  * - @str: La chaîne de caractères à convertir.
  * Return: La valeur entière convertie.
  */
-int		ft_atoi(const char *str);
+long	ft_atoi(const char *str);
 
 /**
  * ft_isdigit - Vérifie si un caractère est un chiffre (0-9).
