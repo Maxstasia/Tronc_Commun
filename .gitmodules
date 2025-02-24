@@ -7,5 +7,5 @@
 	url = https://github.com/o-reo/push_swap_visualizer.git
 
 [submodule "complexity"]
-	path = push_swap/complexity
+	path = push_swap/push_swap_tester
 	url = https://github.com/SimonCROS/push_swap_tester.git
