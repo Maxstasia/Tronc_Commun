@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/28 13:09:29 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:27:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@
 
 /*--------------------fonctions--------------------*/
 /*----------sources----------*/
+/*-----utils.c-----*/
 
 void	error(void);
-char	*find_path(char *cmd, char **envp);
-int		get_next_line(char **line);
+
 void	execute(char *argv, char **envp);
 
 #endif

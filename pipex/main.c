@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/28 13:08:24 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/02/28 14:20:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /* Child process that run inside a fork, take the filein, put the output inside
  a pipe and then close with the exec function */
-void	child_process(char **argv, char **envp, int *fd)
+static void	child_process(char **argv, char **envp, int *fd)
 {
 	int		filein;
 
@@ -29,7 +29,7 @@ void	child_process(char **argv, char **envp, int *fd)
 
 /* Parent process that take the data from the pipe, change the output for the
  fileout and also close with the exec function */
-void	parent_process(char **argv, char **envp, int *fd)
+static void	parent_process(char **argv, char **envp, int *fd)
 {
 	int		fileout;
 

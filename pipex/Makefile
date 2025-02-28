@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/28 14:00:42 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/02/28 14:35:47 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ OBJ_BONUS	= $(SRC_BONUS:.c=.o)
 SRC_BONUS	=									\
 		main_bonus.c							\
 		\
+		sources/error_bonus.c					\
 		sources/utils_bonus.c
 
 # Dossiers
@@ -49,7 +50,7 @@ $(NAME):	$(OBJ) $(PRINTF_A) $(LIBFT_A)
 
 bonus:		$(NAME_BONUS)
 
-$(NAME_BONUS): $(OBJ_BONUS) $(PRINTF_A) $(MLX_A)
+$(NAME_BONUS): $(OBJ_BONUS) $(PRINTF_A) $(LIBFT_A)
 	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBS) -o $(NAME_BONUS)
 	@echo "$(NAME_BONUS) compilé avec succès."
 
