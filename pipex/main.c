@@ -6,14 +6,19 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/28 14:20:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:31:16 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex.h"
 
-/* Child process that run inside a fork, take the filein, put the output inside
- a pipe and then close with the exec function */
+/**
+ * child_process - Crée un processus enfant pour exécuter une commande.
+ * 
+ * - @argv: Tableau des arguments.
+ * - @envp: Tableau des variables d'environnement.
+ * - @fd: Tableau contenant les descripteurs de fichier.
+ */
 static void	child_process(char **argv, char **envp, int *fd)
 {
 	int		filein;
@@ -27,8 +32,13 @@ static void	child_process(char **argv, char **envp, int *fd)
 	execute(argv[2], envp);
 }
 
-/* Parent process that take the data from the pipe, change the output for the
- fileout and also close with the exec function */
+/**
+ * parent_process - Exécute une commande dans le processus parent.
+ * 
+ * - @argv: Tableau des arguments.
+ * - @envp: Tableau des variables d'environnement.
+ * - @fd: Tableau contenant les descripteurs de fichier.
+ */
 static void	parent_process(char **argv, char **envp, int *fd)
 {
 	int		fileout;
@@ -42,8 +52,6 @@ static void	parent_process(char **argv, char **envp, int *fd)
 	execute(argv[3], envp);
 }
 
-/* Main function that run the child and parent process or display an error
- message if arguments are wrong */
 int	main(int argc, char **argv, char **envp)
 {
 	int		fd[2];

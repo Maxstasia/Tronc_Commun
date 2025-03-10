@@ -6,14 +6,19 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/28 14:31:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:41:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
 
-/* Function that will look for the path line inside the environment, will
- split and test each command path and then return the right one. */
+/**
+ * find_path - Trouve le chemin absolu d'une commande.
+ * 
+ * - @cmd: Nom de la commande.
+ * - @envp: Tableau des variables d'environnement.
+ * Return: Chemin absolu de la commande ou NULL si introuvable.
+ */
 static char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -43,8 +48,6 @@ static char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-/* Function that take the command and send it to find_path
- before executing it. */
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
@@ -65,7 +68,6 @@ void	execute(char *argv, char **envp)
 		error();
 }
 
-/* Function to open the files with the right flags */
 int	open_file(char *argv, int i)
 {
 	int	file;
@@ -82,7 +84,6 @@ int	open_file(char *argv, int i)
 	return (file);
 }
 
-/* Function that will read input from the terminal and return line. */
 int	get_next_line(char **line)
 {
 	char	*buffer;

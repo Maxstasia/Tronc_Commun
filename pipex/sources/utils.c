@@ -6,14 +6,20 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/28 14:26:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:42:26 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-/* Function that will look for the path line inside the environment, will
- split and test each command path and then return the right one. */
+/**
+ * find_path - Recherche le chemin d'accès à une commande en utilisant
+ * les variables d'environnement.
+ * 
+ * - @cmd: Le nom de la commande à rechercher.
+ * - @envp: Tableau des variables d'environnement.
+ * Return: Le chemin complet de la commande si trouvé, sinon NULL.
+ */
 static char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
@@ -43,8 +49,6 @@ static char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-/* Function that take the command and send it to find_path
- before executing it. */
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
@@ -65,7 +69,6 @@ void	execute(char *argv, char **envp)
 		error();
 }
 
-/* A simple error displaying function. */
 void	error(void)
 {
 	perror("\033[31mError");

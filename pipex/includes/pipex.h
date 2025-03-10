@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/02/28 14:27:15 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:39:30 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,17 @@
 /*----------sources----------*/
 /*-----utils.c-----*/
 
-void	error(void);
-
+/**
+ * execute - Exécute une commande avec ses arguments.
+ * 
+ * - @argv: Commande et arguments sous forme de chaîne.
+ * - @envp: Tableau des variables d'environnement.
+ */
 void	execute(char *argv, char **envp);
+
+/**
+ * error - Affiche un message d'erreur avec perror et quitte le programme.
+ */
+void	error(void);
 
 #endif
