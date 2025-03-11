@@ -6,20 +6,24 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/10 14:41:50 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:31:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
+/*--------------------macro--------------------*/
+
+# define RED	"\033[31m"
+
 /*--------------------bibliotheques--------------------*/
 
-// # include <errno.h>			  // errno (utile avec strerror et perror)
 // # include <string.h>			  // strerror
 // # include <stdlib.h>			  // malloc, free, exit
 // # include <unistd.h>			  // open, close, read, write, access, dup, dup2
 
+# include <errno.h>				  // errno (utile avec strerror et perror)
 # include <stdio.h>				  // perror
 # include <fcntl.h>				  // open
 # include <sys/wait.h>			  // wait, waitpid, fork, pipe, unlink
@@ -57,6 +61,17 @@ int		open_file(char *argv, int i);
  * Return: Nombre d'octets lus ou -1 en cas d'erreur.
  */
 int		get_next_line(char **line);
+
+/*-----ft_split_advanced_bonus.c-----*/
+
+/**
+ * ft_split_advanced - Sépare une commande en arguments en respectant
+ * les guillemets.
+ * 
+ * - @s: La commande à séparer.
+ * Return: Un tableau de chaînes de caractères (les arguments).
+ */
+char	**ft_split_advanced(const char *s);
 
 /*-----error_bonus.c-----*/
 

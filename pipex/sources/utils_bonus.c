@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/10 14:41:48 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:39:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,26 @@ void	execute(char *argv, char **envp)
 	char	*path;
 
 	i = -1;
-	cmd = ft_split(argv, ' ');
+	cmd = ft_split_advanced(argv);
+	if (!cmd || !cmd[0])
+	{
+		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
+		exit(127);
+	}
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
+		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
 		while (cmd[++i])
 			free(cmd[i]);
 		free(cmd);
-		error();
+		exit(127);
 	}
 	if (execve(path, cmd, envp) == -1)
-		error();
+	{
+		perror(RED"Error\033[0m");
+		exit(127);
+	}
 }
 
 int	open_file(char *argv, int i)
@@ -74,11 +83,11 @@ int	open_file(char *argv, int i)
 
 	file = 0;
 	if (i == 0)
-		file = open(argv, 1 | 64 | 1024, 511);
+		file = open(argv, (O_WRONLY | O_CREAT | O_TRUNC), 0644);
 	else if (i == 1)
-		file = open(argv, 1 | 64 | 512, 511);
+		file = open(argv, (O_WRONLY | O_CREAT | O_APPEND), 0644);
 	else if (i == 2)
-		file = open(argv, 0, 511);
+		file = open(argv, O_RDONLY);
 	if (file == -1)
 		error();
 	return (file);

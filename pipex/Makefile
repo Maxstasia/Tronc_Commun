@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/02/28 14:35:47 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/11 15:40:22 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ OBJ			= $(SRC:.c=.o)
 SRC			=									\
 		main.c									\
 		\
+		sources/ft_split_advanced.c				\
 		sources/utils.c
 
 OBJ_BONUS	= $(SRC_BONUS:.c=.o)
@@ -25,6 +26,7 @@ SRC_BONUS	=									\
 		main_bonus.c							\
 		\
 		sources/error_bonus.c					\
+		sources/ft_split_advanced_bonus.c		\
 		sources/utils_bonus.c
 
 # Dossiers

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/10 14:42:26 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/11 14:29:37 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,30 @@ void	execute(char *argv, char **envp)
 	char	*path;
 
 	i = -1;
-	cmd = ft_split(argv, ' ');
+	cmd = ft_split_advanced(argv);
+	if (!cmd || !cmd[0])
+	{
+		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
+		exit(127);
+	}
 	path = find_path(cmd[0], envp);
 	if (!path)
 	{
+		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
 		while (cmd[++i])
 			free(cmd[i]);
 		free(cmd);
-		error();
+		exit(127);
 	}
 	if (execve(path, cmd, envp) == -1)
-		error();
+	{
+		perror(RED"Error\033[0m");
+		exit(127);
+	}
 }
 
 void	error(void)
 {
-	perror("\033[31mError");
+	perror(RED"Error\033[0m");
 	exit(1);
 }
