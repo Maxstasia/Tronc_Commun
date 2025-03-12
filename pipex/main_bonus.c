@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/11 17:25:08 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:45:21 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	child_process(char *argv, char **envp)
 		dup2(fd[0], 0);
 		waitpid(pid, NULL, 0);
 	}
+	if (ft_strncmp(argv, "cat", 3) == 0)
+		execute((char *)"head -c 1024", envp);
 }
 
 /**
@@ -96,6 +98,12 @@ int	main(int argc, char **argv, char **envp)
 			i = 2;
 			fileout = open_file(argv[argc - 1], 1);
 			filein = open_file(argv[1], 2);
+			if (filein == -1)
+			{
+				perror(RED"Error\033[0m");
+				exit(0);
+			}
+			dup2(filein, 0);
 			dup2(filein, 0);
 		}
 		while (i < argc - 2)

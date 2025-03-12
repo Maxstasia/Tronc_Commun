@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/11 14:38:11 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/12 16:39:00 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ static void	child_process(char **argv, char **envp, int *fd)
 	filein = open(argv[1], O_RDONLY);
 	if (filein == -1)
 	{
-		perror("\033[31mError: No such file or directory\033[0m");
+		perror(RED"Error: No such file or directory\033[0m");
 		exit(1);
 	}
 	dup2(fd[1], 1);
 	dup2(filein, 0);
 	close(fd[0]);
-	execute(argv[2], envp);
+	if (ft_strncmp(argv[2], "cat", 3) == 0)
+		execute((char *)"head -c 1024", envp);
+	else
+		execute(argv[2], envp);
 }
 
 /**
@@ -55,7 +58,10 @@ static void	parent_process(char **argv, char **envp, int *fd)
 	dup2(fd[0], 0);
 	dup2(fileout, 1);
 	close(fd[1]);
-	execute(argv[3], envp);
+	if (ft_strncmp(argv[3], "cat", 3) == 0)
+		execute((char *)"head -c 1024", envp);
+	else
+		execute(argv[3], envp);
 }
 
 int	main(int argc, char **argv, char **envp)

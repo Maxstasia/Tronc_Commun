@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/11 17:39:11 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:41:40 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,22 @@ int	open_file(char *argv, int i)
 {
 	int	file;
 
-	file = 0;
+	if (!argv)
+	{
+		write(2, RED"Error: Invalid file name\033[0m\n", 25);
+		return (-1);
+	}
 	if (i == 0)
 		file = open(argv, (O_WRONLY | O_CREAT | O_TRUNC), 0644);
 	else if (i == 1)
 		file = open(argv, (O_WRONLY | O_CREAT | O_APPEND), 0644);
 	else if (i == 2)
 		file = open(argv, O_RDONLY);
+	else
+	{
+		write(2, RED"Error: Invalid mode\033[0m\n", 20);
+		return (-1);
+	}
 	if (file == -1)
 		error();
 	return (file);
