@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/12 14:41:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:17:37 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,58 +48,65 @@ static char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
+static void	free_tab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+}
+
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
-	int		i;
 	char	*path;
 
-	i = -1;
 	cmd = ft_split_advanced(argv);
 	if (!cmd || !cmd[0])
 	{
 		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
+		free_tab(cmd);
 		exit(127);
 	}
-	path = find_path(cmd[0], envp);
-	if (!path)
+	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
+		path = ft_strdup(cmd[0]);
+	else
+		path = find_path(cmd[0], envp);
+	if (!path || access(path, X_OK) == -1)
 	{
 		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
-		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
+		free_tab(cmd);
 		exit(127);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
 		perror(RED"Error\033[0m");
+		free_tab(cmd);
+		if (errno == EACCES)
+			exit(126);
 		exit(127);
 	}
+	free_tab(cmd);
 }
 
 int	open_file(char *argv, int i)
 {
-	int	file;
+	int	ret;
 
-	if (!argv)
-	{
-		write(2, RED"Error: Invalid file name\033[0m\n", 25);
-		return (-1);
-	}
+	ret = -1;
 	if (i == 0)
-		file = open(argv, (O_WRONLY | O_CREAT | O_TRUNC), 0644);
-	else if (i == 1)
-		file = open(argv, (O_WRONLY | O_CREAT | O_APPEND), 0644);
-	else if (i == 2)
-		file = open(argv, O_RDONLY);
-	else
 	{
-		write(2, RED"Error: Invalid mode\033[0m\n", 20);
-		return (-1);
+		ret = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		if (ret == -1)
+			error();
 	}
-	if (file == -1)
-		error();
-	return (file);
+	else if (i == 1)
+		ret = open(argv, O_RDONLY, 0777);
+	if (ret == -1)
+		ret = open("/dev/null", O_RDONLY, 0777);
+	return (ret);
 }
 
 int	get_next_line(char **line)
@@ -110,11 +117,11 @@ int	get_next_line(char **line)
 	char	c;
 
 	i = 0;
-	buffer = (char *)malloc(10000);
+	buffer = (char *)malloc(4096);
 	if (!buffer)
 		return (-1);
 	r = read(0, &c, 1);
-	while (r && c != '\n' && c != '\0')
+	while (r && c != '\n' && c != '\0' && i <= 4093)
 	{
 		if (c != '\n' && c != '\0')
 			buffer[i] = c;

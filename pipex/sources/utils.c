@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/11 14:29:37 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/13 17:14:29 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,33 +49,47 @@ static char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
+static void	free_tab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+}
+
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
-	int		i;
 	char	*path;
 
-	i = -1;
 	cmd = ft_split_advanced(argv);
 	if (!cmd || !cmd[0])
 	{
 		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
+		free_tab(cmd);
 		exit(127);
 	}
-	path = find_path(cmd[0], envp);
-	if (!path)
+	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
+		path = ft_strdup(cmd[0]);
+	else
+		path = find_path(cmd[0], envp);
+	if (!path || access(path, X_OK) == -1)
 	{
 		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
-		while (cmd[++i])
-			free(cmd[i]);
-		free(cmd);
+		free_tab(cmd);
 		exit(127);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
 		perror(RED"Error\033[0m");
+		free_tab(cmd);
+		if (errno == EACCES)
+			exit(126);
 		exit(127);
 	}
+	free_tab(cmd);
 }
 
 void	error(void)
