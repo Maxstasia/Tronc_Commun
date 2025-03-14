@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/13 17:14:29 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/14 11:39:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,14 @@ void	execute(char *argv, char **envp)
 	{
 		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
 		free_tab(cmd);
+		free(path);
 		exit(127);
 	}
 	if (execve(path, cmd, envp) == -1)
 	{
 		perror(RED"Error\033[0m");
 		free_tab(cmd);
+		free(path);
 		if (errno == EACCES)
 			exit(126);
 		exit(127);
