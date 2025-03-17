@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/12 16:39:31 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:27:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,14 @@
 
 /*--------------------structures--------------------*/
 
+typedef struct s_cmd
+{
+	pid_t			pid;
+	struct s_cmd	*next;
+	char			*cmd;
+	char			*absolute_path;
+}							t_cmd;
+
 /*--------------------fonctions--------------------*/
 /*----------sources----------*/
 /*-----ft_split_advanced.c-----*/
@@ -46,6 +54,16 @@
 char	**ft_split_advanced(const char *s);
 
 /*-----utils.c-----*/
+
+/**
+ * find_path - Recherche le chemin d'accès à une commande en utilisant
+ * les variables d'environnement.
+ * 
+ * - @cmd: Le nom de la commande à rechercher.
+ * - @envp: Tableau des variables d'environnement.
+ * Return: Le chemin complet de la commande si trouvé, sinon NULL.
+ */
+char	*find_path(char *cmd, char **envp);
 
 /**
  * execute - Exécute une commande avec ses arguments.

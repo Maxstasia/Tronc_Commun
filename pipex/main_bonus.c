@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/13 15:49:44 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:28:57 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	child_process(char *argv, char **envp)
 		dup2(fd[0], 0);
 		waitpid(pid, NULL, 0);
 	}
+	if (ft_strncmp(argv, "cat", 3) == 0)
+		execute((char *)"head -c 1024", envp);
 }
 
 /**
@@ -107,3 +109,38 @@ int	main(int argc, char **argv, char **envp)
 	}
 	usage();
 }
+
+
+///////////////////
+
+/* create_pipe(t_cmd *cmd)
+{
+	int fd[2];
+	pid_t pid;
+	
+	pipe(fd)
+	pid = fork();
+	cmd->pid = pid;
+	if(pid== 0)
+		enfant();
+	parent();
+}
+
+launch_cmd(t_cmd *cmd)
+{
+	int status;
+	t_cmd *current;
+	
+	current = *cmd;
+	while(current)
+	{
+		create_pipe(current);
+		current = current->next;
+	}
+	current = *cmd;
+	while(current)
+	{
+		waitpid(current->pid, &status, 0);
+		current = current->next;
+	}
+} */

@@ -6,21 +6,23 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/14 11:39:18 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:28:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-/**
- * find_path - Recherche le chemin d'accès à une commande en utilisant
- * les variables d'environnement.
- * 
- * - @cmd: Le nom de la commande à rechercher.
- * - @envp: Tableau des variables d'environnement.
- * Return: Le chemin complet de la commande si trouvé, sinon NULL.
- */
-static char	*find_path(char *cmd, char **envp)
+static void	free_tab(char **tab)
+{
+	int	i;
+	
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+}
+
+char	*find_path(char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -49,21 +51,11 @@ static char	*find_path(char *cmd, char **envp)
 	return (0);
 }
 
-static void	free_tab(char **tab)
-{
-	int	i;
-
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
-}
-
 void	execute(char *argv, char **envp)
 {
 	char	**cmd;
 	char	*path;
-
+	
 	cmd = ft_split_advanced(argv);
 	if (!cmd || !cmd[0])
 	{
