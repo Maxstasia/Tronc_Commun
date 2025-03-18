@@ -6,33 +6,37 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/11 15:40:22 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/18 16:50:51 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= pipex
 NAME_BONUS	= pipex_bonus
 
-# Sources et objets
-OBJ			= $(SRC:.c=.o)
-SRC			=									\
-		main.c									\
-		\
-		sources/ft_split_advanced.c				\
-		sources/utils.c
-
-OBJ_BONUS	= $(SRC_BONUS:.c=.o)
-SRC_BONUS	=									\
-		main_bonus.c							\
-		\
-		sources/error_bonus.c					\
-		sources/ft_split_advanced_bonus.c		\
-		sources/utils_bonus.c
-
 # Dossiers
+SRC_DIR		= ./sources
+OBJ_DIR		= ./obj
 INCLUDE_DIR	= ./includes
 PRINTF_DIR	= $(INCLUDE_DIR)/ft_printf
 LIBFT_DIR	= $(INCLUDE_DIR)/Libft
+
+# Sources et objets
+SRC			=									\
+		main.c									\
+		\
+		$(SRC_DIR)/error.c						\
+		$(SRC_DIR)/ft_split_advanced.c			\
+		$(SRC_DIR)/utils.c
+
+SRC_BONUS	=									\
+		main_bonus.c							\
+		\
+		$(SRC_DIR)/error_bonus.c				\
+		$(SRC_DIR)/ft_split_advanced_bonus.c	\
+		$(SRC_DIR)/utils_bonus.c
+
+OBJ			= $(SRC:%.c=$(OBJ_DIR)/%.o)
+OBJ_BONUS	= $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
 
 # Bibliotheques
 PRINTF_A	= $(PRINTF_DIR)/libftprintf.a
@@ -46,6 +50,12 @@ LIBS		= $(PRINTF_A) $(LIBFT_A)
 # Rules
 all:		$(NAME)
 
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(SRC_DIR)
+
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 $(NAME):	$(OBJ) $(PRINTF_A) $(LIBFT_A)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
 	@echo "$(NAME) compilé avec succès."
@@ -55,9 +65,6 @@ bonus:		$(NAME_BONUS)
 $(NAME_BONUS): $(OBJ_BONUS) $(PRINTF_A) $(LIBFT_A)
 	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBS) -o $(NAME_BONUS)
 	@echo "$(NAME_BONUS) compilé avec succès."
-
-%.o: %.c
-	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(PRINTF_A):
 	@echo "Compilation de ft_printf..."
@@ -70,7 +77,7 @@ $(LIBFT_A):
 clean:
 	@$(MAKE) -s clean -C $(PRINTF_DIR)
 	@$(MAKE) -s clean -C $(LIBFT_DIR)
-	@rm -f $(OBJ) $(OBJ_BONUS)
+	@rm -rf $(OBJ_DIR)
 	@echo "Nettoyage des fichiers objets terminé."
 
 fclean:		clean

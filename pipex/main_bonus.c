@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/17 17:28:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:59:16 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 		{
-			i = 3;
+			i =² 3;
 			fileout = open_file(argv[argc - 1], 0);
 			here_doc(argv[2], argc);
 		}
@@ -109,7 +109,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	usage();
 }
-
 
 ///////////////////
 

@@ -6,75 +6,71 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/17 17:28:50 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:39:14 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-static void	free_tab(char **tab)
+static char	**first_step(t_pipex *pipex)
 {
-	int	i;
-	
-	i = -1;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
+	int		i;
+	char	**paths;
+
+	i = 0;
+	while (pipex->envp[i] && ft_strnstr(pipex->envp[i], "PATH", 4) == 0)
+		i++;
+	if (!pipex->envp[i])
+		return (NULL);
+	paths = ft_split((pipex->envp[i] + 5), ':');
+	if (!paths)
+		return (NULL);
+	return (paths);
 }
 
-char	*find_path(char *cmd, char **envp)
+char	*find_path(t_pipex *pipex)
 {
 	char	**paths;
 	char	*path;
 	int		i;
 	char	*part_path;
 
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split((envp[i] + 5), ':');
+	paths = first_step(pipex);
+	if (!paths)
+		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
 		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
+		path = ft_strjoin(part_path, pipex->argv[0]);
 		free(part_path);
 		if (access(path, 0) == 0)
+		{
+			free_tab(paths);
 			return (path);
+		}
 		free(path);
 		i++;
 	}
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
-	return (0);
+	free_tab(paths);
+	return (NULL);
 }
 
-void	execute(char *argv, char **envp)
+void	execute(t_pipex *pipex)
 {
 	char	**cmd;
 	char	*path;
-	
-	cmd = ft_split_advanced(argv);
+
+	cmd = ft_split_advanced(pipex->argv[0]);
 	if (!cmd || !cmd[0])
-	{
-		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
-		free_tab(cmd);
-		exit(127);
-	}
+		error_127(cmd, NULL);
 	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
 		path = ft_strdup(cmd[0]);
 	else
-		path = find_path(cmd[0], envp);
+		path = find_path(pipex);
 	if (!path || access(path, X_OK) == -1)
-	{
-		ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
-		free_tab(cmd);
-		free(path);
-		exit(127);
-	}
-	if (execve(path, cmd, envp) == -1)
+		error_127(cmd, path);
+	if (execve(path, cmd, pipex->envp) == -1)
 	{
 		perror(RED"Error\033[0m");
 		free_tab(cmd);
@@ -84,10 +80,5 @@ void	execute(char *argv, char **envp)
 		exit(127);
 	}
 	free_tab(cmd);
-}
-
-void	error(void)
-{
-	perror(RED"Error\033[0m");
-	exit(1);
+	free(path);
 }

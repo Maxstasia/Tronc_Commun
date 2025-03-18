@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/17 17:27:12 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/18 16:33:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,16 @@
 
 /*--------------------structures--------------------*/
 
-typedef struct s_cmd
+typedef struct s_pipex
 {
-	pid_t			pid;
-	struct s_cmd	*next;
-	char			*cmd;
-	char			*absolute_path;
-}							t_cmd;
+	char	**argv;
+	char	**envp;
+	char	*filein;
+	char	*fileout;
+	int		fd[2];
+	int		is_first;
+	int		is_last;
+}					t_pipex;
 
 /*--------------------fonctions--------------------*/
 /*----------sources----------*/
@@ -63,15 +66,38 @@ char	**ft_split_advanced(const char *s);
  * - @envp: Tableau des variables d'environnement.
  * Return: Le chemin complet de la commande si trouvé, sinon NULL.
  */
-char	*find_path(char *cmd, char **envp);
+char	*find_path(t_pipex *pipex);
 
 /**
  * execute - Exécute une commande avec ses arguments.
  * 
- * - @argv: Commande et arguments sous forme de chaîne.
- * - @envp: Tableau des variables d'environnement.
+ * - @pipex: Structure contenant les données nécessaires.
  */
-void	execute(char *argv, char **envp);
+void	execute(t_pipex *pipex);
+
+/*-----error.c-----*/
+
+/**
+ * usage - Affiche un message d'erreur d'utilisation et quitte le programme.
+ */
+void	usage(void);
+
+/**
+ * free_tab - Libère la mémoire allouée pour un tableau de chaînes
+ * de caractères.
+ * 
+ * - @tab: Le tableau à libérer.
+ */
+void	free_tab(char **tab);
+
+/**
+ * error_127 - Affiche un message d'erreur et quitte le programme avec
+ * le code 127.
+ * 
+ * - @cmd: Tableau des arguments de la commande.
+ * - @path: Chemin d'accès à la commande.
+ */
+void	error_127(char **cmd, char *path);
 
 /**
  * error - Affiche un message d'erreur avec perror et quitte le programme.
