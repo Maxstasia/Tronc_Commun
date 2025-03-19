@@ -6,13 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:40:07 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/18 16:56:50 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:38:20 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex.h"
 
-static void	child_process(t_pipex *pipex)
+static int	child_process(t_pipex *pipex)
 {
 	int	file;
 
@@ -23,24 +23,22 @@ static void	child_process(t_pipex *pipex)
 			file = open("/dev/null", O_RDONLY, 0777);
 		if (file == -1)
 			error();
-		dup2(file, 0);
+		dup2(file, STDIN_FILENO);
 		close(file);
 	}
 	else
-		dup2(pipex->fd[0], 0);
+		dup2(pipex->fd[0], STDIN_FILENO);
 	if (!pipex->is_last)
-		dup2(pipex->fd[1], 1);
+		dup2(pipex->fd[1], STDOUT_FILENO);
 	else
 	{
 		file = open(pipex->fileout, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		if (file == -1)
 			error();
-		dup2(file, 1);
+		dup2(file, STDOUT_FILENO);
 		close(file);
 	}
-	close(pipex->fd[0]);
-	close(pipex->fd[1]);
-	execute(pipex);
+	return (close(pipex->fd[0]), close(pipex->fd[1]), execute(pipex), 0);
 }
 
 static void	create_pipe(t_pipex *pipex)
@@ -72,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	pipex.argv = argv;
 	pipex.envp = envp;
 	pipex.filein = argv[1];
-	pipex.fileout = argv[4];
+	pipex.fileout = argv[argc - 1];
 	pipex.is_first = 1;
 	pipex.is_last = 0;
 	pipex.argv = &argv[2];

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/18 16:33:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:48:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@
 
 typedef struct s_pipex
 {
-	char	**argv;
-	char	**envp;
-	char	*filein;
-	char	*fileout;
-	int		fd[2];
-	int		is_first;
-	int		is_last;
-}					t_pipex;
+	char	**argv;		// Arguments du programme
+	char	**envp;		// Variables d'environnement
+	char	*filein;	// Fichier d'entrée
+	char	*fileout;	// Fichier de sortie
+	int		fd[2];		// Descripteurs de fichier pour le pipe
+	int		is_first;	// Indicateur pour la première commande
+	int		is_last;	// Indicateur pour la dernière commande
+}				t_pipex;
 
 /*--------------------fonctions--------------------*/
 /*----------sources----------*/
@@ -66,7 +66,7 @@ char	**ft_split_advanced(const char *s);
  * - @envp: Tableau des variables d'environnement.
  * Return: Le chemin complet de la commande si trouvé, sinon NULL.
  */
-char	*find_path(t_pipex *pipex);
+char	*find_path(t_pipex *pipex, char *cmd_name);
 
 /**
  * execute - Exécute une commande avec ses arguments.
