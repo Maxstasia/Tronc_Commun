@@ -401,3 +401,7 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 executable
+
+infile
+outfile
+# End of

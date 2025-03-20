@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/17 17:28:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/20 12:22:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,14 @@ int	open_file(char *argv, int i)
 	ret = -1;
 	if (i == 0)
 	{
-		ret = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		ret = open(argv, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (ret == -1)
 			error();
 	}
 	else if (i == 1)
-		ret = open(argv, O_RDONLY, 0777);
+		ret = open(argv, O_RDONLY, 0644);
 	if (ret == -1)
-		ret = open("/dev/null", O_RDONLY, 0777);
+		ret = open("/dev/null", O_RDONLY, 0644);
 	return (ret);
 }
 

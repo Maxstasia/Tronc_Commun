@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/19 12:39:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:44:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ char	*find_path(t_pipex *pipex, char *cmd_name)
 	}
 	paths = first_step(pipex);
 	if (!paths)
+	{
+		perror(RED"Error\033[0m");
 		return (NULL);
+	}
 	i = 0;
 	while (paths[i])
 	{
@@ -80,7 +83,7 @@ void	execute(t_pipex *pipex)
 	else
 		path = find_path(pipex, cmd[0]);
 	if (!path || access(path, X_OK) == -1)
-		error_127(cmd, path);		
+		error_127(cmd, path);
 	if (execve(path, cmd, pipex->envp) == -1)
 	{
 		perror(RED"Error\033[0m");
@@ -90,6 +93,4 @@ void	execute(t_pipex *pipex)
 			exit(126);
 		exit(127);
 	}
-	free_tab(cmd);
-	free(path);
 }
