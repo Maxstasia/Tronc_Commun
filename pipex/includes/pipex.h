@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/19 10:48:22 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:13:28 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,46 @@
 
 typedef struct s_pipex
 {
-	char	**argv;		// Arguments du programme
-	char	**envp;		// Variables d'environnement
-	char	*filein;	// Fichier d'entrée
-	char	*fileout;	// Fichier de sortie
-	int		fd[2];		// Descripteurs de fichier pour le pipe
-	int		is_first;	// Indicateur pour la première commande
-	int		is_last;	// Indicateur pour la dernière commande
+	char	**argv;
+	char	**envp;
+	char	*filein;
+	char	*fileout;
+	int		fd[2];
+	int		is_first;
+	int		is_last;
 }				t_pipex;
 
 /*--------------------fonctions--------------------*/
 /*----------sources----------*/
+/*-----error.c-----*/
+
+/**
+ * usage - Affiche un message d'erreur d'utilisation et quitte le programme.
+ */
+void	usage(void);
+
+/**
+ * free_tab - Libère la mémoire allouée pour un tableau de chaînes
+ * de caractères.
+ * 
+ * - @tab: Le tableau à libérer.
+ */
+void	free_tab(char **tab);
+
+/**
+ * error_127 - Affiche un message d'erreur et quitte le programme avec
+ * le code 127.
+ * 
+ * - @cmd: Tableau des arguments de la commande.
+ * - @path: Chemin d'accès à la commande.
+ */
+void	error_127(char **cmd, char *path);
+
+/**
+ * error - Affiche un message d'erreur avec perror et quitte le programme.
+ */
+void	error(void);
+
 /*-----ft_split_advanced.c-----*/
 
 /**
@@ -74,34 +103,5 @@ char	*find_path(t_pipex *pipex, char *cmd_name);
  * - @pipex: Structure contenant les données nécessaires.
  */
 void	execute(t_pipex *pipex);
-
-/*-----error.c-----*/
-
-/**
- * usage - Affiche un message d'erreur d'utilisation et quitte le programme.
- */
-void	usage(void);
-
-/**
- * free_tab - Libère la mémoire allouée pour un tableau de chaînes
- * de caractères.
- * 
- * - @tab: Le tableau à libérer.
- */
-void	free_tab(char **tab);
-
-/**
- * error_127 - Affiche un message d'erreur et quitte le programme avec
- * le code 127.
- * 
- * - @cmd: Tableau des arguments de la commande.
- * - @path: Chemin d'accès à la commande.
- */
-void	error_127(char **cmd, char *path);
-
-/**
- * error - Affiche un message d'erreur avec perror et quitte le programme.
- */
-void	error(void);
 
 #endif

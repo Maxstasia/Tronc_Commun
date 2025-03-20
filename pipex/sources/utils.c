@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/20 13:44:48 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:22:06 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,25 @@ static char	**first_step(t_pipex *pipex)
 	char	**paths;
 
 	i = 0;
-	while (pipex->envp && pipex->envp[i] && ft_strnstr(pipex->envp[i], "PATH", 4) == 0)
+	while (pipex->envp && pipex->envp[i]
+		&& ft_strnstr(pipex->envp[i], "PATH", 4) == 0)
 		i++;
 	if (!pipex->envp || !pipex->envp[i])
 	{
-		paths = ft_split("/bin:/usr/bin", ':');
+		paths = ft_split("/bin:/usr/bin:/usr/local/bin", ':');
 		if (!paths)
-			ft_putstr_fd(RED"Error: PATH not found in environment variables\033[0m\n", 2);
+		{
+			perror(RED"Error:\033[0m");
+			return (NULL);
+		}
 		return (paths);
 	}
 	paths = ft_split((pipex->envp[i] + 5), ':');
 	if (!paths)
+	{
+		perror(RED"Error:\033[0m");
 		return (NULL);
+	}
 	return (paths);
 }
 
@@ -38,33 +45,25 @@ char	*find_path(t_pipex *pipex, char *cmd_name)
 	char	**paths;
 	char	*path;
 	int		i;
-	char	*part_path;
 
-
-	if (!pipex->envp || !*pipex->envp)
-	{
-		ft_putstr_fd(RED"Error: PATH not found in environment variables\033[0m\n", 2);
-		return (NULL);
-	}
 	paths = first_step(pipex);
 	if (!paths)
-	{
-		perror(RED"Error\033[0m");
 		return (NULL);
-	}
-	i = 0;
-	while (paths[i])
+	i = -1;
+	while (paths[i++])
 	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd_name);
-		free(part_path);
-		if (access(path, 0) == 0)
+		path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd_name);
+		if (!path)
+		{
+			free_tab(paths);
+			return (NULL);
+		}
+		if (access(path, F_OK) == 0)
 		{
 			free_tab(paths);
 			return (path);
 		}
 		free(path);
-		i++;
 	}
 	free_tab(paths);
 	return (NULL);

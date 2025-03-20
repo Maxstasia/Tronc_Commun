@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/18 16:50:51 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/20 16:08:57 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ OBJ_DIR		= ./obj
 INCLUDE_DIR	= ./includes
 PRINTF_DIR	= $(INCLUDE_DIR)/ft_printf
 LIBFT_DIR	= $(INCLUDE_DIR)/Libft
+GNL_DIR		= $(INCLUDE_DIR)/get_next_line
 
 # Sources et objets
 SRC			=									\
@@ -31,6 +32,8 @@ SRC			=									\
 SRC_BONUS	=									\
 		main_bonus.c							\
 		\
+		$(GNL_DIR)/get_next_line.c				\
+		$(GNL_DIR)/get_next_line_utils.c		\
 		$(SRC_DIR)/error_bonus.c				\
 		$(SRC_DIR)/ft_split_advanced_bonus.c	\
 		$(SRC_DIR)/utils_bonus.c
@@ -51,7 +54,7 @@ LIBS		= $(PRINTF_A) $(LIBFT_A)
 all:		$(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(SRC_DIR)
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(SRC_DIR) $(OBJ_DIR)/$(GNL_DIR)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

@@ -400,8 +400,20 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignorer les fichiers exécutables
+*~
+*.exe
+*.out
+*.o
+*.a
+*.bin
 executable
 
+# Ignorer les fichiers temporaires
+*.tmp
+*.temp
+temp
 infile
 outfile
 # End of

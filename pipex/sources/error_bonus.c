@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 14:31:43 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/18 16:19:51 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:13:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,25 @@ void	usage(void)
 	ft_putstr_fd(
 		"	./pipex \"here_doc\" <LIMITER> <cmd> <cmd1> <...> <file>\n", 1);
 	exit(1);
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = -1;
+	while (tab[++i])
+		free(tab[i]);
+	free(tab);
+}
+
+void	error_127(char **cmd, char *path)
+{
+	ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
+	free_tab(cmd);
+	if (path)
+		free(path);
+	exit(127);
 }
 
 void	error(void)

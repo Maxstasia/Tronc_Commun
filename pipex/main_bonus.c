@@ -6,140 +6,103 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/19 10:07:15 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:14:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex_bonus.h"
 
-/**
- * child_process - Crée un processus enfant pour exécuter une commande.
- * 
- * - @argv: Tableau des arguments.
- * - @envp: Tableau des variables d'environnement.
- */
-static void	child_process(char *argv, char **envp)
+static void	child_process(t_pipex *pipex)
 {
-	pid_t	pid;
+	int	file;
+
+	if (pipex->is_first)
+	{
+		file = open(pipex->filein, O_RDONLY);
+		if (file < 0 && !pipex->here_doc)
+			error();
+		if (pipex->here_doc)
+			dup2(pipex->prev_fd, STDIN_FILENO);
+		else if (file >= 0)
+			dup2(file, STDIN_FILENO), close(file);
+	}
+	else
+		dup2(pipex->prev_fd, STDIN_FILENO);
+	if (!pipex->is_last)
+		dup2(pipex->fd[1], STDOUT_FILENO);
+	else
+	{
+		file = open(pipex->fileout, O_WRONLY | O_CREAT | (pipex->here_doc ? O_APPEND : O_TRUNC), 0644);
+		if (file < 0)
+			error();
+		dup2(file, STDOUT_FILENO), close(file);
+	}
+	close(pipex->fd[0]), close(pipex->fd[1]), execute(pipex);
+}
+
+static void	handle_here_doc(t_pipex *pipex)
+{
+	char	*line;
 	int		fd[2];
 
-	if (pipe(fd) == -1)
+	if (pipe(fd) < 0)
+		error();
+	while (1)
+	{
+		ft_putstr_fd("pipex heredoc> ", 1);
+		line = get_next_line(STDIN_FILENO);
+		if (!line || ft_strncmp(line, pipex->argv[2], ft_strlen(pipex->argv[2])) == 0)
+			break ;
+		ft_putstr_fd(line, fd[1]);
+		free(line);
+	}
+	free(line), close(fd[1]), pipex->prev_fd = fd[0];
+}
+
+static void	fork_process(t_pipex *pipex, int i, int cmd_count)
+{
+	pid_t	pid;
+
+	if (pipe(pipex->fd) < 0)
 		error();
 	pid = fork();
-	if (pid == -1)
+	if (pid < 0)
 		error();
 	if (pid == 0)
 	{
-		close(fd[0]);
-		dup2(fd[1], 1);
-		execute(argv, envp);
+		pipex->is_first = (i == (pipex->here_doc ? 2 : 1));
+		pipex->is_last = (i == cmd_count - 1);
+		pipex->argv = &pipex->argv[i + 1];
+		child_process(pipex);
+		exit(0);
 	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		waitpid(pid, NULL, 0);
-	}
-	if (ft_strncmp(argv, "cat", 3) == 0)
-		execute((char *)"head -c 1024", envp);
-}
-
-/**
- * here_doc - Gère l'entrée standard depuis un "here document".
- * 
- * - @limiter: La chaîne qui indique la fin de l'entrée.
- * - @argc: Le nombre d'arguments passés au programme.
- */
-static void	here_doc(char *limiter, int argc)
-{
-	pid_t	reader;
-	int		fd[2];
-	char	*line;
-
-	if (argc < 6)
-		usage();
-	if (pipe(fd) == -1)
-		error();
-	reader = fork();
-	if (reader == 0)
-	{
-		close(fd[0]);
-		ft_printf(">  ");
-		while (get_next_line(&line))
-		{
-			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-				exit(0);
-			ft_printf(">  ");
-			write(fd[1], line, ft_strlen(line));
-		}
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], 0);
-		wait(NULL);
-	}
+	close(pipex->prev_fd), pipex->prev_fd = pipex->fd[0], close(pipex->fd[1]);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	int	i;
-	int	filein;
-	int	fileout;
+	t_pipex	pipex;
+	int		i;
+	int		cmd_count;
+	int		status;
 
-	if (argc >= 5)
-	{
-		if (ft_strncmp(argv[1], "here_doc", 8) == 0)
-		{
-			i = 3;
-			fileout = open_file(argv[argc - 1], 0);
-			here_doc(argv[2], argc);
-		}
-		else
-		{
-			i = 2;
-			fileout = open_file(argv[argc - 1], 0);
-			filein = open_file(argv[1], 1);
-			dup2(filein, 0);
-		}
-		while (i < argc - 2)
-			child_process(argv[i++], envp);
-		dup2(fileout, 1);
-		execute(argv[argc - 2], envp);
-	}
-	usage();
+	if (argc < 5)
+		usage();
+	pipex.argv = argv;
+	pipex.envp = envp;
+	pipex.here_doc = (ft_strcmp(argv[1], "here_doc") == 0);
+	pipex.filein = argv[1], pipex.fileout = argv[argc - 1], pipex.prev_fd = -1;
+	cmd_count = argc - (pipex.here_doc ? 4 : 3);
+	if (pipex.here_doc)
+		handle_here_doc(&pipex);
+	else
+		pipex.prev_fd = open(pipex.filein, O_RDONLY);
+	i = (pipex.here_doc ? 2 : 1) - 1;
+	while (++i < cmd_count)
+		fork_process(&pipex, i, cmd_count);
+	close(pipex.prev_fd);
+	while (wait(&status) > 0)
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+			return (WEXITSTATUS(status));
+	return (0);
 }
-
-///////////////////
-
-/* create_pipe(t_cmd *cmd)
-{
-	int fd[2];
-	pid_t pid;
-	
-	pipe(fd)
-	pid = fork();
-	cmd->pid = pid;
-	if(pid== 0)
-		enfant();
-	parent();
-}
-
-launch_cmd(t_cmd *cmd)
-{
-	int status;
-	t_cmd *current;
-	
-	current = *cmd;
-	while(current)
-	{
-		create_pipe(current);
-		current = current->next;
-	}
-	current = *cmd;
-	while(current)
-	{
-		waitpid(current->pid, &status, 0);
-		current = current->next;
-	}
-} */
