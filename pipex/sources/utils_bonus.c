@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/20 16:13:23 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:30:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,12 @@ static char	**first_step(t_pipex *pipex)
 	{
 		paths = ft_split("/bin:/usr/bin:/usr/local/bin", ':');
 		if (!paths)
-		{
-			perror(RED"Error:\033[0m");
-			return (NULL);
-		}
+			return (perror(RED"Error:\033[0m"), NULL);
 		return (paths);
 	}
 	paths = ft_split((pipex->envp[i] + 5), ':');
 	if (!paths)
-	{
-		perror(RED"Error:\033[0m");
-		return (NULL);
-	}
+		return (perror(RED"Error:\033[0m"), NULL);
 	return (paths);
 }
 
@@ -54,42 +48,35 @@ char	*find_path(t_pipex *pipex, char *cmd_name)
 	{
 		path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd_name);
 		if (!path)
-		{
-			free_tab(paths);
-			return (NULL);
-		}
+			return (free_tab(paths), NULL);
 		if (access(path, F_OK) == 0)
-		{
-			free_tab(paths);
-			return (path);
-		}
+			return (free_tab(paths), path);
 		free(path);
 	}
-	free_tab(paths);
-	return (NULL);
+	return (free_tab(paths), NULL);
 }
 
-void	execute(t_pipex *pipex)
+void execute(t_pipex *pipex)
 {
-	char	**cmd;
-	char	*path;
+    char **cmd;
+    char *path;
 
-	cmd = ft_split_advanced(pipex->argv[0]);
-	if (!cmd || !cmd[0])
-		error_127(cmd, NULL);
-	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
-		path = ft_strdup(cmd[0]);
-	else
-		path = find_path(pipex, cmd[0]);
-	if (!path || access(path, X_OK) == -1)
-		error_127(cmd, path);
-	if (execve(path, cmd, pipex->envp) == -1)
-	{
-		perror(RED"Error\033[0m");
-		free_tab(cmd);
-		free(path);
-		if (errno == EACCES)
-			exit(126);
-		exit(127);
-	}
+    cmd = ft_split_advanced(pipex->argv[0]);
+    if (!cmd || !cmd[0])
+        error_127(cmd, NULL);
+    if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
+        path = ft_strdup(cmd[0]);
+    else
+        path = find_path(pipex, cmd[0]);
+    if (!path || access(path, X_OK) == -1)
+        error_127(cmd, path);
+    if (execve(path, cmd, pipex->envp) == -1)
+    {
+        perror(RED"Error\033[0m");
+        free_tab(cmd);
+        free(path);
+        if (errno == EACCES)
+            exit(126);
+        exit(127);
+    }
 }
