@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/20 16:13:06 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/24 18:05:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@
 
 /*--------------------bibliotheques--------------------*/
 
-# include <errno.h>				  			// errno (utile avec strerror et perror)
-# include <stdio.h>				  			// perror
-# include <fcntl.h>				  			// open
-# include <string.h>			  			// strerror
-# include <stdlib.h>			  			// malloc, free, exit
-# include <unistd.h>			  			// open, close, read, write, access, dup, dup2
-# include <sys/wait.h>			  			// wait, waitpid, fork, pipe, unlink
-# include <sys/types.h>			  			// pid_t
+# include <errno.h>				  // errno (utile avec strerror et perror)
+# include <stdio.h>				  // perror
+# include <fcntl.h>				  // open
+# include <string.h>			  // strerror
+# include <stdlib.h>			  // malloc, free, exit
+# include <unistd.h>			  // open, close, read, write, access, dup, dup2
+# include <sys/wait.h>			  // wait, waitpid, fork, pipe, unlink
+# include <sys/types.h>			  // pid_t
 
-# include "Libft/libft.h"		  			// Pour toutes les fonction
-# include "ft_printf/ft_printf.h" 			// Pour l'affichage formaté
-# include "get_next_line/get_next_line.h"	// Pour lire une ligne
+# include "Libft/libft.h"		  		// Pour toutes les fonction
+# include "ft_printf/ft_printf.h" 		// Pour l'affichage formaté
+# include "get_next_line/get_next_line.h"// Pour lire une ligne
 
 /*--------------------structures--------------------*/
 
@@ -45,7 +45,15 @@ typedef struct s_pipex
 	int		is_first;
 	int		is_last;
 	int		here_doc;
-}			t_pipex;
+}					t_pipex;
+
+typedef struct s_temp
+{
+	pid_t	last_pid;
+	int		cmd_count;
+	int		last_status;
+	int		status;
+}					t_temp;
 
 /*--------------------fonctions--------------------*/
 /*----------sources----------*/

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/21 14:30:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:40:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,20 @@ char	*find_path(t_pipex *pipex, char *cmd_name)
 {
 	char	**paths;
 	char	*path;
+	char	*tmp;
 	int		i;
 
 	paths = first_step(pipex);
 	if (!paths)
 		return (NULL);
 	i = -1;
-	while (paths[i++])
+	while (++i, paths[i])
 	{
-		path = ft_strjoin(ft_strjoin(paths[i], "/"), cmd_name);
+		tmp = ft_strjoin(paths[i], "/");
+		if (!tmp)
+			return (free_tab(paths), NULL);
+		path = ft_strjoin(tmp, cmd_name);
+		free(tmp);
 		if (!path)
 			return (free_tab(paths), NULL);
 		if (access(path, F_OK) == 0)
@@ -58,25 +63,26 @@ char	*find_path(t_pipex *pipex, char *cmd_name)
 
 void execute(t_pipex *pipex)
 {
-    char **cmd;
-    char *path;
+	char	**cmd;
+	char	*path;
 
-    cmd = ft_split_advanced(pipex->argv[0]);
-    if (!cmd || !cmd[0])
-        error_127(cmd, NULL);
-    if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
-        path = ft_strdup(cmd[0]);
-    else
-        path = find_path(pipex, cmd[0]);
-    if (!path || access(path, X_OK) == -1)
-        error_127(cmd, path);
-    if (execve(path, cmd, pipex->envp) == -1)
-    {
-        perror(RED"Error\033[0m");
-        free_tab(cmd);
-        free(path);
-        if (errno == EACCES)
-            exit(126);
-        exit(127);
-    }
+	cmd = ft_split_advanced(pipex->argv[0]);
+	if (!cmd || !cmd[0])
+		error_127(cmd, NULL);
+	if (ft_strncmp(cmd[0], "/", 1) == 0 || ft_strncmp(cmd[0], "./", 2) == 0
+		|| ft_strncmp(cmd[0], "../", 3) == 0)
+		path = ft_strdup(cmd[0]);
+	else
+		path = find_path(pipex, cmd[0]);
+	if (!path || access(path, X_OK) == -1)
+		error_127(cmd, path);
+	if (execve(path, cmd, pipex->envp) == -1)
+	{
+		perror(RED"Error\033[0m");
+		free_tab(cmd);
+		free(path);
+		if (errno == EACCES)
+			exit(126);
+		exit(127);
+	}
 }

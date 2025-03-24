@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:04:45 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/20 16:04:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/24 12:28:01 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ static char	*extract_line(char **remainder)
 	if ((*remainder)[i] == '\n')
 		line[i++] = '\n';
 	line[i] = '\0';
-	tmp = ft_strjoin_gnl("", *remainder + i);
+	tmp = ft_strjoin_gnl(NULL, *remainder + i);
+	if (!tmp)
+		return (free(*remainder), free(line), *remainder = NULL, NULL);
 	free(*remainder);
 	*remainder = tmp;
 	return (line);
@@ -52,6 +54,8 @@ static char	*read_fd(int fd, char *remainder)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
 			return (free(buffer), free(remainder), NULL);
+		if (bytes_read == 0)
+			break ;
 		buffer[bytes_read] = '\0';
 		remainder = ft_strjoin_gnl(remainder, buffer);
 		if (!remainder)

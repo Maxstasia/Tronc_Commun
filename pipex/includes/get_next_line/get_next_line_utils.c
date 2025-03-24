@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:05:13 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/20 16:05:16 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:49:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	size_t	len2;
 	int		i;
 
-	if (!s1)
-		s1 = (char *)malloc(1), s1[0] = '\0';
 	if (!s1 || !s2)
-		return (free(s1), NULL);
+	{
+		s1 = (char *)malloc(1);
+		if (!s1 || !s2)
+			return (NULL);
+		s1[0] = '\0';
+	}
 	len1 = ft_strlen_gnl(s1);
 	len2 = ft_strlen_gnl(s2);
 	result = (char *)malloc(len1 + len2 + 1);
