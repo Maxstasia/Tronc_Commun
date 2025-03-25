@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/20 16:13:28 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:53:33 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	error_127(char **cmd, char *path);
  */
 void	error(void);
 
+/*----------utils----------*/
 /*-----ft_split_advanced.c-----*/
 
 /**
