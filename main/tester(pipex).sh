@@ -1,186 +1,130 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    tester(pipex).sh                                   :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/03/10 11:32:55 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/10 14:12:31 by mstasiak         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 #!/bin/bash
 
-# Couleurs pour une meilleure lisibilité
-GREEN="\033[32m"
-RED="\033[31m"
-PINK="\033[35m"
-RESET="\033[0m"
+# Couleurs pour la lisibilité
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # Pas de couleur
 
-# Vérification si on teste les bonus
-if [ "$1" = "bonus" ]; then
-    BONUS=1
-    echo "\n${GREEN}Running BONUS tests...${RESET}"
+# Chemins vers tes exécutables
+PIPEX="./pipex"
+PIPEX_BONUS="./pipex_bonus"
+VALGRIND="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --leak-resolution=high --trace-children=yes"
+
+# Fichiers temporaires pour comparer les sorties
+TEST_DIR="outs"
+mkdir -p "$TEST_DIR"
+INPUT_FILE="$TEST_DIR/input.txt"
+OUTPUT_PIPEX="$TEST_DIR/pipex_out.txt"
+OUTPUT_BASH="$TEST_DIR/bash_out.txt"
+OUTPUT_BONUS="$TEST_DIR/bonus_out.txt"
+
+make
+make bonus
+
+# Vérifie si les exécutables existent
+if [ ! -f "$PIPEX" ] || [ ! -f "$PIPEX_BONUS" ]; then
+    echo -e "${RED}Erreur : $PIPEX ou $PIPEX_BONUS n'existe pas. Compile-les d'abord !${NC}"
+    exit 1
+fi
+
+# Crée un fichier d'entrée pour les tests
+echo -e "Ceci est un test\nLigne avec Now\nAnother line\n" > "$INPUT_FILE"
+
+# Fonction pour comparer les sorties
+compare_output() {
+    local test_name="$1"
+    local file1="$2"
+    local file2="$3"
+    if diff "$file1" "$file2" > /dev/null; then
+        echo -e "${GREEN}[OK] $test_name : Sorties identiques${NC}"
     else
-    BONUS=0
-fi
+        echo -e "${RED}[KO] $test_name : Différences détectées${NC}"
+        echo "Différence :"
+        diff "$file1" "$file2"
+    fi
+}
 
-# Compilation du programme
-if [ "$BONUS" -eq 1 ]; then
-    make re_bonus
+# Fonction pour vérifier la norme
+check_norm() {
+    echo "Vérification de la norme 42..."
+    norminette > norm_output.txt 2>&1
+    if grep -q "Error" norm_output.txt; then
+        echo -e "${RED}Norminette : Échec${NC}"
+        cat norm_output.txt
     else
-    make re
-fi
+        echo -e "${GREEN}Norminette : OK${NC}"
+    fi
+    rm norm_output.txt
+}
 
-echo
-
-# Fichiers de test
-echo "Hello, world!" > infile
-
-echo "\n${GREEN}Running basic test...${RESET}"
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus infile "cat" "wc -w" outfile
-    < infile cat | wc -w > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 1 Passed${RESET}" || echo "${RED}❌ Test 1 Failed${RESET}"
+# Fonction pour lancer un test avec Valgrind
+run_valgrind_test() {
+    local test_name="$1"
+    local cmd="$2"
+    echo -e "\n--- Test : $test_name ---"
+    $VALGRIND $cmd > valgrind_output.txt 2>&1
+    if grep -q "ERROR SUMMARY: 0 errors from 0 contexts" valgrind_output.txt && \
+       grep -q "All heap blocks were freed" valgrind_output.txt; then
+        echo -e "${GREEN}Valgrind : Pas d'erreurs ni de fuites${NC}"
     else
-    ./pipex infile "cat" "wc -w" outfile
-    < infile cat | wc -w > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 1 Passed${RESET}" || echo "${RED}❌ Test 1 Failed${RESET}"
-fi
+        echo -e "${RED}Valgrind : Problèmes détectés${NC}"
+        cat valgrind_output.txt
+    fi
+    rm valgrind_output.txt
+	echo
+}
 
-if [ "$BONUS" -eq 1 ]; then
-    echo "\n${GREEN}Running test with non-existent infile...${RESET}"
-    ./pipex_bonus nonexistent "cat" "wc -w" outfile 2> error.log
-    if grep -q "Error" error.log; then echo "${GREEN}✅ Test 2 Passed${RESET}"; else echo "${RED}❌ Test 2 Failed${RESET}"; fi
-    else
-    echo "\n${GREEN}Running test with non-existent infile...${RESET}"
-    ./pipex nonexistent "cat" "wc -w" outfile 2> error.log
-    if grep -q "Error" error.log; then echo "${GREEN}✅ Test 2 Passed${RESET}"; else echo "${RED}❌ Test 2 Failed${RESET}"; fi
-fi
+# --- Tests pour pipex classique ---
 
-echo "\n${GREEN}Running test with invalid command...${RESET}"
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus infile "invalidcmd" "wc -w" outfile 2> error.log
-    if grep -q "Error" error.log; then echo "${GREEN}✅ Test 3 Passed${RESET}"; else echo "${RED}❌ Test 3 Failed${RESET}"; fi
-    else
-    ./pipex infile "invalidcmd" "wc -w" outfile 2> error.log
-    if grep -q "Error" error.log; then echo "${GREEN}✅ Test 3 Passed${RESET}"; else echo "${RED}❌ Test 3 Failed${RESET}"; fi
-fi
+echo -e "\n=== Tests pour pipex classique ===\n"
 
-echo "\n${GREEN}Running test with permission denied...${RESET}"
-touch noaccess
-chmod 000 noaccess
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus noaccess "cat" "wc -w" outfile 2> error.log
-    if grep -q "Error" error.log; then echo "${GREEN}✅ Test 4 Passed${RESET}"; else echo "${RED}❌ Test 4 Failed${RESET}"; fi
-    else
-    ./pipex noaccess "cat" "wc -w" outfile 2> error.log
-    if grep -q "Error" error.log; then echo "${GREEN}✅ Test 4 Passed${RESET}"; else echo "${RED}❌ Test 4 Failed${RESET}"; fi
-fi
-chmod 644 noaccess # On remet les permissions normales pour éviter les soucis
+# Test 1 : Cas de base
+echo "Test 1 : grep Now | wc -l"
+$PIPEX "$INPUT_FILE" "grep Now" "wc -l" "$OUTPUT_PIPEX"
+bash -c "< $INPUT_FILE grep Now | wc -l" > "$OUTPUT_BASH"
+compare_output "Test 1" "$OUTPUT_PIPEX" "$OUTPUT_BASH"
+run_valgrind_test "Test 1 avec Valgrind" "$PIPEX $INPUT_FILE \"grep Now\" \"wc -l\" $OUTPUT_PIPEX"
 
-echo "\n${GREEN}Running test with empty infile...${RESET}"
-touch emptyfile
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus emptyfile "cat" "wc -w" outfile
-    < emptyfile cat | wc -w > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 5 Passed${RESET}" || echo "${RED}❌ Test 5 Failed${RESET}"
-    else
-    ./pipex emptyfile "cat" "wc -w" outfile
-    < emptyfile cat | wc -w > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 5 Passed${RESET}" || echo "${RED}❌ Test 5 Failed${RESET}"
-fi
+# Test 2 : Fichier d'entrée inexistant
+echo "Test 2 : Fichier inexistant"
+$PIPEX "non_existent.txt" "cat" "wc -w" "$OUTPUT_PIPEX"
+run_valgrind_test "Test 2 avec Valgrind" "$PIPEX non_existent.txt \"cat\" \"wc -w\" $OUTPUT_PIPEX"
 
-echo "\n${GREEN}Running test with one word in infile...${RESET}"
-echo "42" > oneword
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus oneword "cat" "wc -w" outfile
-    < oneword cat | wc -w > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 6 Passed${RESET}" || echo "${RED}❌ Test 6 Failed${RESET}"
-    else
-    ./pipex oneword "cat" "wc -w" outfile
-    < oneword cat | wc -w > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 6 Passed${RESET}" || echo "${RED}❌ Test 6 Failed${RESET}"
-fi
+# Test 3 : Commande inexistante
+echo "Test 3 : Commande inexistante"
+$PIPEX "$INPUT_FILE" "cmd_not_found" "wc -l" "$OUTPUT_PIPEX"
+run_valgrind_test "Test 3 avec Valgrind" "$PIPEX $INPUT_FILE \"cmd_not_found\" \"wc -l\" $OUTPUT_PIPEX"
 
-echo "\n${GREEN}Running test with a large file...${RESET}"
-base64 /dev/urandom | head -c 65000 > largefile
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus largefile "cat" "wc -c" outfile
-    < largefile cat | wc -c > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 7 Passed${RESET}" || echo "${RED}❌ Test 7 Failed${RESET}"
-    else
-    ./pipex largefile "cat" "wc -c" outfile
-    < largefile cat | wc -c > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 7 Passed${RESET}" || echo "${RED}❌ Test 7 Failed${RESET}"
-fi
+# Test 4 : Environnement vide avec env -i
+echo "Test 4 : env -i"
+env -i $PIPEX "$INPUT_FILE" "grep Now" "wc -l" "$OUTPUT_PIPEX"
+bash -c "env -i bash -c '< $INPUT_FILE grep Now | wc -l'" > "$OUTPUT_BASH"
+compare_output "Test 4" "$OUTPUT_PIPEX" "$OUTPUT_BASH"
+run_valgrind_test "Test 4 avec Valgrind" "env -i $PIPEX $INPUT_FILE \"grep Now\" \"wc -l\" $OUTPUT_PIPEX"
 
-echo "\n${GREEN}Running test with reversed commands...${RESET}"
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus infile "wc -w" "cat" outfile
-    < infile wc -w | cat > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 8 Passed${RESET}" || echo "${RED}❌ Test 8 Failed${RESET}"
-    else
-    ./pipex infile "wc -w" "cat" outfile
-    < infile wc -w | cat > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 8 Passed${RESET}" || echo "${RED}❌ Test 8 Failed${RESET}"
-fi
+# --- Tests pour pipex_bonus ---
 
-echo "\n${GREEN}Running test with incorrect arguments...${RESET}"
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus infile "cat" "wc -w" 2> error.log
-    if grep -q "Error" error.log; then echo "${GREEN}✅ Test 9 Passed${RESET}"; else echo "${RED}❌ Test 9 Failed${RESET}"; fi
-    else
-	./pipex infile "cat" "wc -w" 2> error.log
-    if grep -q "Error" error.log; then echo "${GREEN}✅ Test 9 Passed${RESET}"; else echo "${RED}❌ Test 9 Failed${RESET}"; fi
-fi
+echo -e "\n=== Tests pour pipex_bonus ===\n"
 
-echo "\n${GREEN}Running test with special characters...${RESET}"
-echo "Hello | grep Hello" > specialchars
-if [ "$BONUS" -eq 1 ]; then
-    ./pipex_bonus specialchars "grep Hello" "wc -l" outfile
-    < specialchars grep Hello | wc -l > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 10 Passed${RESET}" || echo "${RED}❌ Test 10 Failed${RESET}"
-    else
-    ./pipex specialchars "grep Hello" "wc -l" outfile
-    < specialchars grep Hello | wc -l > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 10 Passed${RESET}" || echo "${RED}❌ Test 10 Failed${RESET}"
-fi
+# Test 5 : Cas de base avec plusieurs commandes
+echo "Test 5 : grep Now | tr 'N' 'M' | wc -l"
+$PIPEX_BONUS "$INPUT_FILE" "grep Now" "tr 'N' 'M'" "wc -l" "$OUTPUT_BONUS"
+bash -c "< $INPUT_FILE grep Now | tr 'N' 'M' | wc -l" > "$OUTPUT_BASH"
+compare_output "Test 5" "$OUTPUT_BONUS" "$OUTPUT_BASH"
+run_valgrind_test "Test 5 avec Valgrind" "$PIPEX_BONUS $INPUT_FILE \"grep Now\" \"tr 'N' 'M'\" \"wc -l\" $OUTPUT_BONUS"
 
-# Tests BONUS (si activé)
-if [ "$BONUS" -eq 1 ]; then
-    echo "\n${PINK}Running multiple pipes test...${RESET}"
-    ./pipex_bonus infile "cat" "grep Hello" "wc -l" outfile
-    < infile cat | grep Hello | wc -l > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 1 Bonus Passed${RESET}" || echo "${RED}❌ Test 1 Bonus Passed${RESET}"
-fi
+# Test 6 : Commande cheloue avec espaces et quotes
+echo "Test 6 : Commande complexe"
+$PIPEX_BONUS "$INPUT_FILE" "grep 'Now'" "awk '{print \$2}'" "$OUTPUT_BONUS"
+bash -c "< $INPUT_FILE grep 'Now' | awk '{print \$2}'" > "$OUTPUT_BASH"
+compare_output "Test 6" "$OUTPUT_BONUS" "$OUTPUT_BASH"
+run_valgrind_test "Test 6 avec Valgrind" "$PIPEX_BONUS $INPUT_FILE \"grep 'Now'\" \"awk '{print \$2}'\" $OUTPUT_BONUS"
 
-if [ $BONUS -eq 1 ]; then
-    echo "\n${PINK}Running multiple pipes test...${RESET}"
-    echo "42 is amazing" > infile
-    ./pipex_bonus infile "cat" "tr a-z A-Z" "rev" "wc -c" outfile
-    < infile cat | tr a-z A-Z | rev | wc -c > expected
-    diff -q outfile expected && echo "${GREEN}✅ Test 2 Bonus Passed${RESET}" || echo "${RED}❌ Test 2 Bonus Failed${RESET}"
-fi
-
-if [ $BONUS -eq 1 ]; then
-    echo "\n${PINK}Running here_doc test...${RESET}"
-    echo "hello\nworld\nSTOP" > heredoc_input
-    ./pipex_bonus here_doc STOP "grep hello" "wc -l" heredoc_output <<EOF
-hello
-world
-STOP
-EOF
-    echo "hello\nworld\nSTOP" | grep hello | wc -l > expected
-    diff -q heredoc_output expected && echo "${GREEN}✅ Test 3 Bonus Passed${RESET}" || echo "${RED}❌ Test 3 Bonus Failed${RESET}"
-fi
-
-echo
-echo
+# Vérification de la norme
+check_norm
 
 # Nettoyage
-rm -f infile outfile expected error.log noaccess emptyfile oneword largefile specialchars heredoc_input heredoc_output STOP
+rm -rf "$TEST_DIR"
 make fclean
 
-echo "\n${GREEN}All tests completed!${RESET}"
+echo -e "\n=== Tests terminés ===\n"

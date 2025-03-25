@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/24 17:39:43 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:34:14 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 static char	**first_step(t_pipex *pipex)
 {
@@ -25,18 +25,12 @@ static char	**first_step(t_pipex *pipex)
 	{
 		paths = ft_split("/bin:/usr/bin:/usr/local/bin", ':');
 		if (!paths)
-		{
-			perror(RED"Error:\033[0m");
-			return (NULL);
-		}
+			return (perror(RED"Error:\033[0m"), NULL);
 		return (paths);
 	}
 	paths = ft_split((pipex->envp[i] + 5), ':');
 	if (!paths)
-	{
-		perror(RED"Error:\033[0m");
-		return (NULL);
-	}
+		return (perror(RED"Error:\033[0m"), NULL);
 	return (paths);
 }
 
@@ -67,7 +61,7 @@ char	*find_path(t_pipex *pipex, char *cmd_name)
 	return (free_tab(paths), NULL);
 }
 
-void execute(t_pipex *pipex)
+void	execute(t_pipex *pipex)
 {
 	char	**cmd;
 	char	*path;

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 13:26:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/11 13:37:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/25 13:26:16 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ static char	*get_next_arg(const char *s, int *i)
 	return (arg);
 }
 
+static void	free_result(char **result, int j)
+{
+	int	k;
+
+	k = 0;
+	while (k < j)
+	{
+		free(result[k]);
+		k++;
+	}
+	free(result);
+}
+
 char	**ft_split_advanced(const char *s)
 {
 	char	**result;
@@ -70,7 +83,7 @@ char	**ft_split_advanced(const char *s)
 			break ;
 		result[j] = get_next_arg(s, &i);
 		if (!result[j])
-			return (NULL);
+			return (free_result(result, j), NULL);
 		j++;
 	}
 	result[j] = NULL;

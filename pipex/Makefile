@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/20 16:08:57 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/03/25 14:50:08 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,27 +16,32 @@ NAME_BONUS	= pipex_bonus
 # Dossiers
 SRC_DIR		= ./sources
 OBJ_DIR		= ./obj
+UTILS_DIR	= ./utils
 INCLUDE_DIR	= ./includes
-PRINTF_DIR	= $(INCLUDE_DIR)/ft_printf
-LIBFT_DIR	= $(INCLUDE_DIR)/Libft
 GNL_DIR		= $(INCLUDE_DIR)/get_next_line
+LIBFT_DIR	= $(INCLUDE_DIR)/Libft
+PRINTF_DIR	= $(INCLUDE_DIR)/ft_printf
 
 # Sources et objets
 SRC			=									\
 		main.c									\
 		\
 		$(SRC_DIR)/error.c						\
-		$(SRC_DIR)/ft_split_advanced.c			\
-		$(SRC_DIR)/utils.c
+		\
+		$(UTILS_DIR)/ft_split_advanced.c		\
+		$(UTILS_DIR)/utils.c
 
 SRC_BONUS	=									\
 		main_bonus.c							\
 		\
 		$(GNL_DIR)/get_next_line.c				\
 		$(GNL_DIR)/get_next_line_utils.c		\
+		\
 		$(SRC_DIR)/error_bonus.c				\
-		$(SRC_DIR)/ft_split_advanced_bonus.c	\
-		$(SRC_DIR)/utils_bonus.c
+		$(SRC_DIR)/pipex_bonus.c				\
+		\
+		$(UTILS_DIR)/ft_split_advanced_bonus.c	\
+		$(UTILS_DIR)/utils_bonus.c
 
 OBJ			= $(SRC:%.c=$(OBJ_DIR)/%.o)
 OBJ_BONUS	= $(SRC_BONUS:%.c=$(OBJ_DIR)/%.o)
@@ -54,7 +59,7 @@ LIBS		= $(PRINTF_A) $(LIBFT_A)
 all:		$(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(SRC_DIR) $(OBJ_DIR)/$(GNL_DIR)
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(SRC_DIR) $(OBJ_DIR)/$(GNL_DIR) $(OBJ_DIR)/$(UTILS_DIR)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

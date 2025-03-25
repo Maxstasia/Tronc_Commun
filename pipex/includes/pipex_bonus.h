@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/24 18:05:48 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:45:03 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,42 @@ void	error_127(char **cmd, char *path);
  */
 void	error(void);
 
+/*-----pipex_bonus.c-----*/
+
+/**
+ * setup_first_process - Prépare le premier processus pour l'ex
+ * 
+ * - @pipex: Structure contenant les données nécessaires.
+ */
+void	setup_first_process(t_pipex *pipex);
+
+/**
+ * child_process - Exécute un processus enfant.
+ * 
+ * - @pipex: Structure contenant les données nécessaires.
+ * Return: 0 si tout s'est bien passé, 1 sinon.
+ */
+int		child_process(t_pipex *pipex);
+
+/**
+ * handle_here_doc - Gère la redirection de l'entrée standard avec
+ * la commande here_doc.
+ * 
+ * - @pipex: Structure contenant les données nécessaires.
+ */
+void	handle_here_doc(t_pipex *pipex);
+
+/**
+ * fork_process - Crée un processus enfant.
+ * 
+ * - @pipex: Structure contenant les données nécessaires.
+ * - @i: L'index du processus.
+ * - @tmp: Structure contenant des données temporaires.
+ * Return: L'identifiant du processus enfant.
+ */
+pid_t	fork_process(t_pipex *pipex, int i, t_temp *tmp);
+
+/*----------utils----------*/
 /*-----ft_split_advanced_bonus.c-----*/
 
 /**
