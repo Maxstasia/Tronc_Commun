@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 14:31:43 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/19 10:35:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:54:01 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	usage(void)
 {
-	ft_putstr_fd((char *)RED"Error: Bad arguments\033[0m\n", 2);
+	ft_putstr_fd((char *)RED"Error: Bad arguments"RESET"\n", 2);
 	ft_putstr_fd((char *)"Ex: ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
 	exit(1);
 }
@@ -31,7 +31,7 @@ void	free_tab(char **tab)
 
 void	error_127(char **cmd, char *path)
 {
-	ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
+	ft_putstr_fd(RED"Error: Command not found"RESET"\n", 2);
 	free_tab(cmd);
 	if (path)
 		free(path);
@@ -40,6 +40,6 @@ void	error_127(char **cmd, char *path)
 
 void	error(void)
 {
-	perror(RED"Error\033[0m");
+	perror(RED"Error"RESET);
 	exit(1);
 }

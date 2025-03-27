@@ -6,11 +6,51 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:39:35 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/25 14:43:26 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:56:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex_bonus.h"
+
+static void	infinity_loop(int fd[2], char *delim)
+{
+	char	*line;
+
+	line = NULL;
+	while (1)
+	{
+		ft_putstr_fd(GREEN"──(pipe heredoc)── "RESET, STDOUT_FILENO);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+		{
+			free(delim);
+			break ;
+		}
+		if (ft_strcmp(line, delim) == 0)
+		{
+			free(line);
+			free(delim);
+			break ;
+		}
+		write(fd[1], line, ft_strlen(line));
+		free(line);
+	}
+}
+
+void	handle_here_doc(t_pipex *pipex)
+{
+	int		fd[2];
+	char	*delim;
+
+	if (pipe(fd) < 0)
+		error();
+	delim = ft_strjoin(pipex->argv[2], "\n");
+	if (!delim)
+		error();
+	infinity_loop(fd, delim);
+	close(fd[1]);
+	pipex->prev_fd = fd[0];
+}
 
 void	setup_first_process(t_pipex *pipex)
 {
@@ -60,28 +100,6 @@ int	child_process(t_pipex *pipex)
 	close(pipex->fd[1]);
 	execute(pipex);
 	return (0);
-}
-
-void	handle_here_doc(t_pipex *pipex)
-{
-	char	*line;
-	int		fd[2];
-
-	if (pipe(fd) < 0)
-		error();
-	while (1)
-	{
-		line = get_next_line(STDIN_FILENO);
-		if (!line || ft_strcmp(line, pipex->argv[2]) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd[1], line, ft_strlen(line));
-		free(line);
-	}
-	close(fd[1]);
-	pipex->prev_fd = fd[0];
 }
 
 pid_t	fork_process(t_pipex *pipex, int i, t_temp *tmp)

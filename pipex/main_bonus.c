@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/27 11:05:25 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:44:01 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	launch_processes(t_pipex *pipex, t_temp *tmp)
 		tmp->last_pid = fork_process(pipex, i, tmp);
 	if (pipex->prev_fd != -1)
 		close(pipex->prev_fd);
-	while (wait(NULL) > 0 && errno != ECHILD)
+	while (wait(NULL) > 0)
 		;
 	if (tmp->last_pid > 0)
 	{
@@ -41,7 +41,7 @@ static void	launch_processes(t_pipex *pipex, t_temp *tmp)
 			&& WIFEXITED(tmp->status))
 			tmp->last_status = WEXITSTATUS(tmp->status);
 		else
-			tmp->last_status = 1;
+			tmp->last_status = 0;
 	}
 }
 

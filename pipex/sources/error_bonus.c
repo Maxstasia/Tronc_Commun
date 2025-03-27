@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 14:31:43 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/21 15:01:37 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:53:30 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_tab(char **tab)
 
 void	error_127(char **cmd, char *path)
 {
-	ft_putstr_fd(RED"Error: Command not found\033[0m\n", 2);
+	ft_putstr_fd(RED"Error: Command not found"RESET"\n", 2);
 	free_tab(cmd);
 	if (path)
 		free(path);
@@ -42,6 +42,6 @@ void	error_127(char **cmd, char *path)
 
 void	error(void)
 {
-	perror(RED"Error\033[0m");
+	perror(RED"Error"RESET);
 	exit(1);
 }

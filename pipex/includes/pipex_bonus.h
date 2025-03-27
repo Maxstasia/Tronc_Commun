@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/25 14:45:03 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:52:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 /*--------------------macro--------------------*/
 
 # define RED	"\033[31m"
+# define GREEN  "\033[32m"
+# define RESET  "\033[0m"
 
 /*--------------------bibliotheques--------------------*/
 
-# include <errno.h>				  // errno (utile avec strerror et perror)
 # include <stdio.h>				  // perror
 # include <fcntl.h>				  // open
 # include <string.h>			  // strerror

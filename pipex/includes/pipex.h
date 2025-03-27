@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/25 14:53:33 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:52:41 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 /*--------------------macro--------------------*/
 
 # define RED	"\033[31m"
+# define RESET  "\033[0m"
 
 /*--------------------bibliotheques--------------------*/
 
 # include <stdio.h>				  // perror
 # include <fcntl.h>				  // open
-# include <errno.h>				  // errno (utile avec strerror et perror)
 # include <string.h>			  // strerror
 # include <stdlib.h>			  // malloc, free, exit
 # include <unistd.h>			  // close, read, write, access, dup, dup2
