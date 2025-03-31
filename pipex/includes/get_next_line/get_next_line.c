@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:04:45 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/24 12:28:01 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:40:52 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static char	*extract_line(char **remainder)
 	if ((*remainder)[i] == '\n')
 		line[i++] = '\n';
 	line[i] = '\0';
+	if (!(*remainder)[i])
+		return (free(*remainder), *remainder = NULL, line);
 	tmp = ft_strjoin_gnl(NULL, *remainder + i);
 	if (!tmp)
 		return (free(*remainder), free(line), *remainder = NULL, NULL);
-	free(*remainder);
-	*remainder = tmp;
-	return (line);
+	return (free(*remainder), *remainder = tmp, line);
 }
 
 static char	*read_fd(int fd, char *remainder)

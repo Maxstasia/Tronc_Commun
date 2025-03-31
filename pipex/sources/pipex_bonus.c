@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 14:39:35 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/27 17:56:15 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/03/31 18:57:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,17 @@ void	setup_first_process(t_pipex *pipex)
 	file = open(pipex->filein, O_RDONLY);
 	if (file < 0 && !pipex->here_doc)
 	{
+		close(pipex->fd[0]);
+		close(pipex->fd[1]);
 		error();
-		exit(1);
 	}
 	if (pipex->here_doc)
 	{
 		if (pipex->prev_fd == -1)
 		{
-			perror("Error");
-			exit(1);
+			close(pipex->fd[0]);
+			close(pipex->fd[1]);
+			error();
 		}
 		dup2(pipex->prev_fd, STDIN_FILENO);
 	}
@@ -85,12 +87,22 @@ int	child_process(t_pipex *pipex)
 	if (pipex->is_first)
 		setup_first_process(pipex);
 	else
+	{
 		dup2(pipex->prev_fd, STDIN_FILENO);
+		if (pipex->prev_fd != -1)
+			close(pipex->prev_fd);
+	}
 	if (pipex->is_last)
 	{
 		file = open(pipex->fileout, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (file < 0)
-			return (error(), 1);
+		{
+			if (pipex->prev_fd != -1)
+				close(pipex->prev_fd);
+			close(pipex->fd[0]);
+			close(pipex->fd[1]);
+			error();
+		}
 		dup2(file, STDOUT_FILENO);
 		close(file);
 	}
@@ -99,6 +111,11 @@ int	child_process(t_pipex *pipex)
 	close(pipex->fd[0]);
 	close(pipex->fd[1]);
 	execute(pipex);
+	close(pipex->fd[0]);
+	close(pipex->fd[1]);
+	if (pipex->prev_fd != -1)
+		close(pipex->prev_fd);
+	exit(1);
 	return (0);
 }
 
