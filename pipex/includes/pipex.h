@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/27 17:52:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:27:20 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@
 
 /*--------------------bibliotheques--------------------*/
 
-# include <stdio.h>				  // perror
+// # include <string.h>			  // strerror
+
 # include <fcntl.h>				  // open
-# include <string.h>			  // strerror
+# include <unistd.h>			  // close, read, write, access, dup, dup2, execve
 # include <stdlib.h>			  // malloc, free, exit
-# include <unistd.h>			  // close, read, write, access, dup, dup2
-# include <sys/wait.h>			  // wait, waitpid, fork, pipe, unlink
+# include <stdio.h>				  // perror
+# include <sys/wait.h>			  // fork, pipe, unlink, wait, waitpid
 
 # include "Libft/libft.h"		  // Pour toutes les fonction
 # include "ft_printf/ft_printf.h" // Pour l'affichage formaté

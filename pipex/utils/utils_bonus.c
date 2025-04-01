@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/27 17:54:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:57:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static char	**first_step(t_pipex *pipex)
 	{
 		paths = ft_split("/bin:/usr/bin:/usr/local/bin", ':');
 		if (!paths)
-			return (perror(RED"Error:"RESET), NULL);
+			return (perror(RED"Error"RESET), NULL);
 		return (paths);
 	}
 	paths = ft_split((pipex->envp[i] + 5), ':');
 	if (!paths)
-		return (perror(RED"Error:"RESET), NULL);
+		return (perror(RED"Error"RESET), NULL);
 	return (paths);
 }
 
@@ -77,10 +77,5 @@ void	execute(t_pipex *pipex)
 	if (!path || access(path, X_OK) == -1)
 		error_127(cmd, path);
 	if (execve(path, cmd, pipex->envp) == -1)
-	{
-		perror(RED"Error"RESET);
-		free_tab(cmd);
-		free(path);
-		exit(127);
-	}
+		error_127(cmd, path);
 }

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:40:07 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/20 13:41:21 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/01 14:40:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	child_process(t_pipex *pipex)
 		if (file == -1)
 			file = open("/dev/null", O_RDONLY, 0644);
 		if (file == -1)
-			error();
+			return (close(pipex->fd[0]), close(pipex->fd[1]), error(), 1);
 		dup2(file, STDIN_FILENO);
 		close(file);
 	}
@@ -34,7 +34,7 @@ static int	child_process(t_pipex *pipex)
 	{
 		file = open(pipex->fileout, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		if (file == -1)
-			error();
+			return (close(pipex->fd[0]), close(pipex->fd[1]), error(), 1);
 		dup2(file, STDOUT_FILENO);
 		close(file);
 	}

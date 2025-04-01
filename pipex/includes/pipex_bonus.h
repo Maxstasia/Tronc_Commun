@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/27 17:52:18 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:40:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 
 /*--------------------bibliotheques--------------------*/
 
-# include <stdio.h>				  // perror
+// # include <string.h>			  // strerror
+
 # include <fcntl.h>				  // open
-# include <string.h>			  // strerror
+# include <unistd.h>			  // close, read, write, access, dup, dup2, execve
 # include <stdlib.h>			  // malloc, free, exit
-# include <unistd.h>			  // open, close, read, write, access, dup, dup2
-# include <sys/wait.h>			  // wait, waitpid, fork, pipe, unlink
-# include <sys/types.h>			  // pid_t
+# include <stdio.h>				  // perror
+# include <sys/wait.h>			  // fork, pipe, unlink, wait, waitpid
 
 # include "Libft/libft.h"		  		// Pour toutes les fonction
 # include "ft_printf/ft_printf.h" 		// Pour l'affichage formaté
@@ -50,7 +50,6 @@ typedef struct s_pipex
 
 typedef struct s_temp
 {
-	pid_t	last_pid;
 	int		cmd_count;
 	int		last_status;
 	int		status;
@@ -90,24 +89,19 @@ void	error(void);
 /*-----pipex_bonus.c-----*/
 
 /**
- * setup_first_process - Prépare le premier processus pour l'ex
- * 
- * - @pipex: Structure contenant les données nécessaires.
- */
-void	setup_first_process(t_pipex *pipex);
-
-/**
  * child_process - Exécute un processus enfant.
  * 
+ * combiné avec les fonctions setup_first_process et setup_last_process.
  * - @pipex: Structure contenant les données nécessaires.
  * Return: 0 si tout s'est bien passé, 1 sinon.
  */
-int		child_process(t_pipex *pipex);
+void		child_process(t_pipex *pipex);
 
 /**
  * handle_here_doc - Gère la redirection de l'entrée standard avec
  * la commande here_doc.
  * 
+ * combiné avec la fonction infinite_loop.
  * - @pipex: Structure contenant les données nécessaires.
  */
 void	handle_here_doc(t_pipex *pipex);

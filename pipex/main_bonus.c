@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/31 11:41:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:14:33 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,31 @@ static void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
 
 static void	launch_processes(t_pipex *pipex, t_temp *tmp)
 {
-	int	i;
+	int		i;
+	pid_t	*pids;
 
+	pids = malloc(sizeof(pid_t) * tmp->cmd_count);
+	if (!pids)
+	{
+		if (pipex->prev_fd != -1)
+			close(pipex->prev_fd);
+		error();
+	}
 	i = -1;
-	tmp->last_pid = -1;
 	while (++i < tmp->cmd_count)
-		tmp->last_pid = fork_process(pipex, i, tmp);
+		pids[i] = fork_process(pipex, i, tmp);
 	if (pipex->prev_fd != -1)
 		close(pipex->prev_fd);
-	while (wait(NULL) > 0)
-		;
-	if (tmp->last_pid > 0)
+	i = -1;
+	while (++i < tmp->cmd_count)
 	{
-		tmp->status = 0;
-		if (waitpid(tmp->last_pid, &tmp->status, 0) > 0
-			&& WIFEXITED(tmp->status))
-			tmp->last_status = WEXITSTATUS(tmp->status);
-		else
-			tmp->last_status = 0;
+		if (waitpid(pids[i], &tmp->status, 0) > 0 && WIFEXITED(tmp->status))
+		{
+			if (i == tmp->cmd_count - 1)
+				tmp->last_status = WEXITSTATUS(tmp->status);
+		}
 	}
+	free(pids);
 }
 
 int	main(int argc, char **argv, char **envp)
