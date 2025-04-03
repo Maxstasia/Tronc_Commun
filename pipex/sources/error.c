@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 14:31:43 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/01 13:57:36 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:46:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,21 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void	error_127(char **cmd, char *path)
+void	error_127(t_pipex *pipex, char **cmd, char *path)
 {
 	perror(RED"Error"RESET);
 	free_tab(cmd);
 	if (path)
 		free(path);
+	if (pipex->pids)
+		free(pipex->pids);
 	exit(127);
 }
 
-void	error(void)
+void	error(t_pipex *pipex)
 {
 	perror(RED"Error"RESET);
+	if (pipex->pids)
+		free(pipex->pids);
 	exit(1);
 }

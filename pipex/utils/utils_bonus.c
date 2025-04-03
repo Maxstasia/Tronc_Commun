@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/01 13:57:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:56:49 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ void	execute(t_pipex *pipex)
 
 	cmd = ft_split_advanced(pipex->argv[0]);
 	if (!cmd || !cmd[0])
-		error_127(cmd, NULL);
+		error_127(pipex, cmd, NULL);
 	if (ft_strncmp(cmd[0], "/", 1) == 0 || ft_strncmp(cmd[0], "./", 2) == 0
 		|| ft_strncmp(cmd[0], "../", 3) == 0)
 		path = ft_strdup(cmd[0]);
 	else
 		path = find_path(pipex, cmd[0]);
 	if (!path || access(path, X_OK) == -1)
-		error_127(cmd, path);
+		error_127(pipex, cmd, path);
 	if (execve(path, cmd, pipex->envp) == -1)
-		error_127(cmd, path);
+		error_127(pipex, cmd, path);
 }

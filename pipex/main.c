@@ -6,65 +6,34 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:40:07 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/01 14:40:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:07:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/pipex.h"
 
-static int	child_process(t_pipex *pipex)
-{
-	int	file;
-
-	if (pipex->is_first)
-	{
-		file = open(pipex->filein, O_RDONLY);
-		if (file == -1)
-			file = open("/dev/null", O_RDONLY, 0644);
-		if (file == -1)
-			return (close(pipex->fd[0]), close(pipex->fd[1]), error(), 1);
-		dup2(file, STDIN_FILENO);
-		close(file);
-	}
-	else
-		dup2(pipex->fd[0], STDIN_FILENO);
-	if (!pipex->is_last)
-		dup2(pipex->fd[1], STDOUT_FILENO);
-	else
-	{
-		file = open(pipex->fileout, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (file == -1)
-			return (close(pipex->fd[0]), close(pipex->fd[1]), error(), 1);
-		dup2(file, STDOUT_FILENO);
-		close(file);
-	}
-	return (close(pipex->fd[0]), close(pipex->fd[1]), execute(pipex), 0);
-}
-
-static void	fork_process(t_pipex *pipex, char **argv, int i)
+static pid_t	fork_process(t_pipex *pipex, int i, t_temp *tmp)
 {
 	pid_t	pid;
 
+	if (pipe(pipex->fd) < 0)
+		return (error(pipex), 1);
 	pid = fork();
-	if (pid == -1)
-		error();
+	if (pid < 0)
+		return (error(pipex), 1);
 	if (pid == 0)
 	{
-		if (i == 2)
-		{
-			pipex->is_first = 1;
-			pipex->is_last = 0;
-			pipex->argv = &argv[2];
-		}
-		else
-		{
-			pipex->is_first = 0;
-			pipex->is_last = 1;
-			pipex->argv = &argv[3];
-		}
-		child_process(pipex);
-		exit(0);
+		pipex->is_first = (i == 0);
+		pipex->is_last = (i == tmp->cmd_count - 1);
+		pipex->argv = &pipex->argv[i + 2];
+		if (pipex->pids)
+			free(pipex->pids);
+		return (child_process(pipex), exit(0), 0);
 	}
+	if (pipex->prev_fd != -1)
+		close(pipex->prev_fd);
+	pipex->prev_fd = pipex->fd[0];
+	return (close(pipex->fd[1]), pid);
 }
 
 static void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
@@ -75,26 +44,47 @@ static void	init_pipex(t_pipex *pipex, int argc, char **argv, char **envp)
 	pipex->envp = envp;
 	pipex->filein = argv[1];
 	pipex->fileout = argv[argc - 1];
-	if (pipe(pipex->fd) == -1)
-		error();
+	pipex->prev_fd = -1;
+}
+
+static void	launch_processes(t_pipex *pipex, t_temp *tmp)
+{
+	int		i;
+
+	pipex->pids = (pid_t *)malloc(sizeof(pid_t) * tmp->cmd_count);
+	if (!pipex->pids)
+	{
+		if (pipex->prev_fd != -1)
+			close(pipex->prev_fd);
+		error(pipex);
+	}
+	i = -1;
+	while (++i < tmp->cmd_count)
+		pipex->pids[i] = fork_process(pipex, i, tmp);
+	if (pipex->prev_fd != -1)
+		close(pipex->prev_fd);
+	i = -1;
+	while (++i < tmp->cmd_count)
+	{
+		if (waitpid(pipex->pids[i], &tmp->status, 0) > 0
+			&& WIFEXITED(tmp->status))
+		{
+			if (i == tmp->cmd_count - 1)
+				tmp->last_status = WEXITSTATUS(tmp->status);
+		}
+	}
+	free(pipex->pids);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
-	int		status1;
-	int		status2;
+	t_temp	tmp;
 
+	tmp.last_status = 0;
+	tmp.status = 0;
 	init_pipex(&pipex, argc, argv, envp);
-	fork_process(&pipex, argv, 2);
-	fork_process(&pipex, argv, 3);
-	close(pipex.fd[0]);
-	close(pipex.fd[1]);
-	wait(&status1);
-	wait(&status2);
-	if (WIFEXITED(status2) && WEXITSTATUS(status2) != 0)
-		return (WEXITSTATUS(status2));
-	if (WIFEXITED(status1) && WEXITSTATUS(status1) != 0)
-		return (WEXITSTATUS(status1));
-	return (0);
+	tmp.cmd_count = argc - 3;
+	launch_processes(&pipex, &tmp);
+	return (tmp.last_status);
 }

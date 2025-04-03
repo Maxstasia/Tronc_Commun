@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/01 16:40:39 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/03 16:55:14 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 
 /*--------------------bibliotheques--------------------*/
 
-// # include <string.h>			  // strerror
+// # include <string.h>		// strerror
 
-# include <fcntl.h>				  // open
-# include <unistd.h>			  // close, read, write, access, dup, dup2, execve
-# include <stdlib.h>			  // malloc, free, exit
-# include <stdio.h>				  // perror
-# include <sys/wait.h>			  // fork, pipe, unlink, wait, waitpid
+# include <fcntl.h>			// open
+# include <unistd.h>		// close, read, write, access, dup, dup2, execve
+# include <stdlib.h>		// malloc, free, exit
+# include <stdio.h>			// perror
+# include <sys/wait.h>		// fork, pipe, unlink, wait, waitpid
 
 # include "Libft/libft.h"		  		// Pour toutes les fonction
 # include "ft_printf/ft_printf.h" 		// Pour l'affichage formaté
@@ -45,6 +45,7 @@ typedef struct s_pipex
 	int		prev_fd;
 	int		is_first;
 	int		is_last;
+	pid_t	*pids;
 	int		here_doc;
 }					t_pipex;
 
@@ -79,12 +80,12 @@ void	free_tab(char **tab);
  * - @cmd: Tableau des arguments de la commande.
  * - @path: Chemin d'accès à la commande.
  */
-void	error_127(char **cmd, char *path);
+void	error_127(t_pipex *pipex, char **cmd, char *path);
 
 /**
  * error - Affiche un message d'erreur avec perror et quitte le programme.
  */
-void	error(void);
+void	error(t_pipex *pipex);
 
 /*-----pipex_bonus.c-----*/
 
@@ -93,9 +94,8 @@ void	error(void);
  * 
  * combiné avec les fonctions setup_first_process et setup_last_process.
  * - @pipex: Structure contenant les données nécessaires.
- * Return: 0 si tout s'est bien passé, 1 sinon.
  */
-void		child_process(t_pipex *pipex);
+void	child_process(t_pipex *pipex);
 
 /**
  * handle_here_doc - Gère la redirection de l'entrée standard avec
@@ -105,16 +105,6 @@ void		child_process(t_pipex *pipex);
  * - @pipex: Structure contenant les données nécessaires.
  */
 void	handle_here_doc(t_pipex *pipex);
-
-/**
- * fork_process - Crée un processus enfant.
- * 
- * - @pipex: Structure contenant les données nécessaires.
- * - @i: L'index du processus.
- * - @tmp: Structure contenant des données temporaires.
- * Return: L'identifiant du processus enfant.
- */
-pid_t	fork_process(t_pipex *pipex, int i, t_temp *tmp);
 
 /*----------utils----------*/
 /*-----ft_split_advanced_bonus.c-----*/

@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/03/25 14:50:08 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/04/03 15:54:10 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ PRINTF_DIR	= $(INCLUDE_DIR)/ft_printf
 SRC			=									\
 		main.c									\
 		\
+		$(SRC_DIR)/pipex.c						\
 		$(SRC_DIR)/error.c						\
 		\
 		$(UTILS_DIR)/ft_split_advanced.c		\
