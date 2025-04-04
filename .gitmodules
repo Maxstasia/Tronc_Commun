@@ -1,11 +1,3 @@
 [submodule "minilibx-linux"]
   	path = fractol/includes/minilibx-linux
   	url = https://github.com/42Paris/minilibx-linux.git  
-
-[submodule "push_swap_visualizer"]
-	path = push_swap/push_swap_visualizer
-	url = https://github.com/o-reo/push_swap_visualizer.git
-
-[submodule "complexity"]
-	path = push_swap/push_swap_tester
-	url = https://github.com/SimonCROS/push_swap_tester.git
