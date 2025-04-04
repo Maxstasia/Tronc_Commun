@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:40:07 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/03 17:07:19 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/04 16:28:52 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static pid_t	fork_process(t_pipex *pipex, int i, t_temp *tmp)
 		pipex->is_first = (i == 0);
 		pipex->is_last = (i == tmp->cmd_count - 1);
 		pipex->argv = &pipex->argv[i + 2];
-		if (pipex->pids)
-			free(pipex->pids);
 		return (child_process(pipex), exit(0), 0);
 	}
 	if (pipex->prev_fd != -1)
@@ -51,7 +49,6 @@ static void	launch_processes(t_pipex *pipex, t_temp *tmp)
 {
 	int		i;
 
-	pipex->pids = (pid_t *)malloc(sizeof(pid_t) * tmp->cmd_count);
 	if (!pipex->pids)
 	{
 		if (pipex->prev_fd != -1)
@@ -73,7 +70,8 @@ static void	launch_processes(t_pipex *pipex, t_temp *tmp)
 				tmp->last_status = WEXITSTATUS(tmp->status);
 		}
 	}
-	free(pipex->pids);
+	if (pipex->pids)
+		free(pipex->pids);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -85,6 +83,7 @@ int	main(int argc, char **argv, char **envp)
 	tmp.status = 0;
 	init_pipex(&pipex, argc, argv, envp);
 	tmp.cmd_count = argc - 3;
+	pipex.pids = (pid_t *)malloc(sizeof(pid_t) * tmp.cmd_count);
 	launch_processes(&pipex, &tmp);
 	return (tmp.last_status);
 }
