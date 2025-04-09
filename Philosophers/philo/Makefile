@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/20 16:22:48 by mstasiak          #+#    #+#              #
-#    Updated: 2025/04/02 16:14:14 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/04/09 15:14:55 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,9 @@ SRC			=									\
 		main.c									\
 		\
 		$(SRC_DIR)/error.c						\
-		$(SRC_DIR)/philo.c						\
+		$(SRC_DIR)/init.c						\
 		\
+		$(UTILS_DIR)/actions.c					\
 		$(UTILS_DIR)/utils.c
 
 OBJ			= $(SRC:%.c=$(OBJ_DIR)/%.o)
@@ -43,7 +44,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME):	$(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) -pthread
 	@echo "$(NAME) compilé avec succès."
 
 clean:

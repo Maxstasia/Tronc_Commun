@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:59:22 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/02 16:46:31 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:31:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define PHILO_H
 
 /*--------------------macro--------------------*/
+
+# define ERR_ARGS "Error: Invalid number of arguments\n"
+# define ERR_INPUT "Error: Invalid input\n"
+# define ERR_MEM "Error: Memory allocation failed\n"
+# define ERR_THREAD "Error: Thread creation failed\n"
 
 /*--------------------bibliotheques--------------------*/
 
@@ -34,6 +39,7 @@ typedef struct s_philo
 	pthread_t		thread;			// Thread du philosophe
 	pthread_mutex_t	*left_fork;		// Fourchette à gauche
 	pthread_mutex_t	*right_fork;	// Fourchette à droite
+	pthread_mutex_t	meal_mutex;		// Mutex pour protéger l'accès à last_meal
 	long			last_meal;		// Timestamp du dernier repas
 	int				meals_eaten;	// Nombre de repas mangés
 	struct s_data	*data;			// Pointeur vers les données globales
@@ -49,6 +55,7 @@ typedef struct s_data
 	t_philo			*philos;		// Tableau de philosophes
 	pthread_mutex_t	*forks;			// Tableau de mutex pour les fourchettes
 	pthread_mutex_t	print_mutex;	// Mutex pour l’affichage
+	pthread_mutex_t stop_mutex;		// Nouveau mutex pour stop
 	long			start_time;		// Timestamp de départ
 	int				stop;			// Flag pour arrêter la simulation
 }				t_data;
@@ -57,24 +64,25 @@ typedef struct s_data
 /*----------sources----------*/
 /*-----error.c-----*/
 
+void	ft_cleanup(t_data *data);
 
+/*-----init.c-----*/
 
-/*-----philo.c-----*/
-
-
+int		ft_init_data(t_data *data, int ac, char **av);
+int		ft_init_philos(t_data *data);
 
 /*----------utils----------*/
 /*-----utils.c-----*/
 
+long	ft_get_time(void);
+void	ft_print_state(t_philo *philo, char *state);
+int		ft_atoi(const char *str);
+void	ft_putstr_fd(char *s, int fd);
 
-// int     init_data(t_data *data, int ac, char **av);
-// void    init_philos(t_data *data);
-long    get_time(void);
-void    print_state(t_philo *philo, char *state);
-void    *philo_routine(void *arg);
-int     start_simulation(t_data *data);
-void    cleanup(t_data *data);
-void    *monitor(void *arg);
-int ft_atoi(const char *str);
+/*-----action.c-----*/
+
+void	*ft_philo_routine(void *arg);
+void	*ft_monitor(void *arg);
+int		ft_start_simulation(t_data *data);
 
 #endif
