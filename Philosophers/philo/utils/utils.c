@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:49:37 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/10 16:16:43 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:03:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void ft_print_state(t_philo *philo, char *state)
         ft_putstr_fd("Error: Invalid philo or data pointer\n", 2);
         return;
     }
-    // Sélection de la couleur en fonction de l'état
     if (strcmp(state, "is eating") == 0)
         color = EATING;
     else if (strcmp(state, "is sleeping") == 0)
@@ -53,13 +52,18 @@ void ft_print_state(t_philo *philo, char *state)
 int ft_atoi(const char *str)
 {
     int res;
+    int len;
 
     res = 0;
+    len = 0;
     while (*str >= '0' && *str <= '9')
     {
         res = res * 10 + (*str - '0');
         str++;
+        len++;
     }
+    if (*str != '\0' || len == 0)
+        return (-1);
     return (res);
 }
 

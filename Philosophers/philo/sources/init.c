@@ -6,26 +6,26 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 13:04:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/09 17:31:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:03:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static int	ft_parse_args(t_data *data, int ac, char **av)
+static int ft_parse_args(t_data *data, int ac, char **av)
 {
-	data->nb_philo = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
-	data->must_eat = (ac == 6) ? ft_atoi(av[5]) : -1;
-	if (data->nb_philo < 1 || data->time_to_die < 0 || data->time_to_eat < 0
-		|| data->time_to_sleep < 0 || (ac == 6 && data->must_eat < 0))
-	{
-		ft_putstr_fd(ERR_INPUT, 2);
-		return (1);
-	}
-	return (0);
+    data->nb_philo = ft_atoi(av[1]);
+    data->time_to_die = ft_atoi(av[2]);
+    data->time_to_eat = ft_atoi(av[3]);
+    data->time_to_sleep = ft_atoi(av[4]);
+    data->must_eat = (ac == 6) ? ft_atoi(av[5]) : -1;
+    if (data->nb_philo <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0
+        || data->time_to_sleep <= 0 || (ac == 6 && data->must_eat <= 0))
+    {
+        ft_putstr_fd(ERR_INPUT, 2);
+        return (1);
+    }
+    return (0);
 }
 
 int ft_init_data(t_data *data, int ac, char **av)
@@ -43,7 +43,7 @@ int ft_init_data(t_data *data, int ac, char **av)
         return (1);
     }
     pthread_mutex_init(&data->print_mutex, NULL);
-    pthread_mutex_init(&data->stop_mutex, NULL);  // Init stop_mutex
+    pthread_mutex_init(&data->stop_mutex, NULL);
     data->start_time = ft_get_time();
     return (0);
 }
@@ -63,7 +63,6 @@ int ft_init_philos(t_data *data)
         data->philos[i].last_meal = data->start_time;
         data->philos[i].meals_eaten = 0;
         data->philos[i].data = data;
-        printf("Philo %d initialized: data=%p\n", i + 1, data);  // Log temporaire
         i++;
     }
     return (0);
