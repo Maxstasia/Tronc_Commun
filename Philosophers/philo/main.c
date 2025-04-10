@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 12:40:07 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/09 17:29:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:17:44 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	ft_check_args(int ac)
 	if (ac < 5 || ac > 6)
 	{
 		ft_putstr_fd(ERR_ARGS, 2);
+		ft_putstr_fd(ERR_USAGE, 2);
 		return (1);
 	}
 	return (0);

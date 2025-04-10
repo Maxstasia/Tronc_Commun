@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:59:22 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/09 17:31:11 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:19:03 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,18 @@
 /*--------------------macro--------------------*/
 
 # define ERR_ARGS "Error: Invalid number of arguments\n"
+# define ERR_USAGE "./philo <number_of_philosophers> \
+<time_to_die> <time_to_eat> <time_to_sleep> \
+[number_of_times_each_philosopher_must_eat]\n"
 # define ERR_INPUT "Error: Invalid input\n"
 # define ERR_MEM "Error: Memory allocation failed\n"
 # define ERR_THREAD "Error: Thread creation failed\n"
+
+# define RESET "\033[0m"
+# define FORK "\033[95m"		// Violet clair
+# define EATING "\033[91m"		// Rouge clair
+# define SLEEPING "\033[94m"	// Bleu clair
+# define THINKING "\033[92m"	// Vert clair
 
 /*--------------------bibliotheques--------------------*/
 
