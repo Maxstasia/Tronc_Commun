@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/17 14:46:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:16:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_BONUS_H
-# define PIPEX_BONUS_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
 /*--------------------macro--------------------*/
 
@@ -29,9 +29,9 @@
 # include <stdio.h>			// perror
 # include <sys/wait.h>		// fork, pipe, unlink, wait, waitpid
 
-# include "Libft/libft.h"		  			// Pour toutes les fonction
-# include "ft_printf/ft_printf.h"			// Pour l'affichage formaté
-# include "get_next_line/get_next_line.h"	// Pour lire une ligne
+# include "../pipex/includes/Libft/libft.h"
+# include "../pipex/includes/ft_printf/ft_printf.h"
+# include "../pipex/includes/get_next_line/get_next_line.h"
 
 /*--------------------structures--------------------*/
 
@@ -58,7 +58,7 @@ typedef struct s_temp
 
 /*--------------------fonctions--------------------*/
 /*----------sources----------*/
-/*-----error_bonus.c-----*/
+/*-----error.c-----*/
 
 /**
  * usage - Affiche un message d'erreur d'utilisation et quitte le programme.
@@ -87,7 +87,7 @@ void	error_127(t_pipex *pipex, char **cmd, char *path);
  */
 void	error(t_pipex *pipex);
 
-/*-----pipex_bonus.c-----*/
+/*-----pipex.c-----*/
 
 /**
  * child_process - Exécute un processus enfant.
@@ -107,7 +107,7 @@ void	child_process(t_pipex *pipex);
 void	handle_here_doc(t_pipex *pipex);
 
 /*----------utils----------*/
-/*-----ft_split_advanced_bonus.c-----*/
+/*-----ft_split_advanced.c-----*/
 
 /**
  * ft_split_advanced - Sépare une commande en arguments en respectant
@@ -118,7 +118,7 @@ void	handle_here_doc(t_pipex *pipex);
  */
 char	**ft_split_advanced(const char *s);
 
-/*-----utils_bonus.c-----*/
+/*-----utils.c-----*/
 
 /**
  * find_path - Recherche le chemin d'accès à une commande en utilisant
