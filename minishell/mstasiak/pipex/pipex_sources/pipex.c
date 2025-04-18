@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void handle_here_doc(t_data *data, t_redirect *redirect)
+void	handle_here_doc(t_data *data, t_redirect *redirect)
 {
 	int		fd[2];
 	char	*line;
@@ -22,7 +22,7 @@ void handle_here_doc(t_data *data, t_redirect *redirect)
 	line = NULL;
 	while (1)
 	{
-		ft_putstr_fd("minishell: heredoc> ", STDOUT_FILENO);
+		ft_putstr_fd(CYAN"minishell:"GREEN" heredoc> "RESET, STDOUT_FILENO);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break;
@@ -113,9 +113,9 @@ void child_process(t_data *data, t_pipex *pipex, int cmd_index)
 			close(pipex->prev_fd);
 	}
 	if (!pipex->is_last)
-		dup2(pipex->fd[1], STDOUT_FILENO);
+		setup_last_process(data, pipex, cmd_index);
 	apply_redirects(data, &pipex->commands[cmd_index]);
 	close(pipex->fd[0]);
 	close(pipex->fd[1]);
-	execute(data, &pipex->commands[cmd_index], pipex);
+	execute(data, &pipex->commands[cmd_index]);
 }

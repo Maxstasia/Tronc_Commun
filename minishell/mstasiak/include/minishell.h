@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/17 17:50:58 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:05:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 /*--------------------macro--------------------*/
 
-# define RED	"\033[31m"
-# define GREEN  "\033[32m"
-# define RESET  "\033[0m"
+# define RED	"\e[31m"
+# define GREEN	"\e[32m"
+# define CYAN	"\e[96m"
+# define YELLOW	"\e[93m"
+# define RESET  "\e[0m"
 
 /*--------------------bibliotheques--------------------*/
 
@@ -90,22 +92,25 @@ char	**copy_envp(char **envp);
 void	free_data(t_data *data);
 void	init_data(t_data *data, char **envp);
 char	*new_envp(const char *name, const char *value);
-char	**add_envp(char **new, char **envp, const char *name, const char *val);
-void	update_env_var(char ***envp, const char *name, const char *value);
+char	**add_envp(char **news, char **envp, const char *name, const char *val);
+void	update_env_var(char **envp, const char *name, const char *value);
 char	*get_env_var(char **envp, const char *name);
 char	*get_start_cmd(char *cmd);
 
 // Pipex
 t_cmd	*ft_split_advanced(const char *s);
 char	*find_path(t_data *data, char *cmd_name);
-void	execute(t_data *data, t_cmd *cmd, t_pipex *pipex);
+void	execute_pipeline(t_data *data, t_pipex *pipex);
+void	execute(t_data *data, t_cmd *cmd);
 void	child_process(t_data *data, t_pipex *pipex, int cmd_index);
 void	handle_here_doc(t_data *data, t_redirect *redirect);
 void	free_tab(char **tab);
+void	free_cmd(t_cmd *cmd);
 void	error_127(t_data *data, t_cmd *cmd, char *path);
 void	error(t_data *data);
 
 // Parsing
 t_pipex parse_line(const char *line);
+int		parse_input(t_data *data, char *input);
 
 #endif

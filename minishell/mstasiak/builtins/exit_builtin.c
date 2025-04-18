@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:37:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/17 17:37:14 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/18 12:55:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static int  isnum(char *str)
 
 void    exit_builtin(t_data *data)
 {
-    long exit_status;
-
     ft_putstr_fd("exit\n", 2);
     if (!data->cmd[1])
     {
@@ -63,15 +61,15 @@ void    exit_builtin(t_data *data)
     }
     if (!isnum(data->cmd[1]))
     {
-        ft_putstr_fd("minishell: exit: ", 2);
+        ft_putstr_fd(RED"minishell: exit: '"YELLOW, 2);
         ft_putstr_fd(data->cmd[1], 2);
-        ft_putstr_fd(": numeric argument required\n", 2);
+        ft_putstr_fd(RED"' : numeric argument required\n"RESET, 2);
         free_data(data);
         exit(255);
     }
     if (data->cmd[2])
     {
-        ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+        ft_putstr_fd(RED"minishell: exit: too many arguments\n"RESET, 2);
         data->exit_status = 1;
         return ;
     }

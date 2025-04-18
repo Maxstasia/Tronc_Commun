@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/17 17:36:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/18 11:36:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void echo_builtin(t_data *data)
     int print_newline;
 
     i = 0;
-    print_newline = check_echo_n(data->cmd, &i);
+    print_newline = check_echo_n(data, &i);
     print_echo(data->cmd, i);
     if (print_newline)
         ft_putchar_fd('\n', 1);

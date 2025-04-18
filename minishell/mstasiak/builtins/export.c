@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:31 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/17 17:38:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/18 12:55:58 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int is_valid_identifier(char *str)
 {
     if (!str || !str[0] || ft_isdigit(str[0]))
         return (0);
-    if (str[0] != '_' && !ft_isalpha(str[0]) || str[0] == '=')
+    if (str[0] != '_' && (!ft_isalpha(str[0]) || str[0] == '='))
         return (0);
     if (ft_strchr(str, '=') == NULL)
         return (0);
@@ -120,9 +120,9 @@ int ft_export(t_data *data)
     {
         if (!is_valid_identifier(data->cmd[i]))
         {
-            ft_putstr_fd("minishell: export: `", 2);
+            ft_putstr_fd(RED"minishell: export: '"YELLOW, 2);
             ft_putstr_fd(data->cmd[i], 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
+            ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
             data->exit_status = 1;
         }
         else if (update_existing_var(data, data->cmd[i]) == -1)

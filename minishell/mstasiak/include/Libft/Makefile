@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 14:28:16 by mstasiak          #+#    #+#              #
-#    Updated: 2025/01/15 16:15:16 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/04/18 17:24:23 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC =	ft_atof.c \
 		ft_isascii.c \
 		ft_isdigit.c \
 		ft_isprint.c \
+		ft_isspace.c \
 		ft_itoa.c \
 		ft_memchr.c \
 		ft_memcmp.c \

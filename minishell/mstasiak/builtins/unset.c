@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/17 17:38:51 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/18 12:56:06 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ int ft_unset(t_data *data)
             return (data->exit_status = 1, 1);
         if (!is_valid_unset_identifier(cmd_start))
         {
-            ft_putstr_fd("minishell: unset: `", 2);
+            ft_putstr_fd(RED"minishell: unset: '"YELLOW, 2);
             ft_putstr_fd(data->cmd[i], 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
+            ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
             data->exit_status = 1;
             free(cmd_start);
         }

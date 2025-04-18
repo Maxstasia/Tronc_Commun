@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:36:03 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/17 17:38:18 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/18 12:55:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	print_env_error(t_data *data, char * arg)
 {
-    ft_putstr_fd("minishell: env: ", 2);
+    ft_putstr_fd(RED"minishell: env: '"YELLOW, 2);
     ft_putstr_fd(arg, 2);
-    ft_putstr_fd(": No such file or directory\n", 2);
+    ft_putstr_fd(RED"' : No such file or directory\n"RESET, 2);
     data->exit_status = 127;
 }
 
