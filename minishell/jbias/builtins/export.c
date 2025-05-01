@@ -1,10 +1,10 @@
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 static int is_valid_identifier(char *str)
 {
     if (!str || !str[0] || ft_isdigit(str[0]))
         return (0);
-    if (str[0] != '_' && !ft_isalpha(str[0]) || str[0] == '=')
+    if ((str[0] != '_' && !ft_isalpha(str[0])) || str[0] == '=')
         return (0);
     if (ft_strchr(str, '=') == NULL)
         return (0);

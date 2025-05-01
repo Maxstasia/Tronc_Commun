@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/18 11:12:32 by mstasiak          #+#    #+#              #
-#    Updated: 2025/04/18 17:21:49 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/05/01 15:48:56 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,10 @@ SRC			=									\
 		\
 		$(UTILS_DIR)/parsing.c					\
 		\
-		$(BUILTIN_DIR)/cd_builtin.c				\
-		$(BUILTIN_DIR)/cd.c 					\
+		$(BUILTIN_DIR)/cd.c						\
 		$(BUILTIN_DIR)/echo.c					\
 		$(BUILTIN_DIR)/env.c					\
-		$(BUILTIN_DIR)/exit_builtin.c			\
+		$(BUILTIN_DIR)/exit.c					\
 		$(BUILTIN_DIR)/export.c					\
 		$(BUILTIN_DIR)/pwd.c					\
 		$(BUILTIN_DIR)/unset.c					\

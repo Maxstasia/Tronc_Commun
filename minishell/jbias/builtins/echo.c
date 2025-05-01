@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 static int check_echo_n(t_data *data, int *i)
 {
@@ -14,7 +14,9 @@ static int check_echo_n(t_data *data, int *i)
             break;
         if (data->cmd[*i][2] != '\0')
             break;
-        print_newline = 0;
+        if (data->was_quoted[*i] == true)
+			break;
+		print_newline = 0;
         (*i)++;
     }
     return (print_newline);
@@ -24,9 +26,14 @@ static void print_echo(char **cmd, int i)
 {
     while (cmd[i])
     {
+		if (cmd[i][0] == '\0')
+		{	
+			i++;
+			continue ;
+		}
         ft_putstr_fd(cmd[i], 1);
-        if (cmd[i + 1] != NULL)
-            ft_putchar_fd(' ', 1);
+		if (cmd[i + 1])
+			ft_putchar_fd(' ', 1);
         i++;
     }
 }
@@ -37,7 +44,7 @@ void echo_builtin(t_data *data)
     int print_newline;
 
     i = 0;
-    print_newline = check_echo_n(data->cmd, &i);
+    print_newline = check_echo_n(data, &i);
     print_echo(data->cmd, i);
     if (print_newline)
         ft_putchar_fd('\n', 1);

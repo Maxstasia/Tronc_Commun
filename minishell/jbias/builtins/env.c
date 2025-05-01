@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 static void print_env_error(t_data *data, char * arg)
 {
@@ -8,7 +8,7 @@ static void print_env_error(t_data *data, char * arg)
     data->exit_status = 127;
 }
 
-static void_display_env(t_data *data)
+static void display_env(t_data *data)
 {
     int i;
 

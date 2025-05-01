@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "includes/minishell.h"
 
 
 void	ft_cleanup(t_data *data)
@@ -30,7 +30,7 @@ static int 	count_tokens(char *input)
 	int		i;
 	int		count;
 	char	quote;
-
+	
 	count = 0;
 	i = 0;
 	if (!input || !*input)
@@ -49,22 +49,28 @@ static int 	count_tokens(char *input)
 			if (input[i] == quote)
 				i++;
 			else
-				return (count);
+			{
+				ft_putstr_fd("Minishell: quotes issue\n", 2);
+				return (-1);
+			}
 		}
 		else
 			while (input[i] && !ft_isspace(input[i]))
 				i++;
 		count++;
 	}
+	printf("count = %d\n", count);
 	return (count);
 }
 
-static int	extract_token(char *input, char **token)
+static int	extract_token(char *input, char **token, int *was_quoted)
 {
 	int		i;
 	char	quote;
 	char	*start;
+	int		len;
 
+	*was_quoted = 0;
 	i = 0;
 	if (!input || !*input)
 		return (-1);
@@ -82,14 +88,17 @@ static int	extract_token(char *input, char **token)
 		*token = ft_substr(start, 0, i - (start - input));
 		if (!*token)
 			return (-1);
+		*was_quoted = 1;
 		return (i + 1);
 	}
 	while (input[i] && !ft_isspace(input[i]))
 		i++;
-	*token = ft_substr(start, 0, i);
+	len = i - (start - input);
+	while (len > 0 && ft_isspace(input[len - 1]))
+		len--;
+	*token = ft_substr(start, 0, len);
 	if (!*token)
 		return (-1);
-
 	return (i); 
 }
 
@@ -104,14 +113,17 @@ static int	parse_input(t_data *data, char *input)
 	free_tab(data->cmd);
 	data->cmd = NULL;
 	count = count_tokens(input);
+	if (count < 0)
+		return (data->exit_status = 1, 1);
+	data->was_quoted = malloc(sizeof(int) * count);
 	data->cmd = malloc(sizeof(char *) * (count + 1));
-	if (!data->cmd)
+	if (!data->cmd || !data->was_quoted)
 		return (ft_putstr_fd("minishell: malloc failed\n", 2), data->exit_status = 1, 1);
 	i = 0;
 	live_index = 0;
 	while (i < count)
 	{
-		live_index += extract_token(input + live_index, &data->cmd[i]);
+		live_index += extract_token(input + live_index, &data->cmd[i], &data->was_quoted[i]) + 1;
 		if (live_index < 0 || !data->cmd[i])
 		{
 			free_tab(data->cmd);
@@ -141,17 +153,17 @@ void	minishell_loop(t_data *data)
 		if (parse_input(data, input) == 0 && data->cmd)
 		{
 			if (ft_strcmp(data->cmd[0], "unset") == 0)
-				unset_builtin(data);
+				ft_unset(data);
 			else if (ft_strcmp(data->cmd[0], "cd") == 0)
-				cd_builtin(data);
+				builtin_cd(data->cmd, data);
 			else if (ft_strcmp(data->cmd[0], "export") == 0)
-				export_builtin(data);
+				ft_export(data);
 			else if (ft_strcmp(data->cmd[0], "echo") == 0)
 				echo_builtin(data);
 			else if (ft_strcmp(data->cmd[0], "pwd") == 0)
-				pwd_builtin(data);
+				pwd(data);
 			else if (ft_strcmp(data->cmd[0], "env") == 0)
-				env_builtin(data);
+				env(data);
 			else if (ft_strcmp(data->cmd[0], "exit") == 0)
 				exit_builtin(data);
 		}

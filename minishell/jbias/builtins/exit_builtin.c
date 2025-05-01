@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../includes/minishell.h"
 
 long    ft_atol(const char *str)
 {
@@ -41,8 +41,6 @@ static int  isnum(char *str)
 
 void    exit_builtin(t_data *data)
 {
-    long exit_status;
-
     ft_putstr_fd("exit\n", 2);
     if (!data->cmd[1])
     {

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:31 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/18 12:55:58 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:05:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int ft_export(t_data *data)
     {
         if (!is_valid_identifier(data->cmd[i]))
         {
-            ft_putstr_fd(RED"minishell: export: '"YELLOW, 2);
+            ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);
             ft_putstr_fd(data->cmd[i], 2);
             ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
             data->exit_status = 1;

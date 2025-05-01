@@ -1,10 +1,10 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 static char *cd_handle_oldpwd(t_data *data)
 {
 	char *path;
 
-	path = get_env_var(data->env, "OLDPWD");
+	path = get_env_var(data->envp, "OLDPWD");
 	if (!path)
 	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
@@ -21,7 +21,7 @@ static char *cd_get_path(char **cmd, t_data *data)
 	char *path;
 	if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
-		path = get_env_var(data->env, "HOME");
+		path = get_env_var(data->envp, "HOME");
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
@@ -65,7 +65,7 @@ static int cd_change_dir(char *path, char *buff_oldpwd, char *buff_pwd, t_data *
 
 static void cd_update_env(t_data *data, char *buff_pwd, char *buff_oldpwd)
 {
-	update_env_var(&data->env, "PWD", buff_pwd);
+	update_env_var(&data->envp, "PWD", buff_pwd);
 	if (data->pwd)
 		free(data->pwd);
 	data->pwd = ft_strdup(buff_pwd);
@@ -77,7 +77,7 @@ static void cd_update_env(t_data *data, char *buff_pwd, char *buff_oldpwd)
 	}
 	if (buff_oldpwd[0] != '\0')
 	{
-		update_env_var(&data->env, "OLDPWD", buff_oldpwd);
+		update_env_var(&data->envp, "OLDPWD", buff_oldpwd);
 		if (data->oldpwd)
 			free(data->oldpwd);
 		data->oldpwd = ft_strdup(buff_oldpwd);
@@ -92,15 +92,15 @@ static void cd_update_env(t_data *data, char *buff_pwd, char *buff_oldpwd)
 		data->exit_status = 0;
 }
 
-	void builtin_cd(char **cmd, t_data *data)
-	{
-		char *path;
-		char buff_pwd[1024];
-		char buff_oldpwd[1024];
-		path = cd_get_path(cmd, data);
-		if (!path)
-			return;
-		if (cd_change_dir(path, buff_oldpwd, buff_pwd, data))
-			return ;
-		cd_update_env(data, buff_pwd, buff_oldpwd);
-	}
+void builtin_cd(char **cmd, t_data *data)
+{
+	char *path;
+	char buff_pwd[1024];
+	char buff_oldpwd[1024];
+	path = cd_get_path(cmd, data);
+	if (!path)
+		return;
+	if (cd_change_dir(path, buff_oldpwd, buff_pwd, data))
+		return ;
+	cd_update_env(data, buff_pwd, buff_oldpwd);
+}

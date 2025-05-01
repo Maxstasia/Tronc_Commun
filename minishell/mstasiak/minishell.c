@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/18 17:22:49 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:16:54 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void init_signals(void)
 
 void free_pipex(t_pipex *pipex)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (pipex->commands[i].args)
 	{
@@ -44,7 +44,7 @@ void free_pipex(t_pipex *pipex)
 
 void free_data(t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (data->envp)
@@ -59,14 +59,14 @@ void free_data(t_data *data)
 		free(data->pwd);
 	if (data->oldpwd)
 		free(data->oldpwd);
-	}
-	
+}
+
 void init_data(t_data *data, char **envp)
 {
 	data->envp = copy_envp(envp);
 	if (!data->envp)
 	{
-		ft_putstr_fd(RED"minishell: envp copy failed\n"RESET, 2);
+		ft_putstr_fd(RED"maxishell: envp copy failed\n"RESET, 2);
 		exit(EXIT_FAILURE);
 	}
 	data->cmd = NULL;
@@ -74,7 +74,7 @@ void init_data(t_data *data, char **envp)
 	data->pwd = getcwd(NULL, 0);
 	if (!data->pwd)
 	{
-		ft_putstr_fd(RED"minishell: getcwd failed\n"RESET, 2);
+		ft_putstr_fd(RED"maxishell: getcwd failed\n"RESET, 2);
 		exit(EXIT_FAILURE);
 	}
 	data->oldpwd = NULL;
@@ -82,9 +82,9 @@ void init_data(t_data *data, char **envp)
 
 char **copy_envp(char **envp)
 {
-	int i;
-	char **new_envp;
-	
+	int		i;
+	char	**new_envp;
+
 	i = 0;
 	while (envp[i])
 		i++;
@@ -109,10 +109,10 @@ static int has_pipes(const char *input)
 {
 	int i = 0;
 	char quote = 0;
-
+	
 	while (input[i])
 	{
-		if (input[i] == '\'' || input[i] == '\"')
+		if (input[i] == '\'' || input[i] == '"')
 		{
 			if (!quote)
 				quote = input[i];
@@ -129,20 +129,21 @@ static int has_pipes(const char *input)
 int main(int ac, char **av, char **envp)
 {
 	(void)av;
-	t_data data;
-	char *line;
-	t_pipex pipex;
+	t_data	data;
+	char	*line;
+	char	*expanded_line;
+	t_pipex	pipex;
 	
 	if (ac != 1)
 	{
-		ft_putstr_fd(RED"Error: ./minishell takes no arguments\n"RESET, 2);
+		ft_putstr_fd(RED"Error: ./maxishell takes no arguments\n"RESET, 2);
 		return (1);
 	}
 	init_signals();
 	init_data(&data, envp);
 	while (1)
 	{
-		line = readline(CYAN"minishell$ "RESET);
+		line = readline(CYAN"maxishell$ "RESET);
 		if (!line)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
@@ -152,9 +153,17 @@ int main(int ac, char **av, char **envp)
 		if (*line)
 		{
 			add_history(line);
-			if (!has_pipes(line))
+			expanded_line = expand_variables(line, &data);
+			if (!expanded_line)
 			{
-				if (parse_input(&data, line) == 0 && data.cmd)
+				ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+				data.exit_status = 1;
+				free(line);
+				continue;
+			}
+			if (!has_pipes(expanded_line))
+			{
+				if (parse_input(&data, expanded_line) == 0 && data.cmd)
 				{
 					if (ft_strcmp(data.cmd[0], "echo") == 0)
 						echo_builtin(&data);
@@ -172,7 +181,7 @@ int main(int ac, char **av, char **envp)
 						exit_builtin(&data);
 					else
 					{
-						pipex = parse_line(line);
+						pipex = parse_line(expanded_line);
 						pipex.envp = data.envp;
 						if (pipex.commands)
 						{
@@ -186,7 +195,7 @@ int main(int ac, char **av, char **envp)
 			}
 			else
 			{
-				pipex = parse_line(line);
+				pipex = parse_line(expanded_line);
 				pipex.envp = data.envp;
 				if (pipex.commands)
 				{
@@ -194,6 +203,7 @@ int main(int ac, char **av, char **envp)
 					free_pipex(&pipex);
 				}
 			}
+			free(expanded_line);
 		}
 		free(line);
 	}

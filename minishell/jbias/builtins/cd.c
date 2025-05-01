@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 char	*new_envp(const char *name, const char *value)
 {
@@ -61,7 +61,7 @@ void	update_env_var(char ***envp, const char *name, const char *value)
 	new_var = ft_calloc(i + 2, sizeof(char *));
 	if (!new_var)
 		return ;
-	if (!add_envp(new_var, envp, name, value))
+	if (!add_envp(new_var, *envp, name, value))
 		return (free_tab(new_var));
 	free(*envp);
 	*envp = new_var;

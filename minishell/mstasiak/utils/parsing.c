@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/18 17:09:26 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:05:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int parse_input(t_data *data, char *input)
 	count = count_tokens(input);
 	data->cmd = malloc(sizeof(char *) * (count + 1));
 	if (!data->cmd)
-		return (ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2), data->exit_status = 1, 1);
+		return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2), data->exit_status = 1, 1);
 	i = 0;
 	live_index = 0;
 	while (i < count)
@@ -118,7 +118,7 @@ int parse_input(t_data *data, char *input)
 		{
 			free_tab(data->cmd);
 			data->cmd = NULL;
-			return (ft_putstr_fd(RED"minishell: Parsing error\n"RESET, 2), data->exit_status = 1, 1);
+			return (ft_putstr_fd(RED"maxishell: Parsing error\n"RESET, 2), data->exit_status = 1, 1);
 		}
 		i++;
 	}

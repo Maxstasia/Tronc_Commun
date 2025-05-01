@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/18 17:05:12 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:16:52 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,10 @@ void	free_data(t_data *data);
 void	init_data(t_data *data, char **envp);
 char	*new_envp(const char *name, const char *value);
 char	**add_envp(char **news, char **envp, const char *name, const char *val);
-void	update_env_var(char **envp, const char *name, const char *value);
+void	update_env_var(char ***envp, const char *name, const char *value);
 char	*get_env_var(char **envp, const char *name);
 char	*get_start_cmd(char *cmd);
+char	*expand_variables(char *input, t_data *data);
 
 // Pipex
 t_cmd	*ft_split_advanced(const char *s);
@@ -110,7 +111,7 @@ void	error_127(t_data *data, t_cmd *cmd, char *path);
 void	error(t_data *data);
 
 // Parsing
-t_pipex parse_line(const char *line);
+t_pipex	parse_line(const char *line);
 int		parse_input(t_data *data, char *input);
 
 #endif

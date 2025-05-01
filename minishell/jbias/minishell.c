@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "includes/minishell.h"
 
 void    free_data(t_data *data)
 {
@@ -21,6 +21,7 @@ void    free_data(t_data *data)
 void init_data(t_data *data, char **envp)
 {
     data->envp = copy_envp(envp);
+	data->was_quoted = false;
     if (data->envp == NULL)
     {
         ft_putstr_fd("minishell: envp copy failed\n", 2);
@@ -51,12 +52,28 @@ char    **copy_envp(char **envp)
         ft_putstr_fd("minishell: malloc failed\n", 2);
         return (NULL);
     }
+	i = 0;
     while (envp[i])
-    {
+	{
         new_envp[i] = ft_strdup(envp[i]);
-    }
+		i++;
+	}
+	return (new_envp);
 }
 
+int main(int argc, char **argv, char **envp)
+{
+    t_data data;
+
+    (void)argc; // Évite warning unused
+    (void)argv; // Évite warning unused
+    init_data(&data, envp); // Initialise envp, pwd, etc.
+    minishell_loop(&data); // Lance la boucle principale
+    free_data(&data); // Nettoie tout
+    return (data.exit_status); // Retourne le dernier statut de sortie
+}
+
+/*
 int main(int ac, char **av, char **envp)
 {
     char *line;
@@ -77,9 +94,10 @@ int main(int ac, char **av, char **envp)
         }
         if (*line)
             add_history(line);
-        /* À ajouter plus tard : parsing et exécution */
+        // À ajouter plus tard : parsing et exécution 
         printf("Ligne lue : %s\n", line);
         free(line);
     }
     return (0);
 }
+*/

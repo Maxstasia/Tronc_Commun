@@ -5,92 +5,95 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 17:35:48 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/18 12:45:21 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/04/17 17:35:41 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/05/01 15:48:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-char	*new_envp(const char *name, const char *value)
+static char	*cd_handle_oldpwd(t_data *data)
 {
-	char	*tmp;
-	char	*new_envp;
-
-	tmp = ft_strjoin(name, "=");
-	if (!tmp)
-		return (NULL);
-	new_envp = ft_strjoin(tmp, value);
-	if (!new_envp)
+	char	*path;
+	
+	path = get_env_var(data->envp, "OLDPWD");
+	if (!path)
 	{
-		free(tmp);
+		ft_putstr_fd(RED"maxishell: cd: OLDPWD not set\n"RESET, 2);
+		data->exit_status = 1;
 		return (NULL);
 	}
-	free(tmp);
-	return (new_envp);
+	ft_putstr_fd(path, 1);
+	ft_putchar_fd('\n', 1);
+	return (path);
 }
 
-char	**add_envp(char **news, char **envp, const char *name, const char *val)
+static char	*cd_get_path(char **cmd, t_data *data)
 {
-	int		i;
-
-	i = 0;
-	while (envp[i])
+	char	*path;
+	
+	if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
-		news[i] = ft_strdup(envp[i]);
-		if (!news[i])
-			return (free_tab(news), NULL);
-		i++;
-	}
-	news[i] = new_envp(name, val);
-	if (!news[i])
-		return (free_tab(news), NULL);
-	i++;
-	news[i] = NULL;
-	return (news);
-}
-
-void	update_env_var(char **envp, const char *name, const char *value)
-{
-	int		i;
-	size_t	len;
-	char	**new_var;
-
-	i = 0;
-	len = ft_strlen(name);
-	while ((envp)[i])
-	{
-		if (ft_strncmp((envp)[i], name, len) == 0 && (envp)[i][len] == '=')
+		path = get_env_var(data->envp, "HOME");
+		if (!path)
 		{
-			free((envp)[i]);
-			(envp)[i] = new_envp(name, value);
-			if (!(*envp)[i])
-				return ;
-			return ;
+			ft_putstr_fd(RED"maxishell: cd: HOME not set\n"RESET, 2);
+			data->exit_status = 1;
+			return (NULL);
 		}
-		i++;
 	}
-	new_var = ft_calloc(i + 2, sizeof(char *));
-	if (!new_var)
-		return ;
-	if (!add_envp(new_var, envp, name, value))
-		return (free_tab(new_var));
-	free(envp);
-	envp = new_var;
+	else if (ft_strcmp(cmd[1], "-") == 0)
+		return (cd_handle_oldpwd(data));
+	else
+		path = cmd[1];
+	return (path);
 }
 
-char	*get_env_var(char **envp, const char *name)
+static int	cd_change_dir(char *path, t_data *data)
 {
-	int		i;
-	size_t	len;
-
-	i = 0;
-	len = ft_strlen(name);
-	while (envp[i])
+	char	*oldpwd;
+	
+	oldpwd = getcwd(NULL, 0);
+	if (chdir(path) != 0)
 	{
-		if (ft_strncmp(envp[i], name, len) == 0 && envp[i][len] == '=')
-			return (envp[i] + len + 1);
-		i++;
+		ft_putstr_fd(RED"maxishell: cd: '"YELLOW, 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(RED"' : No such file or directory\n"RESET, 2);
+		data->exit_status = 1;
+		free(oldpwd);
+		return (1);
 	}
-	return (NULL);
+	free(data->oldpwd);
+	data->oldpwd = oldpwd;
+	free(data->pwd);
+	data->pwd = getcwd(NULL, 0);
+	if (!data->pwd)
+	{
+		ft_putstr_fd(RED"maxishell: cd: getcwd failed: ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n"RESET, 2);
+		data->exit_status = 1;
+		return (1);
+	}
+	return (0);
+}
+
+static void	cd_update_env(t_data *data)
+{
+	update_env_var(&data->envp, "PWD", data->pwd);
+	if (data->oldpwd)
+		update_env_var(&data->envp, "OLDPWD", data->oldpwd);
+	data->exit_status = 0;
+}
+
+void	builtin_cd(char **cmd, t_data *data)
+{
+	char	*path;
+	
+	path = cd_get_path(cmd, data);
+	if (!path)
+		return;
+	if (cd_change_dir(path, data))
+		return;
+	cd_update_env(data);
 }

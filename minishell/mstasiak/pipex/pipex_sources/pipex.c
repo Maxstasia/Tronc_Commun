@@ -12,21 +12,31 @@
 
 #include "../../include/minishell.h"
 
-void	handle_here_doc(t_data *data, t_redirect *redirect)
+void handle_here_doc(t_data *data, t_redirect *redirect)
 {
 	int		fd[2];
 	char	*line;
+	char	*expanded_delim;
 
 	if (pipe(fd) < 0)
 		error(data);
+	expanded_delim = expand_variables(redirect->file, data);
+	if (!expanded_delim)
+	{
+		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		data->exit_status = 1;
+		close(fd[0]);
+		close(fd[1]);
+		return;
+	}
 	line = NULL;
 	while (1)
 	{
-		ft_putstr_fd(CYAN"minishell:"GREEN" heredoc> "RESET, STDOUT_FILENO);
+		ft_putstr_fd(CYAN"maxishell:"GREEN" heredoc> "RESET, STDOUT_FILENO);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break;
-		if (ft_strcmp(line, redirect->file) == 0)
+		if (ft_strcmp(line, expanded_delim) == 0)
 		{
 			free(line);
 			break;
@@ -34,21 +44,22 @@ void	handle_here_doc(t_data *data, t_redirect *redirect)
 		write(fd[1], line, ft_strlen(line));
 		free(line);
 	}
+	free(expanded_delim);
 	close(fd[1]);
 	redirect->file = ft_itoa(fd[0]); // Stocker le FD comme fichier temporaire
 }
 
 static void apply_redirects(t_data *data, t_cmd *cmd)
 {
-	int	i = -1;
+	int i = -1;
 
-	while (++ i, i < cmd->redirect_count)
+	while (++i, i < cmd->redirect_count)
 	{
 		if (ft_strcmp(cmd->redirects[i].type, "<") == 0)
 		{
 			int fd = open(cmd->redirects[i].file, O_RDONLY);
 			if (fd < 0)
-			error(data);
+				error(data);
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
@@ -56,7 +67,7 @@ static void apply_redirects(t_data *data, t_cmd *cmd)
 		{
 			int fd = open(cmd->redirects[i].file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd < 0)
-			error(data);
+				error(data);
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
@@ -64,7 +75,7 @@ static void apply_redirects(t_data *data, t_cmd *cmd)
 		{
 			int fd = open(cmd->redirects[i].file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (fd < 0)
-			error(data);
+				error(data);
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
