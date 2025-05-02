@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/18 11:12:32 by mstasiak          #+#    #+#              #
-#    Updated: 2025/05/01 15:48:56 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/05/02 11:49:43 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC			=									\
 		minishell.c								\
 		\
 		$(UTILS_DIR)/parsing.c					\
+		$(UTILS_DIR)/utils.c					\
 		\
 		$(BUILTIN_DIR)/cd.c						\
 		$(BUILTIN_DIR)/echo.c					\
@@ -49,7 +50,7 @@ SRC			=									\
 		$(P_SRC_DIR)/pipex.c					\
 		\
 		$(P_UTILS_DIR)/ft_split_advanced.c		\
-		$(P_UTILS_DIR)/utils.c
+		$(P_UTILS_DIR)/utils_pipex.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

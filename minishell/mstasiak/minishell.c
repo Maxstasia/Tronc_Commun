@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/01 17:16:54 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:09:16 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void init_signals(void)
 
 void free_pipex(t_pipex *pipex)
 {
-	int	i;
-
+	int i;
+	
 	i = 0;
 	while (pipex->commands[i].args)
 	{
@@ -44,8 +44,8 @@ void free_pipex(t_pipex *pipex)
 
 void free_data(t_data *data)
 {
-	int	i;
-
+	int i;
+	
 	i = 0;
 	if (data->envp)
 	{
@@ -82,9 +82,9 @@ void init_data(t_data *data, char **envp)
 
 char **copy_envp(char **envp)
 {
-	int		i;
-	char	**new_envp;
-
+	int i;
+	char **new_envp;
+	
 	i = 0;
 	while (envp[i])
 		i++;
@@ -129,10 +129,10 @@ static int has_pipes(const char *input)
 int main(int ac, char **av, char **envp)
 {
 	(void)av;
-	t_data	data;
-	char	*line;
-	char	*expanded_line;
-	t_pipex	pipex;
+	t_data data;
+	char *line;
+	char *expanded_line;
+	t_pipex pipex;
 	
 	if (ac != 1)
 	{

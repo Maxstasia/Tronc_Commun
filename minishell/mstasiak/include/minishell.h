@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/01 17:16:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/02 12:04:10 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 /*--------------------macro--------------------*/
 
+# define RESET  "\e[0m"
 # define RED	"\e[31m"
 # define GREEN	"\e[32m"
-# define CYAN	"\e[96m"
 # define YELLOW	"\e[93m"
-# define RESET  "\e[0m"
+# define PINK	"\e[95m"
+# define CYAN	"\e[96m"
 
 /*--------------------bibliotheques--------------------*/
 

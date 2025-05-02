@@ -6,13 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/01 18:03:01 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:02:29 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int is_n_option(char *arg)
+static int	is_n_option(char *arg)
 {
 	int	i;
 	
@@ -28,7 +28,7 @@ static int is_n_option(char *arg)
 	return (1);
 }
 
-void echo_builtin(t_data *data)
+void	echo_builtin(t_data *data)
 {
 	int	i;
 	int	newline;

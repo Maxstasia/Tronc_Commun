@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/01 13:05:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:53:20 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int count_tokens(char *input)
 			i++;
 		if (!input[i])
 			break;
-		if (input[i] == '\'' || input[i] == '\"')
+		if (input[i] == '\'' || input[i] == '"')
 		{
 			quote = input[i++];
 			while (input[i] && input[i] != quote)
@@ -40,7 +40,7 @@ static int count_tokens(char *input)
 		}
 		else
 			while (input[i] && !ft_isspace(input[i]))
-				i++;
+		i++;
 		count++;
 	}
 	return (count);
@@ -58,7 +58,7 @@ static int extract_token(char *input, char **token)
 	while (input[i] && ft_isspace(input[i]))
 		i++;
 	start = input + i;
-	if (input[i] == '\'' || input[i] == '\"')
+	if (input[i] == '\'' || input[i] == '"')
 	{
 		quote = input[i++];
 		start = input + i;

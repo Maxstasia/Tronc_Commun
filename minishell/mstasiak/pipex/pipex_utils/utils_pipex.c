@@ -1,135 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_pipex.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/01 17:50:56 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:15:56 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static char *get_var_name(const char *input, int *i)
+char *new_envp(const char *name, const char *value)
 {
-	int j = *i;
-	char *name;
-	
-	if (input[j] == '?')
-	{
-		(*i)++;
-		return (ft_strdup("?"));
-	}
-	while (input[j] && (ft_isalnum(input[j]) || input[j] == '_'))
-		j++;
-	name = ft_substr(input, *i, j - *i);
-	*i = j;
-	return (name);
-}
-
-static size_t calculate_buffer_size(char *input, t_data *data)
-{
-	size_t size = 1; // Pour le '\0'
-	int i = 0;
-	char quote = 0;
-	
-	while (input[i])
-	{
-		if (input[i] == '\'' && !quote)
-			quote = '\'';
-		else if (input[i] == '\'' && quote == '\'')
-			quote = 0;
-		else if (input[i] == '"' && !quote)
-			quote = '"';
-		else if (input[i] == '"' && quote == '"')
-			quote = 0;
-		else if (input[i] == '$' && quote != '\'' && input[i + 1] && (ft_isalnum(input[i + 1]) || input[i + 1] == '?'))
-		{
-			i++;
-			char *var_name = get_var_name(input, &i);
-			if (!var_name)
-				return (size);
-			if (ft_strcmp(var_name, "?") == 0)
-			{
-				char *status = ft_itoa(data->exit_status);
-				if (status)
-					size += ft_strlen(status);
-				free(status);
-			}
-			else
-			{
-				char *var_value = get_env_var(data->envp, var_name);
-				if (var_value)
-				size += ft_strlen(var_value);
-			}
-			free(var_name);
-			continue;
-		}
-		size++;
-		i++;
-	}
-	return (size);
-}
-
-char *expand_variables(char *input, t_data *data)
-{
-	char	*result;
-	char	*var_name;
-	char	*var_value;
-	int		i = 0;
-	int		j = 0;
-	char	quote = 0;
-	size_t	len;
-	
-	len = calculate_buffer_size(input, data);
-	result = ft_calloc(len, sizeof(char));
-	if (!result)
-		return (NULL);
-	while (input[i])
-	{
-		if (input[i] == '\'' && !quote)
-			quote = '\'';
-		else if (input[i] == '\'' && quote == '\'')
-			quote = 0;
-		else if (input[i] == '"' && !quote)
-			quote = '"';
-		else if (input[i] == '"' && quote == '"')
-			quote = 0;
-		else if (input[i] == '$' && quote != '\'' && input[i + 1] && (ft_isalnum(input[i + 1]) || input[i + 1] == '?'))
-		{
-			i++;
-			var_name = get_var_name(input, &i);
-			if (!var_name)
-			{
-				free(result);
-				return (NULL);
-			}
-			if (ft_strcmp(var_name, "?") == 0)
-				var_value = ft_itoa(data->exit_status);
-			else
-				var_value = get_env_var(data->envp, var_name);
-			if (var_value)
-			{
-				ft_strlcat(result, var_value, len);
-				j += ft_strlen(var_value);
-			}
-			if (ft_strcmp(var_name, "?") == 0)
-				free(var_value);
-			free(var_name);
-			continue;
-		}
-		result[j++] = input[i++];
-	}
-	result[j] = '\0';
-	return (result);
-}
-
-char	*new_envp(const char *name, const char *value)
-{
-	char	*tmp;
-	char	*new_envp;
+	char *tmp;
+	char *new_envp;
 	
 	tmp = ft_strjoin(name, "=");
 	if (!tmp)
@@ -144,9 +30,9 @@ char	*new_envp(const char *name, const char *value)
 	return (new_envp);
 }
 
-char	**add_envp(char **news, char **envp, const char *name, const char *val)
+char **add_envp(char **news, char **envp, const char *name, const char *val)
 {
-	int	i;
+	int i;
 	
 	i = 0;
 	while (envp[i])
@@ -164,11 +50,11 @@ char	**add_envp(char **news, char **envp, const char *name, const char *val)
 	return (news);
 }
 
-void	update_env_var(char ***envp, const char *name, const char *value)
+void update_env_var(char ***envp, const char *name, const char *value)
 {
-	int		i;
-	size_t	len;
-	char	**new_var;
+	int i;
+	size_t len;
+	char **new_var;
 	
 	i = 0;
 	len = ft_strlen(name);
@@ -193,10 +79,10 @@ void	update_env_var(char ***envp, const char *name, const char *value)
 	*envp = new_var;
 }
 
-char	*get_env_var(char **envp, const char *name)
+char *get_env_var(char **envp, const char *name)
 {
-	int		i;
-	size_t	len;
+	int i;
+	size_t len;
 	
 	i = 0;
 	len = ft_strlen(name);
@@ -209,10 +95,10 @@ char	*get_env_var(char **envp, const char *name)
 	return (NULL);
 }
 
-static char	**first_step(t_data *data)
+static char **first_step(t_data *data)
 {
-	int		i;
-	char	**paths;
+	int i;
+	char **paths;
 	
 	i = 0;
 	while (data->envp && data->envp[i] && ft_strnstr(data->envp[i], "PATH", 4) == 0)
@@ -230,12 +116,12 @@ static char	**first_step(t_data *data)
 	return (paths);
 }
 
-char	*find_path(t_data *data, char *cmd_name)
+char *find_path(t_data *data, char *cmd_name)
 {
-	char	**paths;
-	char	*path;
-	char	*tmp;
-	int		i;
+	char **paths;
+	char *path;
+	char *tmp;
+	int i;
 	
 	paths = first_step(data);
 	if (!paths)
@@ -275,6 +161,9 @@ static int is_builtin(char *cmd_name)
 static int exec_builtin(t_data *data, t_cmd *cmd)
 {
 	data->cmd = cmd->args;
+	ft_putstr_fd("DEBUG: exec_builtin called for ", 2);
+	ft_putstr_fd(cmd->args[0], 2);
+	ft_putstr_fd("\n", 2);
 	if (ft_strcmp(cmd->args[0], "echo") == 0)
 		echo_builtin(data);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
@@ -292,10 +181,10 @@ static int exec_builtin(t_data *data, t_cmd *cmd)
 	return (data->exit_status);
 }
 
-void	execute(t_data *data, t_cmd *cmd)
+void execute(t_data *data, t_cmd *cmd)
 {
-	char	*path;
-	int		status;
+	char *path;
+	int status;
 	
 	if (!cmd->args || !cmd->args[0])
 		error_127(data, cmd, NULL);
