@@ -17,6 +17,31 @@
 # include "../LIBFT/libft.h"
 # include "../LIBFT/get_next_line.h"
 
+typedef struct	s_redirect
+{
+	char	*type;		// "<", ">", "<<", ">>"
+	char	*file;		// Nom du fichier ou délimiteur pour "<<"
+}				t_redirect;
+
+typedef struct	s_cmd
+{
+	char		**args;			// Arguments de la commande
+	t_redirect	*redirects;		// Tableau des redirections
+	int			redirect_count;	// Nombre de redirections
+}				t_cmd;
+
+typedef struct	s_pipex
+{
+	t_cmd	*commands;	// Tableau des commandes
+	int		cmd_count;	// Nombre de commandes
+	char	**envp;		// Variables d'environnement
+	int		fd[2];		// Pipe actuel
+	int		prev_fd;	// Descripteur du pipe précédent
+	int		is_first;	// Première commande ?
+	int		is_last;	// Dernière commande ?
+	pid_t	*pids;		// Tableau des PIDs
+}				t_pipex;
+
 typedef struct t_data
 {
     char    **envp; // Environment variables
@@ -45,5 +70,16 @@ int ft_export(t_data *data);
 int pwd(t_data *data);
 char *get_start_cmd(char *cmd);
 int ft_unset(t_data *data);
+void usage(void);
+void free_cmd(t_cmd *cmd);
+void error_127(t_data *data, t_cmd *cmd, char *path);
+void error(t_data *data);
+void handle_here_doc(t_data *data, t_redirect *redirect);
+void child_process(t_data *data, t_pipex *pipex, int cmd_index);
+t_cmd *ft_split_advanced(const char *s);
+void execute(t_data *data, t_cmd *cmd);
+char *find_path(t_data *data, char *cmd_name);
+void execute_pipeline(t_data *data, t_pipex *pipex);
+char *expand_variables(char *input, t_data *data);
 
 #endif

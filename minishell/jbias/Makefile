@@ -3,7 +3,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g
 
 SRCS = $(wildcard builtins/*.c) $(wildcard LIBFT/*.c) \
-		minishell.c parsing.c 
+		$(wildcard pipex/pipex_sources/*.c) $(wildcard pipex/pipex_utils/*.c) \
+		$(wildcard pipex/*.c) minishell.c parsing.c utils.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

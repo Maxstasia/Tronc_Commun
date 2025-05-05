@@ -49,17 +49,13 @@ static int 	count_tokens(char *input)
 			if (input[i] == quote)
 				i++;
 			else
-			{
-				ft_putstr_fd("Minishell: quotes issue\n", 2);
-				return (-1);
-			}
+				return (ft_putstr_fd("Minishell: quotes issue\n", 2), -1);
 		}
 		else
 			while (input[i] && !ft_isspace(input[i]))
 				i++;
 		count++;
 	}
-	printf("count = %d\n", count);
 	return (count);
 }
 
