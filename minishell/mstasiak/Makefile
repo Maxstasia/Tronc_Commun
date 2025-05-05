@@ -53,13 +53,14 @@ SRC			=									\
 		$(P_UTILS_DIR)/utils_pipex.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
+DEPENDS = $(SRC:%.c=$(OBJ_DIR)/%.d)
 
 # Bibliothèques
 LIBFT_A = $(LIBFT_DIR)/libft.a
 
 # Compilateur et flags
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g3 -I $(INCLUDE_DIR)
+CFLAGS = -Wall -Werror -Wextra -g3 -MMD -I $(INCLUDE_DIR)
 LIBS = $(LIBFT_A) -lreadline
 
 # Rules
@@ -92,3 +93,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+-include ${DEPENDS}
