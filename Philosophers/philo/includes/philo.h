@@ -15,8 +15,8 @@
 
 /*--------------------macro--------------------*/
 
-# define MAX_PHILOS		5000
-# define STR_MAX_PHILOS	"5000"
+# define MAX_PHILOS		250
+# define STR_MAX_PHILOS	"250"
 
 # define BOOL			int
 # define TRUE			1
