@@ -32,10 +32,11 @@ SRC			=									\
 		$(UTILS_DIR)/time.c
 
 OBJ			= $(SRC:%.c=$(OBJ_DIR)/%.o)
+DEPENDS		= ${OBJ:.o=.d}
 
 # Compileur et flags
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g3 -I $(INCLUDE_DIR)
+CFLAGS		= -Wall -Werror -Wextra -MMD -g3 -I $(INCLUDE_DIR)
 
 # Rules
 all:		$(NAME)
@@ -61,3 +62,5 @@ fclean:		clean
 re:			fclean all
 
 .PHONY:		all clean fclean re
+
+-include ${DEPENDS}
