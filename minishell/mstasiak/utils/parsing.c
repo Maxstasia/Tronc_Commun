@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/02 15:53:20 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:06:41 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int count_tokens(char *input)
 		}
 		else
 			while (input[i] && !ft_isspace(input[i]))
-		i++;
+				i++;
 		count++;
 	}
 	return (count);
@@ -48,35 +48,37 @@ static int count_tokens(char *input)
 
 static int extract_token(char *input, char **token)
 {
-	int i;
-	char quote;
-	char *start;
-	
-	i = 0;
-	if (!input || !*input)
-		return (-1);
-	while (input[i] && ft_isspace(input[i]))
-		i++;
-	start = input + i;
-	if (input[i] == '\'' || input[i] == '"')
-	{
-		quote = input[i++];
-		start = input + i;
-		while (input[i] && input[i] != quote)
-			i++;
-		if (!input[i])
-			return (-1);
-		*token = ft_substr(start, 0, i - (start - input));
-		if (!*token)
-			return (-1);
-		return (i + 1);
-	}
-	while (input[i] && !ft_isspace(input[i]))
-		i++;
-	*token = ft_substr(start, 0, i);
-	if (!*token)
-		return (-1);
-	return (i);
+    int i;
+    char quote;
+    char *start;
+    
+    i = 0;
+    if (!input || !*input)
+        return (-1);
+    while (input[i] && ft_isspace(input[i]))
+        i++;
+    start = input + i;
+    if (input[i] == '\'' || input[i] == '"')
+    {
+        quote = input[i++];
+        start = input + i;
+        while (input[i] && input[i] != quote)
+            i++;
+        if (!input[i])
+            return (-1);
+        *token = ft_substr(start, 0, i - (start - input));
+        if (!*token)
+            return (-1);
+        return (i + 1);
+    }
+    while (input[i] && !ft_isspace(input[i]))
+        i++;
+    *token = ft_substr(start, 0, i - (start - input));
+    if (!*token)
+        return (-1);
+    while (input[i] && ft_isspace(input[i]))
+        i++;
+    return (i);
 }
 
 t_pipex parse_line(const char *line)
