@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/18 11:12:32 by mstasiak          #+#    #+#              #
-#    Updated: 2025/05/06 15:27:43 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/05/12 16:39:36 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC			=									\
 		$(BUILTIN_DIR)/echo.c					\
 		$(BUILTIN_DIR)/env.c					\
 		$(BUILTIN_DIR)/exit.c					\
+		$(BUILTIN_DIR)/export_utils.c			\
 		$(BUILTIN_DIR)/export.c					\
 		$(BUILTIN_DIR)/pwd.c					\
 		$(BUILTIN_DIR)/unset.c					\

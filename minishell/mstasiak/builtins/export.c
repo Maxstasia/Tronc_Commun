@@ -6,131 +6,201 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:31 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/01 13:05:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:41:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/builtins_utils.h"
 
-static int is_valid_identifier(char *str)
+static void	print_export(t_data *data)
 {
-    if (!str || !str[0] || ft_isdigit(str[0]))
-        return (0);
-    if (str[0] != '_' && (!ft_isalpha(str[0]) || str[0] == '='))
-        return (0);
-    if (ft_strchr(str, '=') == NULL)
-        return (0);
-    while (*str && *str != '=')
-    {
-        if (!ft_isalnum(*str) && *str != '_')
-            return (0);
-        str++;
-    }
-    return (1);
+	int		i;
+	int		j;
+	int		count;
+	char	**sorted_envp;
+	char	*temp;
+	char	*equal_sign;
+	char	*name;
+	char	*value;
+
+	count = 0;
+	while (data->envp[count])
+		count++;
+	sorted_envp = malloc(sizeof(char *) * (count + 1));
+	if (!sorted_envp)
+	{
+		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		data->exit_status = 1;
+		return;
+	}
+	for (i = 0; i < count; i++)
+	{
+		sorted_envp[i] = ft_strdup(data->envp[i]);
+		if (!sorted_envp[i])
+		{
+			ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+			free_tab(sorted_envp);
+			data->exit_status = 1;
+			return;
+		}
+	}
+	sorted_envp[count] = NULL;
+	for (i = 0; i < count - 1; i++)
+	{
+		for (j = 0; j < count - i - 1; j++)
+		{
+			if (ft_strcmp(sorted_envp[j], sorted_envp[j + 1]) > 0)
+			{
+				temp = sorted_envp[j];
+				sorted_envp[j] = sorted_envp[j + 1];
+				sorted_envp[j + 1] = temp;
+			}
+		}
+	}
+	i = 0;
+	while (sorted_envp[i])
+	{
+		if (ft_strncmp(sorted_envp[i], "_=", 2) == 0)
+		{
+			i++;
+			continue;
+		}
+		equal_sign = ft_strchr(sorted_envp[i], '=');
+		if (equal_sign)
+		{
+			name = ft_substr(sorted_envp[i], 0, equal_sign - sorted_envp[i]);
+			if (!name)
+			{
+				ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+				free_tab(sorted_envp);
+				data->exit_status = 1;
+				return;
+			}
+			value = ft_strdup(equal_sign + 1);
+			if (!value)
+			{
+				free(name);
+				ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+				free_tab(sorted_envp);
+				data->exit_status = 1;
+				return;
+			}
+			ft_putstr_fd("export ", 1);
+			ft_putstr_fd(name, 1);
+			if (value[0] != '\0')
+			{
+				ft_putstr_fd("=\"", 1);
+				ft_putstr_fd(value, 1);
+				ft_putstr_fd("\"", 1);
+			}
+			ft_putchar_fd('\n', 1);
+			free(name);
+			free(value);
+		}
+		else
+		{
+			ft_putstr_fd("export ", 1);
+			ft_putstr_fd(sorted_envp[i], 1);
+			ft_putchar_fd('\n', 1);
+		}
+		i++;
+	}
+	free_tab(sorted_envp);
+	data->exit_status = 0;
 }
 
-static int  update_existing_var(t_data *data, char *arg)
+int	ft_export(t_data *data)
 {
-    int     i;
-    char    *name;
-    int     name_len;
+	int		i;
+	char	*arg_with_equal;
+	char	*equal_sign;
+	char	*name;
+	char	*value;
+	char	*clean_value;
 
-    i = 0;
-    name = ft_strchr(arg, '=');
-    if (name == NULL)
-        return (-1);
-    name_len = name - arg;
-    while (data->envp[i])
-    {
-        if (ft_strncmp(data->envp[i], arg, name_len) == 0
-            && data->envp[i][name_len] == '=')
-        {
-            free(data->envp[i]);
-            data->envp[i] = ft_strdup(arg);
-            if (!data->envp[i])
-            {
-                data->exit_status = 1;
-                return (1);
-            }
-            return (0);
-        }
-        i++;
-    }
-    return (-1);
-}
-
-static int add_new_var(t_data *data, char *arg)
-{
-    int     i;
-    char    **new_envp;
-
-    i = 0;
-    while (data->envp[i])
-        i++;
-    new_envp = malloc(sizeof(char *) * (i + 2));
-    if (!new_envp)
-        return (1);
-    i = 0;
-    while (data->envp[i])
-    {
-        new_envp[i] = ft_strdup(data->envp[i]);
-        if (!new_envp[i])
-        {
-            data->exit_status = 1;
-            return (free_tab(new_envp), 1);
-        }
-        i++;
-    }
-    new_envp[i] = ft_strdup(arg);
-    if (!new_envp[i])
-    {
-        data->exit_status = 1;
-        return (free_tab(new_envp), 1);
-    }
-    new_envp[++i] = NULL;
-    free_tab(data->envp);
-    data->envp = new_envp;
-    return (0);
-}
-
-static void print_export(t_data *data)
-{
-    int i;
-
-    i = 0;
-    while (data->envp[i])
-    {
-        ft_putstr_fd("declare -x ", 1);
-        ft_putstr_fd(data->envp[i], 1);
-        ft_putchar_fd('\n', 1);
-        i++;
-    }
-    data->exit_status = 0;
-}
-
-int ft_export(t_data *data)
-{
-    int i;
-
-    if (!data->cmd[1])
-        return (print_export(data), 0);
-    i = 1;
-    data->exit_status = 0;
-    while (data->cmd[i])
-    {
-        if (!is_valid_identifier(data->cmd[i]))
-        {
-            ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);
-            ft_putstr_fd(data->cmd[i], 2);
-            ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
-            data->exit_status = 1;
-        }
-        else if (update_existing_var(data, data->cmd[i]) == -1)
-        {
-            if (add_new_var(data, data->cmd[i]) == 1)
-                return (1);
-        }
-        i++;
-    }
-    return (0);
+	if (!data->cmd[1])
+		return (print_export(data), 0);
+	i = 1;
+	data->exit_status = 0;
+	while (data->cmd[i])
+	{
+		if (!is_valid_identifier(data->cmd[i]))
+		{
+			ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);
+			ft_putstr_fd(data->cmd[i], 2);
+			ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
+			data->exit_status = 1;
+		}
+		else
+		{
+			equal_sign = ft_strchr(data->cmd[i], '=');
+			if (!equal_sign)
+			{
+				arg_with_equal = ft_strjoin(data->cmd[i], "=");
+				if (!arg_with_equal)
+				{
+					ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+					data->exit_status = 1;
+					return (1);
+				}
+			}
+			else
+			{
+				name = ft_substr(data->cmd[i], 0, equal_sign - data->cmd[i]);
+				if (!name)
+				{
+					ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+					data->exit_status = 1;
+					return (1);
+				}
+				value = ft_strdup(equal_sign + 1);
+				if (!value)
+				{
+					free(name);
+					ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+					data->exit_status = 1;
+					return (1);
+				}
+				clean_value = remove_quotes(value);
+				free(value);
+				if (!clean_value)
+				{
+					free(name);
+					ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+					data->exit_status = 1;
+					return (1);
+				}
+				arg_with_equal = ft_strjoin(name, "=");
+				free(name);
+				if (!arg_with_equal)
+				{
+					free(clean_value);
+					ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+					data->exit_status = 1;
+					return (1);
+				}
+				name = arg_with_equal;
+				arg_with_equal = ft_strjoin(name, clean_value);
+				free(name);
+				free(clean_value);
+				if (!arg_with_equal)
+				{
+					ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+					data->exit_status = 1;
+					return (1);
+				}
+			}
+			if (update_existing_var(data, arg_with_equal) == -1)
+			{
+				if (add_new_var(data, arg_with_equal) == 1)
+				{
+					free(arg_with_equal);
+					return (1);
+				}
+			}
+			free(arg_with_equal);
+		}
+		i++;
+	}
+	return (0);
 }
