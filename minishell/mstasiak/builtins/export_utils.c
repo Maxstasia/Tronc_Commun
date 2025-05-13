@@ -6,58 +6,50 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 16:28:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/12 16:45:47 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:24:08 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins_utils.h"
 
-int	is_valid_identifier(char *str)
+int is_valid_identifier(char *str)
 {
-	if (!str || !str[0] || ft_isdigit(str[0]))
-		return (0);
-	if (str[0] != '_' && !ft_isalpha(str[0]))
-		return (0);
-	while (*str && *str != '=')
-	{
-		if (!ft_isalnum(*str) && *str != '_')
-			return (0);
-		str++;
-	}
-	if (*str == '=')
-		str++;
-	while (*str)
-	{
-		if (!ft_isprint(*str))
-			return (0);
-		str++;
-	}
-	return (1);
+    if (!str || !str[0] || ft_isdigit(str[0]))
+        return (0);
+    if (str[0] != '_' && !ft_isalpha(str[0]))
+        return (0);
+    while (*str && *str != '=')
+    {
+        if (!ft_isalnum(*str) && *str != '_')
+            return (0);
+        str++;
+    }
+    return (1);
 }
 
-char	*remove_quotes(char *value)
+char *remove_quotes(char *value)
 {
-	char	*clean_value;
-	int		len;
-	int		i;
-	int		j;
+    char *clean_value;
+    int len;
+    int i;
+    int j;
 
-	if (!value || !value[0])
-		return (ft_strdup(""));
-	len = ft_strlen(value);
-	if (value[0] == '"' && value[len - 1] == '"')
-	{
-		clean_value = malloc(len - 1);
-		if (!clean_value)
-			return (NULL);
-		i = 1;
-		j = 0;
-		while (i < len - 1)
-			clean_value[j++] = value[i++];
-		clean_value[j] = '\0';
-		return (clean_value);
-	}
-	return (ft_strdup(value));
+    if (!value || !value[0])
+        return (ft_strdup(""));
+    len = ft_strlen(value);
+    if (len >= 2 && value[0] == '"' && value[len - 1] == '"')
+    {
+        clean_value = malloc(len - 1); // len - 2 + 1 pour \0
+        if (!clean_value)
+            return (NULL);
+        i = 1;
+        j = 0;
+        while (i < len - 1)
+            clean_value[j++] = value[i++];
+        clean_value[j] = '\0';
+        return (clean_value);
+    }
+    return (ft_strdup(value));
 }
 
 int	update_existing_var(t_data *data, char *arg)

@@ -28,11 +28,15 @@ void	ft_cleanup(t_data *data)
 static int 	count_tokens(char *input)
 {
 	int		i;
+	int		j;
 	int		count;
 	char	quote;
+	int		quotes_nb;
 	
+	quotes_nb = 0;
 	count = 0;
 	i = 0;
+	j = 0;
 	if (!input || !*input)
 		return (0);
 	while (input[i])
@@ -41,20 +45,31 @@ static int 	count_tokens(char *input)
 			i++;
 		if (!input[i])
 			break ;
-		if (input[i] == '\'' || input[i] == '\"')
+		while (input[i] && !ft_isspace(input[i]))
 		{
-			quote = input[i++];
-			while (input[i] && input[i] != quote)
-				i++;
-			if (input[i] == quote)
-				i++;
+			if (input[i] == '\'' || input[i] == '\"')
+			{
+				count++;
+				quote = input[i++];
+				quotes_nb++;
+				j = i;
+				while (input[j] && (input[j] != quote))
+					j++;
+				if (input[j] == '\0' && (quotes_nb % 2 != 0))
+					return (ft_putstr_fd("minishell: Parsing error\n", 2), -1);
+				if (input[j] == quote)
+				{
+					quotes_nb++;
+					i = j + 1;
+				}
+			}
 			else
-				return (ft_putstr_fd("Minishell: quotes issue\n", 2), -1);
+			{
+				count++;
+				while (input[i] && !ft_isspace(input[i]))
+					i++;
+			}
 		}
-		else
-			while (input[i] && !ft_isspace(input[i]))
-				i++;
-		count++;
 	}
 	return (count);
 }
@@ -77,14 +92,15 @@ static int	extract_token(char *input, char **token, int *was_quoted)
 	{
 		quote = input[i++];
 		start = input + i;
-		while (input[i] && input[i] != quote)
+		while (input[i] && (input[i] != quote))
 			i++;
 		if (!input[i])
 			return (-1);
+		if (input[i] == quote)
+			*was_quoted = 1;
 		*token = ft_substr(start, 0, i - (start - input));
 		if (!*token)
 			return (-1);
-		*was_quoted = 1;
 		return (i + 1);
 	}
 	while (input[i] && !ft_isspace(input[i]))
