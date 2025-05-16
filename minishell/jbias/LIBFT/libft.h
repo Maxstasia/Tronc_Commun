@@ -56,5 +56,6 @@ void	free_tab(char **tab);
 int	ft_isspace(int c);
 int	ft_isspecial(char c);
 int	ft_isoperator(char c);
+char	*ft_substr_quotes(char const *s, unsigned int start, size_t len, char quote);
 
 #endif

@@ -29,7 +29,7 @@ static int for_without_equal(t_data *data, t_export *export, int i)
     clean_value = remove_quotes(value);
     free(value);
     if (!clean_value)
-        return (free(name), ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
+        return (free(name), ft_putstr_fd(RED"maxishell: export: invalid value\n"RESET, 2),
                 data->exit_status = 1, 1);
     export->arg_with_equal = ft_strjoin(name, "=");
     free(name);
@@ -70,30 +70,32 @@ static int	principal_loop(t_data *data, t_export *export, int i)
 	return (0);
 }
 
-int	ft_export(t_data *data)
+int ft_export(t_data *data)
 {
-	t_export	*export;
-	int			i;
+    t_export *export;
+    int i;
 
-	if (!data->cmd[1])
-		return (print_export(data), 0);
-	export = malloc(sizeof(t_export));
-	if (!export)
-		return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
-			data->exit_status = 1, 1);
-	i = 0;
-	data->exit_status = 0;
-	while (i ++, data->cmd[i])
-	{
-		if (!is_valid_identifier(data->cmd[i]))
-		{
-			ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);
-			ft_putstr_fd(data->cmd[i], 2);
-			ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
-			data->exit_status = 1;
-		}
-		else if (principal_loop(data, export, i) == 1)
-			return (free(export), 1);
-	}
-	return (free(export), 0);
+    if (!data->cmd[1])
+        return (print_export(data), 0);
+    export = malloc(sizeof(t_export));
+    if (!export)
+        return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
+            data->exit_status = 1, 1);
+    i = 0;
+    data->exit_status = 0;
+    while (i ++, data->cmd[i])
+    {
+        printf("Argument %d: %s\n", i, data->cmd[i]); // Debug
+        if (!is_valid_identifier(data->cmd[i]))
+        {
+            ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);
+            ft_putstr_fd(data->cmd[i], 2);
+            ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
+            data->exit_status = 1;
+            continue;
+        }
+        if (principal_loop(data, export, i) == 1)
+            return (free(export), 1);
+    }
+    return (free(export), 0);
 }

@@ -32,7 +32,7 @@ static void print_echo(char **cmd, int i)
 			continue ;
 		}
         ft_putstr_fd(cmd[i], 1);
-		if (cmd[i + 1])
+		if (cmd[i + 1] != NULL)
 			ft_putchar_fd(' ', 1);
         i++;
     }

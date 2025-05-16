@@ -49,7 +49,6 @@ static int 	count_tokens(char *input)
 		{
 			if (input[i] == '\'' || input[i] == '\"')
 			{
-				count++;
 				quote = input[i++];
 				quotes_nb++;
 				j = i;
@@ -57,11 +56,13 @@ static int 	count_tokens(char *input)
 					j++;
 				if (input[j] == '\0' && (quotes_nb % 2 != 0))
 					return (ft_putstr_fd("minishell: Parsing error\n", 2), -1);
-				if (input[j] == quote)
+				if (input[j] == quote && input[j + 1] && !ft_isspace(input[j + 1]))
 				{
 					quotes_nb++;
 					i = j + 1;
 				}
+				if (input[j] == '\0' || ft_isspace(input[j + 1]))
+					count++;
 			}
 			else
 			{
@@ -71,6 +72,7 @@ static int 	count_tokens(char *input)
 			}
 		}
 	}
+	printf("count = %d\n", count);
 	return (count);
 }
 
@@ -93,12 +95,18 @@ static int	extract_token(char *input, char **token, int *was_quoted)
 		quote = input[i++];
 		start = input + i;
 		while (input[i] && (input[i] != quote))
+		{
 			i++;
+			if (input[i] == quote && input[i + 1] == quote)
+				i += 2;
+//			if (input[i + 1] && input[i] == quote && !ft_isspace(input[i + 1]))
+//				i++;
+		}
 		if (!input[i])
 			return (-1);
 		if (input[i] == quote)
 			*was_quoted = 1;
-		*token = ft_substr(start, 0, i - (start - input));
+		*token = ft_substr_quotes(start, 0, i - (start - input), quote);
 		if (!*token)
 			return (-1);
 		return (i + 1);

@@ -74,6 +74,7 @@ typedef struct	s_data
 	int exit_status;	// Exit status of the last command
 	char *pwd;			// Current working directory
 	char *oldpwd;		// Previous working directory
+	int *was_quoted;
 }				t_data;
 
 /*--------------------fonctions--------------------*/

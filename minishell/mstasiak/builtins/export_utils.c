@@ -14,15 +14,24 @@
 
 int is_valid_identifier(char *str)
 {
+    int i;
+
     if (!str || !str[0] || ft_isdigit(str[0]))
         return (0);
     if (str[0] != '_' && !ft_isalpha(str[0]))
         return (0);
-    while (*str && *str != '=')
+    i = 0;
+    while (str[i] && str[i] != '=')
     {
-        if (!ft_isalnum(*str) && *str != '_')
+        if (!ft_isalnum(str[i]) && str[i] != '_')
             return (0);
-        str++;
+        i++;
+    }
+    if (str[i] == '=')
+    {
+        i++;
+        if (str[i] == '"' && !ft_strchr(&str[i + 1], '"'))
+            return (0);
     }
     return (1);
 }
@@ -39,7 +48,7 @@ char *remove_quotes(char *value)
     len = ft_strlen(value);
     if (len >= 2 && value[0] == '"' && value[len - 1] == '"')
     {
-        clean_value = malloc(len - 1); // len - 2 + 1 pour \0
+        clean_value = malloc(len - 1);
         if (!clean_value)
             return (NULL);
         i = 1;
@@ -49,6 +58,8 @@ char *remove_quotes(char *value)
         clean_value[j] = '\0';
         return (clean_value);
     }
+    if (value[0] == '"' || value[len - 1] == '"')
+        return (NULL);
     return (ft_strdup(value));
 }
 
