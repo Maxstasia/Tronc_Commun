@@ -77,7 +77,9 @@ char	*ft_substr_quotes(char const *s, unsigned int start, size_t len, char quote
 				start++;
 				continue ;
 			}
-			if (s[start] == quote && s[start + 1] == '\0')
+			else if (s[start] == quote && s[start + 1] != '\0')
+				start++;
+			else if (s[start] == quote && s[start + 1] == '\0')
 			{
 				str[i] = '\0';
 				return (str);
