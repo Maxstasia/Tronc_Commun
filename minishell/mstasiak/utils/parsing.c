@@ -72,7 +72,7 @@ static int 	count_tokens(char *input)
 					count++;
 				}
 				if (input[j] == '\0' && (quotes_nb % 2 != 0))
-					return (ft_putstr_fd("minishell: Parsing error\n", 2), -1);
+					return (ft_putstr_fd("maxishell: Parsing error\n", 2), -1);
 
 				if (input[j] == quote && input[j + 1] && !ft_isspace(input[j + 1]))
 					count--;
@@ -195,20 +195,20 @@ int	parse_input(t_data *data, char *input)
 	data->was_quoted = (int *)malloc(sizeof(int) * count);
 	data->cmd = malloc(sizeof(char *) * (count + 1));
 	if (!data->cmd || !data->was_quoted)
-		return (ft_putstr_fd("minishell: malloc failed\n", 2), data->exit_status = 1, 1);
+		return (ft_putstr_fd("maxishell: malloc failed\n", 2), data->exit_status = 1, 1);
 	i = 0;
 	live_index = 0;
 	while (i < count)
 	{
 		live_index += extract_token(input + live_index, &data->cmd[i], &data->was_quoted[i]) + 1;
-		printf("live_index = %d\n", live_index);
-		printf("data->cmd[%d] = %s\n", i, data->cmd[i]);
+		printf("live_index = %d\n", live_index); // Debug
+		printf("data->cmd[%d] = %s\n", i, data->cmd[i]); // Debug
 		if (live_index < 0 || !data->cmd[i])
 		{
 			free_tab(data->cmd);
 			data->cmd = NULL;
-			printf("%s", __func__);
-			return (ft_putstr_fd("minishell: Parsing error, %s\n", 2), data->exit_status = 1, 1);
+			printf("%s", __func__); // Debug
+			return (ft_putstr_fd("maxishell: Parsing error, %s\n", 2), data->exit_status = 1, 1);
 		}
 		i++;
 	}
@@ -222,7 +222,7 @@ void	minishell_loop(t_data *data)
 
 	while (1)
 	{
-		input = readline("minishell$ ");
+		input = readline("maxishell$ ");
 		if (!input)
 		{
 			ft_cleanup(data);
