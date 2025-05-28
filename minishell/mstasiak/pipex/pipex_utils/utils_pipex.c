@@ -143,57 +143,12 @@ char *find_path(t_data *data, char *cmd_name)
 	return (free_tab(paths), NULL);
 }
 
-static int is_builtin(char *cmd_name)
-{
-	if (!cmd_name)
-		return (0);
-	if (ft_strcmp(cmd_name, "echo") == 0 ||
-		ft_strcmp(cmd_name, "cd") == 0 ||
-		ft_strcmp(cmd_name, "pwd") == 0 ||
-		ft_strcmp(cmd_name, "export") == 0 ||
-		ft_strcmp(cmd_name, "unset") == 0 ||
-		ft_strcmp(cmd_name, "env") == 0 ||
-		ft_strcmp(cmd_name, "exit") == 0)
-		return (1);
-	return (0);
-}
-
-static int exec_builtin(t_data *data, t_cmd *cmd)
-{
-	data->cmd = cmd->args;
-	ft_putstr_fd("DEBUG: exec_builtin called for ", 2);
-	ft_putstr_fd(cmd->args[0], 2);
-	ft_putstr_fd("\n", 2);
-	if (ft_strcmp(cmd->args[0], "echo") == 0)
-		echo_builtin(data);
-	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-		builtin_cd(cmd->args, data);
-	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		return (pwd(data));
-	else if (ft_strcmp(cmd->args[0], "export") == 0)
-		return (ft_export(data));
-	else if (ft_strcmp(cmd->args[0], "unset") == 0)
-		return (ft_unset(data));
-	else if (ft_strcmp(cmd->args[0], "env") == 0)
-		return (env(data));
-	else if (ft_strcmp(cmd->args[0], "exit") == 0)
-		exit_builtin(data);
-	return (data->exit_status);
-}
-
 void execute(t_data *data, t_cmd *cmd)
 {
 	char *path;
-	int status;
-	
+
 	if (!cmd->args || !cmd->args[0])
 		error_127(data, cmd, NULL);
-	if (is_builtin(cmd->args[0]))
-	{
-		status = exec_builtin(data, cmd);
-		free_cmd(cmd);
-		exit(status);
-	}
 	if (ft_strncmp(cmd->args[0], "/", 1) == 0 || ft_strncmp(cmd->args[0], "./", 2) == 0
 		|| ft_strncmp(cmd->args[0], "../", 3) == 0)
 		path = ft_strdup(cmd->args[0]);
@@ -203,4 +158,15 @@ void execute(t_data *data, t_cmd *cmd)
 		error_127(data, cmd, path);
 	if (execve(path, cmd->args, data->envp) == -1)
 		error_127(data, cmd, path);
+}
+
+void	t_pipex_init(t_pipex *pipex, char *input, t_token_list *current)
+{
+	pipex->cmd_count = count_cmd(current);
+	pipex->commands = ft_split_advanced(input, pipex->cmd_count);
+	pipex->fd[0] = -1;
+	pipex->fd[1] = -1;
+	pipex->prev_fd = -1;
+	pipex->is_first = 1;
+	pipex->is_last = 0;
 }

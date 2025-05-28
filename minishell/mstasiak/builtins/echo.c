@@ -28,23 +28,25 @@ static int	is_n_option(char *arg)
 	return (1);
 }
 
-void	echo_builtin(t_data *data)
+void	echo_builtin(t_token_list *token_list, t_data *data)
 {
 	int	i;
 	int	newline;
+	t_token_list	*tmp;
 
+	tmp = token_list;
 	i = 1;
 	newline = 1;
-	while (data->cmd[i] && is_n_option(data->cmd[i]))
+	while (tmp->token && is_n_option(tmp->token))
 	{
 		newline = 0;
 		i++;
 	}
-	while (data->cmd[i])
+	while (token_list->token)
 	{
-		ft_putstr_fd(data->cmd[i], STDOUT_FILENO);
+		ft_putstr_fd(tmp->token, STDOUT_FILENO);
 		i++;
-		if (data->cmd[i])
+		if (tmp->token)
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
 	if (newline)

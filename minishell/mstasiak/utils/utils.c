@@ -128,3 +128,23 @@ char *expand_variables(char *input, t_data *data)
 	result[j] = '\0';
 	return (result);
 }
+
+void	init_token_list(t_token_list *token_list)
+{
+	token_list->token = NULL;
+	token_list->type = 0;
+	token_list->next = NULL;
+}
+
+void	init_next(t_token_list *token_list)
+{
+	token_list->next = malloc(sizeof(t_token_list));
+	if (!token_list->next)
+	{
+		free(token_list->token);
+		free(token_list);
+		token_list = NULL;
+		return;
+	}
+	init_token_list(token_list->next);
+}

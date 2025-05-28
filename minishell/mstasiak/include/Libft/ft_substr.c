@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 int	ft_mallocsize(char const *s, unsigned int start, size_t len)
 {

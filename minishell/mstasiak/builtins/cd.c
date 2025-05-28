@@ -28,11 +28,11 @@ static char	*cd_handle_oldpwd(t_data *data)
 	return (path);
 }
 
-static char	*cd_get_path(char **cmd, t_data *data)
+static char	*cd_get_path(char *cmd, t_data *data)
 {
 	char	*path;
 	
-	if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
+	if (!cmd || ft_strcmp(&cmd[1], "~") == 0)
 	{
 		path = get_env_var(data->envp, "HOME");
 		if (!path)
@@ -42,10 +42,10 @@ static char	*cd_get_path(char **cmd, t_data *data)
 			return (NULL);
 		}
 	}
-	else if (ft_strcmp(cmd[1], "-") == 0)
+	else if (ft_strcmp(cmd, "-") == 0)
 		return (cd_handle_oldpwd(data));
 	else
-		path = cmd[1];
+		path = cmd;
 	return (path);
 }
 
@@ -90,7 +90,7 @@ void	builtin_cd(char **cmd, t_data *data)
 {
 	char	*path;
 	
-	path = cd_get_path(cmd, data);
+	path = cd_get_path(*cmd, data);
 	if (!path)
 		return;
 	if (cd_change_dir(path, data))

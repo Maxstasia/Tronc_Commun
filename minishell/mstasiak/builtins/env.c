@@ -34,11 +34,11 @@ static void	display_env(t_data *data)
     data->exit_status = 0;
 }
 
-int env(t_data *data)
+int env(t_data *data, char *cmd)
 {
-    if (data->cmd[1])
+    if (cmd)
     {
-        print_env_error(data, data->cmd[1]);
+        print_env_error(data, cmd);
         return (1);
     }
     display_env(data);

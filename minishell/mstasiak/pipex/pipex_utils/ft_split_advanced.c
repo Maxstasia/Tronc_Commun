@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:38:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/26 13:39:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/04/18 16:47:27 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int is_redirect(char *str)
 		ft_strcmp(str, "<<") == 0 || ft_strcmp(str, ">>") == 0);
 }
 
-static int count_tokens(const char *input)
+static int count_token(const char *input)
 {
 	int i = 0;
 	int count = 0;
@@ -104,14 +104,16 @@ static void free_cmds(t_cmd *cmd, int j)
 	free(cmd);
 }
 
-t_cmd *ft_split_advanced(const char *s)
+t_cmd *ft_split_advanced(const char *s, int cmd_count)
 {
 	t_cmd *result;
 	int i, j, k, token_len;
+	char *arg;
+	char *file;
 	
 	if (!s)
 		return (NULL);
-	result = malloc(sizeof(t_cmd) * 256);
+	result = malloc(sizeof(t_cmd) * cmd_count);
 	if (!result)
 		return (NULL);
 	i = 0;
@@ -122,8 +124,8 @@ t_cmd *ft_split_advanced(const char *s)
 			i++;
 		if (!s[i])
 			break;
-		result[j].args = malloc(sizeof(char *) * (count_tokens(s + i) + 1));
-		result[j].redirects = malloc(sizeof(t_redirect) * 256);
+		result[j].args = malloc(sizeof(char *) * (count_token(s + i) + 1));
+		result[j].redirects = malloc(sizeof(t_redirect) * cmd_count);
 		result[j].redirect_count = 0;
 		k = 0;
 		while (s[i] && s[i] != '|')
@@ -132,13 +134,11 @@ t_cmd *ft_split_advanced(const char *s)
 				i++;
 			if (!s[i] || s[i] == '|')
 				break;
-			char *arg;
 			token_len = extract_token(s, &i, &arg);
 			if (token_len < 0 || !arg)
 				return (free_cmds(result, j), NULL);
 			if (is_redirect(arg))
 			{
-				char *file;
 				token_len = extract_token(s, &i, &file);
 				if (token_len < 0 || !file)
 					return (free(arg), free_cmds(result, j), NULL);
@@ -153,7 +153,7 @@ t_cmd *ft_split_advanced(const char *s)
 		if (s[i] == '|')
 			i++;
 		j++;
+		printf("result : %s \n",result[j - 1].args[0]);
 	}
-	result[j].args = NULL;
 	return (result);
 }

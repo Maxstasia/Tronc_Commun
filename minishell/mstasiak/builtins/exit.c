@@ -51,29 +51,29 @@ static int  isnum(char *str)
     return (1);
 }
 
-void    exit_builtin(t_data *data)
+void    exit_builtin(t_data *data, char *cmd)
 {
     ft_putstr_fd("exit\n", 2);
-    if (!data->cmd[1])
+    if (!cmd)
     {
         free_data(data);
         exit(data->exit_status);
     }
-    if (!isnum(data->cmd[1]))
+    if (!isnum(cmd))
     {
         ft_putstr_fd(RED"maxishell: exit: '"YELLOW, 2);
-        ft_putstr_fd(data->cmd[1], 2);
+        ft_putstr_fd(cmd, 2);
         ft_putstr_fd(RED"' : numeric argument required\n"RESET, 2);
         free_data(data);
         exit(255);
     }
-    if (data->cmd[2])
+    if (cmd)
     {
         ft_putstr_fd(RED"maxishell: exit: too many arguments\n"RESET, 2);
         data->exit_status = 1;
         return ;
     }
-    data->exit_status = ft_atol(data->cmd[1]);
+    data->exit_status = ft_atol(cmd);
     data->exit_status = data->exit_status % 256;
     exit(data->exit_status);
 }

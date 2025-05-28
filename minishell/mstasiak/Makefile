@@ -22,6 +22,7 @@ P_UTILS_DIR	= $(PIPEX_DIR)/pipex_utils
 BUILTIN_DIR	= ./builtins
 INCLUDE_DIR	= ./include
 UTILS_DIR	= ./utils
+PARSER_DIR	= ./parsing
 GNL_DIR		= $(INCLUDE_DIR)/get_next_line
 LIBFT_DIR	= $(INCLUDE_DIR)/Libft
 
@@ -29,8 +30,13 @@ LIBFT_DIR	= $(INCLUDE_DIR)/Libft
 SRC			=									\
 		minishell.c								\
 		\
-		$(UTILS_DIR)/parsing.c					\
+		$(PARSER_DIR)/lexer.c					\
+		$(PARSER_DIR)/parser.c					\
+		$(PARSER_DIR)/parsing.c					\
+		\
+		$(UTILS_DIR)/cleanup.c					\
 		$(UTILS_DIR)/utils.c					\
+		$(UTILS_DIR)/utils2.c					\
 		\
 		$(BUILTIN_DIR)/cd.c						\
 		$(BUILTIN_DIR)/echo.c					\
@@ -69,7 +75,7 @@ LIBS = $(LIBFT_A) -lreadline
 all: $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(UTILS_DIR) $(OBJ_DIR)/$(BUILTIN_DIR) $(OBJ_DIR)/$(GNL_DIR) $(OBJ_DIR)/$(P_SRC_DIR) $(OBJ_DIR)/$(P_UTILS_DIR)
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(PARSER_DIR) $(OBJ_DIR)/$(UTILS_DIR) $(OBJ_DIR)/$(BUILTIN_DIR) $(OBJ_DIR)/$(GNL_DIR) $(OBJ_DIR)/$(P_SRC_DIR) $(OBJ_DIR)/$(P_UTILS_DIR)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

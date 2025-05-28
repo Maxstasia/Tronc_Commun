@@ -70,50 +70,81 @@ typedef struct	s_pipex
 typedef struct	s_data
 {
 	char **envp;		// Environment variables
-	char **cmd;			// Command arguments parsed
 	int exit_status;	// Exit status of the last command
 	char *pwd;			// Current working directory
 	char *oldpwd;		// Previous working directory
-	int *was_quoted;
+	char *input;		// User input
 }				t_data;
+
+typedef struct s_token_list
+{
+	char	*token;		// Le token lui-même
+	int		type;		// Type du token (commande, argument, redirection, etc.)
+	struct s_token_list *next; // Pointeur vers le prochain token
+} t_token_list;
+
+/*--------------------enumeration--------------------*/
+
+typedef enum e_token_type
+{
+	TXT,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	REDIR_HEREDOC,
+	PIPE
+} t_token_type;
 
 /*--------------------fonctions--------------------*/
 
 // Builtins
-void	builtin_cd(char **cmd, t_data *data);
-void	echo_builtin(t_data *data);
-int		pwd(t_data *data);
-int		env(t_data *data);
-int		ft_export(t_data *data);
-int		ft_unset(t_data *data);
-void	exit_builtin(t_data *data);
+void			builtin_cd(char **cmd, t_data *data);
+void			echo_builtin(t_token_list *token_list, t_data *data);
+int				pwd(t_data *data);
+int				env(t_data *data, char *cmd);
+int				ft_export(t_data *data, t_token_list *token_list);
+int				ft_unset(t_data *data, t_token_list *token_list);
+void			exit_builtin(t_data *data, char *cmd);
 
 // Utils
-long	ft_atol(const char *str);
-char	**copy_envp(char **envp);
-void	free_data(t_data *data);
-void	init_data(t_data *data, char **envp);
-char	*new_envp(const char *name, const char *value);
-char	**add_envp(char **news, char **envp, const char *name, const char *val);
-void	update_env_var(char ***envp, const char *name, const char *value);
-char	*get_env_var(char **envp, const char *name);
-char	*get_start_cmd(char *cmd);
-char	*expand_variables(char *input, t_data *data);
+long			ft_atol(const char *str);
+char			**copy_envp(char **envp);
+void			free_data(t_data *data);
+void			init_data(t_data *data, char **envp);
+char			*new_envp(const char *name, const char *value);
+char			**add_envp(char **news, char **envp, const char *name, const char *val);
+void			update_env_var(char ***envp, const char *name, const char *value);
+char			*get_env_var(char **envp, const char *name);
+char			*get_start_cmd(char *cmd);
+char			*expand_variables(char *input, t_data *data);
+void			free_token_list(t_token_list *token);
+void			ft_cleanup(t_data *data, t_token_list *token_list);
+void			init_token_list(t_token_list *token_list);
+void			init_next(t_token_list *token_list);
 
 // Pipex
-t_cmd	*ft_split_advanced(const char *s);
-char	*find_path(t_data *data, char *cmd_name);
-void	execute_pipeline(t_data *data, t_pipex *pipex);
-void	execute(t_data *data, t_cmd *cmd);
-void	child_process(t_data *data, t_pipex *pipex, int cmd_index);
-void	handle_here_doc(t_data *data, t_redirect *redirect);
-void	free_tab(char **tab);
-void	free_cmd(t_cmd *cmd);
-void	error_127(t_data *data, t_cmd *cmd, char *path);
-void	error(t_data *data);
+t_cmd			*ft_split_advanced(const char *s, int cmd_count);
+char			*find_path(t_data *data, char *cmd_name);
+void			execute_pipeline(t_data *data, t_pipex *pipex);
+void			execute(t_data *data, t_cmd *cmd);
+void			child_process(t_data *data, t_pipex *pipex, int cmd_index);
+void			handle_here_doc(t_data *data, t_redirect *redirect);
+void			free_tab(char **tab);
+void			free_cmd(t_cmd *cmd);
+void			error_127(t_data *data, t_cmd *cmd, char *path);
+void			error(t_data *data);
+void			t_pipex_init(t_pipex *pipex, char *input, t_token_list *current);
 
 // Parsing
-t_pipex	parse_line(const char *line);
-int		parse_input(t_data *data, char *input);
+t_pipex 		parse_line(char *line, t_token_list *token_list);
+int				parse_input(t_data *data, char *input, t_token_list *token_list);
+int				count_tokens(char *str);
+t_token_type	get_token_type(char *token);
+char			*extract_tokens(char *str, char *token);
+char			*parsed_token(char *token);
+int				single_quoted(char *token, int i);
+int				double_quoted(char *token, int i);
+int				get_index(char *str, int i);
+int 			count_cmd(t_token_list *token_list);
 
 #endif

@@ -73,23 +73,25 @@ char *get_start_cmd(char *cmd)
     return (start_cmd);
 }
 
-int ft_unset(t_data *data)
+int ft_unset(t_data *data, t_token_list *token_list)
 {
     int     i;
     char    *cmd_start;
+	t_token_list *tmp;
 
-    if (!data->cmd[1])
-        return (data->exit_status = 0, 0);
+	tmp = token_list;
+	if (!tmp)
+		return (data->exit_status = 0, 0);
     i = 0;
-    while (data->cmd[++i])
+    while (tmp->token)
     {
-        cmd_start = get_start_cmd(data->cmd[i]);
+        cmd_start = get_start_cmd(tmp->token);
         if (cmd_start == NULL)
             return (data->exit_status = 1, 1);
         if (!is_valid_unset_identifier(cmd_start))
         {
             ft_putstr_fd(RED"maxishell: unset: '"YELLOW, 2);
-            ft_putstr_fd(data->cmd[i], 2);
+            ft_putstr_fd(tmp->token, 2);
             ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
             data->exit_status = 1;
             free(cmd_start);
@@ -100,5 +102,5 @@ int ft_unset(t_data *data)
                 return (free(cmd_start), 1);
         }
     }
-    return (0);
+    return (free_token_list(tmp), 0);
 }

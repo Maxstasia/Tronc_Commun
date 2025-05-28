@@ -34,7 +34,7 @@ void free_pipex(t_pipex *pipex)
 	int i;
 	
 	i = 0;
-	while (pipex->commands[i].args)
+	while (i < pipex->cmd_count)
 	{
 		free_cmd(&pipex->commands[i]);
 		i++;
@@ -53,8 +53,6 @@ void free_data(t_data *data)
 			free(data->envp[i++]);
 		free(data->envp);
 	}
-	if (data->cmd)
-		free_tab(data->cmd);
 	if (data->pwd)
 		free(data->pwd);
 	if (data->oldpwd)
@@ -69,7 +67,6 @@ void init_data(t_data *data, char **envp)
 		ft_putstr_fd(RED"maxishell: envp copy failed\n"RESET, 2);
 		exit(EXIT_FAILURE);
 	}
-	data->cmd = NULL;
 	data->exit_status = 0;
 	data->pwd = getcwd(NULL, 0);
 	if (!data->pwd)
@@ -133,7 +130,16 @@ int main(int ac, char **av, char **envp)
 	char *line;
 	char *expanded_line;
 	t_pipex pipex;
+	t_token_list *token_list;
 	
+	
+	token_list = malloc(sizeof(t_token_list));
+	if (!token_list)
+	{
+		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		return (1);
+	}
+	init_token_list(token_list);
 	if (ac != 1)
 	{
 		ft_putstr_fd(RED"Error: ./maxishell takes no arguments\n"RESET, 2);
@@ -161,27 +167,28 @@ int main(int ac, char **av, char **envp)
 				free(line);
 				continue;
 			}
+			parse_input(&data, expanded_line, token_list);
 			if (!has_pipes(expanded_line))
 			{
-				if (parse_input(&data, expanded_line) == 0 && data.cmd)
+				if (parse_input(&data, expanded_line, token_list) == 0)
 				{
-					if (ft_strcmp(data.cmd[0], "echo") == 0)
-						echo_builtin(&data);
-					else if (ft_strcmp(data.cmd[0], "cd") == 0)
-						builtin_cd(data.cmd, &data);
-					else if (ft_strcmp(data.cmd[0], "pwd") == 0)
+					if (ft_strcmp(token_list->token, "echo") == 0)
+						echo_builtin(token_list, &data);
+					else if (ft_strcmp(token_list->token, "cd") == 0)
+						builtin_cd(&token_list->token, &data);
+					else if (ft_strcmp(token_list->token, "pwd") == 0)
 						pwd(&data);
-					else if (ft_strcmp(data.cmd[0], "export") == 0)
-						ft_export(&data);
-					else if (ft_strcmp(data.cmd[0], "unset") == 0)
-						ft_unset(&data);
-					else if (ft_strcmp(data.cmd[0], "env") == 0)
-						env(&data);
-					else if (ft_strcmp(data.cmd[0], "exit") == 0)
-						exit_builtin(&data);
+					else if (ft_strcmp(token_list->token, "export") == 0)
+						ft_export(&data, token_list);
+					else if (ft_strcmp(token_list->token, "unset") == 0)
+						ft_unset(&data, token_list);
+					else if (ft_strcmp(token_list->token, "env") == 0)
+						env(&data, token_list->token);
+					else if (ft_strcmp(token_list->token, "exit") == 0)
+						exit_builtin(&data, token_list->token);
 					else
 					{
-						pipex = parse_line(expanded_line);
+						pipex = parse_line(expanded_line, token_list);
 						pipex.envp = data.envp;
 						if (pipex.commands)
 						{
@@ -189,13 +196,20 @@ int main(int ac, char **av, char **envp)
 							free_pipex(&pipex);
 						}
 					}
-					free_tab(data.cmd);
-					data.cmd = NULL;
+					free_token_list(token_list);
+					token_list = malloc(sizeof(t_token_list));
+					if (!token_list)
+					{
+					    ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+					    free_data(&data);
+					    exit(1);
+					}
+					init_token_list(token_list);
 				}
 			}
 			else
 			{
-				pipex = parse_line(expanded_line);
+				pipex = parse_line(expanded_line, token_list);
 				pipex.envp = data.envp;
 				if (pipex.commands)
 				{
