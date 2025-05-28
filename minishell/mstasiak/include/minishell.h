@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/02 12:04:10 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:04:30 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void			free_token_list(t_token_list *token);
 void			ft_cleanup(t_data *data, t_token_list *token_list);
 void			init_token_list(t_token_list *token_list);
 void			init_next(t_token_list *token_list);
+int				init_first_value_token_list(char *input, t_token_list *token_list);
 
 // Pipex
 t_cmd			*ft_split_advanced(const char *s, int cmd_count);

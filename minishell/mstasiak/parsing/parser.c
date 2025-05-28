@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/06 18:06:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:00:08 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		single_quoted(char *token, int i)
 	}
 	else
 	{
-		ft_putstr_fd("Error: Unmatched quotes\n", 2);
+		ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2);
 		return (-1);
 	}
 }
@@ -45,7 +45,7 @@ int		double_quoted(char *token, int i)
 	}
 	else
 	{
-		ft_putstr_fd("Error: Unmatched quotes\n", 2);
+		ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2);
 		return (-1);
 	}
 }

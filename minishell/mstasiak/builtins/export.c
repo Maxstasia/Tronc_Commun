@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:31 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/13 17:24:27 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:34:20 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int ft_export(t_data *data, t_token_list *token_list)
     t_export *export;
 
 	tmp = token_list;
-    if (!tmp->next->token)
+    if (!tmp->next || !tmp->next->token)
 	{
         return (print_export(data), 0);
 	}
@@ -88,7 +88,6 @@ int ft_export(t_data *data, t_token_list *token_list)
     data->exit_status = 0;
     while (tmp)
     {
-        printf("Argument: %s\n", tmp->token); // Debug
         if (!is_valid_identifier(tmp->token))
         {
             ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);

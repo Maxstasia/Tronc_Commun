@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:38:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/04/18 16:47:27 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:10:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int extract_token(const char *input, int *i, char **token)
 {
 	int j = 0;
 	char quote = 0;
-	const char *start = input + *i;
+	const char *start;
 
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
 		(*i)++;
@@ -153,7 +153,7 @@ t_cmd *ft_split_advanced(const char *s, int cmd_count)
 		if (s[i] == '|')
 			i++;
 		j++;
-		printf("result : %s \n",result[j - 1].args[0]);
+		printf("result : %s \n",result[j - 1].args[0]); //DEBUG
 	}
 	return (result);
 }

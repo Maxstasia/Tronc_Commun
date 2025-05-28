@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:37:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/01 15:48:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:48:00 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int  isnum(char *str)
 
 void    exit_builtin(t_data *data, char *cmd)
 {
-    ft_putstr_fd("exit\n", 2);
+    ft_putstr_fd(PINK"exit\n"RESET, 2);
     if (!cmd)
     {
         free_data(data);

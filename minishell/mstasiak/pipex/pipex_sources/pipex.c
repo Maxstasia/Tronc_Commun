@@ -32,7 +32,7 @@ void handle_here_doc(t_data *data, t_redirect *redirect)
 	line = NULL;
 	while (1)
 	{
-		ft_putstr_fd(CYAN"maxishell:"GREEN" heredoc> "RESET, STDOUT_FILENO);
+		ft_putstr_fd(GREEN" heredoc> "RESET, STDOUT_FILENO);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break;

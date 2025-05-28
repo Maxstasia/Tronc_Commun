@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/06 18:06:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:00:10 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ char 	*extract_tokens(char *input, char *token)
 {
 	int		i;
 	int		j;
-	
 
-	j = 0;
 	i = 0;
 	while (input[i])
 	{
@@ -85,7 +83,7 @@ char 	*extract_tokens(char *input, char *token)
 				else if (input[i] == '\"')
 					i = double_quoted(input, i);
 				if (i == -1)
-					return (ft_putstr_fd("Error: Unmatched quotes\n", 2), NULL);
+					return (ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2), NULL);
 				if (input[i + 1] == ' ' || input[i + 1] == '\t' || input[i + 1] == '\0')
 				{
 					token = ft_substr(input, j, i - j);
@@ -106,21 +104,3 @@ char 	*extract_tokens(char *input, char *token)
 	}
 	return (NULL);
 }
-
-/*char	*extract_tokens(char *input)
-{
-	char	*token;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (input[i] && (input[i] == ' ' || input[i] == '\t'))
-		i++;
-	j = i;
-	while (input[j] && input[j] != ' ' && input[j] != '\t')
-		j++;
-	token = ft_substr(input, i, j - i);
-	if (!token)
-		return (NULL);
-	return (token);	
-}*/

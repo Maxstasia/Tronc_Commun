@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/02 14:09:16 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:34:57 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static int has_pipes(const char *input)
 	
 	while (input[i])
 	{
-		if (input[i] == '\'' || input[i] == '"')
+		if (input[i] == '\'' || input[i] == '\"')
 		{
 			if (!quote)
 				quote = input[i];
@@ -133,6 +133,11 @@ int main(int ac, char **av, char **envp)
 	t_token_list *token_list;
 	
 	
+	if (ac != 1)
+	{
+		ft_putstr_fd(RED"Error: ./maxishell takes no arguments\n"RESET, 2);
+		return (1);
+	}
 	token_list = malloc(sizeof(t_token_list));
 	if (!token_list)
 	{
@@ -140,11 +145,6 @@ int main(int ac, char **av, char **envp)
 		return (1);
 	}
 	init_token_list(token_list);
-	if (ac != 1)
-	{
-		ft_putstr_fd(RED"Error: ./maxishell takes no arguments\n"RESET, 2);
-		return (1);
-	}
 	init_signals();
 	init_data(&data, envp);
 	while (1)
@@ -152,7 +152,7 @@ int main(int ac, char **av, char **envp)
 		line = readline(CYAN"maxishell$ "RESET);
 		if (!line)
 		{
-			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);
 			free_data(&data);
 			break;
 		}
@@ -163,11 +163,10 @@ int main(int ac, char **av, char **envp)
 			if (!expanded_line)
 			{
 				ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
-				data.exit_status = 1;
 				free(line);
+				data.exit_status = 1;
 				continue;
 			}
-			parse_input(&data, expanded_line, token_list);
 			if (!has_pipes(expanded_line))
 			{
 				if (parse_input(&data, expanded_line, token_list) == 0)
@@ -200,9 +199,9 @@ int main(int ac, char **av, char **envp)
 					token_list = malloc(sizeof(t_token_list));
 					if (!token_list)
 					{
-					    ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
-					    free_data(&data);
-					    exit(1);
+						ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+						free_data(&data);
+						exit(1);
 					}
 					init_token_list(token_list);
 				}
