@@ -6,13 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:39:14 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 13:58:23 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:25:14 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void usage(void)
+void	usage(void)
 {
 	ft_putstr_fd(RED"maxishell: invalid arguments\n"RESET, 2);
 	exit(1);
@@ -28,7 +28,7 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-void free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
 	int	i;
 
@@ -56,7 +56,7 @@ void error_127(t_data *data, t_cmd *cmd, char *path)
 	exit(127);
 }
 
-void error(t_data *data)
+void	error(t_data *data)
 {
 	perror(RED"maxishell: error");
 	if (data)

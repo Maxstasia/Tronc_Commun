@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 13:58:10 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:29:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,32 @@ void	free_token_list(t_token_list *token)
 	}
 }
 
-void	ft_cleanup(t_data *data, t_token_list *token_list)
+void	free_pipex(t_pipex *pipex)
 {
-	free_token_list(token_list);
+	int i;
+	
+	i = 0;
+	while (i < pipex->cmd_count)
+	{
+		free_cmd(&pipex->commands[i]);
+		i++;
+	}
+	free(pipex->commands);
+}
+
+void free_data(t_data *data)
+{
+	int i;
+	
+	i = 0;
 	if (data->envp)
 	{
-		free_tab(data->envp);
-		data->envp = NULL;
+		while (data->envp[i])
+			free(data->envp[i++]);
+		free(data->envp);
 	}
 	if (data->pwd)
-	{
 		free(data->pwd);
-		data->pwd = NULL;
-	}
 	if (data->oldpwd)
-	{
 		free(data->oldpwd);
-		data->oldpwd = NULL;
-	}
 }

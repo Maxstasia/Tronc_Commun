@@ -6,76 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 15:34:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 20:16:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
-
-static void handle_signals(int sig)
-{
-	if (sig == SIGINT)
-	{
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
-static void init_signals(void)
-{
-	signal(SIGINT, handle_signals);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void free_pipex(t_pipex *pipex)
-{
-	int i;
-	
-	i = 0;
-	while (i < pipex->cmd_count)
-	{
-		free_cmd(&pipex->commands[i]);
-		i++;
-	}
-	free(pipex->commands);
-}
-
-void free_data(t_data *data)
-{
-	int i;
-	
-	i = 0;
-	if (data->envp)
-	{
-		while (data->envp[i])
-			free(data->envp[i++]);
-		free(data->envp);
-	}
-	if (data->pwd)
-		free(data->pwd);
-	if (data->oldpwd)
-		free(data->oldpwd);
-}
-
-void init_data(t_data *data, char **envp)
-{
-	data->envp = copy_envp(envp);
-	if (!data->envp)
-	{
-		ft_putstr_fd(RED"maxishell: envp copy failed\n"RESET, 2);
-		exit(EXIT_FAILURE);
-	}
-	data->exit_status = 0;
-	data->pwd = getcwd(NULL, 0);
-	if (!data->pwd)
-	{
-		ft_putstr_fd(RED"maxishell: getcwd failed\n"RESET, 2);
-		exit(EXIT_FAILURE);
-	}
-	data->oldpwd = NULL;
-}
 
 char **copy_envp(char **envp)
 {
@@ -167,6 +102,7 @@ int main(int ac, char **av, char **envp)
 				data.exit_status = 1;
 				continue;
 			}
+			pipex = parse_line(expanded_line, token_list);
 			if (!has_pipes(expanded_line))
 			{
 				if (parse_input(&data, expanded_line, token_list) == 0)
@@ -184,10 +120,9 @@ int main(int ac, char **av, char **envp)
 					else if (ft_strcmp(token_list->token, "env") == 0)
 						env(&data, token_list->token);
 					else if (ft_strcmp(token_list->token, "exit") == 0)
-						exit_builtin(&data, token_list->token);
+						exit_builtin(&data, pipex.commands);
 					else
 					{
-						pipex = parse_line(expanded_line, token_list);
 						pipex.envp = data.envp;
 						if (pipex.commands)
 						{
@@ -208,7 +143,6 @@ int main(int ac, char **av, char **envp)
 			}
 			else
 			{
-				pipex = parse_line(expanded_line, token_list);
 				pipex.envp = data.envp;
 				if (pipex.commands)
 				{

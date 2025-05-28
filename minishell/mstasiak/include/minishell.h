@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 15:04:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 20:09:25 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,12 @@ int				pwd(t_data *data);
 int				env(t_data *data, char *cmd);
 int				ft_export(t_data *data, t_token_list *token_list);
 int				ft_unset(t_data *data, t_token_list *token_list);
-void			exit_builtin(t_data *data, char *cmd);
+void			exit_builtin(t_data *data, t_cmd *cmd);
 
 // Utils
-long			ft_atol(const char *str);
+void			handle_signals(int sig);
+void			init_signals(void);
+void			free_pipex(t_pipex *pipex);
 char			**copy_envp(char **envp);
 void			free_data(t_data *data);
 void			init_data(t_data *data, char **envp);
@@ -118,9 +120,7 @@ char			*get_env_var(char **envp, const char *name);
 char			*get_start_cmd(char *cmd);
 char			*expand_variables(char *input, t_data *data);
 void			free_token_list(t_token_list *token);
-void			ft_cleanup(t_data *data, t_token_list *token_list);
 void			init_token_list(t_token_list *token_list);
-void			init_next(t_token_list *token_list);
 int				init_first_value_token_list(char *input, t_token_list *token_list);
 
 // Pipex
@@ -145,7 +145,6 @@ char			*extract_tokens(char *str, char *token);
 char			*parsed_token(char *token);
 int				single_quoted(char *token, int i);
 int				double_quoted(char *token, int i);
-int				get_index(char *str, int i);
 int 			count_cmd(t_token_list *token_list);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 11:48:52 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 15:32:22 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:29:45 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,43 +127,4 @@ char *expand_variables(char *input, t_data *data)
 	}
 	result[j] = '\0';
 	return (result);
-}
-
-void	init_token_list(t_token_list *token_list)
-{
-	token_list->token = NULL;
-	token_list->type = 0;
-	token_list->next = NULL;
-}
-
-void	init_next(t_token_list *token_list)
-{
-	token_list->next = malloc(sizeof(t_token_list));
-	if (!token_list->next)
-	{
-		free(token_list->token);
-		free(token_list);
-		token_list = NULL;
-		return;
-	}
-	init_token_list(token_list->next);
-}
-
-int	init_first_value_token_list(char *input, t_token_list *token_list)
-{
-	token_list->token = extract_tokens(input, token_list->token);
-	if (!token_list->token)
-	{
-		ft_putstr_fd(RED"Error: Memory allocation failed\n"RESET, STDERR_FILENO);
-		return (-1);
-	}
-	token_list->token = parsed_token(token_list->token);
-	if (!token_list->token)
-	{
-		ft_putstr_fd(RED"Error: Memory allocation failed\n"RESET, STDERR_FILENO);
-		return (-1);
-	}
-	token_list->type = get_token_type(token_list->token);
-	token_list->next = NULL;
-	return (0);
 }

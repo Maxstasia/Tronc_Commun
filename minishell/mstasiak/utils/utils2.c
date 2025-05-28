@@ -1,21 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/28 19:20:47 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/05/28 19:34:40 by mstasiak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-int		get_index(char *str, int i)
+void	handle_signals(int sig)
 {
-	while (str[i] && str[i] != ' ' && str[i] != '\t')
+	if (sig == SIGINT)
 	{
-		if (str[i] == '\'' || str[i] == '\"')
-		{
-			if (str[i] == '\'')
-				i = single_quoted(str, i);
-			else if (str[i] == '\"')
-				i = double_quoted(str, i);
-			if (i == -1)
-				return (-1);
-			i++;
-		}
-		else
-			i++;
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	return (i);
 }
+
+

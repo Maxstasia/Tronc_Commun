@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/18 11:12:32 by mstasiak          #+#    #+#              #
-#    Updated: 2025/05/13 16:28:54 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/05/28 19:31:40 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC			=									\
 		$(PARSER_DIR)/parsing.c					\
 		\
 		$(UTILS_DIR)/cleanup.c					\
+		$(UTILS_DIR)/init.c				\
 		$(UTILS_DIR)/utils.c					\
 		$(UTILS_DIR)/utils2.c					\
 		\
@@ -58,7 +59,8 @@ SRC			=									\
 		$(P_SRC_DIR)/pipex.c					\
 		\
 		$(P_UTILS_DIR)/ft_split_advanced.c		\
-		$(P_UTILS_DIR)/utils_pipex.c
+		$(P_UTILS_DIR)/utils_pipex.c			\
+		$(P_UTILS_DIR)/utils2_pipex.c
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 DEPENDS = $(SRC:%.c=$(OBJ_DIR)/%.d)
