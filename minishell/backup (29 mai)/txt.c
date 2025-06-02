@@ -1,0 +1,10 @@
+builtins
+include
+Makefile
+minishell
+minishell.c
+obj
+parsing
+pipex
+txt.c
+utils
