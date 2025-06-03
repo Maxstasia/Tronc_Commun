@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/03 11:35:14 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:36:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int main(int ac, char **av, char **envp)
 	char *expanded_line;
 	t_pipex pipex;
 	t_token_list *token_list;
+	int saved_stdout;
+	int saved_stdin;
 
 	if (ac != 1)
 	{
@@ -81,13 +83,19 @@ int main(int ac, char **av, char **envp)
 			{
 				if (parse_input(&data, expanded_line, token_list) == 0)
 				{
-					if (is_builtin(token_list->token))
+					// Vérifier qu'il y a une commande à exécuter
+					if (!token_list->token || ft_strlen(token_list->token) == 0)
+					{
+						ft_putstr_fd("maxishell: syntax error near unexpected token\n", 2);
+						data.exit_status = 2;
+					}
+					else if (is_builtin(token_list->token))
 					{
 						// Sauvegarder les descripteurs originaux
-						int saved_stdout = dup(STDOUT_FILENO);
-						int saved_stdin = dup(STDIN_FILENO);
+						saved_stdout = dup(STDOUT_FILENO);
+						saved_stdin = dup(STDIN_FILENO);
 						// Appliquer les redirections si elles existent
-						if (pipex.commands[0].redirect_count > 0)
+						if (pipex.commands && pipex.commands[0].redirect_count > 0)
 						{
 							apply_redirects(&data, &pipex.commands[0]);
 						}
