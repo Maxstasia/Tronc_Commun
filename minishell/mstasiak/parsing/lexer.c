@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 14:00:10 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:37:34 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char 	*extract_tokens(char *input, char *token)
 				else if (input[i] == '\"')
 					i = double_quoted(input, i);
 				if (i == -1)
-					return (ft_putstr_fd(RED"Error: Unmatched 1quotes\n"RESET, 2), NULL);
+					return (ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2), NULL);
 			}
 			else if (input[i] == ' ' || input[i] == '\t')
 				break ;

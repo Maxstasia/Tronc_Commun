@@ -49,7 +49,7 @@ void handle_here_doc(t_data *data, t_redirect *redirect)
 	redirect->file = ft_itoa(fd[0]); // Stocker le FD comme fichier temporaire
 }
 
-static void apply_redirects(t_data *data, t_cmd *cmd)
+void apply_redirects(t_data *data, t_cmd *cmd)
 {
 	int i = -1;
 

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 21:01:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:35:14 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,23 @@ int main(int ac, char **av, char **envp)
 				if (parse_input(&data, expanded_line, token_list) == 0)
 				{
 					if (is_builtin(token_list->token))
+					{
+						// Sauvegarder les descripteurs originaux
+						int saved_stdout = dup(STDOUT_FILENO);
+						int saved_stdin = dup(STDIN_FILENO);
+						// Appliquer les redirections si elles existent
+						if (pipex.commands[0].redirect_count > 0)
+						{
+							apply_redirects(&data, &pipex.commands[0]);
+						}
+						// Exécuter le builtin
 						execute_builtin(&data, token_list, &pipex.commands[0]);
+						// Restaurer les descripteurs originaux
+						dup2(saved_stdout, STDOUT_FILENO);
+						dup2(saved_stdin, STDIN_FILENO);
+						close(saved_stdout);
+						close(saved_stdin);
+					}
 					else
 					{
 						pipex.envp = data.envp;

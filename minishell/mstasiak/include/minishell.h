@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 21:01:37 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:36:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,6 @@ char			*parsed_token(char *token);
 int				single_quoted(char *token, int i);
 int				double_quoted(char *token, int i);
 int 			count_cmd(t_token_list *token_list);
+void			apply_redirects(t_data *data, t_cmd *cmd);
 
 #endif
