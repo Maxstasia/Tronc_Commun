@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/03 11:37:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		count_tokens(char *str)
 			i++;
 		}
 	}
-	printf("DEBUG: Total tokens counted: %d\n", count);
+	printf(YELLOW"DEBUG: Total tokens counted: %d\n"RESET, count);
 	return (count);
 }
 
@@ -84,7 +84,6 @@ char 	*extract_tokens(char *input, char *token, int *index)
 	{
 		i++;
 		token = ft_substr(input, j, 1);
-		printf("DEBUG: *******************: '%s'\n", token); // DEBUG
 		*index = i;
 		return (token);
 	}
@@ -100,7 +99,6 @@ char 	*extract_tokens(char *input, char *token, int *index)
 			i++;
 			token = ft_substr(input, j, 1);
 		}
-		printf("DEBUG: *******************: '%s'\n", token); // DEBUG
 		*index = i;
 		return (token);
 	}
@@ -116,7 +114,6 @@ char 	*extract_tokens(char *input, char *token, int *index)
 			i++;
 			token = ft_substr(input, j, 1);
 		}
-		printf("DEBUG: *******************: '%s'\n", token); // DEBUG
 		*index = i;
 		return (token);
 	}
@@ -140,7 +137,7 @@ char 	*extract_tokens(char *input, char *token, int *index)
 				i++;
 		}
 		token = ft_substr(input, j, i - j);
-		printf("DEBUG: Extracted token: '%s'\n", token); // DEBUG
+		printf(YELLOW"DEBUG: Extracted token: '%s'\n"RESET, token);
 		if (!token)
 			return (NULL);
 		*index = i;

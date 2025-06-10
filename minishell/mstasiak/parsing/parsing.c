@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 20:06:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int count_cmd(t_token_list *token_list)
 			count++;
 		current = current->next;
 	}
-	printf(YELLOW"DEBUG: Nombre de commandes : %d\n"RESET, count); // DEBUG
+	printf(YELLOW"DEBUG: Nombre de commandes : %d\n"RESET, count);
 	return count;
 }
 
@@ -57,7 +57,7 @@ int	parse_input(t_data *data, char *input, t_token_list *token_list)
 	{
 		i = 1;
 		temp = token_list;
-		printf("DEBUG COUNT = %d ////// i = %d\n", count, i); // DEBUG
+		printf(YELLOW"DEBUG COUNT = %d ////// i = %d\n"RESET, count, i);
 		while (i < count)
 		{
 			temp->next = malloc(sizeof(t_token_list));
@@ -78,7 +78,7 @@ int	parse_input(t_data *data, char *input, t_token_list *token_list)
 			i++;
 		}
 	}
-	printf(YELLOW"DEBUG: FIN de boucle \n"RESET); // DEBUG
+	printf(YELLOW"DEBUG: FIN de boucle \n"RESET);
 	
 	return (0);
 }

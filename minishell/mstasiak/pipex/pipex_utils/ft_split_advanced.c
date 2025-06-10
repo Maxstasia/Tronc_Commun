@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:38:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 14:10:38 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:56:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,32 +170,25 @@ t_cmd *ft_split_advanced(char *s, int cmd_count)
 	j = 0;
 	while (s[i])
 	{
-	//	printf("1111111111111111111111111111");
 		while (s[i] && (s[i] == ' ' || s[i] == '\t'))
 			i++;
 		if (!s[i])
 			break;
-	//	printf("2222222222222222222222222222");
 		result[j].args = malloc(sizeof(char *) * (count_token(s + i) + 1));
 		if (!result[j].args)
 			return (free_cmds(result, j), NULL);
-	//	printf("3333333333333333333333333333");
 		result[j].redirects = malloc(sizeof(t_redirect) * cmd_count);
 		if (!result[j].redirects)
 			return (free_cmds(result, j), free(result[j].args), NULL);
-		//printf("4444444444444444444444444444");
 		result[j].redirect_count = 0;
 		k = 0;
 		while (s[i] && s[i] != '|')
 		{
-		//	printf("5555555555555555555555555555");
 			while (s[i] && (s[i] == ' ' || s[i] == '\t'))
 				i++;
 			if (!s[i] || s[i] == '|')
 				break;
-		//	printf("6666666666666666666666666666");
 			token_len = extract_token(s, &i, &arg);
-		//	printf("7777777777777777777777777777");
 			if (token_len < 0 || !arg)
 			{
 				if (arg)
@@ -204,11 +197,9 @@ t_cmd *ft_split_advanced(char *s, int cmd_count)
 			}
 			if (!arg)
 				return (free_cmds(result, j), NULL);
-		//	printf("8888888888888888888888888888");
 			if (is_redirect(arg))
 			{
 				token_len = extract_token(s, &i, &file);
-	//			printf("9999999999999999999999999999");
 				if (token_len < 0 || !file)
 				{
 					if (file)
@@ -218,7 +209,6 @@ t_cmd *ft_split_advanced(char *s, int cmd_count)
 				result[j].redirects[result[j].redirect_count].type = arg;
 				result[j].redirects[result[j].redirect_count].file = remove_quotes(file);
 				result[j].redirect_count++;
-//				printf("123456789123456789123456789");
 			}
 			else
 				result[j].args[k++] = remove_quotes(arg);

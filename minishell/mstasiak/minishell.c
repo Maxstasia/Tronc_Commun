@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/03 17:36:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int has_pipes(const char *input)
 {
-	printf("DEBUG: Checking for pipes in input: '%s'\n", input);
+	printf(YELLOW"DEBUG: Checking for pipes in input: '%s'\n"RESET, input);
 	int i = 0;
 	char quote = 0;
 	
@@ -29,12 +29,12 @@ static int has_pipes(const char *input)
 		}
 		else if (input[i] == '|' && !quote)
 		{
-			printf("DEBUG: Found pipe at position %d\n", i);
+			printf(YELLOW"DEBUG: Found pipe at position %d\n"RESET, i);
 			return (1);
 		}
 		i++;
 	}
-	printf("DEBUG: No pipes found in input\n");
+	printf(YELLOW"DEBUG: No pipes found in input\n"RESET);
 	return (0);
 }
 
@@ -76,7 +76,7 @@ int main(int ac, char **av, char **envp)
 		{
 			add_history(line);
 			expanded_line = expand_variables(line, &data);
-			printf("DEBUG: Expanded line: '%s'\n", expanded_line);
+			printf(YELLOW"DEBUG: Expanded line: '%s'\n"RESET, expanded_line);
 			if (!expanded_line)
 			{
 				ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
@@ -91,7 +91,7 @@ int main(int ac, char **av, char **envp)
 				continue ;
 			}
 			pipex = parse_line(expanded_line, token_list);
-			printf("DEBUG: Parsed commands count: %d\n", pipex.cmd_count);
+			printf(YELLOW"DEBUG: Parsed commands count: %d\n"RESET, pipex.cmd_count);
 			if (!has_pipes(expanded_line))
 			{
 					// Vérifier qu'il y a une commande à exécuter
