@@ -14,6 +14,7 @@
 
 static int has_pipes(const char *input)
 {
+	printf("DEBUG: Checking for pipes in input: '%s'\n", input);
 	int i = 0;
 	char quote = 0;
 	
@@ -27,9 +28,13 @@ static int has_pipes(const char *input)
 				quote = 0;
 		}
 		else if (input[i] == '|' && !quote)
+		{
+			printf("DEBUG: Found pipe at position %d\n", i);
 			return (1);
+		}
 		i++;
 	}
+	printf("DEBUG: No pipes found in input\n");
 	return (0);
 }
 
@@ -71,6 +76,7 @@ int main(int ac, char **av, char **envp)
 		{
 			add_history(line);
 			expanded_line = expand_variables(line, &data);
+			printf("DEBUG: Expanded line: '%s'\n", expanded_line);
 			if (!expanded_line)
 			{
 				ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
@@ -78,11 +84,16 @@ int main(int ac, char **av, char **envp)
 				data.exit_status = 1;
 				continue;
 			}
+			if (parse_input(&data, expanded_line, token_list) != 0)
+			{
+				free(expanded_line);
+				free(line);
+				continue ;
+			}
 			pipex = parse_line(expanded_line, token_list);
+			printf("DEBUG: Parsed commands count: %d\n", pipex.cmd_count);
 			if (!has_pipes(expanded_line))
 			{
-				if (parse_input(&data, expanded_line, token_list) == 0)
-				{
 					// Vérifier qu'il y a une commande à exécuter
 					if (!token_list->token || ft_strlen(token_list->token) == 0)
 					{
@@ -125,7 +136,6 @@ int main(int ac, char **av, char **envp)
 						exit(1);
 					}
 					init_token_list(token_list);
-				}
 			}
 			else
 			{

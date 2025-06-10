@@ -43,9 +43,9 @@ void	init_token_list(t_token_list *token_list)
 	token_list->next = NULL;
 }
 
-int	init_first_value_token_list(char *input, t_token_list *token_list)
+int	init_first_value_token_list(char *input, t_token_list *token_list, int *index)
 {
-	token_list->token = extract_tokens(input, token_list->token);
+	token_list->token = extract_tokens(input, token_list->token, index);
 	if (!token_list->token)
 	{
 		ft_putstr_fd(RED"Error: Memory allocation failed\n"RESET, STDERR_FILENO);

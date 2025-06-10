@@ -43,6 +43,7 @@ int		double_quoted(char *token, int i)
 	else
 		return (-1);
 }
+
 char	*parsed_token(char *token)
 {
 	char	*parsed_token;

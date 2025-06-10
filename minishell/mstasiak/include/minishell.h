@@ -46,6 +46,7 @@ typedef struct	s_redirect
 {
 	char	*type;		// "<", ">", "<<", ">>"
 	char	*file;		// Nom du fichier ou délimiteur pour "<<"
+	int		is_heredoc_fd; // Indique si c'est un fd de heredoc
 }				t_redirect;
 
 typedef struct	s_cmd
@@ -122,10 +123,10 @@ char			*get_env_var(char **envp, const char *name);
 char			*expand_variables(char *input, t_data *data);
 void			free_token_list(t_token_list *token);
 void			init_token_list(t_token_list *token_list);
-int				init_first_value_token_list(char *input, t_token_list *token_list);
+int				init_first_value_token_list(char *input, t_token_list *token_list, int *index);
 
 // Pipex
-t_cmd			*ft_split_advanced(const char *s, int cmd_count);
+t_cmd			*ft_split_advanced(char *s, int cmd_count);
 char			*find_path(t_data *data, char *cmd_name);
 void			execute_pipeline(t_data *data, t_pipex *pipex);
 void			execute(t_data *data, t_cmd *cmd);
@@ -142,7 +143,7 @@ t_pipex 		parse_line(char *line, t_token_list *token_list);
 int				parse_input(t_data *data, char *input, t_token_list *token_list);
 int				count_tokens(char *str);
 t_token_type	get_token_type(char *token);
-char			*extract_tokens(char *str, char *token);
+char			*extract_tokens(char *str, char *token, int *index);
 char			*parsed_token(char *token);
 int				single_quoted(char *token, int i);
 int				double_quoted(char *token, int i);

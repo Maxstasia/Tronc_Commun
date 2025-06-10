@@ -44,6 +44,7 @@ int		count_tokens(char *str)
 			i++;
 		}
 	}
+	printf("DEBUG: Total tokens counted: %d\n", count);
 	return (count);
 }
 
@@ -63,19 +64,64 @@ t_token_type	get_token_type(char *token)
 		return (TXT);
 }
 
-char 	*extract_tokens(char *input, char *token)
+/*char	*special_operator(char *token)
+{
+	if (token[i] == "|
+}
+*/
+char 	*extract_tokens(char *input, char *token, int *index)
 {
 	int		i;
 	int		j;
-
-	i = 0;
-	while (input[i])
+	
+	i = *index;
+	while (input[i] == ' ' || input[i] == '\t')
+		i++;
+	if (!input[i])
+		return (NULL);
+	j = i;
+	if (input[i] == '|')
 	{
-		while (input[i] == ' ' || input[i] == '\t')
+		i++;
+		token = ft_substr(input, j, 1);
+		printf("DEBUG: *******************: '%s'\n", token); // DEBUG
+		*index = i;
+		return (token);
+	}
+	else if (input[i] == '<')
+	{
+		if (input[i + 1] == '<')
+		{
+			i += 2;
+			token = ft_substr(input, j, 2);
+		}
+		else
+		{
 			i++;
-		if (!input[i])
-			return (NULL);
-		j = i;
+			token = ft_substr(input, j, 1);
+		}
+		printf("DEBUG: *******************: '%s'\n", token); // DEBUG
+		*index = i;
+		return (token);
+	}
+	else if (input[i] == '>')
+	{
+		if (input[i + 1] == '>')
+		{
+			i += 2;
+			token = ft_substr(input, j, 2);
+		}
+		else
+		{
+			i++;
+			token = ft_substr(input, j, 1);
+		}
+		printf("DEBUG: *******************: '%s'\n", token); // DEBUG
+		*index = i;
+		return (token);
+	}
+	else
+	{
 		while (input[i])
 		{
 			if (input[i] == '\'' || input[i] == '\"')
@@ -87,14 +133,17 @@ char 	*extract_tokens(char *input, char *token)
 				if (i == -1)
 					return (ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2), NULL);
 			}
-			else if (input[i] == ' ' || input[i] == '\t')
+			else if (input[i] == ' ' || input[i] == '\t' ||
+				input[i] == '|' || input[i] == '<' || input[i] == '>')
 				break ;
 			else
 				i++;
 		}
 		token = ft_substr(input, j, i - j);
+		printf("DEBUG: Extracted token: '%s'\n", token); // DEBUG
 		if (!token)
 			return (NULL);
+		*index = i;
 		return (token);
 	}
 	return (NULL);

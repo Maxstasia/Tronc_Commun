@@ -26,16 +26,16 @@ static pid_t fork_process(t_data *data, t_pipex *pipex, int i)
 		error(data);
 	if (pid == 0)
 	{
-		pipex->is_first = (i == 0);
-		pipex->is_last = (i == pipex->cmd_count - 1);
 		child_process(data, pipex, i);
 		exit(0);
 	}
 	if (pipex->prev_fd != -1)
 		close(pipex->prev_fd);
-	pipex->prev_fd = pipex->fd[0];
 	if (!pipex->is_last)
+	{
 		close(pipex->fd[1]);
+		pipex->prev_fd = pipex->fd[0];
+	}
 	return (pid);
 }
 
@@ -44,20 +44,29 @@ void execute_pipeline(t_data *data, t_pipex *pipex)
 	int i;
 	int status;
 	
+	printf("DEBUG: Starting pipeline execution with %d commands\n", pipex->cmd_count);
 	pipex->pids = (pid_t *)malloc(sizeof(pid_t) * pipex->cmd_count);
 	if (!pipex->pids)
 		error(data);
 	pipex->prev_fd = -1;
 	i = -1;
 	while (++i < pipex->cmd_count)
+	{
+		printf("DEBUG: Executing command %d: %s\n", i, pipex->commands[i].args[0]);
+		pipex->is_first = (i == 0);
+		pipex->is_last = (i == pipex->cmd_count - 1);
 		pipex->pids[i] = fork_process(data, pipex, i);
+		printf("DEBUG: Forked process %d with PID %d\n", i, pipex->pids[i]);
+	}
 	if (pipex->prev_fd != -1)
 		close(pipex->prev_fd);
 	i = -1;
 	while (++i < pipex->cmd_count)
 	{
+		printf("DEBUG: Waiting for process %d with PID %d\n", i, pipex->pids[i]);
 		if (waitpid(pipex->pids[i], &status, 0) > 0 && WIFEXITED(status))
 		{
+			printf("DEBUG: Process %d exited with status %d\n", i, WEXITSTATUS(status));
 			if (i == pipex->cmd_count - 1)
 				data->exit_status = WEXITSTATUS(status);
 		}
