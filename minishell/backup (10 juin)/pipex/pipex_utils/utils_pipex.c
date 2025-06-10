@@ -12,44 +12,6 @@
 
 #include "../../include/minishell.h"
 
-char *new_envp(const char *name, const char *value)
-{
-	char *tmp;
-	char *new_envp;
-	
-	tmp = ft_strjoin(name, "=");
-	if (!tmp)
-		return (NULL);
-	new_envp = ft_strjoin(tmp, value);
-	if (!new_envp)
-	{
-		free(tmp);
-		return (NULL);
-	}
-	free(tmp);
-	return (new_envp);
-}
-
-char **add_envp(char **news, char **envp, const char *name, const char *val)
-{
-	int i;
-	
-	i = 0;
-	while (envp[i])
-	{
-		news[i] = ft_strdup(envp[i]);
-		if (!news[i])
-			return (free_tab(news), NULL);
-		i++;
-	}
-	news[i] = new_envp(name, val);
-	if (!news[i])
-		return (free_tab(news), NULL);
-	i++;
-	news[i] = NULL;
-	return (news);
-}
-
 void update_env_var(char ***envp, const char *name, const char *value)
 {
 	int i;

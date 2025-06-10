@@ -33,7 +33,8 @@ void	print_export(t_data *data)
 		data->exit_status = 1;
 		return;
 	}
-	for (i = 0; i < count; i++)
+	i = 0;
+	while (i < count)
 	{
 		sorted_envp[i] = ft_strdup(data->envp[i]);
 		if (!sorted_envp[i])
@@ -43,11 +44,14 @@ void	print_export(t_data *data)
 			data->exit_status = 1;
 			return;
 		}
+		i++;
 	}
 	sorted_envp[count] = NULL;
-	for (i = 0; i < count - 1; i++)
+	i = 0;
+	while (i < count - 1)
 	{
-		for (j = 0; j < count - i - 1; j++)
+		j = 0;
+		while (j < count - i - 1)
 		{
 			if (ft_strcmp(sorted_envp[j], sorted_envp[j + 1]) > 0)
 			{
@@ -55,7 +59,9 @@ void	print_export(t_data *data)
 				sorted_envp[j] = sorted_envp[j + 1];
 				sorted_envp[j + 1] = temp;
 			}
+			j++;
 		}
+		i++;
 	}
 	i = 0;
 	while (sorted_envp[i])

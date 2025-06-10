@@ -45,6 +45,12 @@ static size_t calculate_buffer_size(char *input, t_data *data)
 			quote = '"';
 		else if (input[i] == '"' && quote == '"')
 			quote = 0;
+		else if (input[i] == '\\' && input[i + 1] == '$' && quote == '"')
+		{
+			size++;
+			i += 2; // Skip le '\$'
+			continue;
+		}
 		else if (input[i] == '$' && quote != '\'' && input[i + 1] && (ft_isalnum(input[i + 1]) || input[i + 1] == '?'))
 		{
 			i++;
@@ -100,6 +106,11 @@ char *expand_variables(char *input, t_data *data)
 			quote = '"';
 		else if (input[i] == '"' && quote == '"')
 			quote = 0;
+		else if (input[i] == '\\' && input[i + 1] == '$' && quote == '"')
+		{
+			result[j++] = '$';
+			i += 2;
+		}
 		else if (input[i] == '$' && quote != '\'' && input[i + 1] && (ft_isalnum(input[i + 1]) || input[i + 1] == '?'))
 		{
 			i++;

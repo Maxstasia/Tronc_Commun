@@ -6,39 +6,15 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 21:01:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
-char **copy_envp(char **envp)
-{
-	int i;
-	char **new_envp;
-	
-	i = 0;
-	while (envp[i])
-		i++;
-	new_envp = malloc(sizeof(char *) * (i + 1));
-	if (!new_envp)
-		return (NULL);
-	i = -1;
-	while (++i, envp[i])
-	{
-		new_envp[i] = ft_strdup(envp[i]);
-		if (!new_envp[i])
-		{
-			free_tab(new_envp);
-			return (NULL);
-		}
-	}
-	new_envp[i] = NULL;
-	return (new_envp);
-}
-
 static int has_pipes(const char *input)
 {
+	printf(YELLOW"DEBUG: Checking for pipes in input: '%s'\n"RESET, input);
 	int i = 0;
 	char quote = 0;
 	
@@ -52,9 +28,13 @@ static int has_pipes(const char *input)
 				quote = 0;
 		}
 		else if (input[i] == '|' && !quote)
+		{
+			printf(YELLOW"DEBUG: Found pipe at position %d\n"RESET, i);
 			return (1);
+		}
 		i++;
 	}
+	printf(YELLOW"DEBUG: No pipes found in input\n"RESET);
 	return (0);
 }
 
@@ -66,8 +46,9 @@ int main(int ac, char **av, char **envp)
 	char *expanded_line;
 	t_pipex pipex;
 	t_token_list *token_list;
-	
-	
+	int saved_stdout;
+	int saved_stdin;
+
 	if (ac != 1)
 	{
 		ft_putstr_fd(RED"Error: ./maxishell takes no arguments\n"RESET, 2);
@@ -95,6 +76,7 @@ int main(int ac, char **av, char **envp)
 		{
 			add_history(line);
 			expanded_line = expand_variables(line, &data);
+			printf(YELLOW"DEBUG: Expanded line: '%s'\n"RESET, expanded_line);
 			if (!expanded_line)
 			{
 				ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
@@ -102,25 +84,40 @@ int main(int ac, char **av, char **envp)
 				data.exit_status = 1;
 				continue;
 			}
+			if (parse_input(&data, expanded_line, token_list) != 0)
+			{
+				free(expanded_line);
+				free(line);
+				continue ;
+			}
 			pipex = parse_line(expanded_line, token_list);
+			printf(YELLOW"DEBUG: Parsed commands count: %d\n"RESET, pipex.cmd_count);
 			if (!has_pipes(expanded_line))
 			{
-				if (parse_input(&data, expanded_line, token_list) == 0)
-				{
-					if (ft_strcmp(token_list->token, "echo") == 0)
-						echo_builtin(pipex.commands, &data);
-					else if (ft_strcmp(token_list->token, "cd") == 0)
-						builtin_cd(pipex.commands->args, &data);
-					else if (ft_strcmp(token_list->token, "pwd") == 0)
-						pwd(&data);
-					else if (ft_strcmp(token_list->token, "export") == 0)
-						ft_export(&data, token_list);
-					else if (ft_strcmp(token_list->token, "unset") == 0)
-						ft_unset(pipex.commands, &data);
-					else if (ft_strcmp(token_list->token, "env") == 0)
-						env(pipex.commands, &data);
-					else if (ft_strcmp(token_list->token, "exit") == 0)
-						exit_builtin(&data, pipex.commands);
+					// Vérifier qu'il y a une commande à exécuter
+					if (!token_list->token || ft_strlen(token_list->token) == 0)
+					{
+						ft_putstr_fd("maxishell: syntax error near unexpected token\n", 2);
+						data.exit_status = 2;
+					}
+					else if (is_builtin(token_list->token))
+					{
+						// Sauvegarder les descripteurs originaux
+						saved_stdout = dup(STDOUT_FILENO);
+						saved_stdin = dup(STDIN_FILENO);
+						// Appliquer les redirections si elles existent
+						if (pipex.commands && pipex.commands[0].redirect_count > 0)
+						{
+							apply_redirects(&data, &pipex.commands[0]);
+						}
+						// Exécuter le builtin
+						execute_builtin(&data, token_list, &pipex.commands[0]);
+						// Restaurer les descripteurs originaux
+						dup2(saved_stdout, STDOUT_FILENO);
+						dup2(saved_stdin, STDIN_FILENO);
+						close(saved_stdout);
+						close(saved_stdin);
+					}
 					else
 					{
 						pipex.envp = data.envp;
@@ -139,7 +136,6 @@ int main(int ac, char **av, char **envp)
 						exit(1);
 					}
 					init_token_list(token_list);
-				}
 			}
 			else
 			{

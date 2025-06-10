@@ -19,6 +19,8 @@ static int	is_n_option(char *arg)
 	if (!arg || arg[0] != '-')
 		return (0);
 	i = 1;
+	if (!arg[1])
+		return (0);
 	while (arg[i])
 	{
 		if (arg[i] != 'n')
@@ -47,9 +49,7 @@ void	echo_builtin(t_cmd *cmd, t_data *data)
 		if (cmd->args[i])
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}
-	if (newline)
-	{
+	if (newline == 1)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	}
 	data->exit_status = 0;
 }

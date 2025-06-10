@@ -6,19 +6,19 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:31 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 15:34:20 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:40:40 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins_utils.h"
 
-static int for_without_equal(t_data *data, t_export *export, char *cmd)
+static int for_without_equal(t_cmd *cmd, t_data *data, t_export *export, int i)
 {
     char *name;
     char *value;
     char *clean_value;
 
-    name = ft_substr(cmd, 0, export->equal_sign - cmd);
+    name = ft_substr(cmd->args[i], 0, export->equal_sign - cmd->args[i]);
     if (!name)
         return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
                 data->exit_status = 1, 1);
@@ -29,7 +29,7 @@ static int for_without_equal(t_data *data, t_export *export, char *cmd)
     clean_value = remove_quotes(value);
     free(value);
     if (!clean_value)
-        return (free(name), ft_putstr_fd(RED"maxishell: export: invalid value\n"RESET, 2),
+        return (free(name), ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
                 data->exit_status = 1, 1);
     export->arg_with_equal = ft_strjoin(name, "=");
     free(name);
@@ -46,19 +46,19 @@ static int for_without_equal(t_data *data, t_export *export, char *cmd)
     return (0);
 }
 
-static int	principal_loop(t_data *data, t_export *export, char *cmd)
+static int	principal_loop(t_cmd *cmd,t_data *data, t_export *export, int i)
 {
-	export->equal_sign = ft_strchr(cmd, '=');
+	export->equal_sign = ft_strchr(cmd->args[i], '=');
 	if (!export->equal_sign)
 	{
-		export->arg_with_equal = ft_strjoin(cmd, "=");
+		export->arg_with_equal = ft_strjoin(cmd->args[i], "=");
 		if (!export->arg_with_equal)
 			return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
 				data->exit_status = 1, 1);
 	}
 	else
 	{
-		if (for_without_equal(data, export, cmd) == 1)
+		if (for_without_equal(cmd, data, export, i) == 1)
 			return (1);
 	}
 	if (update_existing_var(data, export->arg_with_equal) == -1)
@@ -70,35 +70,30 @@ static int	principal_loop(t_data *data, t_export *export, char *cmd)
 	return (0);
 }
 
-int ft_export(t_data *data, t_token_list *token_list)
+int	ft_export(t_cmd *cmd, t_data *data)
 {
-	t_token_list *tmp;
-    t_export *export;
+	t_export	*export;
+	int			i;
 
-	tmp = token_list;
-    if (!tmp->next || !tmp->next->token)
+	if (!cmd->args[1])
+		return (print_export(data), 0);
+	export = malloc(sizeof(t_export));
+	if (!export)
+		return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
+			data->exit_status = 1, 1);
+	i = 0;
+	data->exit_status = 0;
+	while (i ++, cmd->args[i])
 	{
-        return (print_export(data), 0);
+		if (!is_valid_identifier(cmd->args[i]))
+		{
+			ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);
+			ft_putstr_fd(cmd->args[i], 2);
+			ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
+			data->exit_status = 1;
+		}
+		else if (principal_loop(cmd, data, export, i) == 1)
+			return (free(export), 1);
 	}
-	tmp = tmp->next;
-    export = malloc(sizeof(t_export));
-    if (!export)
-        return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
-            data->exit_status = 1, 1);
-    data->exit_status = 0;
-    while (tmp)
-    {
-        if (!is_valid_identifier(tmp->token))
-        {
-            ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);
-            ft_putstr_fd(tmp->token, 2);
-            ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
-            data->exit_status = 1;
-            continue;
-        }
-        if (principal_loop(data, export, tmp->token) == 1)
-            return (free(export), 1);
-		tmp = tmp->next;
-    }
-    return (free(export), 0);
+	return (free(export), 0);
 }

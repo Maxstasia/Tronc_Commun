@@ -25,10 +25,7 @@ int		single_quoted(char *token, int i)
 		return (i);
 	}
 	else
-	{
-		ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2);
 		return (-1);
-	}
 }
 
 int		double_quoted(char *token, int i)
@@ -44,33 +41,33 @@ int		double_quoted(char *token, int i)
 		return (i);
 	}
 	else
-	{
-		ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2);
 		return (-1);
-	}
 }
+
 char	*parsed_token(char *token)
 {
 	char	*parsed_token;
 	int		i;
 
 	i = 0;
-	while (token[i] && (token[i] == ' ' && token[i] == '\t'))
+	while (token[i] && (token[i] == ' ' || token[i] == '\t'))
 		i++;
-	while (token[i] && (token[i] != ' ' && token[i] != '\t'))
+	while (token[i])
 	{
 		if (token[i] == '\'')
 		{
 			i = single_quoted(token, i);
 			if (i == -1)
-				return (NULL);
+				return (ft_putstr_fd(RED"Error: Unmatched single quotes\n"RESET, 2), NULL);
 		}
 		else if (token[i] == '\"')
 		{
 			i = double_quoted(token, i);
 			if (i == -1)
-				return (NULL);
+				return (ft_putstr_fd(RED"Error: Unmatched single quotes\n"RESET, 2), NULL);
 		}
+		else if (token[i] == ' ' && token[i] == '\t' && token[i])
+			break ;
 		else
 			i++;
 	}

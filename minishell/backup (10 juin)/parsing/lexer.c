@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 14:00:10 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		count_tokens(char *str)
 			i++;
 		}
 	}
+	printf(YELLOW"DEBUG: Total tokens counted: %d\n"RESET, count);
 	return (count);
 }
 
@@ -63,18 +64,62 @@ t_token_type	get_token_type(char *token)
 		return (TXT);
 }
 
-char 	*extract_tokens(char *input, char *token)
+/*char	*special_operator(char *token)
+{
+	if (token[i] == "|
+}
+*/
+char 	*extract_tokens(char *input, char *token, int *index)
 {
 	int		i;
 	int		j;
-
-	i = 0;
-	while (input[i])
+	
+	i = *index;
+	while (input[i] == ' ' || input[i] == '\t')
+		i++;
+	if (!input[i])
+		return (NULL);
+	j = i;
+	if (input[i] == '|')
 	{
-		while (input[i] == ' ' || input[i] == '\t')
+		i++;
+		token = ft_substr(input, j, 1);
+		*index = i;
+		return (token);
+	}
+	else if (input[i] == '<')
+	{
+		if (input[i + 1] == '<')
+		{
+			i += 2;
+			token = ft_substr(input, j, 2);
+		}
+		else
+		{
 			i++;
-		j = i;
-		while (input[i] && input[i] != ' ' && input[i] != '\t')
+			token = ft_substr(input, j, 1);
+		}
+		*index = i;
+		return (token);
+	}
+	else if (input[i] == '>')
+	{
+		if (input[i + 1] == '>')
+		{
+			i += 2;
+			token = ft_substr(input, j, 2);
+		}
+		else
+		{
+			i++;
+			token = ft_substr(input, j, 1);
+		}
+		*index = i;
+		return (token);
+	}
+	else
+	{
+		while (input[i])
 		{
 			if (input[i] == '\'' || input[i] == '\"')
 			{
@@ -84,23 +129,19 @@ char 	*extract_tokens(char *input, char *token)
 					i = double_quoted(input, i);
 				if (i == -1)
 					return (ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2), NULL);
-				if (input[i + 1] == ' ' || input[i + 1] == '\t' || input[i + 1] == '\0')
-				{
-					token = ft_substr(input, j, i - j);
-					if (!token)
-						return (NULL);
-					return (token);
-				}
 			}
-			i++;
+			else if (input[i] == ' ' || input[i] == '\t' ||
+				input[i] == '|' || input[i] == '<' || input[i] == '>')
+				break ;
+			else
+				i++;
 		}
-		if (input[i] == ' ' || input[i] == '\t' || input[i] == '\0')
-		{
-			token = ft_substr(input, j, i - j);
-			if (!token)
-				return (NULL);
-			return (token);
-		}
+		token = ft_substr(input, j, i - j);
+		printf(YELLOW"DEBUG: Extracted token: '%s'\n"RESET, token);
+		if (!token)
+			return (NULL);
+		*index = i;
+		return (token);
 	}
 	return (NULL);
 }

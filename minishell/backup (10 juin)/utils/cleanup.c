@@ -14,14 +14,22 @@
 
 void	free_token_list(t_token_list *token)
 {
-	t_token_list	*tmp;
+	t_token_list	*current;
+	t_token_list	*next;
 
-	while (token)
+	current = token;
+	if (!token)
+		return;
+	while (current)
 	{
-		tmp = token;
-		token = token->next;
-		free(tmp->token);
-		free(tmp);
+		next = current->next;
+		if (current->token)
+		{
+			free(current->token);
+			current->token = NULL;
+		}
+		free(current);
+		current = next;
 	}
 }
 

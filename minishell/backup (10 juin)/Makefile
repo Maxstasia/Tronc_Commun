@@ -35,7 +35,8 @@ SRC			=									\
 		$(PARSER_DIR)/parsing.c					\
 		\
 		$(UTILS_DIR)/cleanup.c					\
-		$(UTILS_DIR)/init.c				\
+		$(UTILS_DIR)/init.c						\
+		$(UTILS_DIR)/envp.c						\
 		$(UTILS_DIR)/utils.c					\
 		$(UTILS_DIR)/utils2.c					\
 		\
@@ -48,6 +49,7 @@ SRC			=									\
 		$(BUILTIN_DIR)/export.c					\
 		$(BUILTIN_DIR)/pwd.c					\
 		$(BUILTIN_DIR)/unset.c					\
+		$(BUILTIN_DIR)/utils_builtin.c			\
 		\
 		$(GNL_DIR)/get_next_line.c				\
 		$(GNL_DIR)/get_next_line_utils.c		\
