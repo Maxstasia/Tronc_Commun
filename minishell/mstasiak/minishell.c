@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:52:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,23 @@ int main(int ac, char **av, char **envp)
 				ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
 				free(line);
 				data.exit_status = 1;
+				continue;
+			}
+			if (validate_pipe_syntax(expanded_line) != 0)
+			{
+				if (ft_strstr(expanded_line, ">>") && !has_file_after_redirection(expanded_line, ">>"))
+					ft_putstr_fd("maxishell: erreur de syntaxe près du symbole inattendu « newline »\n", 2);
+				else if (ft_strstr(expanded_line, ">") && !has_file_after_redirection(expanded_line, ">"))
+					ft_putstr_fd("maxishell: erreur de syntaxe près du symbole inattendu « newline »\n", 2);
+				else if (ft_strstr(expanded_line, "<<") && !has_file_after_redirection(expanded_line, "<<"))
+					ft_putstr_fd("maxishell: erreur de syntaxe près du symbole inattendu « newline »\n", 2);
+				else if (ft_strstr(expanded_line, "<") && !has_file_after_redirection(expanded_line, "<"))
+					ft_putstr_fd("maxishell: erreur de syntaxe près du symbole inattendu « newline »\n", 2);
+				else
+					ft_putstr_fd("maxishell: erreur de syntaxe près du symbole inattendu « | »\n", 2);
+				data.exit_status = 2;
+				free(expanded_line);
+				free(line);
 				continue;
 			}
 			if (parse_input(&data, expanded_line, token_list) != 0)

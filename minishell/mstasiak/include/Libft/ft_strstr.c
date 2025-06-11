@@ -1,26 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 19:20:47 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/11 16:08:35 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/06/11 16:50:02 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/06/11 16:50:47 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "libft.h"
 
-void	handle_signals(int sig)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
-	if (sig == SIGINT)
+	const char	*h;
+	const char	*n;
+
+	if (!haystack || !needle)
+		return (NULL);
+	if (*needle == '\0')
+		return ((char *)haystack);
+	while (*haystack)
 	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		h = haystack;
+		n = needle;
+		while (*h && *n && *h == *n)
+		{
+			h++;
+			n++;
+		}
+		if (*n == '\0')
+			return ((char *)haystack);
+		haystack++;
 	}
+	return (NULL);
 }
-
-

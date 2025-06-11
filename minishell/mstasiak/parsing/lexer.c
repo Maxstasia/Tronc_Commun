@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:21:58 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,6 @@ t_token_type	get_token_type(char *token)
 		return (TXT);
 }
 
-/*char	*special_operator(char *token)
-{
-	if (token[i] == "|
-}
-*/
 char 	*extract_tokens(char *input, char *token, int *index)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/03 11:36:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:48:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,5 +149,8 @@ int				single_quoted(char *token, int i);
 int				double_quoted(char *token, int i);
 int 			count_cmd(t_token_list *token_list);
 void			apply_redirects(t_data *data, t_cmd *cmd);
+int				validate_pipe_syntax(const char *input);
+int				validate_redirection_syntax(const char *input);
+int				has_file_after_redirection(const char *input, const char *redir);
 
 #endif

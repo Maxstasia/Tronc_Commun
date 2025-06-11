@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/11 14:28:16 by mstasiak          #+#    #+#              #
-#    Updated: 2025/04/18 17:24:23 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/06/11 16:51:21 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRC =	ft_atof.c \
 		ft_strncmp.c \
 		ft_strnstr.c \
 		ft_strrchr.c \
+		ft_strstr.c \
 		ft_strtrim.c \
 		ft_substr.c \
 		ft_tolower.c \
