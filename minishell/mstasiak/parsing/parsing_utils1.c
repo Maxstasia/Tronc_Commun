@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/13 14:32:23 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:49:35 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,13 @@ int	count_cmd(t_token_list *token_list)
 		current = current->next;
 	}
 	return (count);
+}
+
+char	with_quotes(int i, const char *input, char quote)
+{
+	if (!quote)
+		quote = input[i];
+	else if (quote == input[i])
+		quote = 0;
+	return (quote);
 }

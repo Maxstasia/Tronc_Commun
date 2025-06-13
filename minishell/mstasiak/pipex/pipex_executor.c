@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:43:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:58:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void execute_pipeline(t_data *data, t_pipex *pipex)
 {
 	int i;
 	int status;
-	
+
 	printf(YELLOW"DEBUG: Starting pipeline execution with %d commands\n"RESET, pipex->cmd_count);
 	pipex->pids = (pid_t *)malloc(sizeof(pid_t) * pipex->cmd_count);
 	if (!pipex->pids)

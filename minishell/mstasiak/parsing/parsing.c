@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 14:28:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/13 14:32:48 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:39:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_pipex	parse_line(char *line, t_token_list *token_list)
 	t_pipex_init(&pipex, line, token_list);
 	if (!pipex.commands)
 	{
-		ft_putstr_fd(RED"Error: Memory allocation failed\n"RESET, STDERR_FILENO);
+		error_malloc();
 		exit(EXIT_FAILURE);
 	}
 	return (pipex);
@@ -45,10 +45,7 @@ int	parse_input(t_data *data, char *input, t_token_list *token_list)
 		{
 			temp->next = malloc(sizeof(t_token_list));
 			if (!temp->next)
-			{
-				ft_putstr_fd(RED"Error: Memory allocation failed\n"RESET, STDERR_FILENO);
-				return (-1);
-			}
+				return (error_malloc(), -1);
 			temp = temp->next;
 			init_token_list(temp);
 			temp->token = extract_tokens(input, temp->token, &index);

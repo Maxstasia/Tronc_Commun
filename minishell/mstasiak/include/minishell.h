@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/13 14:26:02 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:49:59 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,18 @@ typedef struct s_redirect
 
 typedef struct s_cmd
 {
-	char		**args;			
-	t_redirect	*redirects;		
-	int			redirect_count;	
+	char		**args;
+	t_redirect	*redirects;
+	int			redirect_count;
 }				t_cmd;
 
 typedef struct s_pipex
 {
-	t_cmd	*commands;	
-	int		cmd_count;	
-	char	**envp;		
-	int		fd[2];		
-	int		prev_fd;	
+	t_cmd	*commands;
+	int		cmd_count;
+	char	**envp;
+	int		fd[2];
+	int		prev_fd;
 	int		is_first;
 	int		is_last;
 	pid_t	*pids;
@@ -70,11 +70,11 @@ typedef struct s_pipex
 
 typedef struct s_data
 {
-	char	**envp;		
+	char	**envp;
 	int		exit_status;
-	char	*pwd;			
-	char	*oldpwd;		
-	char	*input;		
+	char	*pwd;
+	char	*oldpwd;
+	char	*input;
 }				t_data;
 
 typedef struct s_token_list
@@ -107,8 +107,8 @@ int				ft_export(t_cmd *cmd, t_data *data);
 int				ft_unset(t_cmd *cmd, t_data *data);
 void			exit_builtin(t_data *data, t_cmd *cmd);
 int				is_builtin(char *cmd);
-void			execute_builtin(t_data *data, t_token_list *token_list,
-					t_cmd *cmd);
+void			execute_builtin(t_data *data,
+					t_token_list *token_list, t_cmd *cmd);
 
 /* Utils */
 void			handle_signals(int sig);
@@ -163,5 +163,6 @@ int				has_file_after_redirection(const char *input,
 char			*if_pipe(char *input, char *token, int *i, int *index);
 char			*if_redir_in(char *input, char *token, int *i, int *index);
 char			*if_redir_out(char *input, char *token,	int *i, int *index);
+char			with_quotes(int i, const char *input, char quote);
 
 #endif
