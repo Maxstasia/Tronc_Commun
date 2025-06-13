@@ -21,7 +21,7 @@
 
 /*--------------------structures--------------------*/
 
-typedef struct	s_export
+typedef struct s_export
 {
 	char	*arg_with_equal;
 	char	*equal_sign;

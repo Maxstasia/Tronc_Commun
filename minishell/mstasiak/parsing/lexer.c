@@ -12,7 +12,18 @@
 
 #include "../include/minishell.h"
 
-int		count_tokens(char *str)
+int	handle_quotes(char *str, int i, int *count)
+{
+	if (str[i] == '\'')
+		i = single_quoted(str, i);
+	else if (str[i] == '\"')
+		i = double_quoted(str, i);
+	if (str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '\0')
+		count++;
+	return (i);
+}
+
+int	count_tokens(char *str)
 {
 	int		count;
 	int		i;
@@ -27,24 +38,17 @@ int		count_tokens(char *str)
 		{
 			if (str[i] == '\'' || str[i] == '\"')
 			{
-				if (str[i] == '\'')
-					i = single_quoted(str, i);
-				else if (str[i] == '\"')
-					i = double_quoted(str, i);
+				handle_quotes(str, i, &count);
 				if (i == -1)
 					return (-1);
-				if (str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '\0')
-					count++;
 			}
 			else
-			{
-				if (str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '\0')
+				if (str[i + 1] == ' ' || str[i + 1] == '\t'
+					|| str[i + 1] == '\0')
 					count++;
-			}
 			i++;
 		}
 	}
-	printf(YELLOW"DEBUG: Total tokens counted: %d\n"RESET, count);
 	return (count);
 }
 
@@ -64,11 +68,34 @@ t_token_type	get_token_type(char *token)
 		return (TXT);
 }
 
-char 	*extract_tokens(char *input, char *token, int *index)
+int	extract_loop(char *input, int i)
+{
+	while (input[i])
+	{
+		if (input[i] == '\'' || input[i] == '\"')
+		{
+			if (input[i] == '\'')
+				i = single_quoted(input, i);
+			else if (input[i] == '\"')
+				i = double_quoted(input, i);
+			if (i == -1)
+				return (ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2),
+					-1);
+		}
+		else if (input[i] == ' ' || input[i] == '\t'
+			|| input[i] == '|' || input[i] == '<' || input[i] == '>')
+			break ;
+		else
+			i++;
+	}
+	return (i);
+}
+
+char	*extract_tokens(char *input, char *token, int *index)
 {
 	int		i;
 	int		j;
-	
+
 	i = *index;
 	while (input[i] == ' ' || input[i] == '\t')
 		i++;
@@ -76,67 +103,19 @@ char 	*extract_tokens(char *input, char *token, int *index)
 		return (NULL);
 	j = i;
 	if (input[i] == '|')
-	{
-		i++;
-		token = ft_substr(input, j, 1);
-		*index = i;
-		return (token);
-	}
+		token = if_pipe(input, token, &j, &i);
 	else if (input[i] == '<')
-	{
-		if (input[i + 1] == '<')
-		{
-			i += 2;
-			token = ft_substr(input, j, 2);
-		}
-		else
-		{
-			i++;
-			token = ft_substr(input, j, 1);
-		}
-		*index = i;
-		return (token);
-	}
+		token = if_redir_in(input, token, &j, &i);
 	else if (input[i] == '>')
-	{
-		if (input[i + 1] == '>')
-		{
-			i += 2;
-			token = ft_substr(input, j, 2);
-		}
-		else
-		{
-			i++;
-			token = ft_substr(input, j, 1);
-		}
-		*index = i;
-		return (token);
-	}
+		token = if_redir_out(input, token, &j, &i);
 	else
 	{
-		while (input[i])
-		{
-			if (input[i] == '\'' || input[i] == '\"')
-			{
-				if (input[i] == '\'')
-					i = single_quoted(input, i);
-				else if (input[i] == '\"')
-					i = double_quoted(input, i);
-				if (i == -1)
-					return (ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2), NULL);
-			}
-			else if (input[i] == ' ' || input[i] == '\t' ||
-				input[i] == '|' || input[i] == '<' || input[i] == '>')
-				break ;
-			else
-				i++;
-		}
+		i = extract_loop(input, i);
+		if (i == -1)
+			return (NULL);
 		token = ft_substr(input, j, i - j);
 		printf(YELLOW"DEBUG: Extracted token: '%s'\n"RESET, token);
-		if (!token)
-			return (NULL);
 		*index = i;
-		return (token);
 	}
-	return (NULL);
+	return (token);
 }

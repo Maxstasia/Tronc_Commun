@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/18 11:12:32 by mstasiak          #+#    #+#              #
-#    Updated: 2025/05/28 19:31:40 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/06/13 14:31:32 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,16 @@ SRC			=									\
 		minishell.c								\
 		\
 		$(PARSER_DIR)/lexer.c					\
+		$(PARSER_DIR)/lexer_redir.c				\
 		$(PARSER_DIR)/parser.c					\
+		$(PARSER_DIR)/parsing_utils1.c			\
+		$(PARSER_DIR)/parsing_utils2.c			\
 		$(PARSER_DIR)/parsing.c					\
 		\
 		$(UTILS_DIR)/cleanup.c					\
-		$(UTILS_DIR)/init.c						\
 		$(UTILS_DIR)/envp.c						\
+		$(UTILS_DIR)/error.c					\
+		$(UTILS_DIR)/init.c						\
 		$(UTILS_DIR)/utils.c					\
 		$(UTILS_DIR)/utils2.c					\
 		\
@@ -57,7 +61,7 @@ SRC			=									\
 		\
 		$(PIPEX_DIR)/pipex_executor.c			\
 		\
-		$(P_SRC_DIR)/error.c					\
+		$(P_SRC_DIR)/error_pipex.c				\
 		$(P_SRC_DIR)/pipex.c					\
 		\
 		$(P_UTILS_DIR)/ft_split_advanced.c		\

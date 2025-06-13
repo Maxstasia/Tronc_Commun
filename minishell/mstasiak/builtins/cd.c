@@ -15,7 +15,7 @@
 static char	*cd_handle_oldpwd(t_data *data)
 {
 	char	*path;
-	
+
 	path = get_env_var(data->envp, "OLDPWD");
 	if (!path)
 	{
@@ -31,7 +31,7 @@ static char	*cd_handle_oldpwd(t_data *data)
 static char	*cd_get_path(char **cmd, t_data *data)
 {
 	char	*path;
-	
+
 	if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
 		path = get_env_var(data->envp, "HOME");
@@ -52,7 +52,7 @@ static char	*cd_get_path(char **cmd, t_data *data)
 static int	cd_change_dir(char *path, t_data *data)
 {
 	char	*oldpwd;
-	
+
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(path) != 0)
 	{
@@ -89,11 +89,11 @@ static void	cd_update_env(t_data *data)
 void	builtin_cd(char **cmd, t_data *data)
 {
 	char	*path;
-	
+
 	path = cd_get_path(cmd, data);
 	if (!path)
-		return;
+		return ;
 	if (cd_change_dir(path, data))
-		return;
+		return ;
 	cd_update_env(data);
 }

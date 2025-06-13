@@ -15,7 +15,7 @@
 static long	ft_atol(const char *str)
 {
 	long	result;
-	int	 sign;
+	int		sign;
 
 	result = 0;
 	sign = 1;
@@ -35,9 +35,9 @@ static long	ft_atol(const char *str)
 	return (result * sign);
 }
 
-static int  isnum(char *str)
+static int	isnum(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')

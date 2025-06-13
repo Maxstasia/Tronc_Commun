@@ -15,7 +15,7 @@
 static int	is_n_option(char *arg)
 {
 	int	i;
-	
+
 	if (!arg || arg[0] != '-')
 		return (0);
 	i = 1;

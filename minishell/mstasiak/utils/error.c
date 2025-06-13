@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 15:05:59 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/08 14:48:31 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/06/13 14:24:02 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/06/13 14:24:13 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void	error_malloc(void)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		((unsigned char *)s)[i] = (unsigned char)c;
-		i++;
-	}
-	return (s);
+	ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
 }

@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int		single_quoted(char *token, int i)
+int	single_quoted(char *token, int i)
 {
 	int		j;
 
@@ -28,7 +28,7 @@ int		single_quoted(char *token, int i)
 		return (-1);
 }
 
-int		double_quoted(char *token, int i)
+int	double_quoted(char *token, int i)
 {
 	int		j;
 
@@ -44,6 +44,25 @@ int		double_quoted(char *token, int i)
 		return (-1);
 }
 
+static int	valid_quotes(int i, char *token)
+{
+	if (token[i] == '\'')
+	{
+		i = single_quoted(token, i);
+		if (i == -1)
+			return (ft_putstr_fd(RED"Error: Unmatched single quotes\n"RESET, 2),
+				-1);
+	}
+	else if (token[i] == '\"')
+	{
+		i = double_quoted(token, i);
+		if (i == -1)
+			return (ft_putstr_fd(RED"Error: Unmatched single quotes\n"RESET, 2),
+				-1);
+	}
+	return (i);
+}
+
 char	*parsed_token(char *token)
 {
 	char	*parsed_token;
@@ -54,18 +73,9 @@ char	*parsed_token(char *token)
 		i++;
 	while (token[i])
 	{
-		if (token[i] == '\'')
-		{
-			i = single_quoted(token, i);
-			if (i == -1)
-				return (ft_putstr_fd(RED"Error: Unmatched single quotes\n"RESET, 2), NULL);
-		}
-		else if (token[i] == '\"')
-		{
-			i = double_quoted(token, i);
-			if (i == -1)
-				return (ft_putstr_fd(RED"Error: Unmatched single quotes\n"RESET, 2), NULL);
-		}
+		i = valid_quotes(i, token);
+		if (i == -1)
+			return (NULL);
 		else if (token[i] == ' ' && token[i] == '\t' && token[i])
 			break ;
 		else

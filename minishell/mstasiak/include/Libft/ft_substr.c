@@ -57,7 +57,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-char	*ft_substr_quotes(char const *s, unsigned int start, size_t len, char quote)
+static int	skip_quotes(int start, char *s, char quote)
+{
+	while (s[start] == quote && s[start + 1] == quote)
+		start += 2;
+	return (start);
+}
+
+char	*ft_substr_quotes(char const *s, unsigned int start,
+			size_t len, char quote)
 {
 	char	*str;
 	int		size;
@@ -72,24 +80,13 @@ char	*ft_substr_quotes(char const *s, unsigned int start, size_t len, char quote
 	{
 		while (s[start] != '\0' && i < len)
 		{
-			if (s[start] == quote && s[start + 1] == quote)
-			{
-				start++;
-				start++;
-				continue ;
-			}
-			else if (s[start] == quote && s[start + 1] != '\0')
+			start = skip_quotes(start, (char *)s, quote);
+			if (s[start] == quote && s[start + 1] != '\0')
 				start++;
 			else if (s[start] == quote && s[start + 1] == '\0')
-			{
-				str[i] = '\0';
-				return (str);
-			}
-			str[i] = s[start];
-			start++;
-			i++;
+				return (str[i] = '\0', str);
+			str[i++] = s[start++];
 		}
 	}
-	str[i] = '\0';
-	return (str);
+	return (str[i] = '\0', str);
 }

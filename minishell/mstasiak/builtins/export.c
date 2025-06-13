@@ -6,47 +6,42 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:31 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/29 11:40:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:27:06 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/builtins_utils.h"
 
-static int for_without_equal(t_cmd *cmd, t_data *data, t_export *export, int i)
+static int	for_without_equal(t_cmd *cmd, t_data *data, t_export *export, int i)
 {
-    char *name;
-    char *value;
-    char *clean_value;
+	char	*name;
+	char	*value;
+	char	*clean_value;
 
-    name = ft_substr(cmd->args[i], 0, export->equal_sign - cmd->args[i]);
-    if (!name)
-        return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
-                data->exit_status = 1, 1);
-    value = ft_strdup(export->equal_sign + 1);
-    if (!value)
-        return (free(name), ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
-                data->exit_status = 1, 1);
-    clean_value = remove_quotes(value);
-    free(value);
-    if (!clean_value)
-        return (free(name), ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
-                data->exit_status = 1, 1);
-    export->arg_with_equal = ft_strjoin(name, "=");
-    free(name);
-    if (!export->arg_with_equal)
-        return (free(clean_value), ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
-                data->exit_status = 1, 1);
-    name = export->arg_with_equal;
-    export->arg_with_equal = ft_strjoin(name, clean_value);
-    free(name);
-    free(clean_value);
-    if (!export->arg_with_equal)
-        return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
-                data->exit_status = 1, 1);
-    return (0);
+	name = ft_substr(cmd->args[i], 0, export->equal_sign - cmd->args[i]);
+	if (!name)
+		return (error_malloc(), data->exit_status = 1, 1);
+	value = ft_strdup(export->equal_sign + 1);
+	if (!value)
+		return (free(name), error_malloc(), data->exit_status = 1, 1);
+	clean_value = remove_quotes(value);
+	free(value);
+	if (!clean_value)
+		return (free(name), error_malloc(), data->exit_status = 1, 1);
+	export->arg_with_equal = ft_strjoin(name, "=");
+	free(name);
+	if (!export->arg_with_equal)
+		return (error_malloc(), data->exit_status = 1, 1);
+	name = export->arg_with_equal;
+	export->arg_with_equal = ft_strjoin(name, clean_value);
+	free(name);
+	free(clean_value);
+	if (!export->arg_with_equal)
+		return (error_malloc(), data->exit_status = 1, 1);
+	return (0);
 }
 
-static int	principal_loop(t_cmd *cmd,t_data *data, t_export *export, int i)
+static int	principal_loop(t_cmd *cmd, t_data *data, t_export *export, int i)
 {
 	export->equal_sign = ft_strchr(cmd->args[i], '=');
 	if (!export->equal_sign)
