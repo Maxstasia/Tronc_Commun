@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/11 16:21:58 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:32:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_token_type	get_token_type(char *token)
 		return (TXT);
 }
 
-int	extract_loop(char *input, int i)
+static int	extract_loop(char *input, int i)
 {
 	while (input[i])
 	{

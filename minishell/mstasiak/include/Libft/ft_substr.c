@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 12:31:39 by jbias             #+#    #+#             */
-/*   Updated: 2024/11/19 14:33:04 by jbias            ###   ########.fr       */
+/*   Updated: 2025/06/18 13:36:02 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
 
-int	ft_mallocsize(char const *s, unsigned int start, size_t len)
+static int	ft_mallocsize(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
 	int		res;

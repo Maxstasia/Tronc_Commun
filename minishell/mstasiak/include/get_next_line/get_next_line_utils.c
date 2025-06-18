@@ -6,11 +6,21 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 16:05:13 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/03/31 15:20:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:37:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static size_t	ft_strlen_gnl(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
 
 char	*ft_strjoin_gnl(char *s1, char *s2)
 {
@@ -52,14 +62,4 @@ char	*ft_strchr_gnl(const char *s, int c)
 	if (*s == (char)c)
 		return ((char *)s);
 	return (NULL);
-}
-
-size_t	ft_strlen_gnl(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
 }

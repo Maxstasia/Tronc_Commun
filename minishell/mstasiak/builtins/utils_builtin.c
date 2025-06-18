@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 11:15:57 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/13 11:16:06 by jbias            ###   ########.fr       */
+/*   Updated: 2025/06/18 14:15:16 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/builtins_utils.h"
 
 int	is_builtin(char *cmd)
 {

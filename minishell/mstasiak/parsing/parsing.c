@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/11 16:52:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:34:08 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_pipex	parse_line(char *line, t_token_list *token_list)
 	return (pipex);
 }
 
-int	parse_input_loop(char *input, t_token_list *temp, int *index)
+static int	parse_input_loop(char *input, t_token_list *temp, int *index)
 {
 	temp = temp->next;
 	init_token_list(temp);

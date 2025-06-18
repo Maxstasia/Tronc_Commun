@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/11 16:48:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:35:32 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,18 @@ typedef struct s_redirect
 
 typedef struct s_cmd
 {
-	char		**args;			
-	t_redirect	*redirects;		
-	int			redirect_count;	
+	char		**args;
+	t_redirect	*redirects;
+	int			redirect_count;
 }				t_cmd;
 
 typedef struct s_pipex
 {
-	t_cmd	*commands;	
-	int		cmd_count;	
-	char	**envp;		
-	int		fd[2];		
-	int		prev_fd;	
+	t_cmd	*commands;
+	int		cmd_count;
+	char	**envp;
+	int		fd[2];
+	int		prev_fd;
 	int		is_first;
 	int		is_last;
 	pid_t	*pids;
@@ -76,19 +76,26 @@ typedef struct s_quote
 	char	quote;
 }				t_quote;
 
+typedef struct s_tmp
+{
+	int	*i;
+	int	*j;
+}	t_tmp;
+
 typedef struct s_data
 {
-	char	**envp;		
+	char	**envp;
 	int		exit_status;
-	char	*pwd;			
-	char	*oldpwd;		
+	char	*pwd;
+	char	*oldpwd;
 	char	*input;
+	t_tmp	*tmp;
 }				t_data;
 
 typedef struct s_token_list
 {
 	char				*token;
-	int					type;		
+	int					type;
 	struct s_token_list	*next;
 }	t_token_list;
 
@@ -105,100 +112,139 @@ typedef enum e_token_type
 }	t_token_type;
 
 /*--------------------fonctions--------------------*/
-
-/* Builtins */
-void			builtin_cd(char **cmd, t_data *data);
-void			echo_builtin(t_cmd *cmd, t_data *data);
-int				pwd(t_data *data);
-int				env(t_cmd *cmd, t_data *data);
-int				ft_export(t_cmd *cmd, t_data *data);
-int				ft_unset(t_cmd *cmd, t_data *data);
-void			exit_builtin(t_data *data, t_cmd *cmd);
+/*----------builtins----------*/
+/*-----utils_builtin.c-----*/
 int				is_builtin(char *cmd);
 void			execute_builtin(t_data *data, t_token_list *token_list,
 					t_cmd *cmd);
 
-/* Utils */
-void			handle_signals(int sig);
-void			init_signals(void);
-void			free_pipex(t_pipex *pipex);
-char			**copy_envp(char **envp);
-void			free_data(t_data *data);
-void			init_data(t_data *data, char **envp);
-char			*new_envp(const char *name, const char *value);
-char			**add_envp(char **news, char **envp,
-					const char *name, const char *val);
-void			update_env_var(char ***envp, const char *name,
-					const char *value);
-char			*get_env_var(char **envp, const char *name);
-char			*expand_variables(char *input, t_data *data);
-void			free_token_list(t_token_list *token);
-void			init_token_list(t_token_list *token_list);
-int				init_first_value_token_list(char *input,
-					t_token_list *token_list, int *index);
-int				is_redirect(char *str);
-int				count_token_split(char *input);
-char			*process_quotes(char *str, char *quotes_free);
-char			*remove_quotes_split(char *str);
-int				extract_token_split(char *input, int *i, char **token);
-void			free_cmds(t_cmd *cmd, int j);
-int				allocate_cmd_memory(t_cmd *cmd, char *s, int i, int cmd_count);
-int				process_character(char *input, char *result, int *i,
-					t_data *data, int *j);
-int				should_expand_variable(char *input, int i, char quote);
-int				expand_variable(char *input, char *result, int *i,
-					t_data *data);
-char			*get_var_name(const char *input, int *i);
-int				handle_escaped_dollar(char *input, char *result,
-					int *i, int *j);
-void			handle_quote(char c, char *quote);
-char			*get_variable_value(char *var_name, t_data *data);
-size_t			calculate_buffer_size(char *input, t_data *data);
-int				validate_syntax(char *expanded_line);
-t_token_list	*reinit_token_list(t_token_list *token_list, t_data *data);
-void			handle_command_execution(t_data *data, t_token_list *token_list,
-					t_pipex *pipex, char *expanded_line);
-void			execute_builtin_with_redirects(t_data *data,
-					t_token_list *token_list, t_pipex *pipex);
+/*----------parsing----------*/
+/*-----lexer_redir.c-----*/
+char			*if_pipe(char *input, char *token, int *i, int *index);
+char			*if_redir_in(char *input, char *token, int *i, int *index);
+char			*if_redir_out(char *input, char *token,	int *i, int *index);
 
-/* Pipex */
-int				has_pipes(char *input);
-t_cmd			*ft_split_advanced(char *s, int cmd_count);
-char			*find_path(t_data *data, char *cmd_name);
-void			execute_pipeline(t_data *data, t_pipex *pipex);
-void			execute(t_data *data, t_cmd *cmd);
-void			child_process(t_data *data, t_pipex *pipex, int cmd_index);
-void			handle_here_doc(t_data *data, t_redirect *redirect);
+/*-----lexer.c-----*/
+int				count_tokens(char *str);
+t_token_type	get_token_type(char *token);
+char			*extract_tokens(char *str, char *token, int *index);
+
+/*-----parser.c-----*/
+int				single_quoted(char *token, int i);
+int				double_quoted(char *token, int i);
+char			*parsed_token(char *token);
+
+/*-----parsing_pipe.c-----*/
+int				validate_pipe_syntax(char *input);
+
+/*-----parsing.c-----*/
+int				count_cmd(t_token_list *token_list);
+t_pipex			parse_line(char *line, t_token_list *token_list);
+int				parse_input(t_data *data, char *input,
+					t_token_list *token_list);
+
+/*-----redir.c-----*/
+char			set_quote(char *input, int i, char quote);
+int				validate_redirection_syntax(const char *input);
+int				has_file_after_redirection(const char *input,
+					const char *redir);
+
+/*-----------------pipex-----------------*/
+/*----------pipex_sources----------*/
+/*-----error.c-----*/
 void			free_tab(char **tab);
 void			free_cmd(t_cmd *cmd);
 void			error_127(t_data *data, t_cmd *cmd, char *path);
 void			error(t_data *data);
-void			t_pipex_init(t_pipex *pipex, char *input,
-					t_token_list *current);
+
+/*-----heredoc.c-----*/
+void			handle_here_doc(t_data *data, t_redirect *redirect);
+
+/*-----pipex_redir.c-----*/
+void			apply_redirects(t_data *data, t_cmd *cmd,
+					t_redirect *redirect);
+
+/*-----pipex.c-----*/
+void			child_process(t_data *data, t_pipex *pipex, int cmd_index);
+
+/*-----------------pipex-----------------*/
+/*----------pipex_utils----------*/
+/*-----ft_split_advanced.c-----*/
+t_cmd			*ft_split_advanced(char *s, int cmd_count);
+
+/*-----ft_split_advanced2.c-----*/
 t_cmd			*init_cmd_array(int cmd_count);
+int				is_redirect(char *str);
+int				count_token_split(char *input);
+
+/*-----ft_split_advanced3.c-----*/
+void			free_cmds(t_cmd *cmd, int j);
+int				allocate_cmd_memory(t_cmd *cmd, char *s, int i, int cmd_count);
+int				extract_token_split(char *input, int *i, char **token);
+
+/*-----quotes.c-----*/
+char			*process_quotes(char *str, char *quotes_free);
+
+/*-----quotes2.c-----*/
+char			*remove_quotes_split(char *str);
 int				handle_escaped_quote(char *str, char *quotes_free,
 					t_quote *data);
 
-/* Parsing */
-t_pipex			parse_line(char *line, t_token_list *token_list);
-int				parse_input(t_data *data, char *input,
-					t_token_list *token_list);
-int				count_tokens(char *str);
-t_token_type	get_token_type(char *token);
-char			*extract_tokens(char *str, char *token, int *index);
-char			*parsed_token(char *token);
-int				single_quoted(char *token, int i);
-int				double_quoted(char *token, int i);
-int				count_cmd(t_token_list *token_list);
-void			apply_redirects(t_data *data, t_cmd *cmd,
-					t_redirect *redirect);
-int				validate_pipe_syntax(char *input);
-int				validate_redirection_syntax(const char *input);
-int				has_file_after_redirection(const char *input,
-					const char *redir);
-char			*if_pipe(char *input, char *token, int *i, int *index);
-char			*if_redir_in(char *input, char *token, int *i, int *index);
-char			*if_redir_out(char *input, char *token,	int *i, int *index);
-char			set_quote(char *input, int i, char quote);
+/*-----utils_pipex.c-----*/
+void			update_env_var(char ***envp, const char *name,
+					const char *value);
+char			*get_env_var(char **envp, const char *name);
+
+/*-----utils2_pipex.c-----*/
+char			*find_path(t_data *data, char *cmd_name);
+void			execute(t_data *data, t_cmd *cmd);
+void			t_pipex_init(t_pipex *pipex, char *input,
+					t_token_list *current);
+
+/*----------pipex----------*/
+/*-----pipex_executor.c-----*/
+void			execute_pipeline(t_data *data, t_pipex *pipex);
+
+/*----------utils----------*/
+/*-----cleanup.c-----*/
+void			free_token_list(t_token_list *token);
+void			free_pipex(t_pipex *pipex);
+void			free_data(t_data *data);
+
+/*-----envp.c-----*/
+char			**copy_envp(char **envp);
+char			*new_envp(const char *name, const char *value);
+char			**add_envp(char **news, char **envp,
+					const char *name, const char *val);
+
+/*-----init.c-----*/
+void			init_signals(void);
+void			init_data(t_data *data, char **envp);
+void			init_token_list(t_token_list *token_list);
+int				init_first_value_token_list(char *input,
+					t_token_list *token_list, int *index);
+
+/*-----utils.c-----*/
+char			*get_var_name(const char *input, int *i);
+int				expand_variable(char *input, char *result, int *i,
+					t_data *data);
+int				should_expand_variable(char *input, int i, char quote);
+int				process_character(char *input, char *result, t_data *data);
+char			*expand_variables(char *input, t_data *data);
+
+/*-----utils2.c-----*/
+void			handle_signals(int sig);
+void			handle_quote(char c, char *quote);
+int				handle_escaped_dollar(char *input, char *result,
+					int *i, int *j);
+char			*get_variable_value(char *var_name, t_data *data);
+
+/*-----utils3.c-----*/
+size_t			calculate_buffer_size(char *input, t_data *data);
+
+/*-----minishell.c-----*/
+int				validate_syntax(char *expanded_line);
+void			handle_command_execution(t_data *data, t_token_list *token_list,
+					t_pipex *pipex, char *expanded_line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:17:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/17 14:57:11 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:35:21 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,3 @@ char	**ft_split(char const *s, char c)
 	}
 	return (strs[i] = 0, strs);
 }
-/* int main(void)
-{
-	char **str = ft_split("   Test Split Function   ", ' ');
-	return(0);
-} */

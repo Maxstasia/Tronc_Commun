@@ -6,17 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:39:14 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/11 16:21:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/18 14:15:32 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	usage(void)
-{
-	ft_putstr_fd(RED"maxishell: invalid arguments\n"RESET, 2);
-	exit(1);
-}
 
 void	free_tab(char **tab)
 {

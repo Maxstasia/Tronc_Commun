@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 11:48:52 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 19:29:45 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/18 13:18:34 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,15 @@ int	should_expand_variable(char *input, int i, char quote)
 		&& (ft_isalnum(input[i + 1]) || input[i + 1] == '?'));
 }
 
-int	process_character(char *input, char *result, int *i, t_data *data, int *j)
+int	process_character(char *input, char *result, t_data *data)
 {
 	static char	quote = 0;
+	int			*i;
+	int			*j;
 	int			var_len;
 
+	i = data->tmp->i;
+	j = data->tmp->j;
 	handle_quote(input[*i], &quote);
 	if (handle_escaped_dollar(input, result, i, j))
 		return (0);
@@ -87,25 +91,23 @@ char	*expand_variables(char *input, t_data *data)
 {
 	char	*result;
 	size_t	len;
-	int		i;
-	int		j;
 
-	j = 0;
 	if (!input)
 		return (NULL);
 	len = calculate_buffer_size(input, data);
 	result = ft_calloc(len + 2, sizeof(char));
 	if (!result)
 		return (NULL);
-	i = 0;
-	while (input[i])
+	data->tmp->i = 0;
+	data->tmp->j = 0;
+	while (input[*data->tmp->i])
 	{
-		if (process_character(input, result, &i, data, &j) == -1)
+		if (process_character(input, result, data) == -1)
 		{
 			free(result);
 			return (NULL);
 		}
 	}
-	result[j] = '\0';
+	result[*data->tmp->j] = '\0';
 	return (result);
 }

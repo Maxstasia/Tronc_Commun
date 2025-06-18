@@ -3,33 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/17 12:47:05 by jbias            ###   ########.fr       */
+/*   Updated: 2025/06/18 16:22:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
 
-void	execute_builtin_with_redirects(t_data *data,
-			t_token_list *token_list, t_pipex *pipex)
+static t_token_list	*reinit_token_list(t_token_list *token_list, t_data *data)
 {
-	int	saved_stdout;
-	int	saved_stdin;
-
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
-	if (pipex->commands && pipex->commands[0].redirect_count > 0)
+	free_token_list(token_list);
+	token_list = malloc(sizeof(t_token_list));
+	if (!token_list)
 	{
-		apply_redirects(data, &pipex->commands[0],
-			pipex->commands[0].redirects);
+		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		free_data(data);
+		exit(1);
 	}
-	execute_builtin(data, token_list, &pipex->commands[0]);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdout);
-	close(saved_stdin);
+	init_token_list(token_list);
+	return (token_list);
 }
 
 static int	process_input_line(t_data *data, char *line,
