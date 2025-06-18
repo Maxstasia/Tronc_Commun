@@ -1,0 +1,85 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split_advanced3.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 10:36:49 by jbias             #+#    #+#             */
+/*   Updated: 2025/06/17 10:36:50 by jbias            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+void	free_cmds(t_cmd *cmd, int j)
+{
+	while (j > 0)
+	{
+		j--;
+		free_cmd(&cmd[j]);
+	}
+	free(cmd);
+}
+
+int	allocate_cmd_memory(t_cmd *cmd, char *s, int i, int cmd_count)
+{
+	cmd->args = malloc(sizeof(char *) * (count_token_split(s + i) + 1));
+	if (!cmd->args)
+		return (-1);
+	cmd->redirects = malloc(sizeof(t_redirect) * cmd_count);
+	if (!cmd->redirects)
+	{
+		free(cmd->args);
+		return (-1);
+	}
+	cmd->redirect_count = 0;
+	return (0);
+}
+
+static int	is_separator(char c, char quote)
+{
+	if (quote)
+		return (0);
+	if (c == ' ' || c == '\t' || c == '|')
+		return (1);
+	return (0);
+}
+
+static void	extract_token_loop(char *input, char quote, int *i)
+{
+	if (input[*i] == '\'' || input[*i] == '\"')
+	{
+		quote = input[(*i)++];
+		while (input[*i] && input[*i] != quote)
+			(*i)++;
+		if (!input[*i])
+			ft_putstr_fd("Error: Unmatched quotes\n", 2);
+		else
+			(*i)++;
+	}
+	else
+		(*i)++;
+}
+
+int	extract_token_split(char *input, int *i, char **token)
+{
+	int		start;
+	int		end;
+	char	quote;
+
+	quote = 0;
+	*token = NULL;
+	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
+		(*i)++;
+	start = *i;
+	if (!input[*i])
+		return (-1);
+	while (input[*i] && !is_separator(input[*i], 0))
+		extract_token_loop((char *)input, quote, i);
+	end = *i;
+	*token = ft_substr(input, start, end - start);
+	if (!*token)
+		return (-1);
+	return (end - start);
+}
