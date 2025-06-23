@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/11 16:21:43 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:09:51 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,14 @@ void	free_pipex_content(t_pipex *pipex)
 			i++;
 		}
 		free(pipex->commands);
+		pipex->commands = NULL;
 	}
 	if (pipex->pids)
+	{
 		free(pipex->pids);
+		pipex->pids = NULL;
+	}
+	pipex->cmd_count = 0;
 }
 
 void	free_token_list(t_token_list **token_list)

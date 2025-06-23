@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:39:14 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/18 14:15:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:06:56 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,36 @@ void	free_tab(char **tab)
 
 void	free_cmd(t_cmd *cmd)
 {
-	int	i;
-
-	i = 0;
-	if (cmd->args)
-		free_tab(cmd->args);
-	if (cmd->redirects)
-	{
-		while (i < cmd->redirect_count)
-		{
-			free(cmd->redirects[i].type);
-			free(cmd->redirects[i].file);
-			i++;
-		}
-		free(cmd->redirects);
-	}
+    int	i;
+    
+    if (!cmd)
+        return ;
+    i = 0;
+    if (cmd->args)
+    {
+        free_tab(cmd->args);
+        cmd->args = NULL;
+    }
+    if (cmd->redirects)
+    {
+        while (i < cmd->redirect_count)
+        {
+            if (cmd->redirects[i].type)
+            {
+                free(cmd->redirects[i].type);
+                cmd->redirects[i].type = NULL;
+            }
+            if (cmd->redirects[i].file)
+            {
+                free(cmd->redirects[i].file);
+                cmd->redirects[i].file = NULL;
+            }
+            i++;
+        }
+        free(cmd->redirects);
+        cmd->redirects = NULL;
+    }
+    cmd->redirect_count = 0;
 }
 
 void	error_127(t_data *data, t_cmd *cmd, char *path)
