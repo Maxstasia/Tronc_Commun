@@ -14,7 +14,7 @@
 
 static t_token_list	*reinit_token_list(t_token_list *token_list, t_data *data)
 {
-	free_token_list(token_list);
+	free_token_list(&token_list);
 	token_list = malloc(sizeof(t_token_list));
 	if (!token_list)
 	{
@@ -33,6 +33,7 @@ static int	process_input_line(t_data *data, char *line,
 	t_pipex	pipex;
 	int		syntax_error;
 
+	init_pipex(&pipex);
 	expanded_line = expand_variables(line, data);
 	printf(YELLOW"DEBUG: Expanded line: '%s'\n"RESET, expanded_line);
 	if (!expanded_line)
@@ -43,15 +44,13 @@ static int	process_input_line(t_data *data, char *line,
 	}
 	syntax_error = validate_syntax(expanded_line);
 	if (syntax_error != 0)
-	{
-		data->exit_status = syntax_error;
-		return (free(expanded_line), -1);
-	}
+		return (data->exit_status = syntax_error, free(expanded_line), -1);
 	if (parse_input(data, expanded_line, token_list) != 0)
 		return (free(expanded_line), -1);
-	pipex = parse_line(expanded_line, token_list);
+	parse_line(expanded_line, token_list, &pipex);
 	printf(YELLOW"DEBUG: Parsed commands count: %d\n"RESET, pipex.cmd_count);
 	handle_command_execution(data, token_list, &pipex, expanded_line);
+	free_pipex_content(&pipex);
 	return (free(expanded_line), 0);
 }
 
@@ -78,6 +77,7 @@ static int	init_minishell(int ac, t_token_list **token_list,
 static void	main_loop(t_data *data, t_token_list **token_list)
 {
 	char	*line;
+	int		res;
 
 	while (1)
 	{
@@ -91,8 +91,8 @@ static void	main_loop(t_data *data, t_token_list **token_list)
 		if (*line)
 		{
 			add_history(line);
-			if (process_input_line(data, line, *token_list) == 0)
-				*token_list = reinit_token_list(*token_list, data);
+			res = process_input_line(data, line, *token_list);
+			*token_list = reinit_token_list(*token_list, data);
 		}
 		free(line);
 	}
@@ -115,5 +115,7 @@ int	main(int ac, char **av, char **envp)
 	close(saved_stdout);
 	close(saved_stdin);
 	clear_history();
+	free_token_list(&token_list);
+	free_data(&data);
 	return (data.exit_status);
 }

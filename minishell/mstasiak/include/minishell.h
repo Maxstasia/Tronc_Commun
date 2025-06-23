@@ -78,8 +78,8 @@ typedef struct s_quote
 
 typedef struct s_tmp
 {
-	int	*i;
-	int	*j;
+	int	x;
+	int	y;
 }	t_tmp;
 
 typedef struct s_data
@@ -139,7 +139,8 @@ int				validate_pipe_syntax(char *input);
 
 /*-----parsing.c-----*/
 int				count_cmd(t_token_list *token_list);
-t_pipex			parse_line(char *line, t_token_list *token_list);
+t_pipex			parse_line(char *line, t_token_list *token_list,
+					t_pipex *pipex);
 int				parse_input(t_data *data, char *input,
 					t_token_list *token_list);
 
@@ -152,6 +153,7 @@ int				has_file_after_redirection(const char *input,
 /*-----------------pipex-----------------*/
 /*----------pipex_sources----------*/
 /*-----error.c-----*/
+void			malloc_failed(t_data *data);
 void			free_tab(char **tab);
 void			free_cmd(t_cmd *cmd);
 void			error_127(t_data *data, t_cmd *cmd, char *path);
@@ -207,9 +209,14 @@ void			execute_pipeline(t_data *data, t_pipex *pipex);
 
 /*----------utils----------*/
 /*-----cleanup.c-----*/
-void			free_token_list(t_token_list *token);
+void			free_pipex_content(t_pipex *pipex);
+void			free_token_list(t_token_list **token_list);
 void			free_pipex(t_pipex *pipex);
 void			free_data(t_data *data);
+void			free_data_fields(t_data *data);
+
+/*-----cleanup2.c-----*/
+void			free_data_envp(t_data *data);
 
 /*-----envp.c-----*/
 char			**copy_envp(char **envp);
@@ -223,13 +230,15 @@ void			init_data(t_data *data, char **envp);
 void			init_token_list(t_token_list *token_list);
 int				init_first_value_token_list(char *input,
 					t_token_list *token_list, int *index);
+void			init_pipex(t_pipex *pipex);
 
 /*-----utils.c-----*/
 char			*get_var_name(const char *input, int *i);
 int				expand_variable(char *input, char *result, int *i,
 					t_data *data);
 int				should_expand_variable(char *input, int i, char quote);
-int				process_character(char *input, char *result, t_data *data);
+int				process_character(char *input, char *result, t_data *data,
+					char quote);
 char			*expand_variables(char *input, t_data *data);
 
 /*-----utils2.c-----*/

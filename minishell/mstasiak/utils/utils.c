@@ -63,51 +63,50 @@ int	should_expand_variable(char *input, int i, char quote)
 		&& (ft_isalnum(input[i + 1]) || input[i + 1] == '?'));
 }
 
-int	process_character(char *input, char *result, t_data *data)
+int	process_character(char *input, char *result, t_data *data, char quote)
 {
-	static char	quote = 0;
-	int			*i;
-	int			*j;
 	int			var_len;
 
-	i = data->tmp->i;
-	j = data->tmp->j;
-	handle_quote(input[*i], &quote);
-	if (handle_escaped_dollar(input, result, i, j))
+	handle_quote(input[data->tmp->x], &quote);
+	if (handle_escaped_dollar(input, result, &data->tmp->x, &data->tmp->y))
 		return (0);
-	if (should_expand_variable(input, *i, quote))
+	if (should_expand_variable(input, data->tmp->x, quote))
 	{
-		var_len = expand_variable(input, result + *j, i, data);
+		var_len = expand_variable(input, result + data->tmp->y,
+				&data->tmp->x, data);
 		if (var_len == -1)
 			return (-1);
-		*j += var_len;
+		data->tmp->y += var_len;
 		return (0);
 	}
-	result[(*j)++] = input[(*i)++];
+	result[(data->tmp->y)++] = input[(data->tmp->x)++];
 	return (0);
 }
 
 char	*expand_variables(char *input, t_data *data)
 {
 	char	*result;
+	size_t	input_len;
 	size_t	len;
+	char	quote;
 
 	if (!input)
 		return (NULL);
+	quote = 0;
+	input_len = ft_strlen(input);
 	len = calculate_buffer_size(input, data);
-	result = ft_calloc(len + 2, sizeof(char));
+	if (len < input_len)
+		len = input_len;
+	result = malloc(sizeof(char) * len + 20);
 	if (!result)
 		return (NULL);
-	data->tmp->i = 0;
-	data->tmp->j = 0;
-	while (input[*data->tmp->i])
+	data->tmp->x = 0;
+	data->tmp->y = 0;
+	while (input[data->tmp->x])
 	{
-		if (process_character(input, result, data) == -1)
-		{
-			free(result);
-			return (NULL);
-		}
+		if (process_character(input, result, data, quote) == -1)
+			return (free(result), NULL);
 	}
-	result[*data->tmp->j] = '\0';
+	result[data->tmp->y] = '\0';
 	return (result);
 }

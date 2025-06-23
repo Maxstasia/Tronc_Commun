@@ -12,6 +12,14 @@
 
 #include "../../include/minishell.h"
 
+void	malloc_failed(t_data *data)
+{
+	ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+	if (data)
+		data->exit_status = EXIT_FAILURE;
+	exit(EXIT_FAILURE);
+}
+
 void	free_tab(char **tab)
 {
 	int	i;

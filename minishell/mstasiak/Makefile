@@ -39,6 +39,7 @@ SRC			=									\
 		$(PARSER_DIR)/redir.c					\
 		\
 		$(UTILS_DIR)/cleanup.c					\
+		$(UTILS_DIR)/cleanup2.c					\
 		$(UTILS_DIR)/init.c						\
 		$(UTILS_DIR)/envp.c						\
 		$(UTILS_DIR)/utils.c					\

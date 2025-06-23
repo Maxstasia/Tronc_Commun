@@ -30,17 +30,15 @@ int	count_cmd(t_token_list *token_list)
 	return (count);
 }
 
-t_pipex	parse_line(char *line, t_token_list *token_list)
+t_pipex	parse_line(char *line, t_token_list *token_list, t_pipex *pipex)
 {
-	t_pipex	pipex;
-
-	t_pipex_init(&pipex, line, token_list);
-	if (!pipex.commands)
+	t_pipex_init(pipex, line, token_list);
+	if (!pipex->commands)
 	{
 		ft_putstr_fd(RED"Error: Memory allocation failed\n"RESET, STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	return (pipex);
+	return (*pipex);
 }
 
 static int	parse_input_loop(char *input, t_token_list *temp, int *index)
@@ -80,7 +78,7 @@ int	parse_input(t_data *data, char *input, t_token_list *token_list)
 				return (ft_putstr_fd("Error: Memory allocation failed\n",
 						STDERR_FILENO), -1);
 			if (parse_input_loop(input, temp, &index) == -1)
-				return (free_token_list(token_list), -1);
+				return (free_token_list(&token_list), -1);
 		}
 	}
 	return (0);

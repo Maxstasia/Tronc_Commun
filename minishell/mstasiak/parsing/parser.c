@@ -38,6 +38,8 @@ int	double_quoted(char *token, int i)
 	if (token[j] == '\"')
 	{
 		i = j + 1;
+		if (token[i] == '\0')
+			return (i - 1);
 		return (i);
 	}
 	else
@@ -71,7 +73,7 @@ char	*parsed_token(char *token)
 	i = 0;
 	while (token[i] && (token[i] == ' ' || token[i] == '\t'))
 		i++;
-	while (token[i])
+	while (token[i] != '\0')
 	{
 		i = valid_quotes(i, token);
 		if (i == -1)

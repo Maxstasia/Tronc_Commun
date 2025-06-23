@@ -18,8 +18,10 @@ static int	handle_quotes(char *str, int i, int *count)
 		i = single_quoted(str, i);
 	else if (str[i] == '\"')
 		i = double_quoted(str, i);
-	if (str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '\0')
-		count++;
+	if (i == -1)
+		return (-1);
+	if (i <= (int)ft_strlen(str) && (str[i] == ' ' || str[i] == '\t' || str[i] == '\0'))
+		(*count)++;
 	return (i);
 }
 
@@ -38,15 +40,17 @@ int	count_tokens(char *str)
 		{
 			if (str[i] == '\'' || str[i] == '\"')
 			{
-				handle_quotes(str, i, &count);
+				i = handle_quotes(str, i, &count);
 				if (i == -1)
 					return (-1);
 			}
 			else
+			{	
 				if (str[i + 1] == ' ' || str[i + 1] == '\t'
 					|| str[i + 1] == '\0')
 					count++;
-			i++;
+				i++;
+			}
 		}
 	}
 	return (count);

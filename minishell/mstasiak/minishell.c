@@ -41,11 +41,15 @@ int	validate_syntax(char *expanded_line)
 static int	has_pipes(char *input)
 {
 	int		i;
+	int		len;
 	char	quote;
 
+	if (!input)
+		return (0);
+	len = ft_strlen(input);
 	i = 0;
 	quote = 0;
-	while (input[i])
+	while (i < len)
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 		{
@@ -55,10 +59,7 @@ static int	has_pipes(char *input)
 				quote = 0;
 		}
 		else if (input[i] == '|' && !quote)
-		{
-			printf(YELLOW"DEBUG: Found pipe at position %d\n"RESET, i);
 			return (1);
-		}
 		i++;
 	}
 	printf(YELLOW"DEBUG: No pipes found in input\n"RESET);

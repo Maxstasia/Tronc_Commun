@@ -83,9 +83,5 @@ void	t_pipex_init(t_pipex *pipex, char *input, t_token_list *current)
 {
 	pipex->cmd_count = count_cmd(current);
 	pipex->commands = ft_split_advanced(input, pipex->cmd_count);
-	pipex->fd[0] = -1;
-	pipex->fd[1] = -1;
-	pipex->prev_fd = -1;
 	pipex->is_first = 1;
-	pipex->is_last = 0;
 }
