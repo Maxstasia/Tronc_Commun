@@ -43,7 +43,6 @@ t_pipex	parse_line(char *line, t_token_list *token_list, t_pipex *pipex)
 
 static int	parse_input_loop(char *input, t_token_list *temp, int *index)
 {
-	temp = temp->next;
 	init_token_list(temp);
 	temp->token = extract_tokens(input, temp->token, index);
 	if (!temp->token)
@@ -55,7 +54,7 @@ static int	parse_input_loop(char *input, t_token_list *temp, int *index)
 	return (0);
 }
 
-int	parse_input(t_data *data, char *input, t_token_list *token_list)
+int	parse_input(char *input, t_token_list *token_list)
 {
 	int				count;
 	int				i;
@@ -65,7 +64,6 @@ int	parse_input(t_data *data, char *input, t_token_list *token_list)
 	index = 0;
 	if (init_first_value_token_list(input, token_list, &index) == -1)
 		return (-1);
-	data->input = input;
 	count = count_tokens(input);
 	if (count > 1)
 	{
@@ -77,6 +75,7 @@ int	parse_input(t_data *data, char *input, t_token_list *token_list)
 			if (!temp->next)
 				return (ft_putstr_fd("Error: Memory allocation failed\n",
 						STDERR_FILENO), -1);
+			temp = temp->next;
 			if (parse_input_loop(input, temp, &index) == -1)
 				return (free_token_list(&token_list), -1);
 		}

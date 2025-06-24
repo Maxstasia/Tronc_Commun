@@ -24,10 +24,19 @@ static int	is_separator(char c, char quote)
 t_cmd	*init_cmd_array(int cmd_count)
 {
 	t_cmd	*result;
+	int		i;
 
 	result = malloc(sizeof(t_cmd) * cmd_count);
 	if (!result)
 		return (NULL);
+	i = 0;
+	while (i < cmd_count)
+	{
+		result[i].args = NULL;
+		result[i].redirects = NULL;
+		result[i].redirect_count = 0;
+		i++;
+	}
 	return (result);
 }
 

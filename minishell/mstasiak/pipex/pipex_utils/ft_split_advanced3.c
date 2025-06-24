@@ -12,27 +12,43 @@
 
 #include "../../include/minishell.h"
 
-void	free_cmds(t_cmd *cmd, int j)
+static void	cmd_mem_norm(t_cmd *cmd, int cmd_count)
 {
-	while (j > 0)
+	int	j;
+
+	j = 0;
+	while (j < cmd_count)
 	{
-		j--;
-		free_cmd(&cmd[j]);
+		cmd->redirects[j].type = NULL;
+		cmd->redirects[j].file = NULL;
+		cmd->redirects[j].is_heredoc_fd = 0;
+		j++;
 	}
-	free(cmd);
 }
 
 int	allocate_cmd_memory(t_cmd *cmd, char *s, int i, int cmd_count)
 {
+	int		j;
+
+	j = 0;
+	cmd->args = NULL;
+	cmd->redirects = NULL;
 	cmd->args = malloc(sizeof(char *) * (count_token_split(s + i) + 1));
 	if (!cmd->args)
 		return (-1);
+	while (j <= count_token_split(s + i))
+	{
+		cmd->args[j] = NULL;
+		j++;
+	}
 	cmd->redirects = malloc(sizeof(t_redirect) * cmd_count);
 	if (!cmd->redirects)
 	{
 		free(cmd->args);
+		cmd->args = NULL;
 		return (-1);
 	}
+	cmd_mem_norm(cmd, cmd_count);
 	cmd->redirect_count = 0;
 	return (0);
 }

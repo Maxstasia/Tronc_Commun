@@ -50,6 +50,8 @@ void	execute_pipeline(t_data *data, t_pipex *pipex)
 	int	i;
 	int	status;
 
+	if (!pipex || pipex->cmd_count <= 0)
+		return ;
 	pipex->pids = (pid_t *)malloc(sizeof(pid_t) * pipex->cmd_count);
 	if (!pipex->pids)
 		error(data);

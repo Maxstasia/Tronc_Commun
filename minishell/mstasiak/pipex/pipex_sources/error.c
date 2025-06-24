@@ -24,9 +24,14 @@ void	free_tab(char **tab)
 {
 	int	i;
 
-	i = -1;
-	while (tab && tab[++i])
+	if (!tab)
+		return ;
+	i = 0;
+	while (tab[i])
+	{
 		free(tab[i]);
+		i++;
+	}
 	free(tab);
 }
 
@@ -35,6 +40,8 @@ void	free_cmd(t_cmd *cmd)
 	int	i;
 
 	i = 0;
+	if (!cmd)
+		return ;
 	if (cmd->args)
 		free_tab(cmd->args);
 	if (cmd->redirects)
@@ -52,7 +59,8 @@ void	free_cmd(t_cmd *cmd)
 void	error_127(t_data *data, t_cmd *cmd, char *path)
 {
 	ft_putstr_fd(RED"maxishell: '"YELLOW, 2);
-	ft_putstr_fd(cmd->args[0], 2);
+	if (cmd && cmd->args && cmd->args && cmd->args[0])
+		ft_putstr_fd(cmd->args[0], 2);
 	ft_putstr_fd(RED"' : command not found\n"RESET, 2);
 	free_cmd(cmd);
 	if (path)

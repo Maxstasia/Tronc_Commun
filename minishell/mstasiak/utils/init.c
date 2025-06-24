@@ -31,6 +31,8 @@ void	init_data(t_data *data, char **envp)
 	data->tmp = malloc(sizeof(t_tmp));
 	if (!data->tmp)
 		malloc_failed(data);
+	data->tmp->x = 0;
+	data->tmp->y = 0;
 }
 
 void	init_token_list(t_token_list *token_list)

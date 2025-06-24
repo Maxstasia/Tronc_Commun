@@ -88,7 +88,6 @@ typedef struct s_data
 	int		exit_status;
 	char	*pwd;
 	char	*oldpwd;
-	char	*input;
 	t_tmp	*tmp;
 }				t_data;
 
@@ -141,8 +140,7 @@ int				validate_pipe_syntax(char *input);
 int				count_cmd(t_token_list *token_list);
 t_pipex			parse_line(char *line, t_token_list *token_list,
 					t_pipex *pipex);
-int				parse_input(t_data *data, char *input,
-					t_token_list *token_list);
+int				parse_input(char *input, t_token_list *token_list);
 
 /*-----redir.c-----*/
 char			set_quote(char *input, int i, char quote);

@@ -20,9 +20,18 @@ static int	handle_quotes(char *str, int i, int *count)
 		i = double_quoted(str, i);
 	if (i == -1)
 		return (-1);
-	if (i <= (int)ft_strlen(str) && (str[i] == ' ' || str[i] == '\t' || str[i] == '\0'))
+	if (i <= (int)ft_strlen(str) && (str[i] == ' '
+			|| str[i] == '\t' || str[i] == '\0'))
 		(*count)++;
 	return (i);
+}
+
+static int	norm_count_tokens(char *str, int i, int count)
+{
+	if (str[i + 1] == ' ' || str[i + 1] == '\t'
+		|| str[i + 1] == '\0')
+		count++;
+	return (count);
 }
 
 int	count_tokens(char *str)
@@ -45,31 +54,13 @@ int	count_tokens(char *str)
 					return (-1);
 			}
 			else
-			{	
-				if (str[i + 1] == ' ' || str[i + 1] == '\t'
-					|| str[i + 1] == '\0')
-					count++;
+			{
+				count = norm_count_tokens(str, i, count);
 				i++;
 			}
 		}
 	}
 	return (count);
-}
-
-t_token_type	get_token_type(char *token)
-{
-	if (ft_strcmp(token, "|") == 0)
-		return (PIPE);
-	else if (ft_strcmp(token, "<") == 0)
-		return (REDIR_IN);
-	else if (ft_strcmp(token, ">") == 0)
-		return (REDIR_OUT);
-	else if (ft_strcmp(token, "<<") == 0)
-		return (REDIR_HEREDOC);
-	else if (ft_strcmp(token, ">>") == 0)
-		return (REDIR_APPEND);
-	else
-		return (TXT);
 }
 
 static int	extract_loop(char *input, int i)

@@ -78,3 +78,19 @@ char	*if_redir_out(char *input, char *token, int *i, int *index)
 	}
 	return (NULL);
 }
+
+t_token_type	get_token_type(char *token)
+{
+	if (ft_strcmp(token, "|") == 0)
+		return (PIPE);
+	else if (ft_strcmp(token, "<") == 0)
+		return (REDIR_IN);
+	else if (ft_strcmp(token, ">") == 0)
+		return (REDIR_OUT);
+	else if (ft_strcmp(token, "<<") == 0)
+		return (REDIR_HEREDOC);
+	else if (ft_strcmp(token, ">>") == 0)
+		return (REDIR_APPEND);
+	else
+		return (TXT);
+}

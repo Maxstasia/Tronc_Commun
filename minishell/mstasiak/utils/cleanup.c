@@ -12,6 +12,16 @@
 
 #include "../include/minishell.h"
 
+void	free_cmds(t_cmd *cmd, int j)
+{
+	while (j > 0)
+	{
+		j--;
+		free_cmd(&cmd[j]);
+	}
+	free(cmd);
+}
+
 void	free_token_list(t_token_list **token_list)
 {
 	t_token_list	*current;
@@ -32,13 +42,19 @@ void	free_token_list(t_token_list **token_list)
 
 void	free_pipex(t_pipex *pipex, int bool)
 {
-	int	i;
+	int		i;
 
 	if (!pipex)
 		return ;
-	i = 0;
-	if (pipex->cmd_count)
-		free_cmd(pipex->commands);
+	if (pipex->commands && pipex->cmd_count)
+	{
+		i = 0;
+		while (i < pipex->cmd_count)
+		{
+			free_cmd(&pipex->commands[i]);
+			i++;
+		}
+	}
 	if (pipex->commands)
 	{
 		free(pipex->commands);
@@ -78,29 +94,24 @@ void	free_data_fields(t_data *data)
 
 void	free_data(t_data *data)
 {
-    if (!data)
-        return ;
-    if (data->envp)
-        free_data_envp(data); 
-    if (data->pwd)
-    {
-        free(data->pwd);
-        data->pwd = NULL;
-    }
-    if (data->oldpwd)
-    {
-        free(data->oldpwd);
-        data->oldpwd = NULL;
-    }
-    if (data->tmp)
-    {
-        free(data->tmp);
-        data->tmp = NULL;
-    }
-    if (data->input)
-    {
-        free(data->input);
-        data->input = NULL;
-    }  
-    data->exit_status = 0;
+	if (!data)
+		return ;
+	if (data->envp)
+		free_data_envp(data);
+	if (data->pwd)
+	{
+		free(data->pwd);
+		data->pwd = NULL;
+	}
+	if (data->oldpwd)
+	{
+		free(data->oldpwd);
+		data->oldpwd = NULL;
+	}
+	if (data->tmp)
+	{
+		free(data->tmp);
+		data->tmp = NULL;
+	}
+	data->exit_status = 0;
 }

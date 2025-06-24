@@ -89,7 +89,6 @@ static void	execute_builtin_with_redirects(t_data *data,
 static void	exec_pipe(t_pipex *pipex, t_data *data)
 {
 	execute_pipeline(data, pipex);
-	free_pipex(pipex, 1);
 }
 
 void	handle_command_execution(t_data *data, t_token_list *token_list,

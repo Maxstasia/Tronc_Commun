@@ -46,7 +46,7 @@ static int	process_input_line(t_data *data, char *line,
 	syntax_error = validate_syntax(expanded_line);
 	if (syntax_error != 0)
 		return (data->exit_status = syntax_error, free(expanded_line), -1);
-	if (parse_input(data, expanded_line, token_list) != 0)
+	if (parse_input(expanded_line, token_list) != 0)
 		return (free(expanded_line), -1);
 	parse_line(expanded_line, token_list, &pipex);
 	printf(YELLOW"DEBUG: Parsed commands count: %d\n"RESET, pipex.cmd_count);
