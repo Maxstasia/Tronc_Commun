@@ -12,26 +12,6 @@
 
 #include "../include/minishell.h"
 
-void	free_pipex_content(t_pipex *pipex)
-{
-	int	i;
-
-	if (!pipex)
-		return ;
-	if (pipex->commands)
-	{
-		i = 0;
-		while (i < pipex->cmd_count)
-		{
-			free_cmd(&pipex->commands[i]);
-			i++;
-		}
-		free(pipex->commands);
-	}
-	if (pipex->pids)
-		free(pipex->pids);
-}
-
 void	free_token_list(t_token_list **token_list)
 {
 	t_token_list	*current;
@@ -50,18 +30,15 @@ void	free_token_list(t_token_list **token_list)
 	*token_list = NULL;
 }
 
-void	free_pipex(t_pipex *pipex)
+void	free_pipex(t_pipex *pipex, int bool)
 {
 	int	i;
 
 	if (!pipex)
 		return ;
 	i = 0;
-	while (i < pipex->cmd_count)
-	{
-		free_cmd(&pipex->commands[i]);
-		i++;
-	}
+	if (pipex->cmd_count)
+		free_cmd(pipex->commands);
 	if (pipex->commands)
 	{
 		free(pipex->commands);
@@ -72,6 +49,8 @@ void	free_pipex(t_pipex *pipex)
 		free(pipex->pids);
 		pipex->pids = NULL;
 	}
+	if (bool == 1)
+		free(pipex);
 }
 
 void	free_data_fields(t_data *data)

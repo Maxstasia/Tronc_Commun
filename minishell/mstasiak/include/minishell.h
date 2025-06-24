@@ -209,9 +209,8 @@ void			execute_pipeline(t_data *data, t_pipex *pipex);
 
 /*----------utils----------*/
 /*-----cleanup.c-----*/
-void			free_pipex_content(t_pipex *pipex);
 void			free_token_list(t_token_list **token_list);
-void			free_pipex(t_pipex *pipex);
+void			free_pipex(t_pipex *pipex, int bool);
 void			free_data(t_data *data);
 void			free_data_fields(t_data *data);
 

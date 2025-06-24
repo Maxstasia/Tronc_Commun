@@ -69,5 +69,4 @@ void	execute_pipeline(t_data *data, t_pipex *pipex)
 		if (waitpid(pipex->pids[i], &status, 0) > 0 && WIFEXITED(status))
 			norm_exec_pipeline(data, pipex, i);
 	}
-	free(pipex->pids);
 }

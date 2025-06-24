@@ -51,7 +51,7 @@ static int	process_input_line(t_data *data, char *line,
 	parse_line(expanded_line, token_list, &pipex);
 	printf(YELLOW"DEBUG: Parsed commands count: %d\n"RESET, pipex.cmd_count);
 	handle_command_execution(data, token_list, &pipex, expanded_line);
-	free_pipex_content(&pipex);
+	free_pipex(&pipex, 0);
 	return (free(expanded_line), 0);
 }
 
