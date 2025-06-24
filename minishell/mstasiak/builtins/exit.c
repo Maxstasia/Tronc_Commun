@@ -56,7 +56,7 @@ void	exit_builtin(t_data *data, t_cmd *cmd)
 	ft_putstr_fd(PINK"exit\n"RESET, 2);
 	if (!cmd->args[1])
 	{
-		free_data_fields(data);
+		free_data(data);
 		exit(data->exit_status);
 	}
 	if (!isnum(cmd->args[1]))
@@ -64,7 +64,7 @@ void	exit_builtin(t_data *data, t_cmd *cmd)
 		ft_putstr_fd(RED"maxishell: exit: '"YELLOW, 2);
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putstr_fd(RED"' : numeric argument required\n"RESET, 2);
-		free_data_fields(data);
+		free_data(data);
 		exit(255);
 	}
 	if (cmd->args[2])
@@ -75,6 +75,6 @@ void	exit_builtin(t_data *data, t_cmd *cmd)
 	}
 	data->exit_status = ft_atol(cmd->args[1]);
 	data->exit_status = data->exit_status % 256;
-	free_data_fields(data);
+	free_data(data);
 	exit(data->exit_status);
 }

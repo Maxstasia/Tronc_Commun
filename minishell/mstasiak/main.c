@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/23 15:07:35 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:22:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static t_token_list	*reinit_token_list(t_token_list *token_list, t_data *data)
 {
-	free_token_list(&token_list);
+	if (token_list)
+		free_token_list(&token_list);
 	token_list = malloc(sizeof(t_token_list));
 	if (!token_list)
 	{
@@ -50,7 +51,7 @@ static int	process_input_line(t_data *data, char *line,
 	parse_line(expanded_line, token_list, &pipex);
 	printf(YELLOW"DEBUG: Parsed commands count: %d\n"RESET, pipex.cmd_count);
 	handle_command_execution(data, token_list, &pipex, expanded_line);
-	//free_pipex_content(&pipex);
+	free_pipex_content(&pipex);
 	return (free(expanded_line), 0);
 }
 

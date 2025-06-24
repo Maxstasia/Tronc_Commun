@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/23 15:09:51 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:21:43 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,9 @@ void	free_pipex_content(t_pipex *pipex)
 			i++;
 		}
 		free(pipex->commands);
-		pipex->commands = NULL;
 	}
 	if (pipex->pids)
-	{
 		free(pipex->pids);
-		pipex->pids = NULL;
-	}
-	pipex->cmd_count = 0;
 }
 
 void	free_token_list(t_token_list **token_list)
@@ -59,14 +54,24 @@ void	free_pipex(t_pipex *pipex)
 {
 	int	i;
 
+	if (!pipex)
+		return ;
 	i = 0;
 	while (i < pipex->cmd_count)
 	{
 		free_cmd(&pipex->commands[i]);
 		i++;
 	}
-	free(pipex->commands);
-	free(pipex->fd);
+	if (pipex->commands)
+	{
+		free(pipex->commands);
+		pipex->commands = NULL;
+	}
+	if (pipex->pids)
+	{
+		free(pipex->pids);
+		pipex->pids = NULL;
+	}
 }
 
 void	free_data_fields(t_data *data)
@@ -94,28 +99,29 @@ void	free_data_fields(t_data *data)
 
 void	free_data(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	if (data->envp)
-	{
-		while (data->envp[i])
-			free(data->envp[i++]);
-		free(data->envp);
-	}
-	if (data->pwd)
-		free(data->pwd);
-	if (data->oldpwd)
-		free(data->oldpwd);
-	if (data->tmp)
-		free(data->tmp);
-	if (data->input)
-		free(data->input);
-	if (data->exit_status)
-		data->exit_status = 0;
-	if (data)
-	{
-		free(data);
-		data = NULL;
-	}
+    if (!data)
+        return ;
+    if (data->envp)
+        free_data_envp(data); 
+    if (data->pwd)
+    {
+        free(data->pwd);
+        data->pwd = NULL;
+    }
+    if (data->oldpwd)
+    {
+        free(data->oldpwd);
+        data->oldpwd = NULL;
+    }
+    if (data->tmp)
+    {
+        free(data->tmp);
+        data->tmp = NULL;
+    }
+    if (data->input)
+    {
+        free(data->input);
+        data->input = NULL;
+    }  
+    data->exit_status = 0;
 }
