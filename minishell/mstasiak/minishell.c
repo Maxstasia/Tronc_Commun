@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 12:17:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:34:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@ int	validate_syntax(char *expanded_line)
 	{
 		if (ft_strstr(expanded_line, ">>")
 			&& !has_file_after_redirection(expanded_line, ">>"))
-			ft_putstr_fd("maxishell: erreur de syntaxe\n", 2);
+			ft_putstr_fd(RED"maxishell: syntax error\n"RESET, 2);
 		else if (ft_strstr(expanded_line, ">")
 			&& !has_file_after_redirection(expanded_line, ">"))
-			ft_putstr_fd("maxishell: erreur de syntaxe\n", 2);
+			ft_putstr_fd(RED"maxishell: syntax error\n"RESET, 2);
 		else if (ft_strstr(expanded_line, "<<")
 			&& !has_file_after_redirection(expanded_line, "<<"))
-			ft_putstr_fd("maxishell: erreur de syntaxe\n", 2);
+			ft_putstr_fd(RED"maxishell: syntax error\n"RESET, 2);
 		else if (ft_strstr(expanded_line, "<")
 			&& !has_file_after_redirection(expanded_line, "<"))
-			ft_putstr_fd("maxishell: erreur de syntaxe\n", 2);
+			ft_putstr_fd(RED"maxishell: syntax error\n"RESET, 2);
 		return (2);
 	}
 	if (validate_pipe_syntax(expanded_line) != 0)
 	{
-		ft_putstr_fd("maxishell: erreur de syntaxe « | »\n", 2);
+		ft_putstr_fd(RED"maxishell: syntax error « | »\n"RESET, 2);
 		return (2);
 	}
 	return (0);

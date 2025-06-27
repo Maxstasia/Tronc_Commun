@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/18 11:12:32 by mstasiak          #+#    #+#              #
-#    Updated: 2025/05/28 19:31:40 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/06/27 15:28:52 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,9 @@ LIBFT_DIR	= $(INCLUDE_DIR)/Libft
 
 # Sources et objets
 SRC			=									\
-		minishell.c								\
 		main.c									\
+		minishell.c								\
+		minishell2.c							\
 		\
 		$(PARSER_DIR)/lexer.c					\
 		$(PARSER_DIR)/lexer_redir.c				\
@@ -40,8 +41,9 @@ SRC			=									\
 		\
 		$(UTILS_DIR)/cleanup.c					\
 		$(UTILS_DIR)/cleanup2.c					\
-		$(UTILS_DIR)/init.c						\
 		$(UTILS_DIR)/envp.c						\
+		$(UTILS_DIR)/init.c						\
+		$(UTILS_DIR)/redirection_case_utils.c	\
 		$(UTILS_DIR)/utils.c					\
 		$(UTILS_DIR)/utils2.c					\
 		$(UTILS_DIR)/utils3.c					\

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 12:19:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:31:01 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,13 @@ int				init_first_value_token_list(char *input,
 					t_token_list *token_list, int *index);
 void			init_pipex(t_pipex *pipex);
 
+/*-----redirection_case_utils.c-----*/
+char			*cas_1(char *line, char *trimmed);
+char			*cas_2(char *line, char *trimmed);
+char			*cas_3(char *line, char *trimmed);
+char			*cas_4(char *line, char *trimmed);
+char			*cas_5(char *line);
+
 /*-----utils.c-----*/
 char			*get_var_name(const char *input, int *i);
 int				expand_variable(char *input, char *result, int *i,
@@ -254,9 +261,14 @@ char			*get_variable_value(char *var_name, t_data *data);
 size_t			calculate_buffer_size(char *input, t_data *data);
 void			close_saved_fds(t_data *data);
 
+/*----------$PATH----------*/
 /*-----minishell.c-----*/
 int				validate_syntax(char *expanded_line);
 void			handle_command_execution(t_data *data, t_token_list *token_list,
 					t_pipex *pipex, char *expanded_line);
+
+/*-----minishell2.c-----*/
+int				process_input_line(t_data *data, char *line,
+					t_token_list *token_list);
 
 #endif
