@@ -33,6 +33,9 @@ void	init_data(t_data *data, char **envp)
 		malloc_failed(data);
 	data->tmp->x = 0;
 	data->tmp->y = 0;
+	data->saved_stdin = -1;
+	data->saved_stdout = -1;
+	data->has_saved_fds = 0;
 }
 
 void	init_token_list(t_token_list *token_list)

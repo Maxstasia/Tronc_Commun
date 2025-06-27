@@ -50,6 +50,8 @@ void	free_cmd(t_cmd *cmd)
 		{
 			free(cmd->redirects[i].type);
 			free(cmd->redirects[i].file);
+			if (cmd->redirects[i].is_heredoc_fd > 0)
+				close(cmd->redirects[i].is_heredoc_fd);
 			i++;
 		}
 		free(cmd->redirects);

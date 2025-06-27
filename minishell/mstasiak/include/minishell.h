@@ -89,6 +89,9 @@ typedef struct s_data
 	char	*pwd;
 	char	*oldpwd;
 	t_tmp	*tmp;
+	int		saved_stdin;
+	int		saved_stdout;
+	int		has_saved_fds;
 }				t_data;
 
 typedef struct s_token_list
@@ -137,6 +140,7 @@ char			*parsed_token(char *token);
 int				validate_pipe_syntax(char *input);
 
 /*-----parsing.c-----*/
+int				count_redir(t_cmd *cmd);
 int				count_cmd(t_token_list *token_list);
 t_pipex			parse_line(char *line, t_token_list *token_list,
 					t_pipex *pipex);
@@ -179,7 +183,7 @@ int				count_token_split(char *input);
 
 /*-----ft_split_advanced3.c-----*/
 void			free_cmds(t_cmd *cmd, int j);
-int				allocate_cmd_memory(t_cmd *cmd, char *s, int i, int cmd_count);
+int				allocate_cmd_memory(t_cmd *cmd, char *s, int i);
 int				extract_token_split(char *input, int *i, char **token);
 
 /*-----quotes.c-----*/
@@ -196,6 +200,7 @@ void			update_env_var(char ***envp, const char *name,
 char			*get_env_var(char **envp, const char *name);
 
 /*-----utils2_pipex.c-----*/
+void			check_hdoc_fd(int *last_heredoc_fd);
 char			*find_path(t_data *data, char *cmd_name);
 void			execute(t_data *data, t_cmd *cmd);
 void			t_pipex_init(t_pipex *pipex, char *input,
@@ -247,6 +252,7 @@ char			*get_variable_value(char *var_name, t_data *data);
 
 /*-----utils3.c-----*/
 size_t			calculate_buffer_size(char *input, t_data *data);
+void			close_saved_fds(t_data *data);
 
 /*-----minishell.c-----*/
 int				validate_syntax(char *expanded_line);

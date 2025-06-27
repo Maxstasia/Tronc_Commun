@@ -36,20 +36,19 @@ static int	process_input_line(t_data *data, char *line,
 
 	init_pipex(&pipex);
 	expanded_line = expand_variables(line, data);
-	printf(YELLOW"DEBUG: Expanded line: '%s'\n"RESET, expanded_line);
 	if (!expanded_line)
 	{
 		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
 		data->exit_status = 1;
-		return (-1);
+		return (free_pipex(&pipex, 0), -1);
 	}
 	syntax_error = validate_syntax(expanded_line);
 	if (syntax_error != 0)
-		return (data->exit_status = syntax_error, free(expanded_line), -1);
+		return (free_pipex(&pipex, 0), data->exit_status = syntax_error,
+			free(expanded_line), -1);
 	if (parse_input(expanded_line, token_list) != 0)
 		return (free(expanded_line), -1);
 	parse_line(expanded_line, token_list, &pipex);
-	printf(YELLOW"DEBUG: Parsed commands count: %d\n"RESET, pipex.cmd_count);
 	handle_command_execution(data, token_list, &pipex, expanded_line);
 	free_pipex(&pipex, 0);
 	return (free(expanded_line), 0);
@@ -86,37 +85,32 @@ static void	main_loop(t_data *data, t_token_list **token_list)
 		if (!line)
 		{
 			ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);
+			clear_history();
+			free_token_list(token_list);
 			free_data(data);
-			break ;
+			exit(data->exit_status);
 		}
 		if (*line)
 		{
 			add_history(line);
 			res = process_input_line(data, line, *token_list);
 			*token_list = reinit_token_list(*token_list, data);
+			if (ft_strstr(line, "<<"))
+				rl_on_new_line();
 		}
-		free(line);
 	}
+	exit(data->exit_status);
 }
 
 int	main(int ac, char **av, char **envp)
 {
 	t_data			data;
 	t_token_list	*token_list;
-	int				saved_stdout;
-	int				saved_stdin;
 
 	(void)av;
 	if (init_minishell(ac, &token_list, &data, envp) != 0)
 		return (1);
 	using_history();
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
 	main_loop(&data, &token_list);
-	close(saved_stdout);
-	close(saved_stdin);
-	clear_history();
-	free_token_list(&token_list);
-	free_data(&data);
 	return (data.exit_status);
 }

@@ -26,29 +26,31 @@ static void	cmd_mem_norm(t_cmd *cmd, int cmd_count)
 	}
 }
 
-int	allocate_cmd_memory(t_cmd *cmd, char *s, int i, int cmd_count)
+int	allocate_cmd_memory(t_cmd *cmd, char *s, int i)
 {
 	int		j;
+	int		token_count;
 
 	j = 0;
 	cmd->args = NULL;
 	cmd->redirects = NULL;
-	cmd->args = malloc(sizeof(char *) * (count_token_split(s + i) + 1));
+	token_count = count_token_split(s + i);
+	cmd->args = malloc(sizeof(char *) * (token_count + 1));
 	if (!cmd->args)
 		return (-1);
-	while (j <= count_token_split(s + i))
+	while (j <= token_count)
 	{
 		cmd->args[j] = NULL;
 		j++;
 	}
-	cmd->redirects = malloc(sizeof(t_redirect) * cmd_count);
+	cmd->redirects = malloc(sizeof(t_redirect) * token_count);
 	if (!cmd->redirects)
 	{
 		free(cmd->args);
 		cmd->args = NULL;
 		return (-1);
 	}
-	cmd_mem_norm(cmd, cmd_count);
+	cmd_mem_norm(cmd, token_count);
 	cmd->redirect_count = 0;
 	return (0);
 }
@@ -94,6 +96,8 @@ int	extract_token_split(char *input, int *i, char **token)
 	while (input[*i] && !is_separator(input[*i], 0))
 		extract_token_loop((char *)input, quote, i);
 	end = *i;
+	if (start == end)
+		return (-1);
 	*token = ft_substr(input, start, end - start);
 	if (!*token)
 		return (-1);

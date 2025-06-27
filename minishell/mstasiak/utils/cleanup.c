@@ -96,6 +96,7 @@ void	free_data(t_data *data)
 {
 	if (!data)
 		return ;
+	close_saved_fds(data);
 	if (data->envp)
 		free_data_envp(data);
 	if (data->pwd)
@@ -113,5 +114,4 @@ void	free_data(t_data *data)
 		free(data->tmp);
 		data->tmp = NULL;
 	}
-	data->exit_status = 0;
 }

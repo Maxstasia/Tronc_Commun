@@ -12,6 +12,26 @@
 
 #include "../include/minishell.h"
 
+int	count_redir(t_cmd *cmd)
+{
+	t_cmd	*current;
+	int		i;
+
+	i = 0;
+	if (!cmd)
+		return (0);
+	current = cmd;
+	while (current->args[i])
+	{
+		if (is_redirect(current->args[i]))
+		{
+			cmd->redirect_count++;
+		}
+		i++;
+	}
+	return (cmd->redirect_count);
+}
+
 int	count_cmd(t_token_list *token_list)
 {
 	int				count;
@@ -19,8 +39,8 @@ int	count_cmd(t_token_list *token_list)
 
 	if (!token_list)
 		return (0);
-	count = 1;
 	current = token_list;
+	count = 1;
 	while (current)
 	{
 		if (current->type == PIPE)

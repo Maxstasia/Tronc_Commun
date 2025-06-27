@@ -62,33 +62,53 @@ static int	has_pipes(char *input)
 			return (1);
 		i++;
 	}
-	printf(YELLOW"DEBUG: No pipes found in input\n"RESET);
 	return (0);
 }
 
 static void	execute_builtin_with_redirects(t_data *data,
 			t_token_list *token_list, t_pipex *pipex)
 {
-	int	saved_stdout;
-	int	saved_stdin;
-
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
+	data->saved_stdout = dup(STDOUT_FILENO);
+	data->saved_stdin = dup(STDIN_FILENO);
+	data->has_saved_fds = 1;
 	if (pipex->commands && pipex->commands[0].redirect_count > 0)
 	{
 		apply_redirects(data, &pipex->commands[0],
 			pipex->commands[0].redirects);
 	}
 	execute_builtin(data, token_list, &pipex->commands[0]);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdout);
-	close(saved_stdin);
+	dup2(data->saved_stdout, STDOUT_FILENO);
+	dup2(data->saved_stdin, STDIN_FILENO);
+	close_saved_fds(data);
 }
 
-static void	exec_pipe(t_pipex *pipex, t_data *data)
+static int	redirect_input(t_data *data, t_pipex *pipex)
 {
-	execute_pipeline(data, pipex);
+	int		i;
+	int		saved_stdin;
+	char	buffer[1024];
+
+	if (pipex->commands && (!pipex->commands[0].args[0]
+			|| !pipex->commands[0].args[0][0]))
+	{
+		if ((pipex->commands[0].redirect_count > 0))
+		{
+			saved_stdin = dup(STDIN_FILENO);
+			apply_redirects(data, &pipex->commands[0],
+				pipex->commands[0].redirects);
+			i = -1;
+			while (++i < pipex->commands[0].redirect_count)
+			{
+				if (ft_strcmp(pipex->commands[0].redirects[i].type, "<<") == 0)
+					while (read(STDIN_FILENO, buffer, sizeof(buffer)) > 0)
+						;
+			}
+			dup2(saved_stdin, STDIN_FILENO);
+			close(saved_stdin);
+			return (data->exit_status = 0, 1);
+		}
+	}
+	return (0);
 }
 
 void	handle_command_execution(t_data *data, t_token_list *token_list,
@@ -96,10 +116,12 @@ void	handle_command_execution(t_data *data, t_token_list *token_list,
 {
 	if (!has_pipes(expanded_line))
 	{
+		if (redirect_input(data, pipex) == 1)
+			return ;
 		if (!token_list->token || ft_strlen(token_list->token) == 0)
 		{
-			ft_putstr_fd("maxishell: syntax error near unexpected token\n", 2);
-			data->exit_status = 2;
+			data->exit_status = 0;
+			return ;
 		}
 		else if (is_builtin(token_list->token))
 			execute_builtin_with_redirects(data, token_list, pipex);
@@ -107,13 +129,13 @@ void	handle_command_execution(t_data *data, t_token_list *token_list,
 		{
 			pipex->envp = data->envp;
 			if (pipex->commands)
-				exec_pipe(pipex, data);
+				execute_pipeline(data, pipex);
 		}
 	}
 	else
 	{
 		pipex->envp = data->envp;
 		if (pipex->commands)
-			exec_pipe(pipex, data);
+			execute_pipeline(data, pipex);
 	}
 }

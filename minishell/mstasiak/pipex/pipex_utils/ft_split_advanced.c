@@ -99,7 +99,7 @@ t_cmd	*ft_split_advanced(char *s, int cmd_count)
 	{
 		if (skip_whitespace_and_check(s, &i))
 			break ;
-		if (allocate_cmd_memory(&result[j], s, i, cmd_count) == -1)
+		if (allocate_cmd_memory(&result[j], s, i) == -1)
 			return (free_cmds(result, j), NULL);
 		if (parse_command_tokens(&result[j], s, &i) == -1)
 			return (free_cmds(result, j + 1), NULL);

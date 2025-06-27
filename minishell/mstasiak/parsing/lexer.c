@@ -109,8 +109,7 @@ char	*extract_tokens(char *input, char *token, int *index)
 		if (i == -1)
 			return (NULL);
 		token = ft_substr(input, j, i - j);
-		printf(YELLOW"DEBUG: Extracted token: '%s'\n"RESET, token);
-		*index = i;
 	}
+	*index = i;
 	return (token);
 }

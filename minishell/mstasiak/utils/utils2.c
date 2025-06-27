@@ -56,3 +56,21 @@ char	*get_variable_value(char *var_name, t_data *data)
 		var_value = get_env_var(data->envp, var_name);
 	return (var_value);
 }
+
+void	close_saved_fds(t_data *data)
+{
+	if (data->has_saved_fds)
+	{
+		if (data->saved_stdin >= 0)
+		{
+			close(data->saved_stdin);
+			data->saved_stdin = -1;
+		}
+		if (data->saved_stdout >= 0)
+		{
+			close(data->saved_stdout);
+			data->saved_stdout = -1;
+		}
+		data->has_saved_fds = 0;
+	}
+}

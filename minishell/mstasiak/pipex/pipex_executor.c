@@ -12,10 +12,15 @@
 
 #include "../include/minishell.h"
 
-static void	norm_exec_pipeline(t_data *data, t_pipex *pipex, int i)
+static void	update_exit_status(t_data *data, t_pipex *pipex, int status, int i)
 {
-	if (i == pipex->cmd_count - 1)
-		data->exit_status = WEXITSTATUS(pipex->pids[i]);
+	if (pipex->cmd_count == 1 || i == pipex->cmd_count - 1)
+	{
+		if (WIFEXITED(status))
+			data->exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			data->exit_status = 128 + WTERMSIG(status);
+	}
 }
 
 static pid_t	fork_process(t_data *data, t_pipex *pipex, int i)
@@ -68,7 +73,7 @@ void	execute_pipeline(t_data *data, t_pipex *pipex)
 	i = -1;
 	while (++i < pipex->cmd_count)
 	{
-		if (waitpid(pipex->pids[i], &status, 0) > 0 && WIFEXITED(status))
-			norm_exec_pipeline(data, pipex, i);
+		if (waitpid(pipex->pids[i], &status, 0) > 0)
+			update_exit_status(data, pipex, status, i);
 	}
 }

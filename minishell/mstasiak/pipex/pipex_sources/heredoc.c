@@ -35,38 +35,28 @@ static int	init_heredoc(t_data *data, t_redirect *redirect,
 	return (0);
 }
 
-static char	*get_clean_line(char *line)
+static int	process_heredoc_line(int fd_write, char *line, char *delim)
 {
 	char	*clean_line;
 	int		len;
 
 	if (!line)
-		return (NULL);
+		return (1);
 	len = ft_strlen(line);
 	if (len > 0 && line[len - 1] == '\n')
 	{
 		clean_line = ft_substr(line, 0, len - 1);
 		if (!clean_line)
-			return (NULL);
+			return (free(line), 1);
 	}
 	else
 	{
 		clean_line = ft_strdup(line);
 		if (!clean_line)
-			return (NULL);
+			return (free(line), 1);
 	}
-	return (clean_line);
-}
-
-static int	process_heredoc_line(int fd_write, char *line,
-	char *clean_line, char *delim)
-{
 	if (ft_strcmp(clean_line, delim) == 0)
-	{
-		free(line);
-		free(clean_line);
-		return (1);
-	}
+		return (free(line), free(clean_line), 1);
 	write(fd_write, line, ft_strlen(line));
 	free(line);
 	free(clean_line);
@@ -82,28 +72,52 @@ static void	finish_heredoc(int *fd, char *expanded_delim, t_redirect *redirect)
 	redirect->is_heredoc_fd = fd[0];
 }
 
+static char	*read_line_from_stdin(void)
+{
+	char	buffer[1000];
+	int		i;
+	int		bytes_read;
+	char	c;
+
+	i = 0;
+	while (i < 999)
+	{
+		bytes_read = read(STDIN_FILENO, &c, 1);
+		if (bytes_read <= 0)
+			return (NULL);
+		if (c == '\n')
+		{
+			buffer[i] = c;
+			buffer[i + 1] = '\0';
+			return (ft_strdup(buffer));
+		}
+		buffer[i] = c;
+		i++;
+	}
+	buffer[i] = '\0';
+	return (ft_strdup(buffer));
+}
+
 void	handle_here_doc(t_data *data, t_redirect *redirect)
 {
 	int		fd[2];
 	char	*line;
 	char	*expanded_delim;
-	char	*clean_line;
 
 	if (init_heredoc(data, redirect, fd, &expanded_delim) == -1)
 		return ;
 	while (1)
 	{
 		ft_putstr_fd(GREEN"──(heredoc)── "RESET, STDOUT_FILENO);
-		line = get_next_line(STDIN_FILENO);
+		line = read_line_from_stdin();
 		if (!line)
-			break ;
-		clean_line = get_clean_line(line);
-		if (!clean_line)
 		{
-			free(line);
+			ft_putstr_fd("bash: warning: heredoc delim by EOF (wanted `", 2);
+			ft_putstr_fd(expanded_delim, 2);
+			ft_putstr_fd("')\n", 2);
 			break ;
 		}
-		if (process_heredoc_line(fd[1], line, clean_line, expanded_delim))
+		if (process_heredoc_line(fd[1], line, expanded_delim))
 			break ;
 	}
 	finish_heredoc(fd, expanded_delim, redirect);

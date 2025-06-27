@@ -45,39 +45,40 @@ static void	handle_append_redirect(t_data *data, t_redirect *redirect)
 	close(fd);
 }
 
-static void	handle_heredoc_redirect(t_data *data, t_redirect *redirect)
+static void	apply_redir_norm(t_data *data, t_redirect *redirect)
 {
-	handle_here_doc(data, redirect);
-	if (redirect->is_heredoc_fd != -1)
-	{
-		dup2(redirect->is_heredoc_fd, STDIN_FILENO);
-		close(redirect->is_heredoc_fd);
-		redirect->is_heredoc_fd = -1;
-	}
+	if (ft_strcmp(redirect->type, "<") == 0)
+		handle_input_redirect(data, redirect);
+	else if (ft_strcmp(redirect->type, ">") == 0)
+		handle_output_redirect(data, redirect);
+	else if (ft_strcmp(redirect->type, ">>") == 0)
+		handle_append_redirect(data, redirect);
 }
 
 void	apply_redirects(t_data *data, t_cmd *cmd, t_redirect *redirect)
 {
 	int		i;
-	int		heredoc_fd;
+	int		last_heredoc_fd;
 
-	heredoc_fd = -1;
+	last_heredoc_fd = -1;
 	i = 0;
 	while (i < cmd->redirect_count)
 	{
-		if (ft_strcmp(redirect->type, "<") == 0)
-			handle_input_redirect(data, redirect);
-		else if (ft_strcmp(redirect->type, ">") == 0)
-			handle_output_redirect(data, redirect);
-		else if (ft_strcmp(redirect->type, ">>") == 0)
-			handle_append_redirect(data, redirect);
-		else if (ft_strcmp(redirect->type, "<<") == 0)
-			handle_heredoc_redirect(data, redirect);
+		if (ft_strcmp(redirect[i].type, "<<") == 0)
+		{
+			handle_here_doc(data, &redirect[i]);
+			if (last_heredoc_fd != -1)
+				close(last_heredoc_fd);
+			last_heredoc_fd = redirect[i].is_heredoc_fd;
+		}
 		i++;
 	}
-	if (heredoc_fd != -1)
+	i = 0;
+	while (i < cmd->redirect_count)
 	{
-		dup2(heredoc_fd, STDIN_FILENO);
-		close(heredoc_fd);
+		if (ft_strcmp(redirect[i].type, "<<") != 0)
+			apply_redir_norm(data, &redirect[i]);
+		i++;
 	}
+	check_hdoc_fd(&last_heredoc_fd);
 }

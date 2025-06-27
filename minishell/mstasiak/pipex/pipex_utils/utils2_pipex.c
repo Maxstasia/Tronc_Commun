@@ -12,6 +12,15 @@
 
 #include "../../include/minishell.h"
 
+void	check_hdoc_fd(int *last_heredoc_fd)
+{
+	if (*last_heredoc_fd != -1)
+	{
+		dup2(*last_heredoc_fd, STDIN_FILENO);
+		close(*last_heredoc_fd);
+	}
+}
+
 static char	**first_step(t_data *data)
 {
 	int		i;
