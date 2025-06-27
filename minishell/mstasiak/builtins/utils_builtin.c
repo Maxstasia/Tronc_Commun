@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 11:15:57 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/18 14:15:16 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:35:47 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_builtin(char *cmd)
 	if (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "echo") == 0
 		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "env") == 0
 		|| ft_strcmp(cmd, "export") == 0 || ft_strcmp(cmd, "unset") == 0
-		|| ft_strcmp(cmd, "exit") == 0)
+		|| ft_strcmp(cmd, "exit") == 0 || ft_strcmp(cmd, ":") == 0)
 		return (1);
 	return (0);
 }
@@ -38,4 +38,6 @@ void	execute_builtin(t_data *data, t_token_list *token_list, t_cmd *cmd)
 		env(cmd, data);
 	else if (ft_strcmp(token_list->token, "exit") == 0)
 		exit_builtin(data, cmd);
+	else if (ft_strcmp(token_list->token, ":") == 0)
+		data->exit_status = 0;
 }

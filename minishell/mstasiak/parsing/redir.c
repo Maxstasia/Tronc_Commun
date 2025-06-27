@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:22:29 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/27 12:14:00 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:25:13 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static char	set_file_quote(char *input, int *i, char file_quote)
 		if (input[*i] == '\'' || input[*i] == '\"')
 		{
 			file_quote = input[*i];
-			i++;
+			(*i)++;
 			while (input[*i] && input[*i] != file_quote)
-				i++;
+				(*i)++;
 			if (input[*i] == file_quote)
-				i++;
+				(*i)++;
 		}
 		else
-			i++;
+			(*i)++;
 	}
 	return (file_quote);
 }
