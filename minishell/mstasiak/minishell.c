@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/18 13:26:54 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:17:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 int	validate_syntax(char *expanded_line)
 {
-	if (validate_pipe_syntax(expanded_line) != 0)
-	{
-		ft_putstr_fd("maxishell: erreur de syntaxe « | »\n", 2);
-		return (2);
-	}
 	if (validate_redirection_syntax(expanded_line) != 0)
 	{
 		if (ft_strstr(expanded_line, ">>")
 			&& !has_file_after_redirection(expanded_line, ">>"))
-			ft_putstr_fd("maxishell: erreur de syntaxe « newline »\n", 2);
+			ft_putstr_fd("maxishell: erreur de syntaxe\n", 2);
 		else if (ft_strstr(expanded_line, ">")
 			&& !has_file_after_redirection(expanded_line, ">"))
-			ft_putstr_fd("maxishell: erreur de syntaxe « newline »\n", 2);
+			ft_putstr_fd("maxishell: erreur de syntaxe\n", 2);
 		else if (ft_strstr(expanded_line, "<<")
 			&& !has_file_after_redirection(expanded_line, "<<"))
-			ft_putstr_fd("maxishell: erreur de syntaxe « newline »\n", 2);
+			ft_putstr_fd("maxishell: erreur de syntaxe\n", 2);
 		else if (ft_strstr(expanded_line, "<")
 			&& !has_file_after_redirection(expanded_line, "<"))
-			ft_putstr_fd("maxishell: erreur de syntaxe « newline »\n", 2);
+			ft_putstr_fd("maxishell: erreur de syntaxe\n", 2);
+		return (2);
+	}
+	if (validate_pipe_syntax(expanded_line) != 0)
+	{
+		ft_putstr_fd("maxishell: erreur de syntaxe « | »\n", 2);
 		return (2);
 	}
 	return (0);

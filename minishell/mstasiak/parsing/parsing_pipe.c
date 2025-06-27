@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_pipe.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:22:22 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/16 13:22:24 by jbias            ###   ########.fr       */
+/*   Updated: 2025/06/27 12:07:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static int	init_pipe_validation(const char *input, int *i)
 	while (input[*i] && (input[*i] == ' ' || input[*i] == '\t'))
 		(*i)++;
 	if (input[*i] == '|')
-		return (-1);
-	if (validate_redirection_syntax(input) != 0)
 		return (-1);
 	return (0);
 }

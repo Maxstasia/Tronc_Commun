@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/18 16:22:50 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:18:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ static int	process_input_line(t_data *data, char *line,
 	int		syntax_error;
 
 	init_pipex(&pipex);
+	syntax_error = validate_syntax(line);
+	if (syntax_error != 0)
+		return (free_pipex(&pipex, 0), data->exit_status = syntax_error, -1);
 	expanded_line = expand_variables(line, data);
 	if (!expanded_line)
 	{
@@ -42,10 +45,6 @@ static int	process_input_line(t_data *data, char *line,
 		data->exit_status = 1;
 		return (free_pipex(&pipex, 0), -1);
 	}
-	syntax_error = validate_syntax(expanded_line);
-	if (syntax_error != 0)
-		return (free_pipex(&pipex, 0), data->exit_status = syntax_error,
-			free(expanded_line), -1);
 	if (parse_input(expanded_line, token_list) != 0)
 		return (free(expanded_line), -1);
 	parse_line(expanded_line, token_list, &pipex);
@@ -77,11 +76,10 @@ static int	init_minishell(int ac, t_token_list **token_list,
 static void	main_loop(t_data *data, t_token_list **token_list)
 {
 	char	*line;
-	int		res;
 
 	while (1)
 	{
-		line = readline(CYAN"maxishell$ "RESET);
+		line = readline("\001"CYAN"\002maxishell$ \001"RESET"\002");
 		if (!line)
 		{
 			ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);
@@ -93,7 +91,7 @@ static void	main_loop(t_data *data, t_token_list **token_list)
 		if (*line)
 		{
 			add_history(line);
-			res = process_input_line(data, line, *token_list);
+			process_input_line(data, line, *token_list);
 			*token_list = reinit_token_list(*token_list, data);
 			if (ft_strstr(line, "<<"))
 				rl_on_new_line();

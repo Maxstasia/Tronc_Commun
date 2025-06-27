@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:22:29 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/16 13:22:30 by jbias            ###   ########.fr       */
+/*   Updated: 2025/06/27 12:14:00 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ static int	skip_redir(const char *input, int i)
 	if (input[i] == '<')
 	{
 		if (input[i + 1] == '<')
-			return (i + 2);
+			i += 2;
 		else
-			return (i + 1);
+			i += 1;
 	}
 	else if (input[i] == '>')
 	{
 		if (input[i + 1] == '>')
-			return (i + 2);
+			i += 2;
 		else
-			return (i + 1);
+			i += 1;
 	}
 	while (input[i] && (input[i] == ' ' || input[i] == '\t'))
 		i++;
