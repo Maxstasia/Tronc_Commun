@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/27 15:49:27 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	process_input_line(t_data *data, char *line,
 	init_pipex(&pipex);
 	preprocessed_line = preprocess_redirection_only(line);
 	if (!preprocessed_line)
-		return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
+		return (ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2),
 			data->exit_status = 1, free_pipex(&pipex, 0), -1);
 	syntax_error = validate_syntax(preprocessed_line);
 	if (syntax_error != 0)
@@ -72,7 +72,7 @@ int	process_input_line(t_data *data, char *line,
 			free(preprocessed_line), -1);
 	expanded_line = expand_variables(preprocessed_line, data);
 	if (!expanded_line)
-		return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
+		return (ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2),
 			data->exit_status = 1, free_pipex(&pipex, 0),
 			free(preprocessed_line), -1);
 	if (parse_input(expanded_line, token_list) != 0)

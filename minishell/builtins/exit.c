@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:37:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 20:09:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	exit_builtin(t_data *data, t_cmd *cmd)
 	}
 	if (!isnum(cmd->args[1]))
 	{
-		ft_putstr_fd(RED"maxishell: exit: '"YELLOW, 2);
+		ft_putstr_fd(RED"minishell: exit: '"YELLOW, 2);
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putstr_fd(RED"' : numeric argument required\n"RESET, 2);
 		free_data(data);
@@ -69,7 +69,7 @@ void	exit_builtin(t_data *data, t_cmd *cmd)
 	}
 	if (cmd->args[2])
 	{
-		ft_putstr_fd(RED"maxishell: exit: too many arguments\n"RESET, 2);
+		ft_putstr_fd(RED"minishell: exit: too many arguments\n"RESET, 2);
 		data->exit_status = 1;
 		return ;
 	}

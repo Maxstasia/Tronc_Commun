@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:34 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/01 13:05:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	pwd(t_data *data)
 	current_dir = getcwd(NULL, 0);
 	if (current_dir == NULL)
 	{
-		perror(RED"maxishell: pwd");
+		perror(RED"minishell: pwd");
 		data->exit_status = 1;
 		return (1);
 	}

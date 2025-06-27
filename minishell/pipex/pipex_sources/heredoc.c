@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:24:29 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/16 17:24:30 by jbias            ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	init_heredoc(t_data *data, t_redirect *redirect,
 	*expanded_delim = expand_variables(redirect->file, data);
 	if (!*expanded_delim)
 	{
-		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2);
 		data->exit_status = 1;
 		close(fd[0]);
 		close(fd[1]);

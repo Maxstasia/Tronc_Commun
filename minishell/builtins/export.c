@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:31 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/29 11:40:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	error_malloc(t_data *data)
 {
-	ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+	ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2);
 	data->exit_status = 1;
 }
 
@@ -54,7 +54,7 @@ static int	principal_loop(t_cmd *cmd, t_data *data, t_export *export, int i)
 	{
 		export->arg_with_equal = ft_strjoin(cmd->args[i], "=");
 		if (!export->arg_with_equal)
-			return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
+			return (ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2),
 				data->exit_status = 1, 1);
 	}
 	else
@@ -80,7 +80,7 @@ int	ft_export(t_cmd *cmd, t_data *data)
 		return (print_export(data), 0);
 	export = malloc(sizeof(t_export));
 	if (!export)
-		return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2),
+		return (ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2),
 			data->exit_status = 1, 1);
 	i = 0;
 	data->exit_status = 0;
@@ -88,7 +88,7 @@ int	ft_export(t_cmd *cmd, t_data *data)
 	{
 		if (!is_valid_identifier(cmd->args[i]))
 		{
-			ft_putstr_fd(RED"maxishell: export: '"YELLOW, 2);
+			ft_putstr_fd(RED"minishell: export: '"YELLOW, 2);
 			ft_putstr_fd(cmd->args[i], 2);
 			ft_putstr_fd(RED"' : not a valid identifier\n"RESET, 2);
 			data->exit_status = 1;

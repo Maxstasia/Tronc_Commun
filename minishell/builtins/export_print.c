@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 15:35:30 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/18 13:38:39 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	**create_sorted_envp(t_data *data, int *count)
 	if (!sorted_envp)
 	{
 		data->exit_status = 1;
-		return (ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2), NULL);
+		return (ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2), NULL);
 	}
 	i = -1;
 	while (i++, i < *count)
@@ -32,7 +32,7 @@ static char	**create_sorted_envp(t_data *data, int *count)
 		sorted_envp[i] = ft_strdup(data->envp[i]);
 		if (!sorted_envp[i])
 		{
-			ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+			ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2);
 			data->exit_status = 1;
 			return (free_tab(sorted_envp), NULL);
 		}
@@ -75,14 +75,14 @@ static int	print_var_with_value(char *env_var, t_data *data)
 	name = ft_substr(env_var, 0, equal_sign - env_var);
 	if (!name)
 	{
-		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2);
 		return (data->exit_status = 1, 0);
 	}
 	value = ft_strdup(equal_sign + 1);
 	if (!value)
 	{
 		free(name);
-		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2);
 		return (data->exit_status = 1, 0);
 	}
 	printf("export %s", name);

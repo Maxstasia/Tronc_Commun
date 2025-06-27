@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:35:41 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 20:34:56 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*cd_handle_oldpwd(t_data *data)
 	path = get_env_var(data->envp, "OLDPWD");
 	if (!path)
 	{
-		ft_putstr_fd(RED"maxishell: cd: OLDPWD not set\n"RESET, 2);
+		ft_putstr_fd(RED"minishell: cd: OLDPWD not set\n"RESET, 2);
 		data->exit_status = 1;
 		return (NULL);
 	}
@@ -37,7 +37,7 @@ static char	*cd_get_path(char **cmd, t_data *data)
 		path = get_env_var(data->envp, "HOME");
 		if (!path)
 		{
-			ft_putstr_fd(RED"maxishell: cd: HOME not set\n"RESET, 2);
+			ft_putstr_fd(RED"minishell: cd: HOME not set\n"RESET, 2);
 			data->exit_status = 1;
 			return (NULL);
 		}
@@ -56,7 +56,7 @@ static int	cd_change_dir(char *path, t_data *data)
 	oldpwd = getcwd(NULL, 0);
 	if (chdir(path) != 0)
 	{
-		ft_putstr_fd(RED"maxishell: cd: '"YELLOW, 2);
+		ft_putstr_fd(RED"minishell: cd: '"YELLOW, 2);
 		ft_putstr_fd(path, 2);
 		ft_putstr_fd(RED"' : No such file or directory\n"RESET, 2);
 		data->exit_status = 1;
@@ -69,7 +69,7 @@ static int	cd_change_dir(char *path, t_data *data)
 	data->pwd = getcwd(NULL, 0);
 	if (!data->pwd)
 	{
-		ft_putstr_fd(RED"maxishell: cd: getcwd failed: ", 2);
+		ft_putstr_fd(RED"minishell: cd: getcwd failed: ", 2);
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n"RESET, 2);
 		data->exit_status = 1;

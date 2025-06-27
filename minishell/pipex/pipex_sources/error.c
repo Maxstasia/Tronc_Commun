@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:39:14 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/18 14:15:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	malloc_failed(t_data *data)
 {
-	ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+	ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2);
 	if (data)
 		data->exit_status = EXIT_FAILURE;
 	exit(EXIT_FAILURE);
@@ -60,7 +60,7 @@ void	free_cmd(t_cmd *cmd)
 
 void	error_127(t_data *data, t_cmd *cmd, char *path)
 {
-	ft_putstr_fd(RED"maxishell: '"YELLOW, 2);
+	ft_putstr_fd(RED"minishell: '"YELLOW, 2);
 	if (cmd && cmd->args && cmd->args && cmd->args[0])
 		ft_putstr_fd(cmd->args[0], 2);
 	ft_putstr_fd(RED"' : command not found\n"RESET, 2);
@@ -74,7 +74,7 @@ void	error_127(t_data *data, t_cmd *cmd, char *path)
 
 void	error(t_data *data)
 {
-	perror(RED"maxishell: error");
+	perror(RED"minishell: error");
 	if (data)
 		data->exit_status = 1;
 	exit(1);

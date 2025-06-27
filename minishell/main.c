@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/27 15:11:22 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_token_list	*reinit_token_list(t_token_list *token_list, t_data *data)
 	token_list = malloc(sizeof(t_token_list));
 	if (!token_list)
 	{
-		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2);
 		free_data(data);
 		exit(1);
 	}
@@ -32,13 +32,13 @@ static int	init_minishell(int ac, t_token_list **token_list,
 {
 	if (ac != 1)
 	{
-		ft_putstr_fd(RED"Error: ./maxishell takes no arguments\n"RESET, 2);
+		ft_putstr_fd(RED"Error: ./minishell takes no arguments\n"RESET, 2);
 		return (1);
 	}
 	*token_list = malloc(sizeof(t_token_list));
 	if (!*token_list)
 	{
-		ft_putstr_fd(RED"maxishell: malloc failed\n"RESET, 2);
+		ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2);
 		return (1);
 	}
 	init_token_list(*token_list);
@@ -53,7 +53,7 @@ static void	main_loop(t_data *data, t_token_list **token_list)
 
 	while (1)
 	{
-		line = readline("\001"CYAN"\002maxishell$ \001"RESET"\002");
+		line = readline("\001"CYAN"\002minishell$ \001"RESET"\002");
 		if (!line)
 		{
 			ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);

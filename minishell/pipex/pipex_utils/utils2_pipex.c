@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 19:33:11 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static char	**first_step(t_data *data)
 	{
 		paths = ft_split("/bin:/usr/bin:/usr/local/bin", ':');
 		if (!paths)
-			return (perror(RED"maxishell: error"RESET), NULL);
+			return (perror(RED"minishell: error"RESET), NULL);
 		return (paths);
 	}
 	paths = ft_split((data->envp[i] + 5), ':');
 	if (!paths)
-		return (perror(RED"maxishell: error"RESET), NULL);
+		return (perror(RED"minishell: error"RESET), NULL);
 	return (paths);
 }
 
