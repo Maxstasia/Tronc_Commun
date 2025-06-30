@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/30 12:11:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:58:00 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,26 @@ static int	init_minishell(int ac, t_token_list **token_list,
 	return (0);
 }
 
+static void	norm_loop(t_data *data, t_token_list **token_list, char *line)
+{
+	if (!line)
+	{
+		ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);
+		clear_history();
+		free_token_list(token_list);
+		free_data(data);
+		exit(data->exit_status);
+	}
+	if (*line)
+	{
+		add_history(line);
+		process_input_line(data, line, *token_list);
+		*token_list = reinit_token_list(*token_list, data);
+		if (ft_strstr(line, "<<"))
+			rl_on_new_line();
+	}
+}
+
 static void	main_loop(t_data *data, t_token_list **token_list)
 {
 	char	*line;
@@ -59,24 +79,8 @@ static void	main_loop(t_data *data, t_token_list **token_list)
 			data->exit_status = g_signal_exit_status;
 			g_signal_exit_status = 0;
 		}
-		if (!line)
-		{
-			ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);
-			clear_history();
-			free_token_list(token_list);
-			free_data(data);
-			exit(data->exit_status);
-		}
-		if (*line)
-		{
-			add_history(line);
-			process_input_line(data, line, *token_list);
-			*token_list = reinit_token_list(*token_list, data);
-			if (ft_strstr(line, "<<"))
-				rl_on_new_line();
-		}
+		norm_loop(data, token_list, line);
 	}
-	exit(data->exit_status);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -89,5 +93,6 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	using_history();
 	main_loop(&data, &token_list);
+	exit(data.exit_status);
 	return (data.exit_status);
 }

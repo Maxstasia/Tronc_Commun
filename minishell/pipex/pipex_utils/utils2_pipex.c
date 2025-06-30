@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:55:21 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,19 @@ char	*find_path(t_data *data, char *cmd_name)
 
 void	execute(t_data *data, t_cmd *cmd)
 {
-	char	*path;
+	char			*path;
+	t_token_list	temp_token;
 
 	if (!cmd->args || !cmd->args[0])
 		error_127(data, cmd, NULL);
+	if (is_builtin(cmd->args[0]))
+	{
+		temp_token.token = cmd->args[0];
+		temp_token.type = TXT;
+		temp_token.next = NULL;
+		execute_builtin(data, &temp_token, cmd);
+		exit(data->exit_status);
+	}
 	if (ft_strncmp(cmd->args[0], "/", 1) == 0
 		|| ft_strncmp(cmd->args[0], "./", 2) == 0
 		|| ft_strncmp(cmd->args[0], "../", 3) == 0)
@@ -84,7 +93,7 @@ void	execute(t_data *data, t_cmd *cmd)
 		path = find_path(data, cmd->args[0]);
 	if (!path || access(path, X_OK) == -1)
 		error_127(data, cmd, path);
-	if (execve(path, cmd->args, data->envp) == -1)
+	if (path && execve(path, cmd->args, data->envp) == -1)
 		error_127(data, cmd, path);
 }
 
