@@ -1,0 +1,12 @@
+export | grep TEST
+
+< Makefile cat
+
+minishell$ echo > file
+minishell: error: Permission denied
+┌─(~/42/Tronc_Commun/minishell)───────────────────────────(mstasiak@f2r9s18:pts/0)─┐
+└─(16:46:23 on master ✭)──>
+
+ctrl + c dans le heredoc qui doit te remettre dans le minishell (comme le ctrl + d)
+
+gestion du ctrl + \ (dans un truc infini comme un cat)

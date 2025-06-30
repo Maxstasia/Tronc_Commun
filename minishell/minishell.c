@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:11:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ void	handle_command_execution(t_data *data, t_token_list *token_list,
 			return ;
 		if (!token_list->token || ft_strlen(token_list->token) == 0)
 		{
-			data->exit_status = 0;
+			if (g_signal_exit_status == 0)
+				data->exit_status = 0;
 			return ;
 		}
 		else if (is_builtin(token_list->token))

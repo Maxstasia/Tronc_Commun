@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:11:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ static void	main_loop(t_data *data, t_token_list **token_list)
 	while (1)
 	{
 		line = readline("\001"CYAN"\002minishell$ \001"RESET"\002");
+		if (g_signal_exit_status != 0)
+		{
+			data->exit_status = g_signal_exit_status;
+			g_signal_exit_status = 0;
+		}
 		if (!line)
 		{
 			ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);

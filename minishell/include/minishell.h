@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 15:31:01 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/06/30 12:11:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@
 
 # include "Libft/libft.h"
 # include "get_next_line/get_next_line.h"
+
+/*--------------------variables globales--------------------*/
+
+extern int	g_signal_exit_status;
 
 /*--------------------structures--------------------*/
 
