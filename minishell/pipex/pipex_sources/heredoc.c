@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:24:29 by jbias             #+#    #+#             */
-/*   Updated: 2025/07/01 15:31:24 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:59:34 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	handle_here_doc(t_data *data, t_redirect *redirect)
 			data->exit_status = 130;
 			break ;
 		}
-		ft_putstr_fd(GREEN"──(heredoc)──"RESET, STDERR_FILENO);
+		ft_putstr_fd(GREEN"──(heredoc)── "RESET, STDERR_FILENO);
 		line = read_line_from_stdin();
 		if (!line)
 		{
@@ -150,35 +150,4 @@ void	handle_here_doc(t_data *data, t_redirect *redirect)
 	}
 	finish_heredoc(data, fd, expanded_delim, redirect);
 	g_signal_exit_status = reset_signal_exit(g_signal_exit_status);
-}
-
-void	handle_here_doc_delayed(t_data *data, t_redirect *redirect)
-{
-	if (redirect->is_heredoc_fd > 0)
-		return ;
-	handle_here_doc(data, redirect);
-}
-
-int	preprocess_all_heredocs(t_data *data, t_pipex *pipex)
-{
-	int		i;
-	int		j;
-	t_cmd	*cmd;
-
-	i = -1;
-	while (++i < pipex->cmd_count)
-	{
-		cmd = &pipex->commands[i];
-		j = -1;
-		while (++j < cmd->redirect_count)
-		{
-			if (ft_strcmp(cmd->redirects[j].type, "<<") == 0)
-			{
-				handle_here_doc(data, &cmd->redirects[j]);
-				if (cmd->redirects[j].is_heredoc_fd == -1)
-					return (-1);
-			}
-		}
-	}
-	return (0);
 }

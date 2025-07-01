@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/18 11:12:32 by mstasiak          #+#    #+#              #
-#    Updated: 2025/06/27 15:28:52 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/07/01 17:06:14 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRC			=									\
 		$(PARSER_DIR)/parsing_pipe.c			\
 		$(PARSER_DIR)/redir.c					\
 		$(PARSER_DIR)/redir2.c					\
+		$(PARSER_DIR)/redir3.c					\
 		\
 		$(UTILS_DIR)/cleanup.c					\
 		$(UTILS_DIR)/cleanup2.c					\
@@ -52,6 +53,7 @@ SRC			=									\
 		$(UTILS_DIR)/utils.c					\
 		$(UTILS_DIR)/utils2.c					\
 		$(UTILS_DIR)/utils3.c					\
+		$(UTILS_DIR)/utils4.c					\
 		\
 		$(BUILTIN_DIR)/cd.c						\
 		$(BUILTIN_DIR)/echo.c					\
@@ -77,6 +79,7 @@ SRC			=									\
 		$(P_SRC_DIR)/heredoc2.c					\
 		$(P_SRC_DIR)/pipex_redir.c				\
 		$(P_SRC_DIR)/pipex_redir2.c				\
+		$(P_SRC_DIR)/pipex_redir3.c				\
 		\
 		$(P_UTILS_DIR)/ft_split_advanced.c		\
 		$(P_UTILS_DIR)/ft_split_advanced2.c		\

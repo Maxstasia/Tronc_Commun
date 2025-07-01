@@ -6,38 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/01 15:29:25 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:46:58 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/minishell.h"
-
-static int	has_pipes(char *input)
-{
-	int		i;
-	int		len;
-	char	quote;
-
-	if (!input)
-		return (0);
-	len = ft_strlen(input);
-	i = 0;
-	quote = 0;
-	while (i < len)
-	{
-		if (input[i] == '\'' || input[i] == '\"')
-		{
-			if (!quote)
-				quote = input[i];
-			else if (quote == input[i])
-				quote = 0;
-		}
-		else if (input[i] == '|' && !quote)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static void	execute_builtin_with_redirects(t_data *data,
 			t_token_list *token_list, t_pipex *pipex)
@@ -99,20 +72,26 @@ static int	redirect_input(t_data *data, t_pipex *pipex)
 	return (0);
 }
 
-static int	all_commands_empty(t_pipex *pipex)
+static int	handle_command_execution_norm(t_data *data,
+				t_token_list *token_list, t_pipex *pipex)
 {
-	int	i;
-
-	if (!pipex || !pipex->commands || pipex->cmd_count <= 0)
-		return (1);
-	i = -1;
-	while (++i < pipex->cmd_count)
+	if (redirect_input(data, pipex) == 1)
+		return (-1);
+	if (!token_list->token || ft_strlen(token_list->token) == 0)
 	{
-		if (pipex->commands[i].args && pipex->commands[i].args[0]
-			&& pipex->commands[i].args[0][0])
-			return (0);
+		if (g_signal_exit_status == 0)
+			data->exit_status = 0;
+		return (-1);
 	}
-	return (1);
+	else if (is_builtin(token_list->token))
+		execute_builtin_with_redirects(data, token_list, pipex);
+	else
+	{
+		pipex->envp = data->envp;
+		if (pipex->commands)
+			execute_pipeline(data, pipex);
+	}
+	return (0);
 }
 
 void	handle_command_execution(t_data *data, t_token_list *token_list,
@@ -120,22 +99,8 @@ void	handle_command_execution(t_data *data, t_token_list *token_list,
 {
 	if (!has_pipes(expanded_line))
 	{
-		if (redirect_input(data, pipex) == 1)
+		if (handle_command_execution_norm(data, token_list, pipex) == -1)
 			return ;
-		if (!token_list->token || ft_strlen(token_list->token) == 0)
-		{
-			if (g_signal_exit_status == 0)
-				data->exit_status = 0;
-			return ;
-		}
-		else if (is_builtin(token_list->token))
-			execute_builtin_with_redirects(data, token_list, pipex);
-		else
-		{
-			pipex->envp = data->envp;
-			if (pipex->commands)
-				execute_pipeline(data, pipex);
-		}
 	}
 	else
 	{

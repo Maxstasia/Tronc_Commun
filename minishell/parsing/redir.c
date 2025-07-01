@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 13:22:29 by jbias             #+#    #+#             */
-/*   Updated: 2025/07/01 16:29:28 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:55:21 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,6 @@ static int	skip_redir(const char *input, int i)
 	return (i);
 }
 
-char	set_quote(char *input, int i, char quote)
-{
-	if (input[i] == '\'' || input[i] == '\"')
-	{
-		if (!quote)
-			quote = input[i];
-		else if (quote == input[i])
-			quote = 0;
-	}
-	return (quote);
-}
-
 static char	set_file_quote(char *input, int *i, char file_quote)
 {
 	while (input[*i] && input[*i] != ' ' && input[*i] != '\t'
@@ -67,14 +55,12 @@ static char	set_file_quote(char *input, int *i, char file_quote)
 	return (file_quote);
 }
 
-int	validate_redirection_syntax(const char *input)
+static int	validate_redirection_syntax_norm(const char *input)
 {
 	int		i;
 	char	quote;
 	char	file_quote;
 
-	if (validate_heredoc_pipe_syntax(input) == -1)
-		return (-1);
 	i = 0;
 	quote = 0;
 	file_quote = 0;
@@ -98,17 +84,11 @@ int	validate_redirection_syntax(const char *input)
 	return (0);
 }
 
-int	has_file_after_redirection(const char *input, const char *redir)
+int	validate_redirection_syntax(const char *input)
 {
-	char	*pos;
-
-	pos = ft_strstr(input, redir);
-	if (!pos)
-		return (1);
-	pos += ft_strlen(redir);
-	while (*pos && (*pos == ' ' || *pos == '\t'))
-		pos++;
-	if (!*pos || *pos == '|' || *pos == '<' || *pos == '>')
-		return (0);
-	return (1);
+	if (validate_heredoc_pipe_syntax(input) == -1)
+		return (-1);
+	if (validate_redirection_syntax_norm(input) == -1)
+		return (-1);
+	return (0);
 }

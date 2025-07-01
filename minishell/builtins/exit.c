@@ -6,12 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:37:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:47:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
-#include <limits.h>
+#include "../include/builtins_utils.h"
 
 static int	check_overflow(long long result, int digit, int sign)
 {

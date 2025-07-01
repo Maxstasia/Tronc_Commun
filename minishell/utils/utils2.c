@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 19:20:47 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/30 12:11:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:39:34 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,31 @@ void	close_saved_fds(t_data *data)
 		}
 		data->has_saved_fds = 0;
 	}
+}
+
+int	has_pipes(char *input)
+{
+	int		i;
+	int		len;
+	char	quote;
+
+	if (!input)
+		return (0);
+	len = ft_strlen(input);
+	i = 0;
+	quote = 0;
+	while (i < len)
+	{
+		if (input[i] == '\'' || input[i] == '\"')
+		{
+			if (!quote)
+				quote = input[i];
+			else if (quote == input[i])
+				quote = 0;
+		}
+		else if (input[i] == '|' && !quote)
+			return (1);
+		i++;
+	}
+	return (0);
 }

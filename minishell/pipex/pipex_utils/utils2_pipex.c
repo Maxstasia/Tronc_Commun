@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/01 13:33:43 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:03:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void	execute(t_data *data, t_cmd *cmd)
 
 void	t_pipex_init(t_pipex *pipex, char *input, t_token_list *current)
 {
-	int	i;
-	int	pipe_count;
+	int		i;
+	int		pipe_count;
 	char	quote;
 
 	(void)current;

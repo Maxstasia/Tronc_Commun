@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/30 12:58:00 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:49:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	norm_loop(t_data *data, t_token_list **token_list, char *line)
 	if (!line)
 	{
 		ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);
-		clear_history();
+		rl_clear_history();
 		free_token_list(token_list);
 		free_data(data);
 		exit(data->exit_status);
@@ -91,7 +91,6 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	if (init_minishell(ac, &token_list, &data, envp) != 0)
 		return (1);
-	using_history();
 	main_loop(&data, &token_list);
 	exit(data.exit_status);
 	return (data.exit_status);

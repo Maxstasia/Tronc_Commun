@@ -6,11 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 20:33:01 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:47:52 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/builtins_utils.h"
 
 static int	is_n_option(char *arg)
 {

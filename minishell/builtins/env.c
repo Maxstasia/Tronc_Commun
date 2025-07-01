@@ -6,11 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:36:03 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:47:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/builtins_utils.h"
 
 static void	print_env_error(t_data *data, char *arg)
 {

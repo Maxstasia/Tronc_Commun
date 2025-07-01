@@ -6,11 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:38:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:47:34 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../include/builtins_utils.h"
 
 static int	is_valid_unset_identifier(char *str)
 {

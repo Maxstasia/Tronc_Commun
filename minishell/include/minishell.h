@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/30 12:11:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:46:44 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 /*--------------------bibliotheques--------------------*/
 
 # include <stdio.h>
+# include <limits.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
@@ -164,14 +165,15 @@ t_pipex			parse_line(char *line, t_token_list *token_list,
 int				parse_input(char *input, t_token_list *token_list);
 
 /*-----redir.c-----*/
-char			set_quote(char *input, int i, char quote);
 int				validate_redirection_syntax(const char *input);
-int				has_file_after_redirection(const char *input,
-					const char *redir);
-int				apply_redir_norm(t_data *data, t_redirect *redirect);
 
 /*-----redir2.c-----*/
 int				validate_heredoc_pipe_syntax(const char *input);
+
+/*-----redir3.c-----*/
+int				has_file_after_redirection(const char *input,
+					const char *redir);
+char			set_quote(char *input, int i, char quote);
 
 /*-----------------pipex-----------------*/
 /*----------pipex_sources----------*/
@@ -187,28 +189,29 @@ int				error_codes(t_data *data, t_redirect *redirect);
 
 /*-----heredoc.c-----*/
 void			handle_here_doc(t_data *data, t_redirect *redirect);
-void			handle_here_doc_delayed(t_data *data, t_redirect *redirect);
-int				preprocess_all_heredocs(t_data *data, t_pipex *pipex);
 
 /*-----heredoc2.c----*/
 int				heredoc_loop_norm(t_data *data, char *expanded_delim);
 int				reset_signal_exit(int sig_exit);
+void			handle_here_doc_delayed(t_data *data, t_redirect *redirect);
+int				preprocess_all_heredocs(t_data *data, t_pipex *pipex);
 
 /*-----pipex_redir.c-----*/
-int				apply_redirects(t_data *data, t_cmd *cmd,
-					t_redirect *redirect);
-int				apply_redirects_no_heredoc(t_data *data, t_cmd *cmd,
-					t_redirect *redirect);
-int				apply_redirects_child(t_data *data, t_cmd *cmd,
-					t_redirect *redirect);
+int				apply_redir_norm(t_data *data, t_redirect *redirect);
 
 /*-----pipex_redir2.c-----*/
 int				apply_redir_norm2(t_data *data, t_cmd *cmd,
 					t_redirect *redirect, int *last_heredoc_fd);
-int				apply_redir_norm2_no_heredoc(t_data *data, t_cmd *cmd,
-					t_redirect *redirect, int *last_heredoc_fd);
 int				apply_redir_norm2_child(t_data *data, t_cmd *cmd,
 					t_redirect *redirect, int *last_heredoc_fd);
+
+/*-----pipex_redir3.c-----*/
+int				apply_redirects(t_data *data, t_cmd *cmd,
+					t_redirect *redirect);
+int				apply_redirects_child(t_data *data, t_cmd *cmd,
+					t_redirect *redirect);
+int				apply_redirects_no_heredoc(t_data *data, t_cmd *cmd,
+					t_redirect *redirect);
 
 /*-----pipex.c-----*/
 void			child_process(t_data *data, t_pipex *pipex, int cmd_index);
@@ -304,10 +307,14 @@ void			handle_quote(char c, char *quote);
 int				handle_escaped_dollar(char *input, char *result,
 					int *i, int *j);
 char			*get_variable_value(char *var_name, t_data *data);
+int				has_pipes(char *input);
 
 /*-----utils3.c-----*/
 size_t			calculate_buffer_size(char *input, t_data *data);
 void			close_saved_fds(t_data *data);
+
+/*-----utils4.c-----*/
+int				all_commands_empty(t_pipex *pipex);
 
 /*----------$PATH----------*/
 /*-----minishell.c-----*/

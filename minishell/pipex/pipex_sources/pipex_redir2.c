@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_redir2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:24:36 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/16 17:24:37 by jbias            ###   ########.fr       */
+/*   Updated: 2025/07/01 17:20:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,31 @@ int	apply_redir_norm2(t_data *data, t_cmd *cmd,
 	return (0);
 }
 
-int	apply_redir_norm2_no_heredoc(t_data *data, t_cmd *cmd,
-	t_redirect *redirect, int *last_heredoc_fd)
+static int	apply_redir_norm2_child_loop(t_redirect *redirect,
+			int *last_heredoc_fd, int i)
 {
-	(void)data;
-	(void)cmd;
-	(void)redirect;
-	(void)last_heredoc_fd;
+	int	dup_fd;
+
+	if (ft_strcmp(redirect[i].type, "<<") == 0)
+	{
+		if (redirect[i].is_heredoc_fd == -1)
+		{
+			if (*last_heredoc_fd != -1)
+				close(*last_heredoc_fd);
+			return (-1);
+		}
+		dup_fd = dup(redirect[i].is_heredoc_fd);
+		if (dup_fd == -1)
+		{
+			if (*last_heredoc_fd != -1)
+				close(*last_heredoc_fd);
+			return (-1);
+		}
+		if (*last_heredoc_fd != -1)
+			close(*last_heredoc_fd);
+		*last_heredoc_fd = dup_fd;
+		redirect[i].is_heredoc_fd = dup_fd;
+	}
 	return (0);
 }
 
@@ -36,31 +54,16 @@ int	apply_redir_norm2_child(t_data *data, t_cmd *cmd,
 	t_redirect *redirect, int *last_heredoc_fd)
 {
 	int		i;
-	int		dup_fd;
 
 	(void)data;
 	i = -1;
 	while (++i < cmd->redirect_count)
 	{
-		if (ft_strcmp(redirect[i].type, "<<") == 0)
+		if (apply_redir_norm2_child_loop(redirect, last_heredoc_fd, i) == -1)
 		{
-			if (redirect[i].is_heredoc_fd == -1)
-			{
-				if (*last_heredoc_fd != -1)
-					close(*last_heredoc_fd);
-				return (-1);
-			}
-			dup_fd = dup(redirect[i].is_heredoc_fd);
-			if (dup_fd == -1)
-			{
-				if (*last_heredoc_fd != -1)
-					close(*last_heredoc_fd);
-				return (-1);
-			}
 			if (*last_heredoc_fd != -1)
 				close(*last_heredoc_fd);
-			*last_heredoc_fd = dup_fd;
-			redirect[i].is_heredoc_fd = dup_fd;
+			return (-1);
 		}
 	}
 	return (0);
