@@ -1,46 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   error2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 17:36:03 by mstasiak          #+#    #+#             */
+/*   Created: 2025/04/17 17:39:14 by mstasiak          #+#    #+#             */
 /*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-static void	print_env_error(t_data *data, char *arg)
+int	error_codes(t_data *data, t_redirect *redirect)
 {
-	ft_putstr_fd(RED"minishell: env: '"YELLOW, 2);
-	ft_putstr_fd(arg, 2);
-	ft_putstr_fd(RED"' : No such file or directory\n"RESET, 2);
-	data->exit_status = 127;
-}
-
-static void	display_env(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (data->envp[i])
+	if (access(redirect->file, F_OK) == -1)
 	{
-		ft_putstr_fd(data->envp[i], 1);
-		ft_putchar_fd('\n', 1);
-		i++;
-	}
-	data->exit_status = 0;
-}
-
-int	env(t_cmd *cmd, t_data *data)
-{
-	if (cmd->args[1])
-	{
-		print_env_error(data, cmd->args[1]);
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(redirect->file, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		data->exit_status = 1;
 		return (1);
 	}
-	display_env(data);
+	if (access(redirect->file, R_OK) == -1)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(redirect->file, STDERR_FILENO);
+		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+		data->exit_status = 126;
+		return (126);
+	}
 	return (0);
 }

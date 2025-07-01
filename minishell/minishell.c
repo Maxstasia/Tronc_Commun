@@ -12,32 +12,6 @@
 
 #include "include/minishell.h"
 
-int	validate_syntax(char *expanded_line)
-{
-	if (validate_redirection_syntax(expanded_line) != 0)
-	{
-		if (ft_strstr(expanded_line, ">>")
-			&& !has_file_after_redirection(expanded_line, ">>"))
-			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
-		else if (ft_strstr(expanded_line, ">")
-			&& !has_file_after_redirection(expanded_line, ">"))
-			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
-		else if (ft_strstr(expanded_line, "<<")
-			&& !has_file_after_redirection(expanded_line, "<<"))
-			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
-		else if (ft_strstr(expanded_line, "<")
-			&& !has_file_after_redirection(expanded_line, "<"))
-			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
-		return (2);
-	}
-	if (validate_pipe_syntax(expanded_line) != 0)
-	{
-		ft_putstr_fd(RED"minishell: syntax error « | »\n"RESET, 2);
-		return (2);
-	}
-	return (0);
-}
-
 static int	has_pipes(char *input)
 {
 	int		i;
@@ -68,25 +42,40 @@ static int	has_pipes(char *input)
 static void	execute_builtin_with_redirects(t_data *data,
 			t_token_list *token_list, t_pipex *pipex)
 {
+	int	redir_error;
+
 	data->saved_stdout = dup(STDOUT_FILENO);
 	data->saved_stdin = dup(STDIN_FILENO);
 	data->has_saved_fds = 1;
+	redir_error = 0;
 	if (pipex->commands && pipex->commands[0].redirect_count > 0)
 	{
-		apply_redirects(data, &pipex->commands[0],
-			pipex->commands[0].redirects);
+		redir_error = apply_redirects(data, &pipex->commands[0],
+				pipex->commands[0].redirects);
 	}
-	execute_builtin(data, token_list, &pipex->commands[0]);
+	if (redir_error == 0)
+		execute_builtin(data, token_list, &pipex->commands[0]);
+	else
+		data->exit_status = redir_error;
 	dup2(data->saved_stdout, STDOUT_FILENO);
 	dup2(data->saved_stdin, STDIN_FILENO);
 	close_saved_fds(data);
 }
 
-static int	redirect_input(t_data *data, t_pipex *pipex)
+static void	norm_redirect_input(t_pipex *pipex)
 {
 	int		i;
+
+	i = -1;
+	while (++i < pipex->commands[0].redirect_count)
+		if (ft_strcmp(pipex->commands[0].redirects[i].type, "<<") == 0)
+			break ;
+}
+
+static int	redirect_input(t_data *data, t_pipex *pipex)
+{
 	int		saved_stdin;
-	char	buffer[1024];
+	int		redir_error;
 
 	if (pipex->commands && (!pipex->commands[0].args[0]
 			|| !pipex->commands[0].args[0][0]))
@@ -94,18 +83,14 @@ static int	redirect_input(t_data *data, t_pipex *pipex)
 		if ((pipex->commands[0].redirect_count > 0))
 		{
 			saved_stdin = dup(STDIN_FILENO);
-			apply_redirects(data, &pipex->commands[0],
-				pipex->commands[0].redirects);
-			i = -1;
-			while (++i < pipex->commands[0].redirect_count)
-			{
-				if (ft_strcmp(pipex->commands[0].redirects[i].type, "<<") == 0)
-					while (read(STDIN_FILENO, buffer, sizeof(buffer)) > 0)
-						;
-			}
-			dup2(saved_stdin, STDIN_FILENO);
-			close(saved_stdin);
-			return (data->exit_status = 0, 1);
+			redir_error = apply_redirects_no_heredoc(data, &pipex->commands[0],
+					pipex->commands[0].redirects);
+			if (redir_error != 0)
+				return (dup2(saved_stdin, STDIN_FILENO), close(saved_stdin),
+					data->exit_status = redir_error, 1);
+			norm_redirect_input(pipex);
+			return (dup2(saved_stdin, STDIN_FILENO),
+				close(saved_stdin), data->exit_status = 0, 1);
 		}
 	}
 	return (0);

@@ -11,12 +11,37 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <limits.h>
 
-static long	ft_atol(const char *str)
+static int	check_overflow(long long result, int digit, int sign)
 {
-	long	result;
-	int		sign;
+	if (sign == 1)
+	{
+		if (result > (LLONG_MAX - digit) / 10)
+		{
+			ft_putstr_fd(RED"minishell: exit: out of range\n"RESET, 2);
+			return (1);
+		}
+	}
+	else
+	{
+		if (result < (LLONG_MIN + digit) / 10)
+		{
+			ft_putstr_fd(RED"minishell: exit: out of range\n"RESET, 2);
+			return (1);
+		}
+	}
+	return (0);
+}
 
+static long	long	ft_atol(const char *str)
+{
+	long long	result;
+	int			sign;
+	int			digit;
+
+	if (!str)
+		return (0);
 	result = 0;
 	sign = 1;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
@@ -29,7 +54,10 @@ static long	ft_atol(const char *str)
 	}
 	while (ft_isdigit(*str))
 	{
-		result = result * 10 + (*str - '0');
+		digit = *str - '0';
+		if (check_overflow(result, digit, sign))
+			exit(2);
+		result = result * 10 + digit;
 		str++;
 	}
 	return (result * sign);
@@ -39,6 +67,8 @@ static int	isnum(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
@@ -65,7 +95,7 @@ void	exit_builtin(t_data *data, t_cmd *cmd)
 		ft_putstr_fd(cmd->args[1], 2);
 		ft_putstr_fd(RED"' : numeric argument required\n"RESET, 2);
 		free_data(data);
-		exit(255);
+		exit(2);
 	}
 	if (cmd->args[2])
 	{

@@ -34,16 +34,21 @@ SRC			=									\
 		\
 		$(PARSER_DIR)/lexer.c					\
 		$(PARSER_DIR)/lexer_redir.c				\
+		$(PARSER_DIR)/lexer_redir2.c			\
+		$(PARSER_DIR)/lexer_redir3.c			\
 		$(PARSER_DIR)/parser.c					\
 		$(PARSER_DIR)/parsing.c					\
 		$(PARSER_DIR)/parsing_pipe.c			\
 		$(PARSER_DIR)/redir.c					\
+		$(PARSER_DIR)/redir2.c					\
 		\
 		$(UTILS_DIR)/cleanup.c					\
 		$(UTILS_DIR)/cleanup2.c					\
 		$(UTILS_DIR)/envp.c						\
 		$(UTILS_DIR)/init.c						\
+		$(UTILS_DIR)/init2.c					\
 		$(UTILS_DIR)/redirection_case_utils.c	\
+		$(UTILS_DIR)/signals.c					\
 		$(UTILS_DIR)/utils.c					\
 		$(UTILS_DIR)/utils2.c					\
 		$(UTILS_DIR)/utils3.c					\
@@ -66,9 +71,12 @@ SRC			=									\
 		$(PIPEX_DIR)/pipex_executor.c			\
 		\
 		$(P_SRC_DIR)/error.c					\
+		$(P_SRC_DIR)/error2.c					\
 		$(P_SRC_DIR)/pipex.c					\
 		$(P_SRC_DIR)/heredoc.c					\
+		$(P_SRC_DIR)/heredoc2.c					\
 		$(P_SRC_DIR)/pipex_redir.c				\
+		$(P_SRC_DIR)/pipex_redir2.c				\
 		\
 		$(P_UTILS_DIR)/ft_split_advanced.c		\
 		$(P_UTILS_DIR)/ft_split_advanced2.c		\

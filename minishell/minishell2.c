@@ -12,45 +12,79 @@
 
 #include "include/minishell.h"
 
-static char	*redirection_control(char *line, char *trimmed)
+int	validate_syntax(char *expanded_line)
 {
-	char	*result;
+	if (validate_redirection_syntax(expanded_line) != 0)
+	{
+		if (ft_strstr(expanded_line, "<<") && ft_strstr(expanded_line, "|"))
+			ft_putstr_fd(RED"minishell: syntax error: heredoc & pipe\n"RESET, 2);
+		else if (ft_strstr(expanded_line, ">>")
+			&& !has_file_after_redirection(expanded_line, ">>"))
+			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
+		else if (ft_strstr(expanded_line, ">")
+			&& !has_file_after_redirection(expanded_line, ">"))
+			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
+		else if (ft_strstr(expanded_line, "<<")
+			&& !has_file_after_redirection(expanded_line, "<<"))
+			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
+		else if (ft_strstr(expanded_line, "<")
+			&& !has_file_after_redirection(expanded_line, "<"))
+			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
+		else
+			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
+		return (2);
+	}
+	if (validate_pipe_syntax(expanded_line) != 0)
+		return (ft_putstr_fd(RED"minishell: syntax error « | »\n"RESET, 2), 2);
+	return (0);
+}
 
-	if (trimmed[0] == '>' && trimmed[1] == '>'
-		&& trimmed[2] && trimmed[2] != ' ' && trimmed[2] != '\t')
-		result = cas_1(line, trimmed);
-	else if (trimmed[0] == '<' && trimmed[1] == '<'
-		&& trimmed[2] && trimmed[2] != ' ' && trimmed[2] != '\t')
-		result = cas_2(line, trimmed);
-	else if (trimmed[0] == '>' && trimmed[1] && trimmed[1] != '>'
-		&& trimmed[1] != ' ' && trimmed[1] != '\t')
-		result = cas_3(line, trimmed);
-	else if (trimmed[0] == '<' && trimmed[1] && trimmed[1] != '<'
-		&& trimmed[1] != ' ' && trimmed[1] != '\t')
-		result = cas_4(line, trimmed);
-	else
-		result = cas_5(line);
-	if (!result)
+char	*add_space_after_redir(char *line, int i, int redir_len)
+{
+	char	*new_line;
+	int		new_len;
+	int		j;
+	int		k;
+
+	new_len = ft_strlen(line) + 1;
+	new_line = malloc(new_len + 1);
+	if (!new_line)
 		return (NULL);
-	return (result);
+	j = 0;
+	k = 0;
+	while (k < i)
+		new_line[j++] = line[k++];
+	k = 0;
+	while (k < redir_len)
+		new_line[j++] = line[i + k++];
+	new_line[j++] = ' ';
+	while (line[i + redir_len])
+		new_line[j++] = line[i + redir_len++];
+	new_line[j] = '\0';
+	return (new_line);
 }
 
 static char	*preprocess_redirection_only(char *line)
 {
-	char	*trimmed;
-	char	*result;
+	char	*current;
+	int		i;
 
-	trimmed = line;
-	while (*trimmed && (*trimmed == ' ' || *trimmed == '\t'))
-		trimmed ++;
-	if (*trimmed == '>' || *trimmed == '<')
+	current = ft_strdup(line);
+	if (!current)
+		return (NULL);
+	i = 0;
+	while (current[i])
 	{
-		result = redirection_control(line, trimmed);
-		if (!result)
-			return (NULL);
-		return (result);
+		if (current[i] == '<' || current[i] == '>')
+		{
+			current = redir_loop(current, &i);
+			if (!current)
+				return (NULL);
+		}
+		else
+			i++;
 	}
-	return (ft_strdup(line));
+	return (current);
 }
 
 int	process_input_line(t_data *data, char *line,

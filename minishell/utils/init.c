@@ -20,7 +20,7 @@ void	init_signals(void)
 
 void	init_data(t_data *data, char **envp)
 {
-	data->envp = copy_envp(envp);
+	data->envp = init_envp(data, envp);
 	if (!data->envp)
 		malloc_failed(data);
 	data->exit_status = 0;

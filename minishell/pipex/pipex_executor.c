@@ -50,12 +50,37 @@ static pid_t	fork_process(t_data *data, t_pipex *pipex, int i)
 	return (pid);
 }
 
+static void	close_parent_heredoc_fds(t_pipex *pipex)
+{
+	int		i;
+	int		j;
+	t_cmd	*cmd;
+
+	i = -1;
+	while (++i < pipex->cmd_count)
+	{
+		cmd = &pipex->commands[i];
+		j = -1;
+		while (++j < cmd->redirect_count)
+		{
+			if (ft_strcmp(cmd->redirects[j].type, "<<") == 0
+				&& cmd->redirects[j].is_heredoc_fd > 0)
+			{
+				close(cmd->redirects[j].is_heredoc_fd);
+				cmd->redirects[j].is_heredoc_fd = -1;
+			}
+		}
+	}
+}
+
 void	execute_pipeline(t_data *data, t_pipex *pipex)
 {
 	int	i;
 	int	status;
 
 	if (!pipex || pipex->cmd_count <= 0)
+		return ;
+	if (preprocess_all_heredocs(data, pipex) == -1)
 		return ;
 	pipex->pids = (pid_t *)malloc(sizeof(pid_t) * pipex->cmd_count);
 	if (!pipex->pids)
@@ -68,12 +93,11 @@ void	execute_pipeline(t_data *data, t_pipex *pipex)
 		pipex->is_last = (i == pipex->cmd_count - 1);
 		pipex->pids[i] = fork_process(data, pipex, i);
 	}
+	close_parent_heredoc_fds(pipex);
 	if (pipex->prev_fd != -1)
 		close(pipex->prev_fd);
 	i = -1;
 	while (++i < pipex->cmd_count)
-	{
 		if (waitpid(pipex->pids[i], &status, 0) > 0)
 			update_exit_status(data, pipex, status, i);
-	}
 }

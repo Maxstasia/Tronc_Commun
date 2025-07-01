@@ -43,14 +43,14 @@ int	allocate_cmd_memory(t_cmd *cmd, char *s, int i)
 		cmd->args[j] = NULL;
 		j++;
 	}
-	cmd->redirects = malloc(sizeof(t_redirect) * token_count);
+	cmd->redirects = malloc(sizeof(t_redirect) * (token_count + 1));
 	if (!cmd->redirects)
 	{
 		free(cmd->args);
 		cmd->args = NULL;
 		return (-1);
 	}
-	cmd_mem_norm(cmd, token_count);
+	cmd_mem_norm(cmd, token_count + 1);
 	cmd->redirect_count = 0;
 	return (0);
 }

@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*   heredoc2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 12:48:24 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/17 12:48:26 by jbias            ###   ########.fr       */
+/*   Created: 2025/06/30 20:37:40 by jbias             #+#    #+#             */
+/*   Updated: 2025/06/30 20:37:41 by jbias            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"libft.h"
+#include "../../include/minishell.h"
 
-char	*ft_strcat(char *dest, const char *src)
+int	heredoc_loop_norm(t_data *data, char *expanded_delim)
 {
-	size_t	dest_len;
-	size_t	i;
-
-	if (!dest || !src)
-		return (NULL);
-	dest_len = ft_strlen(dest);
-	i = 0;
-	while (src[i])
+	if (g_signal_exit_status == 130)
 	{
-		dest[dest_len + i] = src[i];
-		i++;
+		data->exit_status = 130;
+		return (1);
 	}
-	dest[dest_len + i] = '\0';
-	return (dest);
+	ft_putstr_fd("\nbash: warning: heredoc delim by EOF (wanted `", 2);
+	ft_putstr_fd(expanded_delim, 2);
+	ft_putstr_fd("')\n", 2);
+	return (0);
+}
+
+int	reset_signal_exit(int sig_exit)
+{
+	if (sig_exit == 130)
+		return (0);
+	return (sig_exit);
 }

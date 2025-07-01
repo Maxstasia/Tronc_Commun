@@ -15,12 +15,18 @@
 void	child_process(t_data *data, t_pipex *pipex, int cmd_index)
 {
 	t_cmd	*cmd;
+	int		redir_error;
 
 	cmd = &pipex->commands[cmd_index];
 	if (!pipex->is_last)
 		close(pipex->fd[0]);
+	redir_error = 0;
 	if (cmd->redirect_count > 0)
-		apply_redirects(data, cmd, cmd->redirects);
+	{
+		redir_error = apply_redirects_child(data, cmd, cmd->redirects);
+		if (redir_error != 0)
+			exit(redir_error);
+	}
 	if (!pipex->is_first)
 	{
 		dup2(pipex->prev_fd, STDIN_FILENO);

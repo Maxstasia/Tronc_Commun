@@ -12,20 +12,6 @@
 
 #include "../include/minishell.h"
 
-int	g_signal_exit_status = 0;
-
-void	handle_signals(int sig)
-{
-	if (sig == SIGINT)
-	{
-		g_signal_exit_status = 130;
-		write(STDOUT_FILENO, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-}
-
 void	handle_quote(char c, char *quote)
 {
 	if (c == '\'' && !*quote)

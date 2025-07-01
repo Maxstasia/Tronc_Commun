@@ -73,10 +73,12 @@ int	validate_redirection_syntax(const char *input)
 	char	quote;
 	char	file_quote;
 
-	i = 0;
+	if (validate_heredoc_pipe_syntax(input) == -1)
+		return (-1);
+	i = -1;
 	quote = 0;
 	file_quote = 0;
-	while (input[i])
+	while (input[++i])
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 			set_quote((char *)input, i, quote);
@@ -91,7 +93,6 @@ int	validate_redirection_syntax(const char *input)
 				continue ;
 			}
 		}
-		i++;
 	}
 	return (0);
 }

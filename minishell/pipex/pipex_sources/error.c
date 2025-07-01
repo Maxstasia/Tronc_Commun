@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:39:14 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:33:43 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	error_127(t_data *data, t_cmd *cmd, char *path)
 	if (cmd && cmd->args && cmd->args && cmd->args[0])
 		ft_putstr_fd(cmd->args[0], 2);
 	ft_putstr_fd(RED"' : command not found\n"RESET, 2);
-	free_cmd(cmd);
 	if (path)
 		free(path);
 	if (data)

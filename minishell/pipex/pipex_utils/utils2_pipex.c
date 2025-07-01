@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 14:35:53 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/30 12:55:21 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:33:43 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ static char	**first_step(t_data *data)
 		i++;
 	if (!data->envp || !data->envp[i])
 	{
-		paths = ft_split("/bin:/usr/bin:/usr/local/bin", ':');
-		if (!paths)
-			return (perror(RED"minishell: error"RESET), NULL);
+		paths = NULL;
 		return (paths);
 	}
 	paths = ft_split((data->envp[i] + 5), ':');
@@ -99,7 +97,28 @@ void	execute(t_data *data, t_cmd *cmd)
 
 void	t_pipex_init(t_pipex *pipex, char *input, t_token_list *current)
 {
-	pipex->cmd_count = count_cmd(current);
+	int	i;
+	int	pipe_count;
+	char	quote;
+
+	(void)current;
+	pipe_count = 0;
+	quote = 0;
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '\'' || input[i] == '\"')
+		{
+			if (!quote)
+				quote = input[i];
+			else if (quote == input[i])
+				quote = 0;
+		}
+		else if (input[i] == '|' && !quote)
+			pipe_count++;
+		i++;
+	}
+	pipex->cmd_count = pipe_count + 1;
 	pipex->commands = ft_split_advanced(input, pipex->cmd_count);
 	pipex->is_first = 1;
 }

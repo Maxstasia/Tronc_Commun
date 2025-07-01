@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:38:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/10 14:56:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:33:43 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ t_cmd	*ft_split_advanced(char *s, int cmd_count)
 		return (NULL);
 	i = 0;
 	j = 0;
-	while (s[i])
+	while (s[i] && j < cmd_count)
 	{
 		if (skip_whitespace_and_check(s, &i))
 			break ;

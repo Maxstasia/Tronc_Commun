@@ -55,8 +55,8 @@ char	*cas_4(char *line, char *trimmed)
 	result = malloc(ft_strlen(line) + 4);
 	if (!result)
 		return (NULL);
-	ft_strlcpy(result, ": < ", 5);
-	ft_strlcat(result, trimmed + 1, ft_strlen(line) + 4);
+	ft_strlcpy(result, ": ", 3);
+	ft_strlcat(result, trimmed, ft_strlen(line) + 4);
 	return (result);
 }
 

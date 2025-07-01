@@ -130,6 +130,19 @@ char			*if_pipe(char *input, char *token, int *i, int *index);
 char			*if_redir_in(char *input, char *token, int *i, int *index);
 char			*if_redir_out(char *input, char *token,	int *i, int *index);
 
+/*-----lexer_redir2.c-----*/
+
+char			*redir_in_case(char *current, int *i);
+char			*redir_out_case(char *current, int *i);
+char			*heredoc_case(char *current, int *i);
+char			*append_case(char *current, int *i);
+char			*redir_loop(char *current, int *i);
+
+/*-----lexer_redir3.c-----*/
+char			*handle_single_redirects(char *current, int *i);
+char			*handle_double_redirects(char *current, int *i);
+void			skip_redirects(char *current, int *i);
+
 /*-----lexer.c-----*/
 int				count_tokens(char *str);
 t_token_type	get_token_type(char *token);
@@ -155,6 +168,10 @@ char			set_quote(char *input, int i, char quote);
 int				validate_redirection_syntax(const char *input);
 int				has_file_after_redirection(const char *input,
 					const char *redir);
+int				apply_redir_norm(t_data *data, t_redirect *redirect);
+
+/*-----redir2.c-----*/
+int				validate_heredoc_pipe_syntax(const char *input);
 
 /*-----------------pipex-----------------*/
 /*----------pipex_sources----------*/
@@ -165,12 +182,33 @@ void			free_cmd(t_cmd *cmd);
 void			error_127(t_data *data, t_cmd *cmd, char *path);
 void			error(t_data *data);
 
+/*-----error2.c-----*/
+int				error_codes(t_data *data, t_redirect *redirect);
+
 /*-----heredoc.c-----*/
 void			handle_here_doc(t_data *data, t_redirect *redirect);
+void			handle_here_doc_delayed(t_data *data, t_redirect *redirect);
+int				preprocess_all_heredocs(t_data *data, t_pipex *pipex);
+
+/*-----heredoc2.c----*/
+int				heredoc_loop_norm(t_data *data, char *expanded_delim);
+int				reset_signal_exit(int sig_exit);
 
 /*-----pipex_redir.c-----*/
-void			apply_redirects(t_data *data, t_cmd *cmd,
+int				apply_redirects(t_data *data, t_cmd *cmd,
 					t_redirect *redirect);
+int				apply_redirects_no_heredoc(t_data *data, t_cmd *cmd,
+					t_redirect *redirect);
+int				apply_redirects_child(t_data *data, t_cmd *cmd,
+					t_redirect *redirect);
+
+/*-----pipex_redir2.c-----*/
+int				apply_redir_norm2(t_data *data, t_cmd *cmd,
+					t_redirect *redirect, int *last_heredoc_fd);
+int				apply_redir_norm2_no_heredoc(t_data *data, t_cmd *cmd,
+					t_redirect *redirect, int *last_heredoc_fd);
+int				apply_redir_norm2_child(t_data *data, t_cmd *cmd,
+					t_redirect *redirect, int *last_heredoc_fd);
 
 /*-----pipex.c-----*/
 void			child_process(t_data *data, t_pipex *pipex, int cmd_index);
@@ -238,12 +276,19 @@ int				init_first_value_token_list(char *input,
 					t_token_list *token_list, int *index);
 void			init_pipex(t_pipex *pipex);
 
+/*-----init2.c-----*/
+char			**init_envp(t_data *data, char **envp);
+
 /*-----redirection_case_utils.c-----*/
 char			*cas_1(char *line, char *trimmed);
 char			*cas_2(char *line, char *trimmed);
 char			*cas_3(char *line, char *trimmed);
 char			*cas_4(char *line, char *trimmed);
 char			*cas_5(char *line);
+
+/*-----signals.c-----*/
+void			handle_signals(int sig);
+void			handle_heredoc_signals(int sig);
 
 /*-----utils.c-----*/
 char			*get_var_name(const char *input, int *i);
@@ -255,7 +300,6 @@ int				process_character(char *input, char *result, t_data *data,
 char			*expand_variables(char *input, t_data *data);
 
 /*-----utils2.c-----*/
-void			handle_signals(int sig);
 void			handle_quote(char c, char *quote);
 int				handle_escaped_dollar(char *input, char *result,
 					int *i, int *j);
@@ -274,5 +318,6 @@ void			handle_command_execution(t_data *data, t_token_list *token_list,
 /*-----minishell2.c-----*/
 int				process_input_line(t_data *data, char *line,
 					t_token_list *token_list);
+char			*add_space_after_redir(char *line, int i, int redir_len);
 
 #endif
