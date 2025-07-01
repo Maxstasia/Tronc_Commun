@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:02:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/30 12:11:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:29:25 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ static int	redirect_input(t_data *data, t_pipex *pipex)
 		if ((pipex->commands[0].redirect_count > 0))
 		{
 			saved_stdin = dup(STDIN_FILENO);
+			if (preprocess_all_heredocs(data, pipex) == -1)
+				return (dup2(saved_stdin, STDIN_FILENO), close(saved_stdin),
+					data->exit_status = 1, 1);
 			redir_error = apply_redirects_no_heredoc(data, &pipex->commands[0],
 					pipex->commands[0].redirects);
 			if (redir_error != 0)
@@ -94,6 +97,22 @@ static int	redirect_input(t_data *data, t_pipex *pipex)
 		}
 	}
 	return (0);
+}
+
+static int	all_commands_empty(t_pipex *pipex)
+{
+	int	i;
+
+	if (!pipex || !pipex->commands || pipex->cmd_count <= 0)
+		return (1);
+	i = -1;
+	while (++i < pipex->cmd_count)
+	{
+		if (pipex->commands[i].args && pipex->commands[i].args[0]
+			&& pipex->commands[i].args[0][0])
+			return (0);
+	}
+	return (1);
 }
 
 void	handle_command_execution(t_data *data, t_token_list *token_list,
@@ -120,6 +139,14 @@ void	handle_command_execution(t_data *data, t_token_list *token_list,
 	}
 	else
 	{
+		if (all_commands_empty(pipex))
+		{
+			if (preprocess_all_heredocs(data, pipex) == -1)
+				data->exit_status = 1;
+			else if (g_signal_exit_status == 0)
+				data->exit_status = 0;
+			return ;
+		}
 		pipex->envp = data->envp;
 		if (pipex->commands)
 			execute_pipeline(data, pipex);

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:24:29 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:31:24 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,9 @@ void	handle_here_doc(t_data *data, t_redirect *redirect)
 	int		fd[2];
 	char	*line;
 	char	*expanded_delim;
-	int		first_line;
 
 	if (init_heredoc(data, redirect, fd, &expanded_delim) == -1)
 		return ;
-	first_line = 1;
 	while (1)
 	{
 		if (g_signal_exit_status == 130)
@@ -140,11 +138,7 @@ void	handle_here_doc(t_data *data, t_redirect *redirect)
 			data->exit_status = 130;
 			break ;
 		}
-		if (first_line)
-		{
-			ft_putstr_fd(GREEN"──(heredoc)──\n"RESET, STDERR_FILENO);
-			first_line = 0;
-		}
+		ft_putstr_fd(GREEN"──(heredoc)──"RESET, STDERR_FILENO);
 		line = read_line_from_stdin();
 		if (!line)
 		{

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/27 16:01:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:29:25 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ int	validate_syntax(char *expanded_line)
 {
 	if (validate_redirection_syntax(expanded_line) != 0)
 	{
-		if (ft_strstr(expanded_line, "<<") && ft_strstr(expanded_line, "|"))
-			ft_putstr_fd(RED"minishell: syntax error: heredoc & pipe\n"RESET, 2);
-		else if (ft_strstr(expanded_line, ">>")
+		if (ft_strstr(expanded_line, ">>")
 			&& !has_file_after_redirection(expanded_line, ">>"))
 			ft_putstr_fd(RED"minishell: syntax error\n"RESET, 2);
 		else if (ft_strstr(expanded_line, ">")

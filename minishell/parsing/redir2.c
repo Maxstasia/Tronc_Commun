@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/01 12:00:00 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:29:28 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	skip_heredoc_delimiter(const char *input, int *i)
 	while (input[*i] && input[*i] != ' '
 		&& input[*i] != '\t' && input[*i] != '|')
 		(*i)++;
+	(*i)--;
 	return (0);
 }
 
@@ -35,8 +36,6 @@ static int	handle_heredoc_and_pipe(const char *input, int *i, char quote,
 	}
 	else if (!quote && input[*i] == '|')
 	{
-		if (*has_heredoc && !*has_command_after_heredoc)
-			return (-1);
 		*has_heredoc = 0;
 		*has_command_after_heredoc = 0;
 	}
@@ -71,11 +70,11 @@ int	validate_heredoc_pipe_syntax(const char *input)
 	int		has_command_after_heredoc;
 	int		result;
 
-	i = -1;
+	i = 0;
 	quote = 0;
 	has_heredoc = 0;
 	has_command_after_heredoc = 0;
-	while (input[++i])
+	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '\"')
 			quote = set_quote((char *)input, i, quote);
@@ -87,6 +86,7 @@ int	validate_heredoc_pipe_syntax(const char *input)
 			return (-1);
 		handle_command_token(quote, input[i], has_heredoc,
 			&has_command_after_heredoc);
+		i++;
 	}
 	return (0);
 }
