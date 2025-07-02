@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 14:00:08 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:26:28 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,34 @@ char	*parsed_token(char *token)
 {
 	char	*parsed_token;
 	int		i;
+	int		token_len;
 
+	if (!token)
+		return (NULL);
 	i = 0;
-	while (token[i] && (token[i] == ' ' || token[i] == '\t'))
+	token_len = ft_strlen(token);
+	while (i < token_len && (token[i] == ' ' || token[i] == '\t'))
 		i++;
-	while (token[i] != '\0')
+	while (i < token_len && token[i] != '\0')
 	{
 		i = valid_quotes(i, token);
 		if (i == -1)
+		{
+			free(token);
 			return (NULL);
-		else if (token[i] && (token[i] == ' ' || token[i] == '\t'))
+		}
+		else if (i < token_len && token[i] && (token[i] == ' ' || token[i] == '\t'))
 			break ;
-		else
+		else if (i < token_len)
 			i++;
+		else
+			break ;
 	}
 	parsed_token = ft_substr(token, 0, i);
 	if (!parsed_token)
+	{
+		free(token);
 		return (NULL);
+	}
 	return (free(token), parsed_token);
 }

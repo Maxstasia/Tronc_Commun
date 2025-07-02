@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/01 17:46:44 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:42:35 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ int				expand_variable(char *input, char *result, int *i,
 					t_data *data);
 int				should_expand_variable(char *input, int i, char quote);
 int				process_character(char *input, char *result, t_data *data,
-					char quote);
+					char *quote);
 char			*expand_variables(char *input, t_data *data);
 
 /*-----utils2.c-----*/

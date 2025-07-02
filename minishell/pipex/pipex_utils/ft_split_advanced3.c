@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_advanced3.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:36:49 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/17 10:36:50 by jbias            ###   ########.fr       */
+/*   Updated: 2025/07/02 15:26:28 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,25 @@ int	allocate_cmd_memory(t_cmd *cmd, char *s, int i)
 	cmd->args = NULL;
 	cmd->redirects = NULL;
 	token_count = count_token_split(s + i);
-	cmd->args = malloc(sizeof(char *) * (token_count + 1));
+	if (token_count == -1)
+		return (-1);
+	// Ajouter une marge de sécurité pour éviter les buffer overflows
+	cmd->args = malloc(sizeof(char *) * (token_count + 5));
 	if (!cmd->args)
 		return (-1);
-	while (j <= token_count)
+	while (j <= token_count + 4)
 	{
 		cmd->args[j] = NULL;
 		j++;
 	}
-	cmd->redirects = malloc(sizeof(t_redirect) * (token_count + 1));
+	cmd->redirects = malloc(sizeof(t_redirect) * (token_count + 5));
 	if (!cmd->redirects)
 	{
 		free(cmd->args);
 		cmd->args = NULL;
 		return (-1);
 	}
-	cmd_mem_norm(cmd, token_count + 1);
+	cmd_mem_norm(cmd, token_count + 5);
 	cmd->redirect_count = 0;
 	return (0);
 }
@@ -64,7 +67,7 @@ static int	is_separator(char c, char quote)
 	return (0);
 }
 
-static void	extract_token_loop(char *input, char quote, int *i)
+static int	extract_token_loop(char *input, char quote, int *i)
 {
 	if (input[*i] == '\'' || input[*i] == '\"')
 	{
@@ -72,12 +75,16 @@ static void	extract_token_loop(char *input, char quote, int *i)
 		while (input[*i] && input[*i] != quote)
 			(*i)++;
 		if (!input[*i])
+		{
 			ft_putstr_fd("Error: Unmatched quotes\n", 2);
+			return (-1);
+		}
 		else
 			(*i)++;
 	}
 	else
 		(*i)++;
+	return (0);
 }
 
 int	extract_token_split(char *input, int *i, char **token)
@@ -94,7 +101,10 @@ int	extract_token_split(char *input, int *i, char **token)
 	if (!input[*i])
 		return (-1);
 	while (input[*i] && !is_separator(input[*i], 0))
-		extract_token_loop((char *)input, quote, i);
+	{
+		if (extract_token_loop((char *)input, quote, i) == -1)
+			return (-1);
+	}
 	end = *i;
 	if (start == end)
 		return (-1);

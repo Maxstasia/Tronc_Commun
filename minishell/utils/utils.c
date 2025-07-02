@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 11:48:52 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/18 13:18:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:18:30 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ int	should_expand_variable(char *input, int i, char quote)
 		&& (ft_isalnum(input[i + 1]) || input[i + 1] == '?'));
 }
 
-int	process_character(char *input, char *result, t_data *data, char quote)
+int	process_character(char *input, char *result, t_data *data, char *quote)
 {
 	int			var_len;
 
-	handle_quote(input[data->tmp->x], &quote);
+	handle_quote(input[data->tmp->x], quote);
 	if (handle_escaped_dollar(input, result, &data->tmp->x, &data->tmp->y))
 		return (0);
-	if (should_expand_variable(input, data->tmp->x, quote))
+	if (should_expand_variable(input, data->tmp->x, *quote))
 	{
 		var_len = expand_variable(input, result + data->tmp->y,
 				&data->tmp->x, data);
@@ -104,7 +104,7 @@ char	*expand_variables(char *input, t_data *data)
 	data->tmp->y = 0;
 	while (input[data->tmp->x])
 	{
-		if (process_character(input, result, data, quote) == -1)
+		if (process_character(input, result, data, &quote) == -1)
 			return (free(result), NULL);
 	}
 	result[data->tmp->y] = '\0';

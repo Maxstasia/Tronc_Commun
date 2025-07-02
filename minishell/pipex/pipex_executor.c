@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:43:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/10 14:58:46 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:32:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,9 @@ void	execute_pipeline(t_data *data, t_pipex *pipex)
 	while (++i < pipex->cmd_count)
 		if (waitpid(pipex->pids[i], &status, 0) > 0)
 			update_exit_status(data, pipex, status, i);
+	if (pipex->pids)
+	{
+		free(pipex->pids);
+		pipex->pids = NULL;
+	}
 }

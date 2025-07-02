@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_advanced2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbias <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:36:43 by jbias             #+#    #+#             */
-/*   Updated: 2025/06/17 10:36:44 by jbias            ###   ########.fr       */
+/*   Updated: 2025/07/02 15:26:28 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,15 @@ static int	count_quote_loop(char *input, int *i, char *quote)
 	while (input[*i] && input[*i] != *quote)
 		(*i)++;
 	if (input[*i] == *quote)
+	{
 		(*i)++;
+		return (0);
+	}
 	else
-		return (1);
-	return (0);
+	{
+		ft_putstr_fd("Error: Unmatched quotes\n", 2);
+		return (-1);
+	}
 }
 
 int	count_token_split(char *input)
@@ -76,8 +81,8 @@ int	count_token_split(char *input)
 			break ;
 		if (input[i] == '\'' || input[i] == '\"')
 		{
-			if (count_quote_loop(input, &i, &quote) == 1)
-				return (count);
+			if (count_quote_loop(input, &i, &quote) == -1)
+				return (-1);
 		}
 		else
 			while (input[i] && !is_separator(input[i], quote))
