@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:36:49 by jbias             #+#    #+#             */
-/*   Updated: 2025/07/02 15:26:28 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/03 00:27:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	allocate_cmd_memory(t_cmd *cmd, char *s, int i)
 	token_count = count_token_split(s + i);
 	if (token_count == -1)
 		return (-1);
-	// Ajouter une marge de sécurité pour éviter les buffer overflows
 	cmd->args = malloc(sizeof(char *) * (token_count + 5));
 	if (!cmd->args)
 		return (-1);
@@ -48,11 +47,7 @@ int	allocate_cmd_memory(t_cmd *cmd, char *s, int i)
 	}
 	cmd->redirects = malloc(sizeof(t_redirect) * (token_count + 5));
 	if (!cmd->redirects)
-	{
-		free(cmd->args);
-		cmd->args = NULL;
-		return (-1);
-	}
+		return (free(cmd->args), cmd->args = NULL, -1);
 	cmd_mem_norm(cmd, token_count + 5);
 	cmd->redirect_count = 0;
 	return (0);

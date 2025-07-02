@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/07/01 17:49:19 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/02 23:46:51 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static void	norm_loop(t_data *data, t_token_list **token_list, char *line)
 	{
 		ft_putstr_fd(PINK"exit\n"RESET, STDOUT_FILENO);
 		rl_clear_history();
-		free_token_list(token_list);
+		if (token_list && *token_list)
+			free_token_list(token_list);
 		free_data(data);
 		exit(data->exit_status);
 	}
@@ -65,6 +66,7 @@ static void	norm_loop(t_data *data, t_token_list **token_list, char *line)
 		if (ft_strstr(line, "<<"))
 			rl_on_new_line();
 	}
+	free(line);
 }
 
 static void	main_loop(t_data *data, t_token_list **token_list)

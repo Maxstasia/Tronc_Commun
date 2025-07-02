@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/06/18 13:32:50 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/02 23:46:51 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ static int	extract_loop(char *input, int i)
 			else if (input[i] == '\"')
 				i = double_quoted(input, i);
 			if (i == -1)
-				return (ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2),
-					-1);
+			{
+				ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2);
+				return (-1);
+			}
 		}
 		else if (input[i] == ' ' || input[i] == '\t'
 			|| input[i] == '|' || input[i] == '<' || input[i] == '>')

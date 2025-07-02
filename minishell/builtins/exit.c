@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:37:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/02 13:58:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/03 00:13:11 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,15 @@ static long	long	ft_atol(const char *str, int *overflow)
 	*overflow = 0;
 	while (*str == ' ' || (*str >= 9 && *str <= 13))
 		str++;
-	if (*str == '-' || *str == '+')
-	{
+	str--;
+	if (++str, *str == '-' || *str == '+')
 		if (*str == '-')
 			sign = -1;
-		str++;
-	}
 	while (ft_isdigit(*str))
 	{
 		digit = *str - '0';
 		if (check_overflow(result, digit, sign))
-		{
-			*overflow = 1;
-			return (0);
-		}
+			return (*overflow = 1, 0);
 		result = result * 10 + digit;
 		str++;
 	}
@@ -78,16 +73,8 @@ static int	isnum(char *str)
 	return (1);
 }
 
-void	exit_builtin(t_data *data, t_cmd *cmd)
+static void	exit_norm(t_data *data, t_cmd *cmd)
 {
-	int	overflow;
-
-	ft_putstr_fd(PINK"exit\n"RESET, 2);
-	if (!cmd->args[1])
-	{
-		free_data(data);
-		exit(data->exit_status);
-	}
 	if (!isnum(cmd->args[1]))
 	{
 		ft_putstr_fd(RED"minishell: exit: '"YELLOW, 2);
@@ -102,6 +89,21 @@ void	exit_builtin(t_data *data, t_cmd *cmd)
 		data->exit_status = 1;
 		return ;
 	}
+}
+
+void	exit_builtin(t_data *data, t_cmd *cmd)
+{
+	int	overflow;
+
+	ft_putstr_fd(PINK"exit\n"RESET, 2);
+	if (!cmd->args[1])
+	{
+		free_data(data);
+		exit(data->exit_status);
+	}
+	exit_norm(data, cmd);
+	if (cmd->args[2])
+		return ;
 	data->exit_status = ft_atol(cmd->args[1], &overflow);
 	if (overflow)
 	{

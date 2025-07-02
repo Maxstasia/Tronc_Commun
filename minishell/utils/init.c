@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 19:30:12 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/05/28 19:33:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/02 22:50:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ int	init_first_value_token_list(char *input, t_token_list *token_list,
 {
 	token_list->token = extract_tokens(input, token_list->token, index);
 	if (!token_list->token)
-	{
-		ft_putstr_fd(RED"Error: Memory allocation failed\n"RESET, STDERR_FILENO);
 		return (-1);
-	}
 	token_list->token = parsed_token(token_list->token);
 	if (!token_list->token)
 	{
