@@ -76,19 +76,19 @@ J'ai commencé le cursus principal en novembre 2024. Voici un résumé des proje
 - **Commencé le :** Janvier 2025
 - **Terminé le :** Février 2025
 
-### 07 - Philosophers
-
-**Description :** Simulation du problème des philosophes mangeurs en utilisant des threads et des mutex, avec un focus sur l'évitement des interblocages.
-
-- **Commencé le :** Mars 2025
-- **Terminé le :** Juillet 2025
-
-### 08 - Minishell
+### 07 - Minishell
 
 **Description :** Reproduction d'un shell Unix basique avec support des commandes, pipes, redirections et variables d'environnement.
 
-- **Commencé le :** Avril 2025
-- **Terminé le :** Juillet 2025
+- **Commencé le :** [Insère la date]
+- **Terminé le :** [Insère la date]
+
+### 08 - Philosophers
+
+**Description :** Simulation du problème des philosophes mangeurs en utilisant des threads et des mutex, avec un focus sur l'évitement des interblocages.
+
+- **Commencé le :** [Insère la date]
+- **Terminé le :** [Insère la date]
 
 ### 09 - Netpractice
 
@@ -202,19 +202,19 @@ I started the main curriculum in November 2024. Below is a summary of the projec
 - **Started on:** January 2025
 - **Finished on:** February 2025
 
-### 07 - Philosophers
-
-**Description:** Simulation of the dining philosophers problem using threads and mutexes, focusing on avoiding deadlocks.
-
-- **Started on:** March 2025
-- **Finished on:** July 2025
-
-### 08 - Minishell
+### 07 - Minishell
 
 **Description:** Reproduction of a basic Unix shell with support for commands, pipes, redirections, and environment variables.
 
-- **Started on:** April 2025
-- **Finished on:** July 2025
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 08 - Philosophers
+
+**Description:** Simulation of the dining philosophers problem using threads and mutexes, focusing on avoiding deadlocks.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
 
 ### 09 - Netpractice
 
