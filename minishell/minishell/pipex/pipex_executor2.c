@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 17:20:30 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/03 18:51:23 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/08 15:10:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,11 @@ static pid_t	fork_process(t_data *data, t_pipex *pipex, int i)
 		error(data);
 	}
 	if (pid == 0)
-	{
-		child_process(data, pipex, i);
-		exit(0);
-	}
+		return (child_process(data, pipex, i), exit(0), pid);
 	if (pipex->prev_fd != -1)
 		close(pipex->prev_fd);
 	if (!pipex->is_last)
-	{
-		close(pipex->fd[1]);
-		pipex->prev_fd = pipex->fd[0];
-	}
+		return (close(pipex->fd[1]), pipex->prev_fd = pipex->fd[0], pid);
 	return (pid);
 }
 
