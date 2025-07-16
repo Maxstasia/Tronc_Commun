@@ -12,7 +12,8 @@
 
 #include "../../include/minishell.h"
 
-void	child_process(t_data *data, t_pipex *pipex, int cmd_index)
+void	child_process(t_data *data, t_pipex *pipex, int cmd_index,
+		t_token_list *tok)
 {
 	t_cmd	*cmd;
 	int		redir_error;
@@ -37,5 +38,5 @@ void	child_process(t_data *data, t_pipex *pipex, int cmd_index)
 		if (redir_error != 0)
 			exit(redir_error);
 	}
-	execute(data, cmd);
+	execute(data, cmd, pipex, tok);
 }

@@ -71,25 +71,8 @@ void	free_pipex(t_pipex *pipex, int bool)
 
 void	free_data_fields(t_data *data)
 {
-	if (!data)
-		return ;
-	if (data->envp)
-		free_data_envp(data);
-	if (data->pwd)
-	{
-		free(data->pwd);
-		data->pwd = NULL;
-	}
-	if (data->oldpwd)
-	{
-		free(data->oldpwd);
-		data->oldpwd = NULL;
-	}
-	if (data->tmp)
-	{
-		free(data->tmp);
-		data->tmp = NULL;
-	}
+	free_data_fields_part1(data);
+	free_data_fields_part2(data);
 }
 
 void	free_data(t_data *data)
@@ -97,21 +80,6 @@ void	free_data(t_data *data)
 	if (!data)
 		return ;
 	close_saved_fds(data);
-	if (data->envp)
-		free_data_envp(data);
-	if (data->pwd)
-	{
-		free(data->pwd);
-		data->pwd = NULL;
-	}
-	if (data->oldpwd)
-	{
-		free(data->oldpwd);
-		data->oldpwd = NULL;
-	}
-	if (data->tmp)
-	{
-		free(data->tmp);
-		data->tmp = NULL;
-	}
+	free_data_fields_part1(data);
+	free_data_fields_part2(data);
 }

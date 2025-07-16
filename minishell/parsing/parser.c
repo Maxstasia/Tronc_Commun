@@ -68,20 +68,20 @@ static char	*parsed_token_loop_norm(char *token, int i, int token_len)
 
 	while (i < token_len && token[i] != '\0')
 	{
-		i = valid_quotes(i, token);
-		if (i == -1)
-			return (free(token), NULL);
-		else if (i < token_len && token[i] && (token[i] == ' '
-				|| token[i] == '\t'))
+		if (token[i] == '\'' || token[i] == '\"')
+		{
+			i = valid_quotes(i, token);
+			if (i == -1)
+				return (NULL);
+		}
+		else if (token[i] == ' ' || token[i] == '\t')
 			break ;
-		else if (i < token_len)
-			i++;
 		else
-			break ;
+			i++;
 	}
 	parsed_token = ft_substr(token, 0, i);
 	if (!parsed_token)
-		return (free(token), NULL);
+		return (NULL);
 	return (parsed_token);
 }
 
@@ -99,6 +99,6 @@ char	*parsed_token(char *token)
 		i++;
 	parsed_token = parsed_token_loop_norm(token, i, token_len);
 	if (!parsed_token)
-		return (NULL);
+		return (free(token), NULL);
 	return (free(token), parsed_token);
 }

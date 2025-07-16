@@ -103,7 +103,7 @@ void	exit_builtin(t_data *data, t_cmd *cmd)
 		return ;
 	}
 	exit_norm(data, cmd);
-	if (cmd->args[2])
+	if (cmd->args[2] || data->should_exit)
 		return ;
 	data->exit_status = ft_atol(cmd->args[1], &overflow);
 	if (overflow)

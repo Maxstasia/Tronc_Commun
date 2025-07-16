@@ -12,7 +12,8 @@
 
 #include "../include/minishell.h"
 
-static pid_t	fork_process(t_data *data, t_pipex *pipex, int i)
+static pid_t	fork_process(t_data *data, t_pipex *pipex, int i,
+				t_token_list *tok)
 {
 	pid_t	pid;
 
@@ -33,7 +34,7 @@ static pid_t	fork_process(t_data *data, t_pipex *pipex, int i)
 		error(data);
 	}
 	if (pid == 0)
-		return (child_process(data, pipex, i), exit(0), pid);
+		return (child_process(data, pipex, i, tok), exit(0), pid);
 	if (pipex->prev_fd != -1)
 		close(pipex->prev_fd);
 	if (!pipex->is_last)
@@ -64,7 +65,8 @@ static void	close_parent_heredoc_fds(t_pipex *pipex)
 	}
 }
 
-void	fork_all_processes(t_data *data, t_pipex *pipex)
+void	fork_all_processes(t_data *data, t_pipex *pipex,
+		t_token_list *tok)
 {
 	int	i;
 
@@ -73,7 +75,7 @@ void	fork_all_processes(t_data *data, t_pipex *pipex)
 	{
 		pipex->is_first = (i == 0);
 		pipex->is_last = (i == pipex->cmd_count - 1);
-		pipex->pids[i] = fork_process(data, pipex, i);
+		pipex->pids[i] = fork_process(data, pipex, i, tok);
 	}
 	close_parent_heredoc_fds(pipex);
 	if (pipex->prev_fd != -1)

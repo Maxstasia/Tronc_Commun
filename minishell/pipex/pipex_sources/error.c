@@ -61,20 +61,23 @@ void	free_cmd(t_cmd *cmd)
 	}
 }
 
-void	error_127(t_data *data, t_cmd *cmd, char *path)
+void	error_127(t_data *data, char *path, t_pipex *pipex, t_token_list *tok)
 {
 	ft_putstr_fd(RED"minishell: '"YELLOW, 2);
-	if (cmd && cmd->args && cmd->args && cmd->args[0])
-		ft_putstr_fd(cmd->args[0], 2);
+	if (pipex->commands && pipex->commands->args && pipex->commands->args
+		&& pipex->commands->args[0])
+		ft_putstr_fd(pipex->commands->args[0], 2);
 	ft_putstr_fd(RED"' : command not found\n"RESET, 2);
 	if (path)
 		free(path);
 	if (data)
 		data->exit_status = 127;
-	if (cmd)
-		free_cmd(cmd);
 	if (data)
 		free_data(data);
+	if (pipex)
+		free_pipex(pipex, 0);
+	if (tok)
+		free_token_list(&tok);
 	exit(127);
 }
 

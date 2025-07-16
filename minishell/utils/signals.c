@@ -37,3 +37,15 @@ void	handle_heredoc_signals(int sig)
 		close(STDIN_FILENO);
 	}
 }
+
+void	restore_default_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+void	handle_heredoc_sigquit(int sig)
+{
+	(void)sig;
+	write(STDOUT_FILENO, "\b\b  \b\b", 6);
+}

@@ -37,3 +37,42 @@ void	cleanup_parsing_error(t_data *data, t_token_list **token_list,
 		free_token_list(token_list);
 	data->exit_status = 2;
 }
+
+void	free_data_fields_part1(t_data *data)
+{
+	if (!data)
+		return ;
+	if (data->envp)
+		free_data_envp(data);
+	if (data->pwd)
+	{
+		free(data->pwd);
+		data->pwd = NULL;
+	}
+	if (data->oldpwd)
+	{
+		free(data->oldpwd);
+		data->oldpwd = NULL;
+	}
+}
+
+void	free_data_fields_part2(t_data *data)
+{
+	if (!data)
+		return ;
+	if (data->tmp)
+	{
+		free(data->tmp);
+		data->tmp = NULL;
+	}
+	if (data->preprocessed_line)
+	{
+		free(data->preprocessed_line);
+		data->preprocessed_line = NULL;
+	}
+	if (data->expanded)
+	{
+		free(data->expanded);
+		data->expanded = NULL;
+	}
+}

@@ -32,7 +32,7 @@ static int	init_heredoc(t_data *data, t_redirect *redirect,
 	}
 	g_signal_exit_status = 0;
 	signal(SIGINT, handle_heredoc_signals);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, handle_heredoc_sigquit);
 	return (0);
 }
 

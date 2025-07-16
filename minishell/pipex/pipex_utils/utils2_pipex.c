@@ -68,13 +68,14 @@ char	*find_path(t_data *data, char *cmd_name)
 	return (free_tab(paths), NULL);
 }
 
-void	execute(t_data *data, t_cmd *cmd)
+void	execute(t_data *data, t_cmd *cmd, t_pipex *pipex, t_token_list *tok)
 {
 	char			*path;
 	t_token_list	temp_token;
 
+	restore_default_signals();
 	if (!cmd->args || !cmd->args[0])
-		error_127(data, cmd, NULL);
+		error_127(data, NULL, pipex, tok);
 	if (is_builtin(cmd->args[0]))
 	{
 		temp_token.token = cmd->args[0];
@@ -90,9 +91,9 @@ void	execute(t_data *data, t_cmd *cmd)
 	else
 		path = find_path(data, cmd->args[0]);
 	if (!path || access(path, X_OK) == -1)
-		error_127(data, cmd, path);
+		error_127(data, path, pipex, tok);
 	if (path && execve(path, cmd->args, data->envp) == -1)
-		error_127(data, cmd, path);
+		error_127(data, path, pipex, tok);
 }
 
 void	t_pipex_init(t_pipex *pipex, char *input, t_token_list *current)
@@ -120,5 +121,7 @@ void	t_pipex_init(t_pipex *pipex, char *input, t_token_list *current)
 	}
 	pipex->cmd_count = pipe_count + 1;
 	pipex->commands = ft_split_advanced(input, pipex->cmd_count);
+	if (!pipex->commands)
+		pipex->cmd_count = 0;
 	pipex->is_first = 1;
 }

@@ -59,7 +59,7 @@ static int	count_quote_loop(char *input, int *i, char *quote)
 	}
 	else
 	{
-		ft_putstr_fd("Error: Unmatched quotes\n", 2);
+		ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2);
 		return (-1);
 	}
 }

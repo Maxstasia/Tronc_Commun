@@ -98,6 +98,8 @@ typedef struct s_data
 	int		saved_stdout;
 	int		has_saved_fds;
 	int		should_exit;
+	char	*preprocessed_line;
+	char	*expanded;
 }				t_data;
 
 typedef struct s_token_list
@@ -182,7 +184,8 @@ char			set_quote(char *input, int i, char quote);
 void			malloc_failed(t_data *data);
 void			free_tab(char **tab);
 void			free_cmd(t_cmd *cmd);
-void			error_127(t_data *data, t_cmd *cmd, char *path);
+void			error_127(t_data *data, char *path, t_pipex *pipex,
+					t_token_list *tok);
 void			error(t_data *data);
 
 /*-----error2.c-----*/
@@ -215,7 +218,8 @@ int				apply_redirects_no_heredoc(t_data *data, t_cmd *cmd,
 					t_redirect *redirect);
 
 /*-----pipex.c-----*/
-void			child_process(t_data *data, t_pipex *pipex, int cmd_index);
+void			child_process(t_data *data, t_pipex *pipex, int cmd_index,
+					t_token_list *tok);
 
 /*-----------------pipex-----------------*/
 /*----------pipex_utils----------*/
@@ -248,16 +252,19 @@ char			*get_env_var(char **envp, const char *name);
 /*-----utils2_pipex.c-----*/
 void			check_hdoc_fd(int *last_heredoc_fd);
 char			*find_path(t_data *data, char *cmd_name);
-void			execute(t_data *data, t_cmd *cmd);
+void			execute(t_data *data, t_cmd *cmd, t_pipex *pipex,
+					t_token_list *tok);
 void			t_pipex_init(t_pipex *pipex, char *input,
 					t_token_list *current);
 
 /*----------pipex----------*/
 /*-----pipex_executor.c-----*/
-void			execute_pipeline(t_data *data, t_pipex *pipex);
+void			execute_pipeline(t_data *data, t_pipex *pipex,
+					t_token_list *tok);
 
 /*-----pipex_executor2.c-----*/
-void			fork_all_processes(t_data *data, t_pipex *pipex);
+void			fork_all_processes(t_data *data, t_pipex *pipex,
+					t_token_list *tok);
 
 /*----------utils----------*/
 /*-----cleanup.c-----*/
@@ -270,6 +277,8 @@ void			free_data_fields(t_data *data);
 void			free_data_envp(t_data *data);
 void			cleanup_parsing_error(t_data *data, t_token_list **token_list,
 					char *preprocessed_line, char *expanded_line);
+void			free_data_fields_part1(t_data *data);
+void			free_data_fields_part2(t_data *data);
 
 /*-----envp.c-----*/
 char			**copy_envp(char **envp);
@@ -298,6 +307,8 @@ char			*cas_5(char *line);
 /*-----signals.c-----*/
 void			handle_signals(int sig);
 void			handle_heredoc_signals(int sig);
+void			restore_default_signals(void);
+void			handle_heredoc_sigquit(int sig);
 
 /*-----utils.c-----*/
 char			*get_var_name(const char *input, int *i);

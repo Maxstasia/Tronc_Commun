@@ -71,7 +71,7 @@ static int	extract_token_loop(char *input, char quote, int *i)
 			(*i)++;
 		if (!input[*i])
 		{
-			ft_putstr_fd("Error: Unmatched quotes\n", 2);
+			ft_putstr_fd(RED"Error: Unmatched quotes\n"RESET, 2);
 			return (-1);
 		}
 		else

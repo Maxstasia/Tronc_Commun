@@ -89,7 +89,7 @@ static int	handle_command_execution_norm(t_data *data,
 	{
 		pipex->envp = data->envp;
 		if (pipex->commands)
-			execute_pipeline(data, pipex);
+			execute_pipeline(data, pipex, token_list);
 	}
 	return (0);
 }
@@ -116,6 +116,6 @@ void	handle_command_execution(t_data *data, t_token_list *token_list,
 		}
 		pipex->envp = data->envp;
 		if (pipex->commands)
-			execute_pipeline(data, pipex);
+			execute_pipeline(data, pipex, token_list);
 	}
 }

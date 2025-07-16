@@ -37,14 +37,14 @@ static int	init_pipeline_execution(t_data *data, t_pipex *pipex)
 	return (0);
 }
 
-void	execute_pipeline(t_data *data, t_pipex *pipex)
+void	execute_pipeline(t_data *data, t_pipex *pipex, t_token_list *tok)
 {
 	int	i;
 	int	status;
 
 	if (init_pipeline_execution(data, pipex) == -1)
 		return ;
-	fork_all_processes(data, pipex);
+	fork_all_processes(data, pipex, tok);
 	i = -1;
 	while (++i < pipex->cmd_count)
 	{
@@ -53,6 +53,8 @@ void	execute_pipeline(t_data *data, t_pipex *pipex)
 			update_exit_status(data, pipex, status, i);
 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 				write(STDOUT_FILENO, "\n", 1);
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+				write(STDOUT_FILENO, "Quitter (core dumped)\n", 22);
 		}
 	}
 	g_signal_exit_status = 0;

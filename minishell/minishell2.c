@@ -108,29 +108,29 @@ static char	*preprocess_redirection_only(char *line)
 int	process_input_line(t_data *data, char *line,
 		t_token_list *token_list)
 {
-	char	*preprocessed_line;
-	char	*expanded_line;
 	t_pipex	pipex;
 	int		syntax_error;
 
 	init_pipex(&pipex);
-	preprocessed_line = preprocess_redirection_only(line);
-	if (!preprocessed_line)
+	data->preprocessed_line = preprocess_redirection_only(line);
+	if (!data->preprocessed_line)
 		return (ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2),
 			data->exit_status = 1, free_pipex(&pipex, 0), -1);
-	syntax_error = validate_syntax(preprocessed_line);
+	syntax_error = validate_syntax(data->preprocessed_line);
 	if (syntax_error != 0)
 		return (free_pipex(&pipex, 0), data->exit_status = syntax_error,
-			free(preprocessed_line), -1);
-	expanded_line = expand_variables(preprocessed_line, data);
-	if (!expanded_line)
+			free(data->preprocessed_line), data->preprocessed_line = NULL, -1);
+	data->expanded = expand_variables(data->preprocessed_line, data);
+	if (!data->expanded)
 		return (ft_putstr_fd(RED"minishell: malloc failed\n"RESET, 2),
 			data->exit_status = 1, free_pipex(&pipex, 0),
-			free(preprocessed_line), -1);
-	if (parse_input(expanded_line, token_list) != 0)
-		return (free(expanded_line), free(preprocessed_line),
+			free(data->preprocessed_line), data->preprocessed_line = NULL, -1);
+	if (parse_input(data->expanded, token_list) != 0)
+		return (free(data->expanded), data->expanded = NULL,
+			free(data->preprocessed_line), data->preprocessed_line = NULL,
 			free_pipex(&pipex, 0), data->exit_status = 2, -1);
-	return (parse_line(expanded_line, token_list, &pipex),
-		handle_command_execution(data, token_list, &pipex, expanded_line),
-		free_pipex(&pipex, 0), free(expanded_line), free(preprocessed_line), 0);
+	return (parse_line(data->expanded, token_list, &pipex),
+		handle_command_execution(data, token_list, &pipex, data->expanded),
+		free_pipex(&pipex, 0), free(data->expanded), data->expanded = NULL,
+		free(data->preprocessed_line), data->preprocessed_line = NULL, 0);
 }
