@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/18 11:12:32 by mstasiak          #+#    #+#              #
-#    Updated: 2025/07/03 17:22:05 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/07/17 14:30:40 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,7 +102,7 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g3 -MMD -I $(INCLUDE_DIR)
 LIBS = $(LIBFT_A) -lreadline
 
-# Rules
+# Règles de compilation
 all: $(NAME)
 
 $(OBJ_DIR):
