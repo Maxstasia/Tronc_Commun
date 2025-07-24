@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 19:30:12 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/03 17:49:02 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:43:24 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	init_data(t_data *data, char **envp)
 	data->saved_stdout = -1;
 	data->has_saved_fds = 0;
 	data->should_exit = 0;
+	data->preprocessed_line = NULL;
+	data->expanded = NULL;
 }
 
 void	init_token_list(t_token_list *token_list)

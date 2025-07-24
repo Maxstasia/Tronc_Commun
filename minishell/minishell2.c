@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 12:47:05 by jbias             #+#    #+#             */
-/*   Updated: 2025/07/03 18:08:07 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:41:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	process_input_line(t_data *data, char *line,
 		return (free(data->expanded), data->expanded = NULL,
 			free(data->preprocessed_line), data->preprocessed_line = NULL,
 			free_pipex(&pipex, 0), data->exit_status = 2, -1);
-	return (parse_line(data->expanded, token_list, &pipex),
+	return (parse_line(data->expanded, &pipex),
 		handle_command_execution(data, token_list, &pipex, data->expanded),
 		free_pipex(&pipex, 0), free(data->expanded), data->expanded = NULL,
 		free(data->preprocessed_line), data->preprocessed_line = NULL, 0);

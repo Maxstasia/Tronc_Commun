@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 16:53:33 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/03 18:05:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:41:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	count_cmd(t_token_list *token_list)
 	return (count);
 }
 
-t_pipex	parse_line(char *line, t_token_list *token_list, t_pipex *pipex)
+t_pipex	parse_line(char *line, t_pipex *pipex)
 {
-	t_pipex_init(pipex, line, token_list);
+	t_pipex_init(pipex, line);
 	if (!pipex->commands)
 	{
 		return (*pipex);

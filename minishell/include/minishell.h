@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:45:54 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/03 18:10:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:42:47 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,7 @@ int				validate_pipe_syntax(char *input);
 /*-----parsing.c-----*/
 int				count_redir(t_cmd *cmd);
 int				count_cmd(t_token_list *token_list);
-t_pipex			parse_line(char *line, t_token_list *token_list,
-					t_pipex *pipex);
+t_pipex			parse_line(char *line, t_pipex *pipex);
 int				parse_input(char *input, t_token_list *token_list);
 
 /*-----redir.c-----*/
@@ -254,8 +253,7 @@ void			check_hdoc_fd(int *last_heredoc_fd);
 char			*find_path(t_data *data, char *cmd_name);
 void			execute(t_data *data, t_cmd *cmd, t_pipex *pipex,
 					t_token_list *tok);
-void			t_pipex_init(t_pipex *pipex, char *input,
-					t_token_list *current);
+void			t_pipex_init(t_pipex *pipex, char *input);
 
 /*----------pipex----------*/
 /*-----pipex_executor.c-----*/
