@@ -76,32 +76,39 @@ J'ai commencé le cursus principal en novembre 2024. Voici un résumé des proje
 - **Commencé le :** Janvier 2025
 - **Terminé le :** Février 2025
 
-### 07 - Minishell
-
-**Description :** Reproduction d'un shell Unix basique avec support des commandes, pipes, redirections et variables d'environnement.
-
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
-
-### 08 - Philosophers
+### 07 - Philosophers
 
 **Description :** Simulation du problème des philosophes mangeurs en utilisant des threads et des mutex, avec un focus sur l'évitement des interblocages.
 
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
+- **Commencé le :** Avril 2025
+- **Terminé le :** Avril 2025
+
+### 08 - Minishell
+
+**Description :** Reproduction d'un shell Unix basique avec support des commandes, pipes, redirections et variables d'environnement.
+
+- **Commencé le :** Avril 2025
+- **Terminé le :** Juillet 2025
 
 ### 09 - Netpractice
 
 **Description :** Série d'exercices pour comprendre le fonctionnement de l'adressage IP et des réseaux.
 
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
+- **Commencé le :** Juillet 2025
+- **Terminé le :** Juillet 2025
 
-### 10 - Cub3D
+### 10 - CPP00, CPP01, CPP02, CPP03, CPP04
+
+**Description :** Mini piscine pour apprendre les base du C++.
+
+- **Commencé le :** Juillet 2025
+- **Terminé le :** Août 2025
+
+### 11 - Cub3D
 
 **Description :** Implémentation d'un moteur de raycasting inspiré de Wolfenstein 3D, utilisant la MiniLibX.
 
-- **Commencé le :** [Insère la date]
+- **Commencé le :** Septembre 2025
 - **Terminé le :** [Insère la date]
 
 ---
@@ -110,9 +117,11 @@ J'ai commencé le cursus principal en novembre 2024. Voici un résumé des proje
 
 L'école 42 inclut des examens à chaque niveau pour évaluer la compréhension et la maîtrise des concepts appris. Voici quelques exemples :
 
-- **Exam Rank 02 :** Fonctionnalités de base en C
-- **Exam Rank 03 :** Gestion des mémoires dynamiques et fichiers en C
-- **Exam Rank 04 :** Projet intermédiaire complexe
+- **Exam Rank 02 :** Fonctionnalités de base en C (Equivalent au exam de piscine)
+- **Exam Rank 03 :** Gestion des mémoires dynamiques et fichiers en C (Equivalent au exam de piscine niveau intermédiaire)
+- **Exam Rank 04 :** Projet intermédiaire complexe (Equivalent pipex/minishel)
+- **Exam Rank 05 :** Fonctionnalités de base en C++ (Equivalent au exam de piscine pour C++)
+- **Exam Rank 06 :** Création d'un serveur web (Equivalent webserv)
 
 ---
 
@@ -202,32 +211,39 @@ I started the main curriculum in November 2024. Below is a summary of the projec
 - **Started on:** January 2025
 - **Finished on:** February 2025
 
-### 07 - Minishell
-
-**Description:** Reproduction of a basic Unix shell with support for commands, pipes, redirections, and environment variables.
-
-- **Started on:** [Insert date]
-- **Finished on:** [Insert date]
-
-### 08 - Philosophers
+### 07 - Philosophers
 
 **Description:** Simulation of the dining philosophers problem using threads and mutexes, focusing on avoiding deadlocks.
 
-- **Started on:** [Insert date]
-- **Finished on:** [Insert date]
+- **Started on:** April 2025
+- **Finished on:** April 2025
+
+### 08 - Minishell
+
+**Description:** Reproduction of a basic Unix shell with support for commands, pipes, redirections, and environment variables.
+
+- **Started on:** April 2025
+- **Finished on:** July 2025
 
 ### 09 - Netpractice
 
 **Description:** Series of exercises to understand IP addressing and networks.
 
-- **Started on:** [Insert date]
-- **Finished on:** [Insert date]
+- **Started on:** July 2025
+- **Finished on:** July 2025
 
-### 10 - Cub3D
+### 10 - CPP00, CPP01, CPP02, CPP03, CPP04
+
+**Description :** Mini pool for learning the basics of C++.
+
+- **Started on:** July 2025
+- **Finished on:** August 2025
+
+### 11 - Cub3D
 
 **Description:** Implementation of a raycasting engine inspired by Wolfenstein 3D, using MinilibX.
 
-- **Started on:** [Insert date]
+- **Started on:** September 2025
 - **Finished on:** [Insert date]
 
 ---
@@ -236,9 +252,11 @@ I started the main curriculum in November 2024. Below is a summary of the projec
 
 42 includes exams at each level to evaluate the understanding and mastery of the concepts learned. Here are some examples:
 
-- **Exam Rank 02:** Basic C functionalities
-- **Exam Rank 03:** Dynamic memory and file management in C
-- **Exam Rank 04:** Intermediate project
+- **Exam Rank 02:** Basic C features (Equivalent to the pool exam)
+- **Exam Rank 03:** Dynamic memory and file management in C (Equivalent to the intermediate pool exam)
+- **Exam Rank 04:** Complex intermediate project (Equivalent to pipex/minishel)
+- **Exam Rank 05:** Basic C++ features (equivalent to the pool exam for C++)
+- **Exam Rank 06:** Creating a web server (equivalent to webserv)
 
 ---
 
