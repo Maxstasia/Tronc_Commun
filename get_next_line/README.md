@@ -159,7 +159,7 @@ Last line.
 ## Auteur
 - **Nom** : mstasiak
 - **Email** : mstasiak@student.42.fr
-- **Date** : Juillet 2025
+- **Date** :
 
 ## Remerciements
 Merci à l'école 42 pour ce projet qui m'a permis de maîtriser les variables statiques, la gestion de la mémoire, et la lecture efficace de fichiers en C.
@@ -325,7 +325,7 @@ Last line.
 ## Author
 - **Name**: mstasiak
 - **Email**: mstasiak@student.42.fr
-- **Date**: July 2025
+- **Date**:
 
 ## Acknowledgments
 Thanks to 42 school for this project, which allowed me to master static variables, memory management, and efficient file reading in C.
