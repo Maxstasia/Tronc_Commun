@@ -111,6 +111,34 @@ J'ai commencé le cursus principal en novembre 2024. Voici un résumé des proje
 - **Commencé le :** Septembre 2025
 - **Terminé le :** [Insère la date]
 
+### 12 - CPP05, CPP06, CPP07, CPP08, CPP09
+
+**Description :** Mini piscine pour approfondir nos connaissance du C++.
+
+- **Commencé le :** [Insère la date]
+- **Terminé le :** [Insère la date]
+
+### 13 - Inception
+
+**Description :** Création et gestion de plusieurs conteneurs Docker dans une machine virtuelle, pour approfondir la compréhension de la virtualisation et des services interconnectés.
+
+- **Commencé le :** [Insère la date]
+- **Terminé le :** [Insère la date]
+
+### 14 - Webserv
+
+**Description :** Développement d’un serveur HTTP conforme à la RFC, capable de gérer des requêtes web et testé avec un navigateur réel.
+
+- **Commencé le :** [Insère la date]
+- **Terminé le :** [Insère la date]
+
+### 15 - ft_transcendence
+
+**Description :** Création d’un jeu multijoueur en ligne (Pong) avec des technologies imposées, intégrant des modules variés et nécessitant une planification rigoureuse.
+
+- **Commencé le :** [Insère la date]
+- **Terminé le :** [Insère la date]
+
 ---
 
 ## 🔹 **Exams**
@@ -244,6 +272,34 @@ I started the main curriculum in November 2024. Below is a summary of the projec
 **Description:** Implementation of a raycasting engine inspired by Wolfenstein 3D, using MinilibX.
 
 - **Started on:** September 2025
+- **Finished on:** [Insert date]
+
+### 12 - CPP05, CPP06, CPP07, CPP08, CPP09
+
+**Description :** Mini pool to deepen our knowledge of C++.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 13 - Inception
+
+**Description :** Creation and management of multiple Docker containers in a virtual machine, to deepen understanding of virtualization and interconnected services.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 14 - Webserv
+
+**Description :** Development of an RFC-compliant HTTP server capable of handling web requests and tested with a real browser.
+
+- **Started on:** [Insert date]
+- **Finished on:** [Insert date]
+
+### 15 - ft_transcendence
+
+**Description :** Creation of an online multiplayer game (Pong) using specified technologies, incorporating various modules and requiring rigorous planning.
+
+- **Started on:** [Insert date]
 - **Finished on:** [Insert date]
 
 ---
