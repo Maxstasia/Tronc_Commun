@@ -165,9 +165,9 @@ Le script affiche les informations suivantes toutes les 10 minutes :
 ---
 
 ## Auteur
-- **Nom** : votre_nom
-- **Email** : votre_nom@student.42.fr
-- **Date** : Juillet 2025
+- **Nom** : mstasiak
+- **Email** : mstasiak@student.42.fr
+- **Date** : Dec 2024 - Dec 2024
 
 ## Remerciements
 Merci à l'école 42 pour ce projet qui m'a permis de découvrir la virtualisation et l'administration système sous Linux.
@@ -339,9 +339,9 @@ The script displays the following information every 10 minutes:
 ---
 
 ## Author
-- **Name**: your_name
-- **Email**: your_name@student.42.fr
-- **Date**: July 2025
+- **Name**: mstasiak
+- **Email**: mstasiak@student.42.fr
+- **Date**: Dec 2024 - Dec 2024
 
 ## Acknowledgments
 Thanks to 42 school for this project, which helped me explore virtualization and Linux system administration.
