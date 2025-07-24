@@ -181,7 +181,7 @@ Bureaucrat Dave destructed
 ## Auteur
 - **Nom** : mstasiak
 - **Email** : mstasiak@student.42.fr
-- **Date** : Juillet 2025
+- **Date** :
 
 ## Remerciements
 Merci à l'école 42 pour ce projet qui m'a permis d'approfondir ma compréhension des exceptions, du polymorphisme, des classes abstraites, et de la conception propre en C++98.
@@ -369,7 +369,7 @@ Bureaucrat Dave destructed
 ## Author
 - **Name**: mstasiak
 - **Email**: mstasiak@student.42.fr
-- **Date**: July 2025
+- **Date**:
 
 ## Acknowledgments
 Thanks to 42 school for this project, which allowed me to deepen my understanding of exception handling, polymorphism, abstract classes, and clean design in C++98.
