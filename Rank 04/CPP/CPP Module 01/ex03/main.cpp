@@ -6,13 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 17:06:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:45:58 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Weapon.hpp"
-#include "HumanA.hpp"
-#include "HumanB.hpp"
+#include "include/Weapon.hpp"
+#include "include/HumanA.hpp"
+#include "include/HumanB.hpp"
 
 int main()
 {
