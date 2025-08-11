@@ -6,11 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:30:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 16:59:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:44:35 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include "include/Zombie.hpp"
 
 int main()
 {
