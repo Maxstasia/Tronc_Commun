@@ -6,11 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:30:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 17:25:27 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:46:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "FileReplacer.hpp"
+#include "../include/FileReplacer.hpp"
 
 // Constructeur
 FileReplacer::FileReplacer(const std::string& filename, const std::string& s1, const std::string& s2)
