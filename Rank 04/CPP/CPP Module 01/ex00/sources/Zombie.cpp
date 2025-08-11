@@ -6,11 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 14:30:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 15:51:19 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:43:27 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include "../include/Zombie.hpp"
 
 // Constructeur
 Zombie::Zombie(std::string name) : name(name)
