@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 13:18:08 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/07/30 13:30:58 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/13 10:53:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 			{
 				argv[i][j] -= 32;
 				std::cout << argv[i][j];
-			}			
+			}
 			else
 				std::cout << argv[i][j];
 			j ++;
