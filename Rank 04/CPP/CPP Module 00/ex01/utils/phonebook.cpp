@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:19:30 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/12 11:16:20 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/15 11:39:03 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ void PhoneBook::searchContact() const {
 		return;
 	}
 
-	std::cout << "First Name: " << contacts[index].getFirstName() << std::endl;
-	std::cout << "Last Name: " << contacts[index].getLastName() << std::endl;
-	std::cout << "Nickname: " << contacts[index].getNickname() << std::endl;
-	std::cout << "Phone Number: " << contacts[index].getPhoneNumber() << std::endl;
-	std::cout << "Darkest Secret: " << contacts[index].getDarkestSecret() << std::endl;
+	std::cout << std::setw(15) << std::left << "First Name" << ": " << contacts[index].getFirstName() << std::endl;
+	std::cout << std::setw(15) << std::left << "Last Name" << ": " << contacts[index].getLastName() << std::endl;
+	std::cout << std::setw(15) << std::left << "Nickname" << ": " << contacts[index].getNickname() << std::endl;
+	std::cout << std::setw(15) << std::left << "Phone Number" << ": " << contacts[index].getPhoneNumber() << std::endl;
+	std::cout << std::setw(15) << std::left << "Darkest Secret" << ": " << contacts[index].getDarkestSecret() << std::endl;
 }
