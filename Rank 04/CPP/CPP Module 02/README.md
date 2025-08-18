@@ -24,8 +24,6 @@ Le projet est divisé en plusieurs exercices, chacun dans son propre dossier. Co
 - **`ex03/`** (si applicable) : Application pratique, par exemple, manipulation géométrique avec nombres à virgule fixe.
   - Fichiers : `Makefile`, `main.cpp`, `Point.hpp`, `Point.cpp`, autres fichiers si nécessaire.
 
-**Note** : Sans le sujet exact, je suppose que CPP02 suit la progression des modules précédents, avec un focus sur la classe `Fixed` (nombres à virgule fixe) et la surcharge des opérateurs, comme c'est courant dans ce module.
-
 ## Prérequis
 - Un système Unix-like (Linux, macOS).
 - Un compilateur C++ compatible avec le standard C++98 (ex. `g++`).
