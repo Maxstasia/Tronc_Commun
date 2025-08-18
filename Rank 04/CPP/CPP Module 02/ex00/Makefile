@@ -6,11 +6,11 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/17 14:20:13 by mstasiak          #+#    #+#              #
-#    Updated: 2025/08/18 11:14:57 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/08/18 14:52:07 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= RawBit
+NAME		= RawBits
 
 # Dossiers
 OBJ_DIR		= ./obj
@@ -22,7 +22,7 @@ SOURCES_DIR	= ./sources
 SRC			=						\
 		main.cpp					\
 		\
-		$(SOURCES_DIR)Fixed/.cpp
+		$(SOURCES_DIR)/Fixed.cpp
 
 OBJ = $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 DEPENDS = $(SRC:%.c=$(OBJ_DIR)/%.d)
