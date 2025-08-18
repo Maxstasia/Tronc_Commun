@@ -6,11 +6,11 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/17 14:20:13 by mstasiak          #+#    #+#              #
-#    Updated: 2025/08/18 14:52:07 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/08/18 15:01:44 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= RawBits
+NAME		= ex00
 
 # Dossiers
 OBJ_DIR		= ./obj

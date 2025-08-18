@@ -6,12 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/18 14:54:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:01:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Fixed.hpp"
-#include <iostream>
 
 // Constructeur par défaut : initialise la valeur à 0
 Fixed::Fixed(void) : _fixedPointValue(0) {
