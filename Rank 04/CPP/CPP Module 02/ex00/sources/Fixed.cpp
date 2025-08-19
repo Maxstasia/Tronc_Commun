@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/18 15:01:15 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/19 13:41:47 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ Fixed::Fixed(void) : _fixedPointValue(0) {
 // Constructeur de recopie : copie la valeur brute d'un autre objet
 Fixed::Fixed(const Fixed& src) {
 	std::cout << "Copy constructor called" << std::endl;
-	_fixedPointValue = src.getRawBits();
+	*this = src;
 }
 
 // Opérateur d'affectation : copie la valeur brute, vérifie l'auto-affectation

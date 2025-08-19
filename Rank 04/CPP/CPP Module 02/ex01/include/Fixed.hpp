@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/18 18:32:56 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/19 14:30:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ public:
 
 	// Constructeur de recopie
 	Fixed(const Fixed& src);
-	// Constructeur de recopie
-	Fixed(const int src);
-	// Constructeur de recopie
-	Fixed(const float src);
+	// Constructeur depuis un int
+	Fixed(const int srcInt);
+	// Constructeur depuis un float
+	Fixed(const float srcFloat);
 
 
 	// Opérateur d'affectation
