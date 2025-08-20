@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/19 14:30:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:40:35 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ public:
 	int		getRawBits(void) const;
 	void	setRawBits(int const raw);
 
+	// Fonctions membres pour convertir
 	int		toInt(void) const;
 	float	toFloat(void) const;
 };
 
+// Opérateur d’insertion
 std::ostream& operator<<(std::ostream& os, const Fixed& fixed);
 
 #endif

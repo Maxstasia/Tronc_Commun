@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/19 13:41:47 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:55:55 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ Fixed::Fixed(const Fixed& src) {
 // Opérateur d'affectation : copie la valeur brute, vérifie l'auto-affectation
 Fixed&	Fixed::operator=(const Fixed& rhs) {
 	std::cout << "Copy assignment operator called" << std::endl;
-	_fixedPointValue = rhs.getRawBits();
+	if (this != &rhs) // Vérifie l’auto-affectation
+		_fixedPointValue = rhs.getRawBits();
 	return (*this);
 }
 
