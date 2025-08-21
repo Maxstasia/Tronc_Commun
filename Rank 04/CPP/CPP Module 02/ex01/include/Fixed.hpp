@@ -6,10 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/20 14:40:35 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:24:57 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef FIXED_HPP
 # define FIXED_HPP
 

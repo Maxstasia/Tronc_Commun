@@ -6,10 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 11:30:46 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:42:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef FIXED_HPP
 # define FIXED_HPP
 
@@ -55,18 +56,18 @@ public:
 	bool				operator!=(const Fixed& rhs);
 
 	// Opérateur arithmétiques
-	Fixed				operator+(const Fixed& rhs) const;
-	Fixed				operator-(const Fixed& rhs) const;
-	Fixed				operator*(const Fixed& rhs) const;
-	Fixed				operator/(const Fixed& rhs) const;
+	Fixed&				operator+(const Fixed& rhs);
+	Fixed&				operator-(const Fixed& rhs);
+	Fixed&				operator*(const Fixed& rhs);
+	Fixed&				operator/(const Fixed& rhs);
 
 	// Opérateur d'incrémentation
-	Fixed&				operator++(void); // Pré-incrémentation
-	Fixed&				operator++(int); // Post-incrémentation
+	Fixed				operator++(void); // Pré-incrémentation
+	Fixed				operator++(int); // Post-incrémentation
 	
 	// Opérateur de décrémentation
-	Fixed&				operator--(void); // Pré-décrémentation
-	Fixed&				operator--(int); // Post-décrémentation
+	Fixed				operator--(void); // Pré-décrémentation
+	Fixed				operator--(int); // Post-décrémentation
 	// -------------------------------------------------------------
 
 

@@ -6,10 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 13:20:22 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/14 16:31:49 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:27:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef CONTACT_HPP
 # define CONTACT_HPP
 

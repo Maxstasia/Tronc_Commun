@@ -6,13 +6,16 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 11:22:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:31:53 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef POINT_HPP
 # define POINT_HPP
 
+# include <iostream>
+# include <cmath>
 # include "Fixed.hpp"
 
 class Point

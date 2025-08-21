@@ -6,10 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 14:30:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/18 11:36:01 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:28:57 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef ZOMBIE_HPP
 # define ZOMBIE_HPP
 

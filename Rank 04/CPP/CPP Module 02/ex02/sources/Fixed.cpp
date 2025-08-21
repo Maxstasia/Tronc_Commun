@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 10:36:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:44:54 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Fixed::Fixed(const Fixed& src) {
 // Constructeur depuis un int
 Fixed::Fixed(const int srcInt) : _fixedPointValue(srcInt << _fractionalBits) {}
 
-// Constructeur depuis un float
+// Constructeur depuis un int
 Fixed::Fixed(const float srcFloat) : _fixedPointValue(static_cast<int>(roundf(srcFloat * (1 << _fractionalBits)))) {}
 
 // Destructeur
@@ -112,28 +112,28 @@ Fixed&			Fixed::operator/(const Fixed& rhs) {
 
 // Opérateur d'incrémentation
 // Pré-incrémentation
-Fixed&			Fixed::operator++(void) {
+Fixed			Fixed::operator++(void) {
 	_fixedPointValue++;
 	return (*this);
 }
 // Post-incrémentation
-Fixed&			Fixed::operator++(int) {
-	Fixed* temp = new Fixed(*this); // Crée une copie de l'objet actuel
+Fixed			Fixed::operator++(int) {
+	Fixed temp(*this); // Crée une copie de l'objet actuel
 	_fixedPointValue++;
-	return (*temp); // Retourne la copie avant l'incrémentation
+	return (temp); // Retourne la copie avant l'incrémentation
 }
 
 // Opérateur de décrémentation
 // Pré-décrémentation
-Fixed&			Fixed::operator--(void) {
+Fixed			Fixed::operator--(void) {
 	_fixedPointValue--;
 	return (*this);
 }
 // Post-décrémentation
-Fixed&			Fixed::operator--(int) {
-	Fixed* temp = new Fixed(*this); // Crée une copie de l'objet actuel
+Fixed			Fixed::operator--(int) {
+	Fixed temp(*this); // Crée une copie de l'objet actuel
 	_fixedPointValue--;
-	return (*temp); // Retourne la copie avant le décrémentation
+	return (temp); // Retourne la copie avant le décrémentation
 }
 
 // Surcharge de l’opérateur d’insertion

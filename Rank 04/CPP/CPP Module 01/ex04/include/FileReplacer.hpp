@@ -6,10 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:30:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 17:25:27 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:24:57 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef FILEREPLACER_HPP
 # define FILEREPLACER_HPP
 
