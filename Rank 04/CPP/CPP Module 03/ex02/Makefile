@@ -6,11 +6,11 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/17 14:20:13 by mstasiak          #+#    #+#              #
-#    Updated: 2025/08/21 16:50:46 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/08/21 17:56:43 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= ex01
+NAME		= ex02
 
 # Dossiers
 OBJ_DIR		= ./obj
@@ -23,7 +23,8 @@ SRC			=						\
 		main.cpp					\
 		\
 		$(SOURCES_DIR)/ClapTrap.cpp	\
-		$(SOURCES_DIR)/ScavTrap.cpp
+		$(SOURCES_DIR)/ScavTrap.cpp	\
+		$(SOURCES_DIR)/FragTrap.cpp
 
 OBJ = $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 DEPENDS = $(SRC:%.c=$(OBJ_DIR)/%.d)

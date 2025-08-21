@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:51:50 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 17:35:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:58:21 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ public:
 	void			guardGate(void);
 };
 
-std::ostream&	operator<<(std::ostream& os, const ScavTrap& scavTrap);
+// Surcharge d'opérateur chevron pour l'affichage
+std::ostream& operator<<(std::ostream& os, const ScavTrap& scavTrap);
 
 #endif

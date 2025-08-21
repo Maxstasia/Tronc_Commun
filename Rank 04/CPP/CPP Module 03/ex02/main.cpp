@@ -6,12 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 17:46:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 19:01:54 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/ClapTrap.hpp"
 #include "include/ScavTrap.hpp"
+#include "include/FragTrap.hpp"
 
 int main( void ) {
 	std::cout << "=== Testing ClapTrap ===" << std::endl;
@@ -46,20 +47,38 @@ int main( void ) {
 	scavTrap1.guardGate();
 	scavTrap2.guardGate();
 
+	std::cout << "\n=== Testing FragTrap ===" << std::endl;
+	FragTrap fragTrap1;
+	FragTrap fragTrap2("Fraggy");
+
+	std::cout << "\n" << fragTrap1 << std::endl;
+	std::cout << "\n" << fragTrap2 << std::endl << std::endl;
+
+	fragTrap1.attack("Fraggy");
+	fragTrap2.takeDamage(fragTrap1.getAttackDamage());
+	fragTrap2.beRepaired(15);
+
+	std::cout << "\n" << fragTrap1 << std::endl;
+	std::cout << "\n" << fragTrap2 << std::endl << std::endl;
+
+	// Test de la méthode spéciale
+	fragTrap1.highFivesGuys();
+	fragTrap2.highFivesGuys();
+
 	std::cout << "\n=== Testing construction/destruction chaining ===" << std::endl;
 	{
-		ScavTrap tempScav("Temporary");
-		tempScav.guardGate();
+		FragTrap tempFrag("Temporary");
+		tempFrag.highFivesGuys();
 	} // Le destructeur sera appelé ici
 
 	std::cout << "\n=== Testing copy constructor ===" << std::endl;
-	ScavTrap scavTrap3(scavTrap2);
-	scavTrap3.guardGate();
+	FragTrap fragTrap3(fragTrap2);
+	fragTrap3.highFivesGuys();
 
 	std::cout << "\n=== Testing assignment operator ===" << std::endl;
-	ScavTrap scavTrap4;
-	scavTrap4 = scavTrap2;
-	scavTrap4.guardGate();
+	FragTrap fragTrap4;
+	fragTrap4 = fragTrap2;
+	fragTrap4.highFivesGuys();
 
 	std::cout << "\n=== End of program ===" << std::endl;
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 17:35:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:52:10 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ public:
 	void			setAttackDamage(unsigned int attackDamage);
 };
 
-// Surcharge d'opérateur chevron
-std::ostream&	operator<<(std::ostream& os, const ClapTrap& clapTrap);
+// Surcharge d'opérateur chevron pour l'affichage
+std::ostream& operator<<(std::ostream& os, const ClapTrap& clapTrap);
 
 #endif
