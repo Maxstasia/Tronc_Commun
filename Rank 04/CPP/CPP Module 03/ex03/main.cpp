@@ -6,13 +6,14 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 19:01:54 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 19:09:26 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/ClapTrap.hpp"
 #include "include/ScavTrap.hpp"
 #include "include/FragTrap.hpp"
+#include "include/DiamondTrap.hpp"
 
 int main( void ) {
 	std::cout << "=== Testing ClapTrap ===" << std::endl;
