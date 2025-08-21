@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/20 16:34:10 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:30:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Fixed::Fixed(const Fixed& src) {
 // Constructeur depuis un int
 Fixed::Fixed(const int srcInt) : _fixedPointValue(srcInt << _fractionalBits) {}
 
-// Constructeur depuis un int
+// Constructeur depuis un float
 Fixed::Fixed(const float srcFloat) : _fixedPointValue(static_cast<int>(roundf(srcFloat * (1 << _fractionalBits)))) {}
 
 // Destructeur
@@ -83,29 +83,29 @@ bool			Fixed::operator!=(const Fixed& rhs) {
 
 
 // Opérateur arithmétiques
-Fixed&			Fixed::operator+(const Fixed& rhs) {
-	Fixed* result = new Fixed();
-	result->setRawBits(_fixedPointValue + rhs.getRawBits());
-	return (*result);
+Fixed				Fixed::operator+(const Fixed& rhs) const {
+	Fixed result;
+	result.setRawBits(_fixedPointValue + rhs.getRawBits());
+	return result;
 }
-Fixed&			Fixed::operator-(const Fixed& rhs) {
-	Fixed* result = new Fixed();
-	result->setRawBits(_fixedPointValue - rhs.getRawBits());
-	return (*result);
+Fixed				Fixed::operator-(const Fixed& rhs) const {
+	Fixed result;
+	result.setRawBits(_fixedPointValue - rhs.getRawBits());
+	return result;
 }
-Fixed&			Fixed::operator*(const Fixed& rhs) {
-	Fixed* result = new Fixed();
-	result->setRawBits((_fixedPointValue * rhs.getRawBits()) >> _fractionalBits);
-	return (*result);
+Fixed				Fixed::operator*(const Fixed& rhs) const {
+	Fixed result;
+	result.setRawBits((_fixedPointValue * rhs.getRawBits()) >> _fractionalBits);
+	return result;
 }
-Fixed&			Fixed::operator/(const Fixed& rhs) {
-	Fixed* result = new Fixed();
+Fixed				Fixed::operator/(const Fixed& rhs) const {
+	Fixed result;
 	if (rhs.getRawBits() == 0) {
 		std::cerr << "Error: Division by zero" << std::endl;
-		return (*result);
+		return result;
 	}
-	result->setRawBits((_fixedPointValue << _fractionalBits) / rhs.getRawBits());
-	return (*result);
+	result.setRawBits((_fixedPointValue << _fractionalBits) / rhs.getRawBits());
+	return result;
 }
 
 
@@ -172,5 +172,38 @@ int				Fixed::toInt(void) const {
 }
 // ------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+
+// -------------------------------------------------------------
+// Fonction statique pour obtenir le maximum entre deux objets Fixed
+Fixed&			Fixed::max(Fixed& a, Fixed& b) {
+	if (a.getRawBits() > b.getRawBits())
+		return (a);
+	return (b);
+}
+
+const Fixed&	Fixed::max(const Fixed& a, const Fixed& b) {
+	if (a.getRawBits() > b.getRawBits())
+		return (a);
+	return (b);
+}
+
+
+// Fonction statique pour obtenir le minimum entre deux objets Fixed
+Fixed&			Fixed::min(Fixed& a, Fixed& b) {
+	if (a.getRawBits() < b.getRawBits())
+		return (a);
+	return (b);
+}
+
+const Fixed&	Fixed::min(const Fixed& a, const Fixed& b) {
+	if (a.getRawBits() < b.getRawBits())
+		return (a);
+	return (b);
+}
+// -------------------------------------------------------------
 
 const int Fixed::_fractionalBits;

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/20 17:08:44 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:22:34 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,31 @@ public:
 
 	// Constructeur de recopie
 	Point(const Point& src);
-	// Constructeur depuis Fixed
-	Point(const Fixed& x, const Fixed& y);
+	// Constructeur depuis deux float
+	Point(const float x, const float y);
 	// -------------------------------------------------------------
+
+
+
+
 
 	// -------------------------------------------------------------
 	// Opérateur d'affectation
-	Point&	operator=(const Point& rhs);
+	Point&			operator=(const Point& rhs);
+	// -------------------------------------------------------------
 
+
+
+
+
+
+	// -------------------------------------------------------------
 	// Accesseurs
 	const Fixed&	getX(void) const;
 	const Fixed&	getY(void) const;
 	// -------------------------------------------------------------
 };
 
-bool bsp( Point const a, Point const b, Point const c, Point const point);
+bool		bsp( Point const a, Point const b, Point const c, Point const point);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/20 17:05:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:30:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ public:
 	bool				operator!=(const Fixed& rhs);
 
 	// Opérateur arithmétiques
-	Fixed&				operator+(const Fixed& rhs);
-	Fixed&				operator-(const Fixed& rhs);
-	Fixed&				operator*(const Fixed& rhs);
-	Fixed&				operator/(const Fixed& rhs);
+	Fixed				operator+(const Fixed& rhs) const;
+	Fixed				operator-(const Fixed& rhs) const;
+	Fixed				operator*(const Fixed& rhs) const;
+	Fixed				operator/(const Fixed& rhs) const;
 
 	// Opérateur d'incrémentation
 	Fixed&				operator++(void); // Pré-incrémentation
@@ -87,28 +87,12 @@ public:
 
 	// -------------------------------------------------------------
 	// Fonction statique pour obtenir le maximum entre deux objets Fixed
-	static Fixed&		max(Fixed& a, Fixed& b) {
-		if (a.getRawBits() > b.getRawBits())
-			return (a);
-		return (b);
-	}
-	static const Fixed&	max(const Fixed& a, const Fixed& b) {
-		if (a.getRawBits() > b.getRawBits())
-			return (a);
-		return (b);
-	}
+	static Fixed&		max(Fixed& a, Fixed& b);
+	static const Fixed&	max(const Fixed& a, const Fixed& b);
 
 	// Fonction statique pour obtenir le minimum entre deux objets Fixed
-	static Fixed&		min(Fixed& a, Fixed& b) {
-		if (a.getRawBits() < b.getRawBits())
-			return (a);
-		return (b);
-	}
-	static const Fixed&	min(const Fixed& a, const Fixed& b) {
-		if (a.getRawBits() < b.getRawBits())
-			return (a);
-		return (b);
-	}
+	static Fixed&		min(Fixed& a, Fixed& b);
+	static const Fixed&	min(const Fixed& a, const Fixed& b);
 	// -------------------------------------------------------------
 };
 
