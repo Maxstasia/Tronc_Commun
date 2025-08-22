@@ -6,11 +6,11 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/17 14:20:13 by mstasiak          #+#    #+#              #
-#    Updated: 2025/08/21 19:05:52 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/08/22 10:00:06 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= ex02
+NAME		= ex03
 
 # Dossiers
 OBJ_DIR		= ./obj

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:51:50 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 18:52:49 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:00:06 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <iostream>
 # include <string>
 
-class ScavTrap : public ClapTrap {
+class ScavTrap : virtual public ClapTrap {
 public:
 	// Constructeurs
 	ScavTrap(void);

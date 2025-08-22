@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 11:11:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 19:09:26 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:04:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,20 +66,43 @@ int main( void ) {
 	fragTrap1.highFivesGuys();
 	fragTrap2.highFivesGuys();
 
-	std::cout << "\n=== Testing construction/destruction chaining ===" << std::endl;
+	std::cout << "\n=== Testing DiamondTrap ===" << std::endl;
+	DiamondTrap diamondTrap1;
+	DiamondTrap diamondTrap2("Diamond");
+
+	std::cout << "\n" << diamondTrap1 << std::endl;
+	std::cout << "\n" << diamondTrap2 << std::endl << std::endl;
+
+	// Test des méthodes héritées
+	diamondTrap1.attack("Diamond");
+	diamondTrap2.takeDamage(diamondTrap1.getAttackDamage());
+	diamondTrap2.beRepaired(20);
+
+	std::cout << "\n" << diamondTrap1 << std::endl;
+	std::cout << "\n" << diamondTrap2 << std::endl << std::endl;
+
+	// Test des méthodes spéciales héritées
+	diamondTrap1.guardGate();     // de ScavTrap
+	diamondTrap2.highFivesGuys(); // de FragTrap
+
+	// Test de la méthode spéciale de DiamondTrap
+	diamondTrap1.whoAmI();
+	diamondTrap2.whoAmI();
+
+	std::cout << "\n=== Testing DiamondTrap copy constructor ===" << std::endl;
+	DiamondTrap diamondTrap3(diamondTrap2);
+	diamondTrap3.whoAmI();
+
+	std::cout << "\n=== Testing DiamondTrap assignment operator ===" << std::endl;
+	DiamondTrap diamondTrap4;
+	diamondTrap4 = diamondTrap2;
+	diamondTrap4.whoAmI();
+
+	std::cout << "\n=== Testing DiamondTrap destruction chaining ===" << std::endl;
 	{
-		FragTrap tempFrag("Temporary");
-		tempFrag.highFivesGuys();
+		DiamondTrap tempDiamond("Temporary");
+		tempDiamond.whoAmI();
 	} // Le destructeur sera appelé ici
-
-	std::cout << "\n=== Testing copy constructor ===" << std::endl;
-	FragTrap fragTrap3(fragTrap2);
-	fragTrap3.highFivesGuys();
-
-	std::cout << "\n=== Testing assignment operator ===" << std::endl;
-	FragTrap fragTrap4;
-	fragTrap4 = fragTrap2;
-	fragTrap4.highFivesGuys();
 
 	std::cout << "\n=== End of program ===" << std::endl;
 	return 0;
