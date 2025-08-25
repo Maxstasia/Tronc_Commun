@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:30:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 16:24:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:07:23 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,13 @@ private:
 	std::string name;
 
 public:
-	// Constructeur par défaut (nécessaire pour les tableaux)
 	Zombie();
-	
-	// Constructeur avec nom
 	Zombie(std::string name);
-	
-	// Destructeur
 	~Zombie();
-	
-	// Setter pour le nom (nécessaire après création du tableau)
+
 	void setName(std::string name);
 	
-	// Fonction membre pour s'annoncer
+	// Fonction membre
 	void announce(void);
 };
 

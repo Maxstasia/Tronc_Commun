@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 17:45:58 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:38:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,15 @@
 int main()
 {
 	std::cout << "=== Test officiel du sujet ===" << std::endl;
-	
-	// Test avec HumanA (référence)
+
 	{
-		std::cout << "\n--- Test HumanA (avec référence) ---" << std::endl;
 		Weapon club = Weapon("crude spiked club");
 		HumanA bob("Bob", club);
 		bob.attack();
 		club.setType("some other type of club");
 		bob.attack();
 	}
-	
-	// Test avec HumanB (pointeur)
 	{
-		std::cout << "\n--- Test HumanB (avec pointeur) ---" << std::endl;
 		Weapon club = Weapon("crude spiked club");
 		HumanB jim("Jim");
 		jim.setWeapon(club);
@@ -45,7 +40,7 @@ int main()
 	{
 		std::cout << "\n--- Test HumanB sans arme ---" << std::endl;
 		HumanB alice("Alice");
-		alice.attack();  // Doit gérer le cas où il n'y a pas d'arme
+		alice.attack();
 	}
 	
 	// Test changement d'arme pour HumanB
@@ -58,7 +53,8 @@ int main()
 		charlie.setWeapon(sword);
 		charlie.attack();
 		
-		charlie.setWeapon(bow);  // Change d'arme
+		// Changement d'arme
+		charlie.setWeapon(bow);
 		charlie.attack();
 	}
 	

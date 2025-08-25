@@ -6,16 +6,14 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 17:51:13 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:01:46 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Harl.hpp"
 
 // Constructeur
-Harl::Harl()
-{
-}
+Harl::Harl() {}
 
 // Fonction DEBUG
 void Harl::debug(void)
@@ -56,7 +54,6 @@ void Harl::complain(std::string level)
 	std::string levels[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 	
 	// Tableau de pointeurs vers les fonctions membres
-	// Syntaxe : void (Harl::*functionName)(void)
 	void (Harl::*functions[4])(void) = {
 		&Harl::debug,
 		&Harl::info,
@@ -70,7 +67,6 @@ void Harl::complain(std::string level)
 		if (levels[i] == level)
 		{
 			// Appeler la fonction correspondante
-			// Syntaxe : (this->*functionPointer)()
 			(this->*functions[i])();
 			return;
 		}

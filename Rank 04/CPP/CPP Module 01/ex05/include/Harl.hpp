@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 16:24:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:04:08 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 class Harl
 {
 private:
-	// Fonctions membres privées pour chaque niveau
+	// Fonctions pour chaque niveau
 	void debug(void);
 	void info(void);
 	void warning(void);
@@ -30,7 +30,7 @@ public:
 	// Constructeur
 	Harl();
 	
-	// Fonction publique qui appelle les bonnes fonctions
+	// Fonction qui appelle les bonnes fonctions
 	void complain(std::string level);
 };
 

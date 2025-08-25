@@ -6,16 +6,14 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 17:45:45 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:24:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/HumanB.hpp"
 
-// Constructeur - initialise le pointeur à NULL
-HumanB::HumanB(const std::string& name) : name(name), weapon(NULL)
-{
-}
+// Constructeur
+HumanB::HumanB(const std::string& name) : name(name), weapon(NULL) {}
 
 // Setter pour l'arme - prend l'adresse de l'arme
 void HumanB::setWeapon(Weapon& weapon)
@@ -23,7 +21,6 @@ void HumanB::setWeapon(Weapon& weapon)
 	this->weapon = &weapon;
 }
 
-// Attaque - doit vérifier si l'arme existe
 void HumanB::attack() const
 {
 	if (this->weapon)

@@ -6,16 +6,14 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 17:30:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 17:48:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/25 12:19:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Harl.hpp"
 
 // Constructeur
-Harl::Harl()
-{
-}
+Harl::Harl() {}
 
 // Fonction DEBUG
 void Harl::debug(void)
@@ -46,36 +44,6 @@ void Harl::error(void)
 {
 	std::cout << "[ ERROR ]" << std::endl;
 	std::cout << "This is unacceptable! I want to speak to the manager now." << std::endl;
-	std::cout << std::endl;
-}
-
-// Fonction de plainte simple (garde l'ancienne fonctionnalité)
-void Harl::complain(std::string level)
-{
-	// Tableau des noms de niveaux
-	std::string levels[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
-	
-	// Tableau de pointeurs vers les fonctions membres
-	void (Harl::*functions[4])(void) = {
-		&Harl::debug,
-		&Harl::info,
-		&Harl::warning,
-		&Harl::error
-	};
-	
-	// Chercher le niveau correspondant
-	for (int i = 0; i < 4; i++)
-	{
-		if (levels[i] == level)
-		{
-			(this->*functions[i])();
-			return;
-		}
-	}
-	
-	// Si aucun niveau trouvé
-	std::cout << "[ UNKNOWN ]" << std::endl;
-	std::cout << "Harl doesn't know how to complain about '" << level << "'." << std::endl;
 	std::cout << std::endl;
 }
 

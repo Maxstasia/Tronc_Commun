@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/21 16:24:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:19:45 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ public:
 	// Constructeur
 	Weapon(const std::string& type);
 	
-	// Getter - retourne une référence constante
 	const std::string& getType() const;
 	
 	// Setter

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 15:30:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/11 17:44:35 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/08/25 11:14:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int main()
 		std::cout << "Zombie " << i + 1 << ": ";
 		horde[i].announce();
 	}
-	
-	// IMPORTANT: Libérer la mémoire avec delete[]
+
 	std::cout << "\n=== Destruction de la horde ===" << std::endl;
 	delete[] horde;
 	
