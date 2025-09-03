@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 19:08:02 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/22 10:00:06 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:42:33 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ DiamondTrap::DiamondTrap(void) : ClapTrap("Default_clap_name"), ScavTrap(), Frag
 	std::cout << "DiamondTrap default constructor called" << std::endl;
 	
 	// Hit points de FragTrap (100)
-	this->_hitPoints = 100;
+	this->_hitPoints = FragTrap::getHitPoints();
 	// Energy points de ScavTrap (50)  
-	this->_energyPoints = 50;
+	this->_energyPoints = ScavTrap::getEnergyPoints();
 	// Attack damage de FragTrap (30)
-	this->_attackDamage = 30;
+	this->_attackDamage = FragTrap::getAttackDamage();
 }
 
 // Constructeur avec nom
@@ -29,11 +29,11 @@ DiamondTrap::DiamondTrap(const std::string& name) : ClapTrap(name + "_clap_name"
 	std::cout << "DiamondTrap named constructor called for " << name << std::endl;
 	
 	// Hit points de FragTrap (100)
-	this->_hitPoints = 100;
+	this->_hitPoints = FragTrap::getHitPoints();
 	// Energy points de ScavTrap (50)
-	this->_energyPoints = 50;
+	this->_energyPoints = ScavTrap::getEnergyPoints();
 	// Attack damage de FragTrap (30)
-	this->_attackDamage = 30;
+	this->_attackDamage = FragTrap::getAttackDamage();
 }
 
 // Constructeur de copie
