@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/17 14:20:13 by mstasiak          #+#    #+#              #
-#    Updated: 2025/08/27 13:10:13 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/09/03 14:30:03 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,6 @@ SRC	=									\
 		$(SOURCES_DIR)/Dog.cpp			\
 		$(SOURCES_DIR)/Cat.cpp			\
 		$(SOURCES_DIR)/Brain.cpp		\
-		$(SOURCES_DIR)/WrongAnimal.cpp	\
-		$(SOURCES_DIR)/WrongCat.cpp
 
 SRC_ERROR	=							\
 		test_error.cpp					\
@@ -37,8 +35,6 @@ SRC_ERROR	=							\
 		$(SOURCES_DIR)/Dog.cpp			\
 		$(SOURCES_DIR)/Cat.cpp			\
 		$(SOURCES_DIR)/Brain.cpp		\
-		$(SOURCES_DIR)/WrongAnimal.cpp	\
-		$(SOURCES_DIR)/WrongCat.cpp
 
 OBJ = $(SRC:%.cpp=$(OBJ_DIR)/%.o)
 DEPENDS = $(SRC:%.c=$(OBJ_DIR)/%.d)

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 11:18:23 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/27 13:01:19 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/03 13:13:00 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ Animal& Animal::operator=(const Animal& other)
 Animal::~Animal()
 {
 	std::cout << "Animal: Destructeur appelé" << std::endl;
+}
+
+void Animal::makeSound() const
+{
+	std::cout << "Animal: Bruit indéfini" << std::endl;
 }
 
 // Getter pour le type

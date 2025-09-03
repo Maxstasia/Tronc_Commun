@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 13:41:46 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/08/27 13:41:47 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:36:56 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ public:
 	AMateria& operator=(const AMateria& other);
 
 	std::string const & getType() const; // Returns the materia type
+
 	virtual AMateria* clone() const = 0;
 	virtual void use(ICharacter& target);
 };
