@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 13:42:03 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/04 11:34:56 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/04 13:16:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ AMateria::~AMateria()
 
 AMateria& AMateria::operator=(const AMateria& other)
 {
+	if (this != &other)
+	{
+		// On ne copie pas le type selon la consigne
+		// "copier son type n'a pas grand intérêt"
+	}
 	return *this;
 }
 
