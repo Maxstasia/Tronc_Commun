@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_data.c                                        :+:      :+:    :+:   */
+/*   keyboard_event.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 13:19:37 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 13:53:07 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/09/11 13:38:09 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/09/11 13:55:59 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub3d.h"
+#include "../includes/cub3d.h"
 
-int	init_data(int argc, char **argv, t_data *data, t_image *img)
+int	handle_keypress(int keysym, t_data *data)
 {
-	img = malloc(sizeof(t_image));
-	if (!img)
-		return (img = NULL, 1);
-	data->img = img;
-	if (init_mlx(data))
-		return (1);
-	data->argc = argc;
-	data->argv = argv;
+	if (keysym == XK_Escape
+		|| keysym == XK_BackSpace || keysym == XK_Delete)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->img->mlx_img);
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		mlx_destroy_display(data->mlx_ptr);
+		data->win_ptr = NULL;
+		free(data->mlx_ptr);
+		if (data->img)
+			free(data->img);
+		exit(0);
+	}
 	return (0);
 }

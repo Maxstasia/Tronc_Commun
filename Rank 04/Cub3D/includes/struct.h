@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/09 15:36:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 11:40:29 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@
 
 # include "cub3d.h"
 
-typedef struct	s_mlx
-{
-	void	*mlx_ptr;
-	void	*win_ptr;
-}				t_mlx;
-
 /**
  * struct s_image - Contient les informations nécessaires pour
  * manipuler une image.
@@ -37,20 +31,33 @@ typedef struct	s_mlx
  * - @endian: Ordre des octets de l'image.
  *   (0 pour little-endian, 1 pour big-endian).
  */
-typedef struct s_image
+typedef struct	s_image
 {
 	void	*mlx_img;
 	char	*addr;
 	int		bpp;
 	int		l_len;
 	int		endian;
-}						t_image;
+}				t_image;
 
 typedef struct	s_data
 {
+	t_image	*img;
 	int		argc;
 	char	**argv;
-	t_mlx	*mlx;
+	void	*mlx_ptr;
+	void	*win_ptr;
 }				t_data;
+
+typedef struct	s_parsing
+{
+	char	*texture_north;
+	char	*texture_south;
+	char	*texture_west;
+	char	*texture_east;
+	char	*color_floor;
+	char	*color_ceiling;
+	char	**map;
+}				t_parsing;
 
 #endif

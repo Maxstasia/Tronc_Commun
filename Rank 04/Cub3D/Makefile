@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/09/09 15:05:47 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/09/11 13:44:20 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ SRC				=							\
 			$(RAY_DIR)/ray_casting.c		\
 			\
 			$(SOURCES_DIR)/error.c			\
+			$(SOURCES_DIR)/keyboard_event.c	\
+			$(SOURCES_DIR)/mouse_event.c	\
 			\
 			$(INIT_DIR)/init_data.c			\
 			$(INIT_DIR)/init_main.c			\
