@@ -6,26 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 13:52:13 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:14:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-void	print_error(int error_code, t_data *data)
-{
-	if (error_code == 1)
-		ft_putstr_fd((char *)"Error\nFailed to initialize MLX\n", 2);
-	else if (error_code == 2)
-		ft_putstr_fd((char *)"Error\nFailed to create window\n", 2);
-	else if (error_code == 3)
-		ft_putstr_fd((char *)"Error\nFailed to create image\n", 2);
-	else if (error_code == 4)
-		ft_putstr_fd((char *)"Error\nFailed to get image address\n", 2);
-	else
-		ft_putstr_fd((char *)"Error\nAn unknown error occurred\n", 2);
-	clean_up(data);
-}
 
 void	clean_up(t_data *data)
 {

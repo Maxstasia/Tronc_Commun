@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:22:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 14:13:12 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:19:54 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ int	init_mlx(t_data *data)
 {
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)
-		return (print_error(1, data), MLX_ERROR);
+		return (print_error(MLX_INIT_ERROR, data), MLX_ERROR);
 	data->win_ptr = mlx_new_window(data->mlx_ptr,
 			WIN_WIDTH, WIN_HEIGHT, "CUB3D");
 	if (data->win_ptr == NULL)
-		return (print_error(2, data), MLX_ERROR);
+		return (print_error(WINDOW_ERROR, data), MLX_ERROR);
 	data->img->mlx_img = mlx_new_image(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
 	if (data->img->mlx_img == NULL)
-		return (print_error(3, data), MLX_ERROR);
+		return (print_error(IMAGE_ERROR, data), MLX_ERROR);
 	data->img->addr = mlx_get_data_addr(data->img->mlx_img,
 			&data->img->bpp, &data->img->l_len, &data->img->endian);
 	if (data->img->addr == NULL)
-		return (print_error(4, data), MLX_ERROR);
+		return (print_error(IMAGE_ADDR_ERROR, data), MLX_ERROR);
 	return (0);
 }
 

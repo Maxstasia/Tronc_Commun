@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 14:11:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:17:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,16 @@
 # include "minilibx-linux/mlx.h"
 
 # include "cub3d.h"
+
+typedef enum e_error
+{
+	MLX_INIT_ERROR = 1,
+	WINDOW_ERROR,
+	IMAGE_ERROR,
+	IMAGE_ADDR_ERROR,
+	USAGE_ERROR,
+	UNKNOWN_ERROR
+}				t_error;
 
 /**
  * struct s_image - Contient les informations nécessaires pour
