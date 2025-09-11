@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:22:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 13:43:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 14:13:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	init_mlx(t_data *data)
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)
 		return (print_error(1, data), MLX_ERROR);
-	data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "CUB3D");
+	data->win_ptr = mlx_new_window(data->mlx_ptr,
+			WIN_WIDTH, WIN_HEIGHT, "CUB3D");
 	if (data->win_ptr == NULL)
 		return (print_error(2, data), MLX_ERROR);
 	data->img->mlx_img = mlx_new_image(data->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
