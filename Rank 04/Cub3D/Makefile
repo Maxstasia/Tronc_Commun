@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/09/11 13:44:20 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/09/11 15:13:45 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC				=							\
 			\
 			$(INIT_DIR)/init_data.c			\
 			$(INIT_DIR)/init_main.c			\
+			$(INIT_DIR)/init_map.c			\
 			$(INIT_DIR)/init_mlx.c			\
 			\
 			$(UTILS_DIR)/cleanup.c

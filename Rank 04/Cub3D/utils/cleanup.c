@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 14:14:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 15:11:55 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	clean_up(t_data *data)
 		}
 		if (data->img)
 			free(data->img);
+		if (data->map)
+			free(data->map);
 		exit(MLX_ERROR);
 	}
 	exit(MLX_ERROR);

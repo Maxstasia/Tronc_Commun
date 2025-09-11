@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_main.c                                        :+:      :+:    :+:   */
+/*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/09 13:16:55 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 15:09:58 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/09/11 15:03:14 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/09/11 15:18:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-int	init_all(t_data *data, t_image *img, t_map *map)
+int	init_map(t_data *data)
 {
-	if (data->argc != 2)
-		return (print_error(USAGE_ERROR, data), 1);
-	if (init_data(data, img, map))
-		return (1);
+	data->map->texture_north = NULL;
+	data->map->texture_south = NULL;
+	data->map->texture_west = NULL;
+	data->map->texture_east = NULL;
+	data->map->color_floor = NULL;
+	data->map->color_ceiling = NULL;
+	data->map->map = NULL;
 	return (0);
 }

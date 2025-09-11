@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 14:10:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 15:09:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,21 @@
 # define MLX_ERROR 1
 
 // Function prototypes
-int			init_all(int argc, char **argv, t_data *data, t_image *img);
+int			init_data(t_data *data, t_image *img, t_map *map);
 
-int			init_data(int argc, char **argv, t_data *data, t_image *img);
+int			init_all(t_data *data, t_image *img, t_map *map);
+
+int			init_map(t_data *data);
 
 int			init_mlx(t_data *data);
 int			loop(t_data *data);
+
+void		print_error(int error_code, t_data *data);
 
 int			handle_keypress(int keysym, t_data *data);
 
 int			handle_destroy(t_data *data);
 
 void		clean_up(t_data *data);
-void		print_error(int error_code, t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:38:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 13:55:59 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 15:14:20 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	handle_keypress(int keysym, t_data *data)
 		free(data->mlx_ptr);
 		if (data->img)
 			free(data->img);
+		if (data->map)
+			free(data->map);
 		exit(0);
 	}
 	return (0);

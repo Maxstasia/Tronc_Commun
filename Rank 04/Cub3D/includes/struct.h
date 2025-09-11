@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 14:17:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 15:06:08 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,7 @@ typedef struct s_image
 	int		endian;
 }				t_image;
 
-typedef struct s_data
-{
-	t_image	*img;
-	int		argc;
-	char	**argv;
-	void	*mlx_ptr;
-	void	*win_ptr;
-}				t_data;
-
-typedef struct s_parsing
+typedef struct s_map
 {
 	char	*texture_north;
 	char	*texture_south;
@@ -68,6 +59,16 @@ typedef struct s_parsing
 	char	*color_floor;
 	char	*color_ceiling;
 	char	**map;
-}				t_parsing;
+}				t_map;
+
+typedef struct s_data
+{
+	t_image	*img;
+	t_map	*map;
+	int		argc;
+	char	**argv;
+	void	*mlx_ptr;
+	void	*win_ptr;
+}				t_data;
 
 #endif
