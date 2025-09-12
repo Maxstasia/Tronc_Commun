@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/09/11 15:13:45 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/09/11 17:18:22 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ NAME			= cub3D
 OBJ_DIR			= ./obj
 
 INCLUDE_DIR		= includes
+GNL_DIR			= $(INCLUDE_DIR)/get_next_line
 PARSER_DIR		= parsing
 RAY_DIR			= ray_casting
 SOURCES_DIR		= sources
@@ -26,21 +27,24 @@ LIBFT_DIR		= $(INCLUDE_DIR)/Libft
 MLX_DIR			= $(INCLUDE_DIR)/minilibx-linux
 
 # Sources et objets
-SRC				=							\
-			main.c							\
+SRC				=								\
+			main.c								\
 			\
-			$(PARSER_DIR)/parser.c			\
+			$(GNL_DIR)/get_next_line.c			\
+			$(GNL_DIR)/get_next_line_utils.c	\
 			\
-			$(RAY_DIR)/ray_casting.c		\
+			$(PARSER_DIR)/parser.c				\
 			\
-			$(SOURCES_DIR)/error.c			\
-			$(SOURCES_DIR)/keyboard_event.c	\
-			$(SOURCES_DIR)/mouse_event.c	\
+			$(RAY_DIR)/ray_casting.c			\
 			\
-			$(INIT_DIR)/init_data.c			\
-			$(INIT_DIR)/init_main.c			\
-			$(INIT_DIR)/init_map.c			\
-			$(INIT_DIR)/init_mlx.c			\
+			$(SOURCES_DIR)/error.c				\
+			$(SOURCES_DIR)/keyboard_event.c		\
+			$(SOURCES_DIR)/mouse_event.c		\
+			\
+			$(INIT_DIR)/init_data.c				\
+			$(INIT_DIR)/init_main.c				\
+			$(INIT_DIR)/init_map.c				\
+			$(INIT_DIR)/init_mlx.c				\
 			\
 			$(UTILS_DIR)/cleanup.c
 OBJ				= $(SRC:%.c=$(OBJ_DIR)/%.o)
@@ -59,7 +63,7 @@ CFLAGS			= -Wall -Werror -Wextra -MMD -I $(INCLUDE_DIR) -g
 all: $(NAME)
 
 $(OBJ_DIR):
-	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(PARSER_DIR) $(OBJ_DIR)/$(RAY_DIR) $(OBJ_DIR)/$(SOURCES_DIR) $(OBJ_DIR)/$(INIT_DIR) $(OBJ_DIR)/$(UTILS_DIR)
+	@mkdir -p $(OBJ_DIR) $(OBJ_DIR)/$(GNL_DIR) $(OBJ_DIR)/$(PARSER_DIR) $(OBJ_DIR)/$(RAY_DIR) $(OBJ_DIR)/$(SOURCES_DIR) $(OBJ_DIR)/$(INIT_DIR) $(OBJ_DIR)/$(UTILS_DIR)
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@

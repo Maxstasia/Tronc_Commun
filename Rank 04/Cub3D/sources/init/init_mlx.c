@@ -6,13 +6,24 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:22:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 14:19:54 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:26:20 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-int	init_mlx(t_data *data)
+void	init_mlx(t_data *data)
+{
+	data->mlx_ptr = NULL;
+	data->win_ptr = NULL;
+	data->img->mlx_img = NULL;
+	data->img->addr = NULL;
+	data->img->bpp = 0;
+	data->img->l_len = 0;
+	data->img->endian = 0;
+}
+
+int	setup_mlx(t_data *data)
 {
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)

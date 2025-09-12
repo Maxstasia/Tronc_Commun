@@ -6,13 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 15:03:14 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 15:18:39 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:28:47 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
-int	init_map(t_data *data)
+void	init_map(t_data *data)
 {
 	data->map->texture_north = NULL;
 	data->map->texture_south = NULL;
@@ -21,5 +21,5 @@ int	init_map(t_data *data)
 	data->map->color_floor = NULL;
 	data->map->color_ceiling = NULL;
 	data->map->map = NULL;
-	return (0);
+	data->map->player_direction = '\0';
 }

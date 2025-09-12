@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 15:11:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:25:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,16 @@ void	clean_up(t_data *data)
 		exit(MLX_ERROR);
 	}
 	exit(MLX_ERROR);
+}
+
+void	free_split(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
 }

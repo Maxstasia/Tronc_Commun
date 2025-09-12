@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:08 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 14:23:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/11 16:13:47 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,18 @@ void	print_error(int error_code, t_data *data)
 		ft_putstr_fd((char *)"Error\nFailed to get image address\n", 2);
 	else if (error_code == USAGE_ERROR)
 		ft_putstr_fd((char *)"Error\nUsage:\n./cub3D path_to_map.cub\n", 2);
+	else if (error_code == MALLOC_ERROR)
+		ft_putstr_fd((char *)"Error\nMemory allocation failed\n", 2);
+	else if (error_code == FILE_OPEN_ERROR)
+		ft_putstr_fd((char *)"Error\nFailed to open file\n", 2);
+	else if (error_code == TEXTURE_ERROR)
+		ft_putstr_fd((char *)"Error\nInvalid texture format\n", 2);
+	else if (error_code == COLOR_ERROR)
+		ft_putstr_fd((char *)"Error\nInvalid color format\n", 2);
+	else if (error_code == MAP_ERROR)
+		ft_putstr_fd((char *)"Error\nInvalid map\n", 2);
 	else
 		ft_putstr_fd((char *)"Error\nAn unknown error occurred\n", 2);
-	if (error_code != USAGE_ERROR)
+	if (error_code != USAGE_ERROR && error_code != MALLOC_ERROR)
 		clean_up(data);
 }

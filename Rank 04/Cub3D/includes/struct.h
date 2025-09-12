@@ -6,17 +6,12 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 15:06:08 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/12 10:48:21 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_H
 # define STRUCT_H
-
-# include <stdbool.h>
-
-# include "Libft/libft.h"
-# include "minilibx-linux/mlx.h"
 
 # include "cub3d.h"
 
@@ -27,6 +22,11 @@ typedef enum e_error
 	IMAGE_ERROR,
 	IMAGE_ADDR_ERROR,
 	USAGE_ERROR,
+	MALLOC_ERROR,
+	FILE_OPEN_ERROR,
+	TEXTURE_ERROR,
+	COLOR_ERROR,
+	MAP_ERROR,
 	UNKNOWN_ERROR
 }				t_error;
 
@@ -59,6 +59,11 @@ typedef struct s_map
 	char	*color_floor;
 	char	*color_ceiling;
 	char	**map;
+	char	player_direction;
+	int		player_x;
+	int		player_y;
+int		map_width;
+	int		map_height;
 }				t_map;
 
 typedef struct s_data
