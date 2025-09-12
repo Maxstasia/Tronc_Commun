@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/12 10:48:21 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/12 18:09:43 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,6 @@ typedef struct s_map
 	char	*color_ceiling;
 	char	**map;
 	char	player_direction;
-	int		player_x;
-	int		player_y;
-int		map_width;
-	int		map_height;
 }				t_map;
 
 typedef struct s_data
@@ -74,6 +70,7 @@ typedef struct s_data
 	char	**argv;
 	void	*mlx_ptr;
 	void	*win_ptr;
+	bool	nothing_after_map;
 }				t_data;
 
 #endif

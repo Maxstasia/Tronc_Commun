@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:08 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 16:13:47 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/12 18:09:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ void	print_error(int error_code, t_data *data)
 		ft_putstr_fd((char *)"Error\nInvalid map\n", 2);
 	else
 		ft_putstr_fd((char *)"Error\nAn unknown error occurred\n", 2);
-	if (error_code != USAGE_ERROR && error_code != MALLOC_ERROR)
-		clean_up(data);
+	clean_up(data);
 }

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:50:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/12 11:31:46 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/12 18:10:10 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	parse_colors(t_data *data, char *line)
 	color = ft_strdup(split[1]);
 	if (!color)
 		return (free_split(split), print_error(MALLOC_ERROR, data), 1);
-	// Remove trailing \n
 	size_t len = ft_strlen(color);
 	if (len > 0 && color[len - 1] == '\n')
 		color[len - 1] = '\0';
@@ -58,54 +57,129 @@ int	parse_colors(t_data *data, char *line)
 	return (0);
 }
 
-void	free_map(char **map, int count)
+/* void	free_tab_count(char **map, int count)
 {
 	int	i;
 
-	if (!map)
-		return ;
 	i = 0;
 	while (i < count)
 		free(map[i++]);
 	free(map);
+} */
+
+void	free_tab(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+		free(map[i++]);
+	free(map);
 }
 
-int	parse_map_lines(t_data *data, int fd, char *first_line)
+int is_map_line(char *line)
 {
-	char	**map;
-	char	*line;
-	int		count;
+	int i = 0;
+		
+	// Ignorer les espaces au début
+	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
+		i++;
+		
+	// La ligne doit commencer par un caractère de map
+	if (line[i] != '1' && line[i] != '0' && line[i] != ' ')
+		return (0);
+		
+	// Vérifier que la ligne ne contient que des caractères de map
+	while (line[i] && line[i] != '\n')
+	{
+		if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && 
+			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
-	map = NULL;
-	count = 0;
+int count_map_lines(int fd, char *first_line)
+{
+	char *line;
+	int count = 0;
+		
 	line = first_line;
 	while (line)
 	{
-		if (ft_strchr(line, '1') || ft_strchr(line, '0') || ft_strchr(line, 'N') ||
-			ft_strchr(line, 'S') || ft_strchr(line, 'E') || ft_strchr(line, 'W'))
+		if (is_map_line(line))
 		{
-			map = realloc(map, sizeof(char *) * (count + 1));
-			if (!map)
-				return (free_map(map, count), print_error(MALLOC_ERROR, data), 1);
-			// Remove trailing \n
-			size_t len = ft_strlen(line);
-			if (len > 0 && line[len - 1] == '\n')
-				line[len - 1] = '\0';
-			map[count] = ft_strdup(line);
-			if (!map[count])
-				return (free_map(map, count), print_error(MALLOC_ERROR, data), 1);
 			count++;
 		}
 		if (line != first_line)
 			free(line);
 		line = get_next_line(fd);
 	}
-	map = realloc(map, sizeof(char *) * (count + 1));
+	return (count);
+}
+
+int parse_map_lines(t_data *data, int fd, char *first_line)
+{
+	char **map;
+	char *line;
+	int count;
+	int i;
+
+	count = count_map_lines(fd, first_line);
+	if (count == 0)
+		return (printf("No valid map found"), 1);
+	// Fermer et rouvrir le fichier pour revenir au début
+	close(fd);
+	fd = open(data->argv[1], O_RDONLY);
+	if (fd < 0)
+		return (printf("Cannot reopen file"), 1);
+	// Aller jusqu'à la première ligne de map
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (is_map_line(line))
+		{
+			break;
+		}
+		free(line);
+		line = get_next_line(fd);
+	}
+	// Allouer le tableau complet d'un coup
+	map = malloc(sizeof(char *) * (count + 1));
 	if (!map)
-		return (free_map(map, count), print_error(MALLOC_ERROR, data), 1);
-	map[count] = NULL;
-	data->map->map = map;
-	return (0);
+		return (free(line), print_error(MALLOC_ERROR, data), 1);
+	// Deuxième passe : remplir le tableau
+	i = 0;
+	while (line && i < count)
+	{
+		if (is_map_line(line))
+		{
+			size_t len = ft_strlen(line);
+			if (len > 0 && line[len - 1] == '\n')
+				line[len - 1] = '\0';
+			map[i] = ft_strdup(line);
+			if (!map[i])
+				return (free_tab(map), free(line), print_error(MALLOC_ERROR, data), 1);
+			i++;
+		}
+		free(line);
+		line = get_next_line(fd);
+	}
+	while (line)
+	{
+		i = 0;
+		while (line[i] && (line[i] == ' ' || line[i] == '\t'
+				|| line[i] == '\n' || line[i] == '\0'))
+			i ++;
+		if (line[i] != '\0' && line[i] != '\n' && line[i] != '\t' && line[i] != ' ')
+			data->nothing_after_map = false;
+		free(line);
+		line = get_next_line(fd);
+	}
+	if (line)
+		free(line);
+	return (map[count] = NULL, data->map->map = map, close(fd), 0);
 }
 
 int	validate_colors(t_data *data)
@@ -223,11 +297,13 @@ int	check_first_part(t_data *data, char *tmp)
 	{
 		if (parse_textures(data, tmp))
 			return (1);
+		return (0);
 	}
 	else if (ft_strncmp(tmp, "F ", 2) == 0 || ft_strncmp(tmp, "C ", 2) == 0)
 	{
 		if (parse_colors(data, tmp))
 			return (1);
+		return (0);
 	}
 	else if (*tmp == '1' || *tmp == '0')
 		return (2);
@@ -241,23 +317,22 @@ int	parse_file(t_data *data)
 	char	*tmp;
 	int		map_started;
 
-	map_started = 0;
 	fd = open(data->argv[1], O_RDONLY);
 	if (fd < 0)
 		return (print_error(FILE_OPEN_ERROR, data), 1);
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		tmp = line;
-		if (map_started != 2)
-		{
-			map_started = check_first_part(data, tmp);
-			if (map_started == 1)
-				return (free(tmp), close(fd), 1);
-		}
-		if (map_started == 2)
+		map_started = check_first_part(data, tmp);
+		if (map_started == 1)
+			return (free(tmp), close(fd), 1);
+		else if (map_started == 2)
 		{
 			if (parse_map_lines(data, fd, tmp))
-				return (close(fd), 1);
+				return (free(line), close(fd), 1);
+			if (data->nothing_after_map == false)
+				return (free(line), close(fd), print_error(MAP_ERROR, data), 1);
+			free(line);
 			break ;
 		}
 		free(line);

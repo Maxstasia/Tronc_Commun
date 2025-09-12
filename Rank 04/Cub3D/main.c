@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:58:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 15:08:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:49:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	main(int argc, char **argv)
 	data.argc = argc;
 	data.argv = argv;
 	if (init_all(&data, &img, &map))
-		return (1);
+		return (free_all(&data), 1);
 	loop(&data);
+	free_all(&data);
 	return (0);
 }

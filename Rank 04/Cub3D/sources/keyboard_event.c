@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:38:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/11 15:14:20 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/12 15:47:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,7 @@ int	handle_keypress(int keysym, t_data *data)
 	if (keysym == XK_Escape
 		|| keysym == XK_BackSpace || keysym == XK_Delete)
 	{
-		mlx_destroy_image(data->mlx_ptr, data->img->mlx_img);
-		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-		mlx_destroy_display(data->mlx_ptr);
-		data->win_ptr = NULL;
-		free(data->mlx_ptr);
-		if (data->img)
-			free(data->img);
-		if (data->map)
-			free(data->map);
+		free_all(data);
 		exit(0);
 	}
 	return (0);

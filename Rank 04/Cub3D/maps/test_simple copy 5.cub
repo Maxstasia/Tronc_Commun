@@ -1,0 +1,14 @@
+NO textures/north_texture.xpm
+S textures/south_texture.xpm // à gérer (regarder sujet : 'Except for the map, each element must begin with its type identifier (composed
+by one or two characters)')
+WE textures/west_texture.xpm
+EA textures/east_texture.xpm
+
+F 220,100,0
+C 225,30,0
+
+1111111
+1000001
+1000N01
+1000001
+1111111
