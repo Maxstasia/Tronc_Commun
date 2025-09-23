@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/12 15:41:34 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/22 14:24:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int			parse_file(t_data *data);
 int			parse_textures(t_data *data, char *line);
 int			parse_colors(t_data *data, char *line);
 int			validate_map(t_data *data);
-void		free_tab(char **map);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- init --------------- */
@@ -75,8 +74,11 @@ int			handle_keypress(int keysym, t_data *data);
 int			handle_destroy(t_data *data);
 
 /* ------------------------------ utils ------------------------------ */
-/* ------- clean_up -------*/
+/* ------- clean_up ------- */
 void		clean_up(t_data *data);
+void		free_tab(char **map);
+
+/* ------- free_all ------- */
 void		free_split(char **split);
 void		free_map(t_map *map);
 void		free_data(t_data *data);

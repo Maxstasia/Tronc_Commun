@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/09/11 17:18:22 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/09/22 14:20:59 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,8 @@ SRC				=								\
 			$(INIT_DIR)/init_map.c				\
 			$(INIT_DIR)/init_mlx.c				\
 			\
-			$(UTILS_DIR)/cleanup.c
+			$(UTILS_DIR)/cleanup.c				\
+			$(UTILS_DIR)/free_all.c
 OBJ				= $(SRC:%.c=$(OBJ_DIR)/%.o)
 DEPENDS			= $(SRC:%.c=$(OBJ_DIR)/%.d)
 

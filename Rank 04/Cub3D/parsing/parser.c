@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:50:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/12 18:10:10 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/09/23 11:23:41 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	parse_colors(t_data *data, char *line)
 {
 	char	**split;
 	char	*color;
+	size_t	len;
 
 	split = ft_split(line, ' ');
 	if (!split || !split[1] || split[2])
@@ -46,7 +47,7 @@ int	parse_colors(t_data *data, char *line)
 	color = ft_strdup(split[1]);
 	if (!color)
 		return (free_split(split), print_error(MALLOC_ERROR, data), 1);
-	size_t len = ft_strlen(color);
+	len = ft_strlen(color);
 	if (len > 0 && color[len - 1] == '\n')
 		color[len - 1] = '\0';
 	if (ft_strncmp(line, "F ", 2) == 0)
@@ -57,55 +58,32 @@ int	parse_colors(t_data *data, char *line)
 	return (0);
 }
 
-/* void	free_tab_count(char **map, int count)
+int	is_map_line(char *line)
 {
 	int	i;
 
 	i = 0;
-	while (i < count)
-		free(map[i++]);
-	free(map);
-} */
-
-void	free_tab(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-		free(map[i++]);
-	free(map);
-}
-
-int is_map_line(char *line)
-{
-	int i = 0;
-		
-	// Ignorer les espaces au début
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
-		
-	// La ligne doit commencer par un caractère de map
 	if (line[i] != '1' && line[i] != '0' && line[i] != ' ')
 		return (0);
-		
-	// Vérifier que la ligne ne contient que des caractères de map
 	while (line[i] && line[i] != '\n')
 	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && 
-			line[i] != 'N' && line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
+		if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
+			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-int count_map_lines(int fd, char *first_line)
+int	count_map_lines(int fd, char *first_line)
 {
-	char *line;
-	int count = 0;
-		
+	char	*line;
+	int		count;
+
 	line = first_line;
+	count = 0;
 	while (line)
 	{
 		if (is_map_line(line))
@@ -119,48 +97,46 @@ int count_map_lines(int fd, char *first_line)
 	return (count);
 }
 
-int parse_map_lines(t_data *data, int fd, char *first_line)
+int	parse_map_lines(t_data *data, int fd, char *first_line)
 {
-	char **map;
-	char *line;
-	int count;
-	int i;
+	char	**map;
+	char	*line;
+	int		count;
+	int		i;
+	size_t	len;
 
 	count = count_map_lines(fd, first_line);
 	if (count == 0)
 		return (printf("No valid map found"), 1);
-	// Fermer et rouvrir le fichier pour revenir au début
 	close(fd);
 	fd = open(data->argv[1], O_RDONLY);
 	if (fd < 0)
 		return (printf("Cannot reopen file"), 1);
-	// Aller jusqu'à la première ligne de map
 	line = get_next_line(fd);
 	while (line)
 	{
 		if (is_map_line(line))
 		{
-			break;
+			break ;
 		}
 		free(line);
 		line = get_next_line(fd);
 	}
-	// Allouer le tableau complet d'un coup
 	map = malloc(sizeof(char *) * (count + 1));
 	if (!map)
 		return (free(line), print_error(MALLOC_ERROR, data), 1);
-	// Deuxième passe : remplir le tableau
 	i = 0;
 	while (line && i < count)
 	{
 		if (is_map_line(line))
 		{
-			size_t len = ft_strlen(line);
+			len = ft_strlen(line);
 			if (len > 0 && line[len - 1] == '\n')
 				line[len - 1] = '\0';
 			map[i] = ft_strdup(line);
 			if (!map[i])
-				return (free_tab(map), free(line), print_error(MALLOC_ERROR, data), 1);
+				return (free_tab(map), free(line),
+					print_error(MALLOC_ERROR, data), 1);
 			i++;
 		}
 		free(line);
@@ -172,7 +148,8 @@ int parse_map_lines(t_data *data, int fd, char *first_line)
 		while (line[i] && (line[i] == ' ' || line[i] == '\t'
 				|| line[i] == '\n' || line[i] == '\0'))
 			i ++;
-		if (line[i] != '\0' && line[i] != '\n' && line[i] != '\t' && line[i] != ' ')
+		if (line[i] != '\0' && line[i] != '\n'
+			&& line[i] != '\t' && line[i] != ' ')
 			data->nothing_after_map = false;
 		free(line);
 		line = get_next_line(fd);
@@ -187,27 +164,28 @@ int	validate_colors(t_data *data)
 	char	**floor_split;
 	char	**ceiling_split;
 	int		i;
+	int		f;
+	int		c;
 
 	floor_split = ft_split(data->map->color_floor, ',');
-	if (!floor_split || !floor_split[0] || !floor_split[1] || !floor_split[2] || floor_split[3])
+	if (!floor_split || !floor_split[0] || !floor_split[1]
+		|| !floor_split[2] || floor_split[3])
 		return (free_split(floor_split), print_error(COLOR_ERROR, data), 1);
 	ceiling_split = ft_split(data->map->color_ceiling, ',');
-	if (!ceiling_split || !ceiling_split[0] || !ceiling_split[1] || !ceiling_split[2] || ceiling_split[3])
-		return (free_split(floor_split), free_split(ceiling_split), print_error(COLOR_ERROR, data), 1);
-	i = 0;
-	while (i < 3)
+	if (!ceiling_split || !ceiling_split[0] || !ceiling_split[1]
+		|| !ceiling_split[2] || ceiling_split[3])
+		return (free_split(floor_split), free_split(ceiling_split),
+			print_error(COLOR_ERROR, data), 1);
+	i = -1;
+	while (++i, i < 3)
 	{
-		int f = ft_atoi(floor_split[i]);
-		int c = ft_atoi(ceiling_split[i]);
+		f = ft_atoi(floor_split[i]);
+		c = ft_atoi(ceiling_split[i]);
 		if (f < 0 || f > 255 || c < 0 || c > 255)
-		{
-			return (free_split(floor_split), free_split(ceiling_split), print_error(COLOR_ERROR, data), 1);
-		}
-		i++;
+			return (free_split(floor_split), free_split(ceiling_split),
+				print_error(COLOR_ERROR, data), 1);
 	}
-	free_split(floor_split);
-	free_split(ceiling_split);
-	return (0);
+	return (free_split(floor_split), free_split(ceiling_split), 0);
 }
 
 int	is_player(char c)
@@ -228,11 +206,13 @@ int	check_closed_map(t_data *data)
 		{
 			if (data->map->map[i][j] == '0' || is_player(data->map->map[i][j]))
 			{
-				if (i == 0 || !data->map->map[i + 1] ||
-					j == 0 || !data->map->map[i][j + 1] ||
-					data->map->map[i - 1][j] == ' ' || data->map->map[i + 1][j] == ' ')
+				if (i == 0 || !data->map->map[i + 1] || j == 0
+					|| !data->map->map[i][j + 1]
+					|| data->map->map[i - 1][j] == ' '
+					|| data->map->map[i + 1][j] == ' ')
 					return (print_error(MAP_ERROR, data), 1);
-				if (data->map->map[i][j - 1] == ' ' || data->map->map[i][j + 1] == ' ')
+				if (data->map->map[i][j - 1] == ' '
+					|| data->map->map[i][j + 1] == ' ')
 					return (print_error(MAP_ERROR, data), 1);
 			}
 			j++;
@@ -261,7 +241,8 @@ int	validate_map_structure(t_data *data)
 				player_count++;
 				data->map->player_direction = data->map->map[i][j];
 			}
-			else if (data->map->map[i][j] != '0' && data->map->map[i][j] != '1' && data->map->map[i][j] != ' ')
+			else if (data->map->map[i][j] != '0' && data->map->map[i][j] != '1'
+				&& data->map->map[i][j] != ' ')
 				return (print_error(MAP_ERROR, data), 1);
 			j++;
 		}
@@ -276,10 +257,10 @@ int	validate_map_structure(t_data *data)
 
 int	validate_map(t_data *data)
 {
-	if (!data->map->texture_north || !data->map->texture_south ||
-		!data->map->texture_west || !data->map->texture_east ||
-		!data->map->color_floor || !data->map->color_ceiling ||
-		!data->map->map)
+	if (!data->map->texture_north || !data->map->texture_south
+		|| !data->map->texture_west || !data->map->texture_east
+		|| !data->map->color_floor || !data->map->color_ceiling
+		|| !data->map->map)
 		return (print_error(MAP_ERROR, data), 1);
 	if (validate_colors(data))
 		return (1);
@@ -292,8 +273,8 @@ int	check_first_part(t_data *data, char *tmp)
 {
 	while (tmp && (*tmp == ' ' || *tmp == '\t'))
 		tmp++;
-	if (ft_strncmp(tmp, "NO ", 3) == 0 || ft_strncmp(tmp, "SO ", 3) == 0 ||
-		ft_strncmp(tmp, "WE ", 3) == 0 || ft_strncmp(tmp, "EA ", 3) == 0)
+	if (ft_strncmp(tmp, "NO ", 3) == 0 || ft_strncmp(tmp, "SO ", 3) == 0
+		|| ft_strncmp(tmp, "WE ", 3) == 0 || ft_strncmp(tmp, "EA ", 3) == 0)
 	{
 		if (parse_textures(data, tmp))
 			return (1);
