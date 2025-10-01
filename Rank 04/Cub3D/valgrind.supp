@@ -1,0 +1,63 @@
+{
+   <X11_still_reachable>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:mlx_init
+}
+
+{
+   <X11_XOpenDisplay>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:XOpenDisplay
+}
+
+{
+   <X11_xcb>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:*/libxcb.so*
+}
+
+{
+   <X11_libX11>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:*/libX11.so*
+}
+
+{
+   <X11_libXext>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:*/libXext.so*
+}
+
+{
+   <mlx_loop_leaks>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:mlx_loop
+}
+
+{
+   <mlx_new_window>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:mlx_new_window
+}
+
+{
+   <mlx_new_image>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:mlx_new_image
+}

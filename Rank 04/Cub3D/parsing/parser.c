@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:50:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/01 13:50:18 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:29:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ static int	parse_file_helper(t_data *data, t_parser *parser)
 			if (data->nothing_after_map == false)
 				return (free(parser->line), close(parser->fd),
 					print_error(MAP_ERROR, data), 1);
-			free(parser->line);
 			break ;
 		}
 		free(parser->line);
 		parser->line = get_next_line(parser->fd);
 	}
+	free(parser->line);
 	return (0);
 }
 

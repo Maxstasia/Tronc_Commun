@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/10/01 13:22:50 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/10/01 14:35:13 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,8 @@ SRC				=								\
 			$(INIT_DIR)/init_parser.c			\
 			\
 			$(UTILS_DIR)/cleanup.c				\
-			$(UTILS_DIR)/free_all.c
+			$(UTILS_DIR)/free_all.c				\
+			$(UTILS_DIR)/free_data.c
 OBJ				= $(SRC:%.c=$(OBJ_DIR)/%.o)
 DEPENDS			= $(SRC:%.c=$(OBJ_DIR)/%.d)
 
