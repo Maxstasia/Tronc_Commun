@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/22 14:24:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:47:27 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,21 @@
 
 // Function prototypes
 /* ------------------------------ parsing ------------------------------ */
-/* ------- parser.c ------- */
-int			parse_file(t_data *data);
-int			parse_textures(t_data *data, char *line);
-int			parse_colors(t_data *data, char *line);
+/* ------- check_map.c ------- */
 int			validate_map(t_data *data);
+
+/* ------- parse_colors.c ------- */
+int			parse_colors(t_data *data, char *line);
+int			validate_colors(t_data *data);
+
+/* ------- parse_map_lines.c ------- */
+int			parse_map_lines(t_data *data, t_parser *parser);
+
+/* -------  parse_textures.c ------- */
+int			parse_textures(t_data *data, char *line);
+
+/* ------- parser.c ------- */
+int			parse_file(t_data *data, t_parser *parser);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- init --------------- */
@@ -53,7 +63,7 @@ int			validate_map(t_data *data);
 int			init_data(t_data *data, t_image *img, t_map *map);
 
 /* ------- init_main.c ------- */
-int			init_all(t_data *data, t_image *img, t_map *map);
+int			init_all(t_data *data, t_image *img, t_map *map, t_parser *parser);
 
 /* ------- init_map.c ------- */
 void		init_map(t_data *data);
@@ -62,6 +72,9 @@ void		init_map(t_data *data);
 void		init_mlx(t_data *data);
 int			setup_mlx(t_data *data);
 int			loop(t_data *data);
+
+/* ------- init_paser.c ------- */
+int			init_parser(t_parser *parser);
 
 /* ------------------------------ sources ------------------------------ */
 /* ------- error.c ------- */

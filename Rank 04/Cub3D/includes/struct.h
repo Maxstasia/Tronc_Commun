@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/09/23 11:19:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:09:26 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,17 @@ typedef struct s_data
 	void	*win_ptr;
 	bool	nothing_after_map;
 }				t_data;
+
+typedef struct s_parser
+{
+	int		fd;
+	char	*line;
+	char	*first_line;
+	char	**map;
+	int		count;
+	int		len;
+	int		i;
+	int		j;
+}				t_parser;
 
 #endif

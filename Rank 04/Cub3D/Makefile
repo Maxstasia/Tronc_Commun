@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/09/22 14:20:59 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/10/01 13:22:50 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,10 @@ SRC				=								\
 			$(GNL_DIR)/get_next_line.c			\
 			$(GNL_DIR)/get_next_line_utils.c	\
 			\
+			$(PARSER_DIR)/check_map.c			\
+			$(PARSER_DIR)/parse_colors.c		\
+			$(PARSER_DIR)/parse_map_lines.c		\
+			$(PARSER_DIR)/parse_textures.c		\
 			$(PARSER_DIR)/parser.c				\
 			\
 			$(RAY_DIR)/ray_casting.c			\
@@ -45,6 +49,7 @@ SRC				=								\
 			$(INIT_DIR)/init_main.c				\
 			$(INIT_DIR)/init_map.c				\
 			$(INIT_DIR)/init_mlx.c				\
+			$(INIT_DIR)/init_parser.c			\
 			\
 			$(UTILS_DIR)/cleanup.c				\
 			$(UTILS_DIR)/free_all.c
