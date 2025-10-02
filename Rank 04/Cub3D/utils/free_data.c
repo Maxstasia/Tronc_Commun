@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:21:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 14:33:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:07:00 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_map(t_map *map)
 		free(map->color_ceiling);
 	if (map->map)
 		free_tab(map->map);
-	free(map);	
+	free(map);
 	map = NULL;
 }
 
@@ -84,7 +84,8 @@ void	free_data(t_data *data)
 	free_parser(data->parser);
 	data->parser = NULL;
 	data->argc = 0;
-	data->argv = NULL;
+	if (data->argv)
+		data->argv = NULL;
 	if (data->win_ptr && data->mlx_ptr)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);

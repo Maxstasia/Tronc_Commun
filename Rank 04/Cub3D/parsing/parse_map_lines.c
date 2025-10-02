@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:01:06 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 14:19:37 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 15:06:40 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ static int	count_map_lines(int fd, char *first_line)
 static int	part_1(t_data *data, t_parser *parser)
 {
 	parser->count = count_map_lines(parser->fd, parser->first_line);
+	if (parser->first_line)
+    {
+        free(parser->first_line);
+        parser->first_line = NULL;
+        parser->line = NULL;
+    }
 	if (parser->count == 0)
 		return (printf("No valid map found"), 1);
 	close(parser->fd);
@@ -70,7 +76,11 @@ static int	part_1(t_data *data, t_parser *parser)
 	}
 	parser->map = malloc(sizeof(char *) * (parser->count + 1));
 	if (!parser->map)
-		return (free(parser->line), print_error(MALLOC_ERROR, data), 1);
+	{
+		free(parser->line);
+		parser->line = NULL;
+		return (print_error(MALLOC_ERROR, data), 1);
+	}
 	return (0);
 }
 
@@ -86,8 +96,12 @@ static int	part_2(t_data *data, t_parser *parser)
 				parser->line[parser->len - 1] = '\0';
 			parser->map[parser->i] = ft_strdup(parser->line);
 			if (!parser->map[parser->i])
-				return (free_tab(parser->map), free(parser->line),
-					print_error(MALLOC_ERROR, data), 1);
+			{
+				free_tab(parser->map);
+				free(parser->line);
+				parser->line = NULL;
+				return (print_error(MALLOC_ERROR, data), 1);
+			}
 			parser->i++;
 		}
 		free(parser->line);
@@ -118,7 +132,13 @@ int	parse_map_lines(t_data *data, t_parser *parser)
 		parser->line = get_next_line(parser->fd);
 	}
 	if (parser->line)
+	{
 		free(parser->line);
-	return (parser->map[parser->count] = NULL,
-		data->map->map = parser->map, close(parser->fd), 0);
+		parser->line = NULL;
+	}
+	parser->map[parser->count] = NULL;
+	data->map->map = parser->map;
+	close(parser->fd);
+	parser->fd = 0;
+	return (0);
 }
