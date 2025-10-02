@@ -6,11 +6,32 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:42 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/01 13:17:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 11:47:45 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+static int	asiganation_f_c(t_data *data, char *line, char *color, char **split)
+{
+	if (ft_strncmp(line, "F ", 2) == 0)
+	{
+		if (data->map->color_floor)
+			return (free(color), free_split(split),
+				print_error(COLOR_ERROR, data), 1);
+		else
+			data->map->color_floor = color;
+	}
+	else if (ft_strncmp(line, "C ", 2) == 0)
+	{
+		if (data->map->color_ceiling)
+			return (free(color), free_split(split),
+				print_error(COLOR_ERROR, data), 1);
+		else
+			data->map->color_ceiling = color;
+	}
+	return (0);
+}
 
 int	parse_colors(t_data *data, char *line)
 {
@@ -27,10 +48,8 @@ int	parse_colors(t_data *data, char *line)
 	len = ft_strlen(color);
 	if (len > 0 && color[len - 1] == '\n')
 		color[len - 1] = '\0';
-	if (ft_strncmp(line, "F ", 2) == 0)
-		data->map->color_floor = color;
-	else if (ft_strncmp(line, "C ", 2) == 0)
-		data->map->color_ceiling = color;
+	if (asiganation_f_c(data, line, color, split))
+		return (1);
 	free_split(split);
 	return (0);
 }

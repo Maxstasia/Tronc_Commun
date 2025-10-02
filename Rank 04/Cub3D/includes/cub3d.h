@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/01 14:32:22 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 10:47:48 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ int			parse_file(t_data *data, t_parser *parser);
 /* ------------------------------ sources ------------------------------ */
 /* --------------- init --------------- */
 /* ------- init_data.c ------- */
-int			init_data(t_data *data, t_image *img, t_map *map, t_parser *parser);
+int			init_data(t_data *data);
 
 /* ------- init_main.c ------- */
-int			init_all(t_data *data, t_image *img, t_map *map, t_parser *parser);
+int			init_all(t_data *data);
 
 /* ------- init_map.c ------- */
 void		init_map(t_data *data);
