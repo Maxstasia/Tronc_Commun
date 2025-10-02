@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:50:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 15:09:54 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:43:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,21 @@ static int	parse_file_helper(t_data *data, t_parser *parser)
 		parser->first_line = parser->line;
 		map_started = check_first_part(data, parser);
 		if (map_started == 1)
-		{
-			close(parser->fd);
-			parser->fd = 0;
-			return (1);
-		}
+			return (close(parser->fd), parser->fd = 0, 1);
 		else if (map_started == 2)
 		{
 			if (parse_map_lines(data, parser))
-			{
-				parser->fd = 0;
-				return (1);
-			}
+				return (parser->fd = 0, 1);
 			if (data->nothing_after_map == false)
-			{
-				close(parser->fd);
-				parser->fd = 0;
-				return (print_error(MAP_ERROR, data), 1);
-			}
+				return (close(parser->fd), parser->fd = 0,
+					print_error(MAP_ERROR, data), 1);
 			break ;
 		}
 		free(parser->line);
 		parser->line = get_next_line(parser->fd);
 	}
 	if (parser->line)
-	{
-		free(parser->line);
-		parser->line = NULL;
-	}
+		return (free(parser->line), parser->line = NULL, 0);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 10:57:31 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/01 14:32:25 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:59:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	init_parser(t_data *data)
 	data->parser->line = NULL;
 	data->parser->first_line = NULL;
 	data->parser->map = NULL;
+	data->parser->floor_split = NULL;
+	data->parser->ceiling_split = NULL;
 	data->parser->count = 0;
 	data->parser->len = 0;
 	data->parser->i = 0;

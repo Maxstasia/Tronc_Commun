@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:01:06 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 15:06:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:23:32 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ static int	count_map_lines(int fd, char *first_line)
 		{
 			count++;
 		}
-		if (line != first_line)
-			free(line);
+		free(line);
 		line = get_next_line(fd);
 	}
 	return (count);
@@ -53,13 +52,9 @@ static int	count_map_lines(int fd, char *first_line)
 
 static int	part_1(t_data *data, t_parser *parser)
 {
-	parser->count = count_map_lines(parser->fd, parser->first_line);
-	if (parser->first_line)
-    {
-        free(parser->first_line);
-        parser->first_line = NULL;
-        parser->line = NULL;
-    }
+	parser->count = count_map_lines(parser->fd, parser->line);
+	parser->first_line = NULL;
+	parser->line = NULL;
 	if (parser->count == 0)
 		return (printf("No valid map found"), 1);
 	close(parser->fd);
@@ -112,33 +107,29 @@ static int	part_2(t_data *data, t_parser *parser)
 
 int	parse_map_lines(t_data *data, t_parser *parser)
 {
+	int	i;
+
 	if (part_1(data, parser))
 		return (1);
 	if (part_2(data, parser))
 		return (1);
 	while (parser->line)
 	{
-		parser->i = 0;
-		while (parser->line[parser->i] && (parser->line[parser->i] == ' '
-				|| parser->line[parser->i] == '\t'
-				|| parser->line[parser->i] == '\n'
-				|| parser->line[parser->i] == '\0'))
-			parser->i ++;
-		if (parser->line[parser->i] != '\0' && parser->line[parser->i] != '\n'
-			&& parser->line[parser->i] != '\t'
-			&& parser->line[parser->i] != ' ')
+		i = 0;
+		while (parser->line[i] && (parser->line[i] == ' '
+				|| parser->line[i] == '\t' || parser->line[i] == '\n'
+				|| parser->line[i] == '\0'))
+			i ++;
+		if (parser->line[i] != '\0' && parser->line[i] != '\n'
+			&& parser->line[i] != '\t' && parser->line[i] != ' ')
 			data->nothing_after_map = false;
 		free(parser->line);
 		parser->line = get_next_line(parser->fd);
 	}
 	if (parser->line)
-	{
 		free(parser->line);
-		parser->line = NULL;
-	}
+	parser->line = NULL;
 	parser->map[parser->count] = NULL;
 	data->map->map = parser->map;
-	close(parser->fd);
-	parser->fd = 0;
-	return (0);
+	return (close(parser->fd), parser->fd = 0, 0);
 }

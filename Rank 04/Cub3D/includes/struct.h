@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/01 14:29:31 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:58:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct s_parser
 	char	*line;
 	char	*first_line;
 	char	**map;
+	char	**floor_split;
+	char	**ceiling_split;
 	int		count;
 	int		len;
 	int		i;

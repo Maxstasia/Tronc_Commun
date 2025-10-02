@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:42 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 11:47:45 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 18:41:30 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,31 +54,69 @@ int	parse_colors(t_data *data, char *line)
 	return (0);
 }
 
+static int	spliter(t_data *data)
+{
+	data->parser->floor_split = ft_split(data->map->color_floor, ',');
+	if (!data->parser->floor_split || !data->parser->floor_split[0]
+		|| !data->parser->floor_split[1] || !data->parser->floor_split[2]
+		|| data->parser->floor_split[3])
+		return (free_split(data->parser->floor_split),
+			print_error(COLOR_ERROR, data), 1);
+	data->parser->ceiling_split = ft_split(data->map->color_ceiling, ',');
+	if (!data->parser->ceiling_split || !data->parser->ceiling_split[0]
+		|| !data->parser->ceiling_split[1]
+		|| !data->parser->ceiling_split[2] || data->parser->ceiling_split[3])
+		return (free_split(data->parser->floor_split),
+			free_split(data->parser->ceiling_split),
+			print_error(COLOR_ERROR, data), 1);
+	return (0);
+}
+
+static int	check_commas(t_data *data, t_map *map)
+{
+	int	num_commas;
+	int	i;
+
+	num_commas = 0;
+	i = -1;
+	while (++ i, map->color_floor && map->color_floor[i])
+	{
+		if (map->color_floor[i] == ',')
+			num_commas++;
+	}
+	if (num_commas != 2)
+		return (print_error(COLOR_ERROR, data), 1);
+	num_commas = 0;
+	i = -1;
+	while (++ i, map->color_ceiling && map->color_ceiling[i])
+	{
+		if (map->color_ceiling[i] == ',')
+			num_commas++;
+	}
+	if (num_commas != 2)
+		return (print_error(COLOR_ERROR, data), 1);
+	return (0);
+}
+
 int	validate_colors(t_data *data)
 {
-	char	**floor_split;
-	char	**ceiling_split;
-	int		i;
 	int		f;
 	int		c;
 
-	floor_split = ft_split(data->map->color_floor, ',');
-	if (!floor_split || !floor_split[0] || !floor_split[1]
-		|| !floor_split[2] || floor_split[3])
-		return (free_split(floor_split), print_error(COLOR_ERROR, data), 1);
-	ceiling_split = ft_split(data->map->color_ceiling, ',');
-	if (!ceiling_split || !ceiling_split[0] || !ceiling_split[1]
-		|| !ceiling_split[2] || ceiling_split[3])
-		return (free_split(floor_split), free_split(ceiling_split),
-			print_error(COLOR_ERROR, data), 1);
-	i = -1;
-	while (++i, i < 3)
+	if (check_commas(data, data->map))
+		return (1);
+	if (spliter(data))
+		return (1);
+	data->parser->i = -1;
+	while (++ data->parser->i, data->parser->i < 3)
 	{
-		f = ft_atoi(floor_split[i]);
-		c = ft_atoi(ceiling_split[i]);
+		f = ft_atoi(data->parser->floor_split[data->parser->i]);
+		c = ft_atoi(data->parser->ceiling_split[data->parser->i]);
 		if (f < 0 || f > 255 || c < 0 || c > 255)
-			return (free_split(floor_split), free_split(ceiling_split),
+			return (free_split(data->parser->floor_split),
+				free_split(data->parser->ceiling_split),
 				print_error(COLOR_ERROR, data), 1);
 	}
-	return (free_split(floor_split), free_split(ceiling_split), 0);
+	return (free_split(data->parser->floor_split),
+		free_split(data->parser->ceiling_split), 0);
 }
