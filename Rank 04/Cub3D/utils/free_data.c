@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:21:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 12:13:26 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:33:09 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	free_parser(t_parser *parser)
 {
 	if (!parser)
 		return ;
-	if (parser->fd)
+	if (parser->fd > 0)
 	{
 		close(parser->fd);
 		parser->fd = 0;
@@ -65,38 +65,35 @@ void	free_parser(t_parser *parser)
 		free(parser->line);
 		parser->line = NULL;
 	}
-	if (parser->first_line && parser->first_line != parser->line)
-	{
-		free(parser->first_line);
-		parser->first_line = NULL;
-	}
+	parser->first_line = NULL;
 	parser->count = 0;
 	parser->len = 0;
 	parser->i = 0;
 	parser->j = 0;
 	free(parser);
-	parser = NULL;
 }
 
 void	free_data(t_data *data)
 {
+	if (!data)
+		return ;
 	free_map(data->map);
 	data->map = NULL;
 	free_img(data);
 	data->img = NULL;
 	free_parser(data->parser);
 	data->parser = NULL;
-	get_next_line(-42);
 	data->argc = 0;
-	if (data->argv)
-		data->argv = NULL;
+	data->argv = NULL;
 	if (data->win_ptr && data->mlx_ptr)
+	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		data->win_ptr = NULL;
+	}
 	if (data->mlx_ptr)
 	{
 		mlx_destroy_display(data->mlx_ptr);
 		free(data->mlx_ptr);
-		data->win_ptr = NULL;
+		data->mlx_ptr = NULL;
 	}
-	free(data);
 }

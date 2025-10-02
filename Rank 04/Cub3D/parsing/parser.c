@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:50:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/01 14:29:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:25:25 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ static int	parse_file_helper(t_data *data, t_parser *parser)
 		parser->first_line = parser->line;
 		map_started = check_first_part(data, parser);
 		if (map_started == 1)
-			return (free(parser->first_line), close(parser->fd), 1);
+			return (close(parser->fd), 1);
 		else if (map_started == 2)
 		{
 			if (parse_map_lines(data, parser))
-				return (free(parser->line), close(parser->fd), 1);
+				return (close(parser->fd), 1);
 			if (data->nothing_after_map == false)
-				return (free(parser->line), close(parser->fd),
+				return (close(parser->fd),
 					print_error(MAP_ERROR, data), 1);
 			break ;
 		}
@@ -61,6 +61,7 @@ static int	parse_file_helper(t_data *data, t_parser *parser)
 		parser->line = get_next_line(parser->fd);
 	}
 	free(parser->line);
+	parser->line = NULL;
 	return (0);
 }
 
