@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:17:10 by mstasiak          #+#    #+#             */
-/*   Updated: 2024/12/17 14:57:11 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:43:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**ft_split(char const *s, char c)
 	char	**strs;
 	size_t	i;
 
-	if (!s)
+	if (!s || !*s || !c)
 		return (NULL);
 	strs = (char **)malloc(sizeof(char *) * (ft_countword((char *)s, c) + 1));
 	if (!strs)

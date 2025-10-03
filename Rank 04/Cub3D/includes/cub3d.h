@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 10:47:48 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:47:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			validate_colors(t_data *data);
 int			parse_map_lines(t_data *data, t_parser *parser);
 
 /* -------  parse_textures.c ------- */
-int			parse_textures(t_data *data, char *line);
+int			parse_textures(t_data *data, t_parser *parser);
 
 /* ------- parser.c ------- */
 int			parse_file(t_data *data, t_parser *parser);
