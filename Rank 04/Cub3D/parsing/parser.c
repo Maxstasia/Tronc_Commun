@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:50:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 18:43:39 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:26:56 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,15 @@ static int	parse_file_helper(t_data *data, t_parser *parser)
 		parser->first_line = parser->line;
 		map_started = check_first_part(data, parser);
 		if (map_started == 1)
-			return (close(parser->fd), parser->fd = 0, 1);
+			return (free(parser->line), parser->line = NULL, close(parser->fd),
+				get_next_line(-1), parser->fd = 0, 1);
 		else if (map_started == 2)
 		{
 			if (parse_map_lines(data, parser))
-				return (parser->fd = 0, 1);
+				return (get_next_line(-1), parser->fd = 0, 1);
 			if (data->nothing_after_map == false)
-				return (close(parser->fd), parser->fd = 0,
-					print_error(MAP_ERROR, data), 1);
+				return (close(parser->fd), get_next_line(-1),
+					parser->fd = 0, print_error(MAP_ERROR, data), 1);
 			break ;
 		}
 		free(parser->line);
@@ -72,8 +73,9 @@ int	parse_file(t_data *data, t_parser *parser)
 		return (print_error(FILE_OPEN_ERROR, data), 1);
 	parser->line = get_next_line(parser->fd);
 	if (parse_file_helper(data, parser))
-		return (1);
+		return (get_next_line(-1), 1);
 	close(parser->fd);
+	get_next_line(-1);
 	if (validate_map(data))
 		return (1);
 	return (0);

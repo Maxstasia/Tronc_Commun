@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:01:06 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 18:23:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:45:21 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ static int	part_1(t_data *data, t_parser *parser)
 	parser->first_line = NULL;
 	parser->line = NULL;
 	if (parser->count == 0)
-		return (printf("No valid map found"), 1);
+		return (get_next_line(-1), printf("No valid map found"), 1);
 	close(parser->fd);
 	parser->fd = open(data->argv[1], O_RDONLY);
 	if (parser->fd < 0)
-		return (printf("Cannot reopen file"), 1);
+		return (get_next_line(-1), printf("Cannot reopen file"), 1);
 	parser->line = get_next_line(parser->fd);
 	while (parser->line)
 	{
@@ -71,11 +71,8 @@ static int	part_1(t_data *data, t_parser *parser)
 	}
 	parser->map = malloc(sizeof(char *) * (parser->count + 1));
 	if (!parser->map)
-	{
-		free(parser->line);
-		parser->line = NULL;
-		return (print_error(MALLOC_ERROR, data), 1);
-	}
+		return (free(parser->line), parser->line = NULL,
+			get_next_line(-1), print_error(MALLOC_ERROR, data), 1);
 	return (0);
 }
 
@@ -95,6 +92,7 @@ static int	part_2(t_data *data, t_parser *parser)
 				free_tab(parser->map);
 				free(parser->line);
 				parser->line = NULL;
+				get_next_line(-1);
 				return (print_error(MALLOC_ERROR, data), 1);
 			}
 			parser->i++;
@@ -131,5 +129,5 @@ int	parse_map_lines(t_data *data, t_parser *parser)
 	parser->line = NULL;
 	parser->map[parser->count] = NULL;
 	data->map->map = parser->map;
-	return (close(parser->fd), parser->fd = 0, 0);
+	return (close(parser->fd), parser->fd = 0, get_next_line(-1), 0);
 }
