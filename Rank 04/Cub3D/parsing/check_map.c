@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:40 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/01 13:26:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:54:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,31 +92,7 @@ int	validate_map(t_data *data, t_map *map)
 	if (map->map[map_height - 2][ft_strlen(map->map[map_height - 1])]
 		&& map->map[map_height - 2][ft_strlen(map->map[map_height - 1])] != '1')
 		return (print_error(MAP_ERROR, data), 1);
-	if (check_char(data))
-		return (print_error(MAP_ERROR, data), 1);
 	if (check_closed_map(data))
 		return (1);
-	return (0);
-}
-
-int	check_char(t_data *data)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (data->map->map[i])
-	{
-		j = 0;
-		while (data->map->map[i][j])
-		{
-			if (data->map->map[i][j] != '0' && data->map->map[i][j] != '1'
-				&& data->map->map[i][j] != ' '
-				&& !is_player(data->map->map[i][j]))
-				return (print_error(MAP_ERROR, data), 1);
-			j++;
-		}
-		i++;
-	}
 	return (0);
 }

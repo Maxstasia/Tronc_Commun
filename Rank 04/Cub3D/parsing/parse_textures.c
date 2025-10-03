@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:14:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/03 17:23:18 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:19:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,11 @@ static int	is_valid_texture(t_data *data, t_parser *parser, char **path)
 	while (parser->i >= 0
 		&& (path[1][parser->i] == ' ' || path[1][parser->i] == '\t'
 		|| path[1][parser->i] == '\n' || path[1][parser->i] == '\0'))
-	{
-		path[1][parser->i] = '\0';
-		parser->i--;
-		parser->len--;
-	}
+		{
+			path[1][parser->i] = '\0';
+			parser->i--;
+		}
+	parser->len = ft_strlen(path[1]);
 	if (parser->len < 4
 		|| ft_strncmp(&path[1][parser->len - 4], ".xpm", 4) != 0)
 		return (parser->len = 0, 0);
@@ -89,10 +89,17 @@ static int	is_valid_texture(t_data *data, t_parser *parser, char **path)
 int	parse_textures(t_data *data, t_parser *parser)
 {
 	char	**split;
+	int		len;
 
 	split = ft_split(data->parser->first_line, ' ');
-	if (!split || !split[1] || split[2])
+	if (!split || !split[1])
 		return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
+	if (split[2])
+	{
+		len = ft_strlen(split[2]);
+		if (ft_strncmp(&split[2][len - 2], " \n", 1) != 0 && ft_strncmp(&split[2][len - 2], "\t\n", 1) != 0)
+			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
+	}
 	if (is_valid_texture(data, parser, split))
 		return (free_split(split), split = NULL, 0);
 	return (free_split(split), print_error(TEXTURE_ERROR, data), 1);

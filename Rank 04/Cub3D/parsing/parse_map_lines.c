@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:01:06 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/03 11:45:21 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:52:58 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,7 @@ static int	is_map_line(char *line)
 	if (line[i] != '1' && line[i] != '0' && line[i] != ' ')
 		return (0);
 	while (line[i] && line[i] != '\n')
-	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
-			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W')
-			return (0);
 		i++;
-	}
 	return (1);
 }
 
