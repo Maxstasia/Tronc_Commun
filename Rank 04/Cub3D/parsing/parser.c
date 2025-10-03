@@ -92,7 +92,19 @@ int	parse_file(t_data *data, t_parser *parser)
 	close(parser->fd);
 	parser->fd = 0;
 	get_next_line(-1);
-	if (validate_map(data))
+	if (validate_map(data, data->map))
 		return (1);
 	return (0);
+}
+
+int	count_map_lines(char **map)
+{
+	int	i;
+
+	if (!map)
+		return (0);
+	i = 0;
+	while (map[i])
+		i++;
+	return (i);
 }

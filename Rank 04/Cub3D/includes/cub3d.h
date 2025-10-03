@@ -42,7 +42,8 @@
 // Function prototypes
 /* ------------------------------ parsing ------------------------------ */
 /* ------- check_map.c ------- */
-int			validate_map(t_data *data);
+int			validate_map(t_data *data, t_map *map);
+int			check_char(t_data *data);
 
 /* ------- parse_colors.c ------- */
 int			parse_colors(t_data *data, char *line);
@@ -56,6 +57,7 @@ int			parse_textures(t_data *data, t_parser *parser);
 
 /* ------- parser.c ------- */
 int			parse_file(t_data *data, t_parser *parser);
+int			count_map_lines(char **map);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- init --------------- */
@@ -98,6 +100,7 @@ void		free_all(t_data *data);
 /* ------- free_data.c ------- */
 void		free_map(t_map *map);
 void		free_img(t_data *data);
+void		free_parser(t_parser *parser);
 void		free_data(t_data *data);
 
 #endif

@@ -31,7 +31,7 @@ static int	is_map_line(char *line)
 	return (1);
 }
 
-static int	count_map_lines(int fd, char *first_line)
+static int	count_file_map_lines(int fd, char *first_line)
 {
 	char	*line;
 	int		count;
@@ -52,7 +52,7 @@ static int	count_map_lines(int fd, char *first_line)
 
 static int	part_1(t_data *data, t_parser *parser)
 {
-	parser->count = count_map_lines(parser->fd, parser->line);
+	parser->count = count_file_map_lines(parser->fd, parser->line);
 	parser->first_line = NULL;
 	parser->line = NULL;
 	if (parser->count == 0)

@@ -75,18 +75,48 @@ static int	validate_map_structure(t_data *data)
 	return (0);
 }
 
-int	validate_map(t_data *data)
+int	validate_map(t_data *data, t_map *map)
 {
-	if (!data->map->texture_north || !data->map->texture_south
-		|| !data->map->texture_west || !data->map->texture_east
-		|| !data->map->color_floor || !data->map->color_ceiling
-		|| !data->map->map)
+	int	map_height;
+
+	map_height = count_map_lines(map->map);
+	if (!map->texture_north || !map->texture_south
+		|| !map->texture_west || !map->texture_east
+		|| !map->color_floor || !map->color_ceiling
+		|| !map->map)
 		return (print_error(MAP_ERROR, data), 1);
 	if (validate_colors(data))
 		return (1);
 	if (validate_map_structure(data))
 		return (1);
+	if (map->map[map_height - 2][ft_strlen(map->map[map_height - 1])]
+		&& map->map[map_height - 2][ft_strlen(map->map[map_height - 1])] != '1')
+		return (print_error(MAP_ERROR, data), 1);
+	if (check_char(data))
+		return (print_error(MAP_ERROR, data), 1);
 	if (check_closed_map(data))
 		return (1);
+	return (0);
+}
+
+int	check_char(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (data->map->map[i])
+	{
+		j = 0;
+		while (data->map->map[i][j])
+		{
+			if (data->map->map[i][j] != '0' && data->map->map[i][j] != '1'
+				&& data->map->map[i][j] != ' '
+				&& !is_player(data->map->map[i][j]))
+				return (print_error(MAP_ERROR, data), 1);
+			j++;
+		}
+		i++;
+	}
 	return (0);
 }
