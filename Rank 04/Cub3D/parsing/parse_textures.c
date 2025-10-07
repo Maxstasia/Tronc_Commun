@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:14:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 11:14:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:23:55 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ static int	is_valid_texture(t_data *data, t_parser *parser, char **path)
 	while (parser->i >= 0
 		&& (path[1][parser->i] == ' ' || path[1][parser->i] == '\t'
 		|| path[1][parser->i] == '\n' || path[1][parser->i] == '\0'))
-		{
-			path[1][parser->i] = '\0';
-			parser->i--;
-		}
+	{
+		path[1][parser->i] = '\0';
+		parser->i--;
+	}
 	parser->len = ft_strlen(path[1]);
 	if (parser->len < 4
 		|| ft_strncmp(&path[1][parser->len - 4], ".xpm", 4) != 0)
