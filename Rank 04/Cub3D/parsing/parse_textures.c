@@ -40,7 +40,7 @@ static int	asignation_ea_we(t_data *data, char *path, char *line, char **split)
 		else
 			data->map->texture_west = path;
 	}
-	else if (ft_strncmp(line, "EA ", 3 || ft_strncmp(line, "E ", 2)) == 0)
+	else if (ft_strncmp(line, "EA ", 3) == 0 || ft_strncmp(line, "E ", 2) == 0)
 	{
 		if (data->map->texture_east)
 			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
@@ -97,7 +97,7 @@ int	parse_textures(t_data *data, t_parser *parser)
 	if (split[2])
 	{
 		len = ft_strlen(split[2]);
-		if (ft_strncmp(&split[2][len - 2], " \n", 1) != 0 && ft_strncmp(&split[2][len - 2], "\t\n", 1) != 0)
+		if (len >= 2 && ft_strncmp(&split[2][len - 2], " \n", 1) != 0 && ft_strncmp(&split[2][len - 2], "\t\n", 1) != 0)
 			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
 	}
 	if (is_valid_texture(data, parser, split))
