@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/10/07 14:40:39 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/10/07 18:55:37 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC				=								\
 			$(PARSER_DIR)/parser.c				\
 			\
 			$(RAY_DIR)/ray_casting.c			\
+			$(RAY_DIR)/render.c					\
 			\
 			$(SOURCES_DIR)/error.c				\
 			$(SOURCES_DIR)/keyboard_event.c		\

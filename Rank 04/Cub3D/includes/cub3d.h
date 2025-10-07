@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 14:28:07 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:33:25 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@
 # define TILE_WIDTH 64
 # define TILE_HEIGHT 64
 # define MOV_SPEED 0.1
-# define ROT_SPEED 0.05 
+# define ROT_SPEED 0.05
+# define FOV 90
 
 # define MLX_ERROR 1
 
@@ -59,6 +60,14 @@ int			parse_textures(t_data *data, t_parser *parser);
 /* ------- parser.c ------- */
 int			parse_file(t_data *data, t_parser *parser);
 int			count_map_lines(char **map);
+
+/* ------------------------------ ray_casting ------------------------------ */
+/* ------- ray_casting.c ------- */
+int			ray_casting(t_data *data);
+
+/* ------- render.c ------- */
+void		img_pix_put(t_image *img, int x, int y, int color);
+int			render_frame(t_data *data);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- init --------------- */
