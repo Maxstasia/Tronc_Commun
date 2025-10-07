@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:16:42 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 18:41:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:26:44 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	parse_colors(t_data *data, char *line)
 	size_t	len;
 
 	split = ft_split(line, ' ');
-	if (!split || !split[1] || split[2])
+	if (!split || !split[1] || (split[2] && split[2][0] != '\n'))
 		return (free_split(split), print_error(COLOR_ERROR, data), 1);
 	color = ft_strdup(split[1]);
 	if (!color)

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:14:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 11:23:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:28:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,7 @@ int	parse_textures(t_data *data, t_parser *parser)
 	char	**split;
 
 	split = ft_split(data->parser->first_line, ' ');
-	if (!split || !split[1])
-		return (free_split(split), 1);
-	if (split[2] && strncmp(split[2], "\n", 1) != 0)
+	if (!split || !split[1] || (split[2] && split[2][0] != '\n'))
 		return (free_split(split), 1);
 	if (is_valid_texture(data, parser, split))
 		return (free_split(split), split = NULL, 0);
