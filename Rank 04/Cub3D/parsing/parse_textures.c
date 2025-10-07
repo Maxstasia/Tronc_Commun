@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:14:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/03 18:19:39 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:14:55 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,13 @@ static int	is_valid_texture(t_data *data, t_parser *parser, char **path)
 int	parse_textures(t_data *data, t_parser *parser)
 {
 	char	**split;
-	int		len;
 
 	split = ft_split(data->parser->first_line, ' ');
 	if (!split || !split[1])
-		return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
-	if (split[2])
-	{
-		len = ft_strlen(split[2]);
-		if (len >= 2 && ft_strncmp(&split[2][len - 2], " \n", 1) != 0 && ft_strncmp(&split[2][len - 2], "\t\n", 1) != 0)
-			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
-	}
+		return (free_split(split), 1);
+	if (split[2] && strncmp(split[2], "\n", 1) != 0)
+		return (free_split(split), 1);
 	if (is_valid_texture(data, parser, split))
 		return (free_split(split), split = NULL, 0);
-	return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
+	return (free_split(split), 1);
 }
