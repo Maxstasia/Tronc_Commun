@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/03 17:33:03 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:28:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # define WIN_HEIGHT 600
 # define TILE_WIDTH 64
 # define TILE_HEIGHT 64
+# define MOV_SPEED 0.1
+# define ROT_SPEED 0.05 
 
 # define MLX_ERROR 1
 
@@ -43,7 +45,6 @@
 /* ------------------------------ parsing ------------------------------ */
 /* ------- check_map.c ------- */
 int			validate_map(t_data *data, t_map *map);
-int			check_char(t_data *data);
 
 /* ------- parse_colors.c ------- */
 int			parse_colors(t_data *data, char *line);
@@ -77,6 +78,12 @@ int			loop(t_data *data);
 
 /* ------- init_paser.c ------- */
 int			init_parser(t_data *data);
+
+/* ------- init_player.c ------- */
+void		init_player(t_data *data);
+
+/* ------- init_ray.c ------- */
+void		init_ray(t_data *data);
 
 /* ------------------------------ sources ------------------------------ */
 /* ------- error.c ------- */

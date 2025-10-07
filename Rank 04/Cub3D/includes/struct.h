@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/02 16:58:22 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/07 14:38:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,40 @@ typedef struct s_parser
 	int		j;
 }				t_parser;
 
+typedef struct s_vector
+{
+	double	x;
+	double	y;
+}				t_vector;
+
+typedef struct s_player
+{
+	t_vector	pos;
+	t_vector	dir_p;
+	t_vector	fov;
+}				t_player;
+
+typedef struct s_ray {
+	t_vector	dir;
+	double		perp_dist;
+	int			map_x;
+	int			map_y;
+	int			side;
+	double		side_dist_x;
+	double		side_dist_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	int			step_x;
+	int			step_y;
+}				t_ray;
+
 typedef struct s_data
 {
 	t_image		*img;
 	t_map		*map;
 	t_parser	*parser;
+	t_player	*player;
+	t_ray		*ray;
 	int			argc;
 	char		**argv;
 	void		*mlx_ptr;
