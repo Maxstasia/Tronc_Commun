@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:22:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 11:50:56 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:44:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ int	setup_mlx(t_data *data)
 	return (0);
 }
 
+int	game_loop(t_data *data)
+{
+	update_player(data);
+	render_frame(data);
+	return (0);
+}
+
 int	loop(t_data *data)
 {
 	if (data)
@@ -49,7 +56,10 @@ int	loop(t_data *data)
 		mlx_hook(data->win_ptr,
 			KeyPress, KeyPressMask, &handle_keypress, data);
 		mlx_hook(data->win_ptr,
+			KeyRelease, KeyReleaseMask, &handle_keyrelease, data);
+		mlx_hook(data->win_ptr,
 			DestroyNotify, NoEventMask, &handle_destroy, data);
+		mlx_loop_hook(data->mlx_ptr, &game_loop, data);
 		mlx_loop(data->mlx_ptr);
 	}
 	else

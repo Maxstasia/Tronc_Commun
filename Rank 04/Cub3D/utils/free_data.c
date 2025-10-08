@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:21:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 14:39:49 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:58:52 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,15 @@ void	free_data(t_data *data)
 	data->img = NULL;
 	free_parser(data->parser);
 	data->parser = NULL;
-	free(data->player);
+	if (data->player)
+		free(data->player);
 	data->player = NULL;
-	free(data->ray);
+	if (data->ray)
+		free(data->ray);
 	data->ray = NULL;
+	if (data->keys)
+		free(data->keys);
+	data->keys = NULL;
 	data->argc = 0;
 	data->argv = NULL;
 	if (data->win_ptr && data->mlx_ptr)

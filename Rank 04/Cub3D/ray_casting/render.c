@@ -6,11 +6,32 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:07:11 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 18:55:49 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:59:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+void	precalculate_colors(t_data *data)
+{
+	char	**rgb;
+	int		r;
+	int		g;
+	int		b;
+
+	rgb = ft_split(data->map->color_floor, ',');
+	r = ft_atoi(rgb[0]);
+	g = ft_atoi(rgb[1]);
+	b = ft_atoi(rgb[2]);
+	free_split(rgb);
+	data->floor_color = (r << 16) | (g << 8) | b;
+	rgb = ft_split(data->map->color_ceiling, ',');
+	r = ft_atoi(rgb[0]);
+	g = ft_atoi(rgb[1]);
+	b = ft_atoi(rgb[2]);
+	free_split(rgb);
+	data->ceiling_color = (r << 16) | (g << 8) | b;
+}
 
 void	img_pix_put(t_image *img, int x, int y, int color)
 {
@@ -29,35 +50,11 @@ void	img_pix_put(t_image *img, int x, int y, int color)
 	}
 }
 
-static int	get_color_from_map(t_data *data, int is_floor)
-{
-	char	**rgb;
-	int		r;
-	int		g;
-	int		b;
-	int		color;
-
-	if (is_floor)
-		rgb = ft_split(data->map->color_floor, ',');
-	else
-		rgb = ft_split(data->map->color_ceiling, ',');
-	r = ft_atoi(rgb[0]);
-	g = ft_atoi(rgb[1]);
-	b = ft_atoi(rgb[2]);
-	free_split(rgb);
-	color = (r << 16) | (g << 8) | b;
-	return (color);
-}
-
 static void	draw_floor_ceiling(t_data *data)
 {
 	int	x;
 	int	y;
-	int	floor_color;
-	int	ceiling_color;
 
-	floor_color = get_color_from_map(data, 1);
-	ceiling_color = get_color_from_map(data, 0);
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
@@ -65,9 +62,9 @@ static void	draw_floor_ceiling(t_data *data)
 		while (x < WIN_WIDTH)
 		{
 			if (y < WIN_HEIGHT / 2)
-				img_pix_put(data->img, x, y, ceiling_color);
+				img_pix_put(data->img, x, y, data->ceiling_color);
 			else
-				img_pix_put(data->img, x, y, floor_color);
+				img_pix_put(data->img, x, y, data->floor_color);
 			x++;
 		}
 		y++;

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 14:38:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/08 11:44:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,16 @@ typedef struct s_player
 	t_vector	fov;
 }				t_player;
 
+typedef struct s_keys
+{
+	int			w;
+	int			s;
+	int			a;
+	int			d;
+	int			left;
+	int			right;
+}				t_keys;
+
 typedef struct s_ray {
 	t_vector	dir;
 	double		perp_dist;
@@ -110,11 +120,14 @@ typedef struct s_data
 	t_parser	*parser;
 	t_player	*player;
 	t_ray		*ray;
+	t_keys		*keys;
 	int			argc;
 	char		**argv;
 	void		*mlx_ptr;
 	void		*win_ptr;
 	bool		nothing_after_map;
+	int			floor_color;
+	int			ceiling_color;
 }				t_data;
 
 #endif
