@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/08 11:58:09 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:13:31 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	free_split(char **split)
 
 void	free_all(t_data *data)
 {
+	destroy_sprites(data);
 	free_data(data);
 }

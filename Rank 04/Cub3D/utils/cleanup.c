@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/03 11:24:02 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:26:29 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,18 @@ void	free_tab(char **map)
 	while (map[i])
 		free(map[i++]);
 	free(map);
+}
+
+void	destroy_sprites(t_data *data)
+{
+	if (!data || !data->map || !data->mlx_ptr)
+		return ;
+	if (data->map->img_north)
+		mlx_destroy_image(data->mlx_ptr, data->map->img_north);
+	if (data->map->img_south)
+		mlx_destroy_image(data->mlx_ptr, data->map->img_south);
+	if (data->map->img_west)
+		mlx_destroy_image(data->mlx_ptr, data->map->img_west);
+	if (data->map->img_east)
+		mlx_destroy_image(data->mlx_ptr, data->map->img_east);
 }

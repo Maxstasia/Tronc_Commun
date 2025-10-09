@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray_casting_norm.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/09 11:27:01 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/10/09 11:27:21 by mstasiak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/cub3d.h"
 
 char	*draw_wall_slice_norm(t_data *data)
 {
-	char *tex_data;
+	char	*tex_data;
 
 	if (data->ray->side == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:21:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/08 11:58:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:04:25 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@ void	free_map(t_map *map)
 	if (!map)
 		return ;
 	if (map->texture_north)
-		map->texture_north = NULL;
+		free(map->texture_north);
+	map->texture_north = NULL;
 	if (map->texture_south)
-		map->texture_south = NULL;
+		free(map->texture_south);
+	map->texture_south = NULL;
 	if (map->texture_west)
-		map->texture_west = NULL;
+		free(map->texture_west);
+	map->texture_west = NULL;
 	if (map->texture_east)
-		map->texture_east = NULL;
+		free(map->texture_east);
+	map->texture_east = NULL;
 	if (map->color_floor)
 		free(map->color_floor);
 	if (map->color_ceiling)
@@ -84,6 +88,9 @@ static void	free_norm(t_data *data)
 	if (data->keys)
 		free(data->keys);
 	data->keys = NULL;
+	if (data->texture)
+		free(data->texture);
+	data->texture = NULL;
 }
 
 void	free_data(t_data *data)

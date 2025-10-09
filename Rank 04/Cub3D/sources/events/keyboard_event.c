@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:38:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/08 11:42:24 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:16:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int	handle_keypress(int keysym, t_data *data)
 		free_all(data);
 		exit(0);
 	}
-	if (keysym == XK_w || keysym == XK_W)
+	if (keysym == XK_w || keysym == XK_W || keysym == XK_Up)
 		data->keys->w = 1;
-	if (keysym == XK_s || keysym == XK_S)
+	if (keysym == XK_s || keysym == XK_S || keysym == XK_Down)
 		data->keys->s = 1;
 	if (keysym == XK_a || keysym == XK_A)
 		data->keys->a = 1;
@@ -70,9 +70,9 @@ int	handle_keypress(int keysym, t_data *data)
 
 int	handle_keyrelease(int keysym, t_data *data)
 {
-	if (keysym == XK_w || keysym == XK_W)
+	if (keysym == XK_w || keysym == XK_W || keysym == XK_Up)
 		data->keys->w = 0;
-	if (keysym == XK_s || keysym == XK_S)
+	if (keysym == XK_s || keysym == XK_S || keysym == XK_Down)
 		data->keys->s = 0;
 	if (keysym == XK_a || keysym == XK_A)
 		data->keys->a = 0;

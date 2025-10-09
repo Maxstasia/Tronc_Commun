@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/08 11:47:27 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:13:27 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void		print_error(int error_code, t_data *data);
 /* ------- clean_up.c ------- */
 void		clean_up(t_data *data);
 void		free_tab(char **map);
+void		destroy_sprites(t_data *data);
 
 /* ------- free_all.c ------- */
 void		free_split(char **split);

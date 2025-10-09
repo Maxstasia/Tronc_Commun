@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:56:36 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 18:21:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 11:26:55 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ static void	draw_wall_slice(t_data *data, int x, int wall_height)
 	int		wall_end;
 	char	*tex_data;
 	int		color;
-
 
 	wall_start = (WIN_HEIGHT - wall_height) / 4;
 	if (wall_start < 0)
