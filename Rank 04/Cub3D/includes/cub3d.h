@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 14:44:38 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:57:40 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int			count_map_lines(char **map);
 int			ray_casting(t_data *data);
 
 /* ------- ray_casting_norm.c ------- */
-char		*draw_wall_slice_norm(t_data *data);
+void		draw_wall_slice_helper(t_data *data, int x,
+				int wall_height, int tex_x);
 
 /* ------- render.c ------- */
 void		img_pix_put(t_image *img, int x, int y, int color);
