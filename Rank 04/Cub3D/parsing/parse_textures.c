@@ -19,14 +19,22 @@ static int	asignation_no_so(t_data *data, char *path, char *line, char **split)
 		if (data->map->texture_north)
 			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
 		else
-			data->map->texture_north = path;
-	}
+		{
+			data->map->texture_north = ft_strdup(path);
+			if (!data->map->texture_north)
+				return (free_split(split), print_error(MALLOC_ERROR, data), 1);
+		}
+	}	
 	else if (ft_strncmp(line, "SO ", 3) == 0 || ft_strncmp(line, "S ", 2) == 0)
 	{
 		if (data->map->texture_south)
 			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
 		else
-			data->map->texture_south = path;
+		{
+			data->map->texture_south = ft_strdup(path);
+			if (!data->map->texture_south)
+				return (free_split(split), print_error(MALLOC_ERROR, data), 1);
+		}
 	}
 	return (0);
 }
@@ -38,14 +46,22 @@ static int	asignation_ea_we(t_data *data, char *path, char *line, char **split)
 		if (data->map->texture_west)
 			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
 		else
-			data->map->texture_west = path;
+		{
+			data->map->texture_west = ft_strdup(path);
+			if (!data->map->texture_west)
+				return (free_split(split), print_error(MALLOC_ERROR, data), 1);
+		}
 	}
 	else if (ft_strncmp(line, "EA ", 3) == 0 || ft_strncmp(line, "E ", 2) == 0)
 	{
 		if (data->map->texture_east)
 			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
 		else
-			data->map->texture_east = path;
+		{
+			data->map->texture_east = ft_strdup(path);
+			if (!data->map->texture_east)
+				return (free_split(split), print_error(MALLOC_ERROR, data), 1);
+		}
 	}
 	return (0);
 }

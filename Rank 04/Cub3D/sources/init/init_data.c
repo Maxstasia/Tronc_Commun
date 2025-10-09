@@ -12,6 +12,29 @@
 
 #include "../../includes/cub3d.h"
 
+int	init_data_norm(t_data *data)
+{
+	data->player = malloc(sizeof(t_player));
+	if (!data->player)
+		return (data->player = NULL, print_error(MALLOC_ERROR, data), 1);
+	data->ray = malloc(sizeof(t_ray));
+	if (!data->ray)
+		return (data->ray = NULL, print_error(MALLOC_ERROR, data), 1);
+	data->keys = malloc(sizeof(t_keys));
+	if (!data->keys)
+		return (data->keys = NULL, print_error(MALLOC_ERROR, data), 1);
+	ft_memset(data->keys, 0, sizeof(t_keys));
+	data->texture = malloc(sizeof(t_texture));
+	if (!data->texture)
+		return (data->texture = NULL, print_error(MALLOC_ERROR, data), 1);
+	init_map(data);
+	init_mlx(data);
+	init_parser(data);
+	init_player(data);
+	init_ray(data);
+	return (0);
+}
+
 int	init_data(t_data *data)
 {
 	data->img = malloc(sizeof(t_image));
@@ -23,21 +46,7 @@ int	init_data(t_data *data)
 	data->parser = malloc(sizeof(t_parser));
 	if (!data->parser)
 		return (data->parser = NULL, print_error(MALLOC_ERROR, data), 1);
-	data->player = malloc(sizeof(t_player));
-	if (!data->player)
-		return (data->player = NULL, print_error(MALLOC_ERROR, data), 1);
-	data->ray = malloc(sizeof(t_ray));
-	if (!data->ray)
-		return (data->ray = NULL, print_error(MALLOC_ERROR, data), 1);
-	data->keys = malloc(sizeof(t_keys));
-	if (!data->keys)
-		return (data->keys = NULL, print_error(MALLOC_ERROR, data), 1);
-	ft_memset(data->keys, 0, sizeof(t_keys));
-	init_map(data);
-	init_mlx(data);
-	init_parser(data);
-	init_player(data);
-	init_ray(data);
+	init_data_norm(data);
 	data->nothing_after_map = true;
 	data->floor_color = 0;
 	data->ceiling_color = 0;

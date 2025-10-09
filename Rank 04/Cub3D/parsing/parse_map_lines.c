@@ -51,11 +51,11 @@ static int	part_1(t_data *data, t_parser *parser)
 	parser->first_line = NULL;
 	parser->line = NULL;
 	if (parser->count == 0)
-		return (get_next_line(-1), printf("No valid map found"), 1);
+		return (get_next_line(-1), 1);
 	close(parser->fd);
 	parser->fd = open(data->argv[1], O_RDONLY);
 	if (parser->fd < 0)
-		return (get_next_line(-1), printf("Cannot reopen file"), 1);
+		return (get_next_line(-1), 1);
 	parser->line = get_next_line(parser->fd);
 	while (parser->line)
 	{

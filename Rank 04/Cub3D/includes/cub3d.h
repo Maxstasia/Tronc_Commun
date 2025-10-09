@@ -32,13 +32,13 @@
 # include "struct.h"
 
 // Macros
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
-//# define WIN_WIDTH 1920
-//# define WIN_HEIGHT 1080
+//# define WIN_WIDTH 800
+//# define WIN_HEIGHT 600
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 # define TILE_WIDTH 64
 # define TILE_HEIGHT 64
-# define MOV_SPEED 0.1
+# define MOV_SPEED 0.075
 # define ROT_SPEED 0.05
 # define FOV 90
 
@@ -66,6 +66,9 @@ int			count_map_lines(char **map);
 /* ------------------------------ ray_casting ------------------------------ */
 /* ------- ray_casting.c ------- */
 int			ray_casting(t_data *data);
+
+/* ------- ray_casting_norm.c ------- */
+char		*draw_wall_slice_norm(t_data *data);
 
 /* ------- render.c ------- */
 void		img_pix_put(t_image *img, int x, int y, int color);
@@ -102,6 +105,7 @@ void		init_map(t_data *data);
 /* ------- init_mlx.c ------- */
 void		init_mlx(t_data *data);
 int			setup_mlx(t_data *data);
+int			load_textures(t_data *data);
 int			loop(t_data *data);
 
 /* ------- init_paser.c ------- */

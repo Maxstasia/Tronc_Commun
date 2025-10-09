@@ -23,6 +23,8 @@ int	init_all(t_data *data)
 	precalculate_colors(data);
 	if (setup_mlx(data))
 		return (clean_up(data), 1);
+	if (load_textures(data))
+		return (clean_up(data), 1);
 	find_player_position(data);
 	render_frame(data);
 	return (0);

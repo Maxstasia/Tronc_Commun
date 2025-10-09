@@ -56,6 +56,12 @@ typedef struct s_map
 	char	*texture_south;
 	char	*texture_west;
 	char	*texture_east;
+	void	*img_north;
+	void	*img_south;
+	void	*img_west;
+	void	*img_east;
+	int		tex_width;
+	int		tex_height;
 	char	*color_floor;
 	char	*color_ceiling;
 	char	**map;
@@ -113,6 +119,13 @@ typedef struct s_ray {
 	int			step_y;
 }				t_ray;
 
+typedef struct s_texture
+{
+	int		bpp;
+	int		l_len;
+	int		endian;
+}				t_texture;
+
 typedef struct s_data
 {
 	t_image		*img;
@@ -121,6 +134,7 @@ typedef struct s_data
 	t_player	*player;
 	t_ray		*ray;
 	t_keys		*keys;
+	t_texture	*texture;
 	int			argc;
 	char		**argv;
 	void		*mlx_ptr;

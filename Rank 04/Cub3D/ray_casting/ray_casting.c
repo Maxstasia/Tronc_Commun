@@ -79,27 +79,28 @@ static void	dda(t_data *data)
 	}
 }
 
-// DEBUG : couleur temporaire selon l'orientation du mur
 static void	draw_wall_slice(t_data *data, int x, int wall_height)
 {
-	int	y;
-	int	wall_start;
-	int	wall_end;
-	int	color;
+	int		y;
+	int		wall_start;
+	int		wall_end;
+	char	*tex_data;
+	int		color;
 
-	wall_start = (WIN_HEIGHT - wall_height) / 2;
+
+	wall_start = (WIN_HEIGHT - wall_height) / 4;
 	if (wall_start < 0)
 		wall_start = 0;
-	wall_end = (WIN_HEIGHT + wall_height) / 2;
+	wall_end = (WIN_HEIGHT + wall_height) / 4;
 	if (wall_end >= WIN_HEIGHT)
 		wall_end = WIN_HEIGHT - 1;
-	if (data->ray->side == 0)
-		color = 0xFF0000;
-	else
-		color = 0x00FF00;
+	tex_data = draw_wall_slice_norm(data);
 	y = wall_start;
 	while (y < wall_end)
 	{
+		color = *(int *)(tex_data + ((y - wall_start) * 64
+					/ wall_height * data->texture->l_len + 0
+					* (data->texture->bpp / 8)));
 		img_pix_put(data->img, x, y, color);
 		y++;
 	}

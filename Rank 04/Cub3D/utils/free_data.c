@@ -73,6 +73,19 @@ void	free_parser(t_parser *parser)
 	free(parser);
 }
 
+static void	free_norm(t_data *data)
+{
+	if (data->player)
+		free(data->player);
+	data->player = NULL;
+	if (data->ray)
+		free(data->ray);
+	data->ray = NULL;
+	if (data->keys)
+		free(data->keys);
+	data->keys = NULL;
+}
+
 void	free_data(t_data *data)
 {
 	if (!data)
@@ -83,15 +96,7 @@ void	free_data(t_data *data)
 	data->img = NULL;
 	free_parser(data->parser);
 	data->parser = NULL;
-	if (data->player)
-		free(data->player);
-	data->player = NULL;
-	if (data->ray)
-		free(data->ray);
-	data->ray = NULL;
-	if (data->keys)
-		free(data->keys);
-	data->keys = NULL;
+	free_norm(data);
 	data->argc = 0;
 	data->argv = NULL;
 	if (data->win_ptr && data->mlx_ptr)

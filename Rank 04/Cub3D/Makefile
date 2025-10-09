@@ -40,6 +40,7 @@ SRC				=								\
 			$(PARSER_DIR)/parse_textures.c		\
 			$(PARSER_DIR)/parser.c				\
 			\
+			$(RAY_DIR)/ray_casting_norm.c		\
 			$(RAY_DIR)/ray_casting.c			\
 			$(RAY_DIR)/render.c					\
 			\

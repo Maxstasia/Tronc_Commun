@@ -12,7 +12,25 @@
 
 #include "../../includes/cub3d.h"
 
-static void	set_player_direction(t_data *data)
+static void	set_player_dir_ew(t_data *data)
+{
+	if (data->map->player_direction == 'E')
+	{
+		data->player->dir_p.x = 1;
+		data->player->dir_p.y = 0;
+		data->player->fov.x = 0;
+		data->player->fov.y = tan(FOV / 2);
+	}
+	else if (data->map->player_direction == 'W')
+	{
+		data->player->dir_p.x = -1;
+		data->player->dir_p.y = 0;
+		data->player->fov.x = 0;
+		data->player->fov.y = -tan(FOV / 2);
+	}
+}
+
+static void	set_player_dir_ns(t_data *data)
 {
 	if (data->map->player_direction == 'N')
 	{
@@ -28,20 +46,8 @@ static void	set_player_direction(t_data *data)
 		data->player->fov.x = -tan(FOV / 2);
 		data->player->fov.y = 0;
 	}
-	else if (data->map->player_direction == 'E')
-	{
-		data->player->dir_p.x = 1;
-		data->player->dir_p.y = 0;
-		data->player->fov.x = 0;
-		data->player->fov.y = tan(FOV / 2);
-	}
-	else if (data->map->player_direction == 'W')
-	{
-		data->player->dir_p.x = -1;
-		data->player->dir_p.y = 0;
-		data->player->fov.x = 0;
-		data->player->fov.y = -tan(FOV / 2);
-	}
+	else
+		set_player_dir_ew(data);
 }
 
 void	find_player_position(t_data *data)
@@ -60,7 +66,7 @@ void	find_player_position(t_data *data)
 			{
 				data->player->pos.x = j + 0.5;
 				data->player->pos.y = i + 0.5;
-				set_player_direction(data);
+				set_player_dir_ns(data);
 				return ;
 			}
 			j++;

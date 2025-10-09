@@ -61,7 +61,7 @@ static void	draw_floor_ceiling(t_data *data)
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
-			if (y < WIN_HEIGHT / 2)
+			if (y < WIN_HEIGHT / 4)
 				img_pix_put(data->img, x, y, data->ceiling_color);
 			else
 				img_pix_put(data->img, x, y, data->floor_color);

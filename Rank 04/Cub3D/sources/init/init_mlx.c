@@ -12,6 +12,32 @@
 
 #include "../../includes/cub3d.h"
 
+int	load_textures(t_data *data)
+{
+	int	width;
+	int	height;
+
+	data->map->img_north = mlx_xpm_file_to_image(data->mlx_ptr,
+			data->map->texture_north, &width, &height);
+	if (!data->map->img_north)
+		return (print_error(TEXTURE_ERROR, data), 1);
+	data->map->img_south = mlx_xpm_file_to_image(data->mlx_ptr,
+			data->map->texture_south, &width, &height);
+	if (!data->map->img_south)
+		return (print_error(TEXTURE_ERROR, data), 1);
+	data->map->img_west = mlx_xpm_file_to_image(data->mlx_ptr,
+			data->map->texture_west, &width, &height);
+	if (!data->map->img_west)
+		return (print_error(TEXTURE_ERROR, data), 1);
+	data->map->img_east = mlx_xpm_file_to_image(data->mlx_ptr,
+			data->map->texture_east, &width, &height);
+	if (!data->map->img_east)
+		return (print_error(TEXTURE_ERROR, data), 1);
+	data->map->tex_width = width;
+	data->map->tex_height = height;
+	return (0);
+}
+
 void	init_mlx(t_data *data)
 {
 	data->mlx_ptr = NULL;

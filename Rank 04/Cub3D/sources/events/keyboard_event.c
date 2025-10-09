@@ -22,7 +22,6 @@ static void	rotate_left(t_data *data)
 		- data->player->dir_p.y * sin(-ROT_SPEED);
 	data->player->dir_p.y = old_dir_x * sin(-ROT_SPEED)
 		+ data->player->dir_p.y * cos(-ROT_SPEED);
-
 	old_fov_x = data->player->fov.x;
 	data->player->fov.x = data->player->fov.x * cos(-ROT_SPEED)
 		- data->player->fov.y * sin(-ROT_SPEED);
@@ -40,7 +39,6 @@ static void	rotate_right(t_data *data)
 		- data->player->dir_p.y * sin(ROT_SPEED);
 	data->player->dir_p.y = old_dir_x * sin(ROT_SPEED)
 		+ data->player->dir_p.y * cos(ROT_SPEED);
-
 	old_fov_x = data->player->fov.x;
 	data->player->fov.x = data->player->fov.x * cos(ROT_SPEED)
 		- data->player->fov.y * sin(ROT_SPEED);
@@ -63,9 +61,9 @@ int	handle_keypress(int keysym, t_data *data)
 		data->keys->a = 1;
 	if (keysym == XK_d || keysym == XK_D)
 		data->keys->d = 1;
-	if (keysym == XK_Left)
+	if (keysym == XK_Left || keysym == XK_q || keysym == XK_Q)
 		data->keys->left = 1;
-	if (keysym == XK_Right)
+	if (keysym == XK_Right || keysym == XK_e || keysym == XK_E)
 		data->keys->right = 1;
 	return (0);
 }
@@ -80,9 +78,9 @@ int	handle_keyrelease(int keysym, t_data *data)
 		data->keys->a = 0;
 	if (keysym == XK_d || keysym == XK_D)
 		data->keys->d = 0;
-	if (keysym == XK_Left)
+	if (keysym == XK_Left || keysym == XK_q || keysym == XK_Q)
 		data->keys->left = 0;
-	if (keysym == XK_Right)
+	if (keysym == XK_Right || keysym == XK_e || keysym == XK_E)
 		data->keys->right = 0;
 	return (0);
 }
