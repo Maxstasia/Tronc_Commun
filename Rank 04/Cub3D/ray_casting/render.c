@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:07:11 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/08 11:59:07 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 14:10:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	draw_floor_ceiling(t_data *data)
 		x = 0;
 		while (x < WIN_WIDTH)
 		{
-			if (y < WIN_HEIGHT / 4)
+			if (y < WIN_HEIGHT / 2)
 				img_pix_put(data->img, x, y, data->ceiling_color);
 			else
 				img_pix_put(data->img, x, y, data->floor_color);

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:07:32 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/07 18:52:15 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 14:44:54 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,44 @@
 
 static void	set_player_dir_ew(t_data *data)
 {
+	double	plane_size;
+
+	plane_size = tan((FOV * M_PI / 180.0) / 2);
+	plane_size *= (double)WIN_HEIGHT / (double)WIN_WIDTH;
 	if (data->map->player_direction == 'E')
 	{
 		data->player->dir_p.x = 1;
 		data->player->dir_p.y = 0;
 		data->player->fov.x = 0;
-		data->player->fov.y = tan(FOV / 2);
+		data->player->fov.y = plane_size;
 	}
 	else if (data->map->player_direction == 'W')
 	{
 		data->player->dir_p.x = -1;
 		data->player->dir_p.y = 0;
 		data->player->fov.x = 0;
-		data->player->fov.y = -tan(FOV / 2);
+		data->player->fov.y = -plane_size;
 	}
 }
 
 static void	set_player_dir_ns(t_data *data)
 {
+	double	plane_size;
+
+	plane_size = tan((FOV * M_PI / 180.0) / 2);
+	plane_size *= (double)WIN_HEIGHT / (double)WIN_WIDTH;
 	if (data->map->player_direction == 'N')
 	{
 		data->player->dir_p.x = 0;
 		data->player->dir_p.y = -1;
-		data->player->fov.x = tan(FOV / 2);
+		data->player->fov.x = plane_size;
 		data->player->fov.y = 0;
 	}
 	else if (data->map->player_direction == 'S')
 	{
 		data->player->dir_p.x = 0;
 		data->player->dir_p.y = 1;
-		data->player->fov.x = -tan(FOV / 2);
+		data->player->fov.x = -plane_size;
 		data->player->fov.y = 0;
 	}
 	else

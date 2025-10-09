@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 10:13:27 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/09 14:44:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@
 
 # include "struct.h"
 
+// Math constants
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
+
 // Macros
 //# define WIN_WIDTH 800
 //# define WIN_HEIGHT 600
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
-# define TILE_WIDTH 64
-# define TILE_HEIGHT 64
-# define MOV_SPEED 0.075
+# define MOV_SPEED 0.1
 # define ROT_SPEED 0.05
 # define FOV 90
 
