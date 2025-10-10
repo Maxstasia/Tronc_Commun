@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:11:24 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:37:56 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ void		img_pix_put(t_image *img, int x, int y, int color);
 int			render_frame(t_data *data);
 void		precalculate_colors(t_data *data);
 
+/* ------- minimap.c ------- */
+void		draw_minimap(t_data *data);
+void		init_minimap(t_data *data);
+
 /* ------------------------------ sources ------------------------------ */
 /* --------------- events --------------- */
 /* ------- keyboard_event.c ------- */
@@ -118,6 +122,9 @@ int			init_parser(t_data *data);
 /* ------- init_player.c ------- */
 void		init_player(t_data *data);
 void		find_player_position(t_data *data);
+
+/* ------- init_keys.c ------- */
+void		init_keys(t_data *data);
 
 /* ------- init_ray.c ------- */
 void		init_ray(t_data *data);

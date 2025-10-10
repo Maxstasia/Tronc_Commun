@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 15:57:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:17:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,9 @@ int			init_parser(t_data *data);
 /* ------- init_player.c ------- */
 void		init_player(t_data *data);
 void		find_player_position(t_data *data);
+
+/* ------- init_keys.c ------- */
+void		init_keys(t_data *data);
 
 /* ------- init_ray.c ------- */
 void		init_ray(t_data *data);

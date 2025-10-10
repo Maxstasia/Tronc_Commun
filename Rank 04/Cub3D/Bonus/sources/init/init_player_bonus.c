@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:07:32 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:10:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:36:05 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,5 @@ void	init_player(t_data *data)
 	data->player->dir_p.y = 0;
 	data->player->fov.x = 0;
 	data->player->fov.y = 0;
+	data->player->move_speed = MOV_SPEED;
 }

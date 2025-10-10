@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:19:37 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/08 12:02:04 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 12:18:28 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	init_data_norm(t_data *data)
 	init_parser(data);
 	init_player(data);
 	init_ray(data);
+	init_keys(data);
 	return (0);
 }
 

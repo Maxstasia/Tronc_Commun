@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:40 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:10:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:09:44 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	check_closed_map(t_data *data)
 		j = 0;
 		while (data->map->map[i][j])
 		{
-			if (data->map->map[i][j] == '0' || is_player(data->map->map[i][j]))
+			if (data->map->map[i][j] == '0' || is_player(data->map->map[i][j])
+				|| data->map->map[i][j] == 'P')
 			{
 				if (i == 0 || !data->map->map[i + 1] || j == 0
 					|| !data->map->map[i][j + 1]
@@ -66,7 +67,7 @@ static int	validate_map_structure(t_data *data)
 				data->map->player_direction = data->map->map[i][j];
 			}
 			else if (data->map->map[i][j] != '0' && data->map->map[i][j] != '1'
-				&& data->map->map[i][j] != ' ')
+				&& data->map->map[i][j] != ' ' && data->map->map[i][j] != 'P')
 				return (print_error(MAP_ERROR, data), 1);
 		}
 	}

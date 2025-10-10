@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:11:53 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:28:51 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_player
 	t_vector	pos;
 	t_vector	dir_p;
 	t_vector	fov;
+	double		move_speed;
 }				t_player;
 
 typedef struct s_keys
@@ -103,6 +104,7 @@ typedef struct s_keys
 	int			d;
 	int			left;
 	int			right;
+	int			shift;
 }				t_keys;
 
 typedef struct s_ray {
@@ -126,6 +128,18 @@ typedef struct s_texture
 	int		endian;
 }				t_texture;
 
+typedef struct s_minimap
+{
+	int		size;
+	int		tile_size;
+	int		offset_x;
+	int		offset_y;
+	int		wall_color;
+	int		floor_color;
+	int		player_color;
+	int		border_color;
+}				t_minimap;
+
 typedef struct s_data
 {
 	t_image		*img;
@@ -135,6 +149,7 @@ typedef struct s_data
 	t_ray		*ray;
 	t_keys		*keys;
 	t_texture	*texture;
+	t_minimap	*minimap;
 	int			argc;
 	char		**argv;
 	void		*mlx_ptr;

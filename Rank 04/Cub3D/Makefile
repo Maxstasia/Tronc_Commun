@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/10/09 19:08:42 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/10/10 12:17:33 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ SRC					=							\
 			$(EVENT_DIR)/movement.c				\
 			\
 			$(INIT_DIR)/init_data.c				\
+			$(INIT_DIR)/init_keys.c				\
 			$(INIT_DIR)/init_main.c				\
 			$(INIT_DIR)/init_map.c				\
 			$(INIT_DIR)/init_mlx.c				\
@@ -95,6 +96,7 @@ SRC_BONUS			=										\
 			$(RAY_DIR_BONUS)/ray_casting_norm_bonus.c		\
 			$(RAY_DIR_BONUS)/ray_casting_bonus.c			\
 			$(RAY_DIR_BONUS)/render_bonus.c					\
+			$(RAY_DIR_BONUS)/minimap_bonus.c				\
 			\
 			$(SOURCES_DIR_BONUS)/error_bonus.c				\
 			\
@@ -103,6 +105,7 @@ SRC_BONUS			=										\
 			$(EVENT_DIR_BONUS)/movement_bonus.c				\
 			\
 			$(INIT_DIR_BONUS)/init_data_bonus.c				\
+			$(INIT_DIR_BONUS)/init_keys_bonus.c				\
 			$(INIT_DIR_BONUS)/init_main_bonus.c				\
 			$(INIT_DIR_BONUS)/init_map_bonus.c				\
 			$(INIT_DIR_BONUS)/init_mlx_bonus.c				\

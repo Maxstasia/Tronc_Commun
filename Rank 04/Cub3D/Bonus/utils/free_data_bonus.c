@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:21:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:10:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:12:52 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ static void	free_norm(t_data *data)
 	if (data->texture)
 		free(data->texture);
 	data->texture = NULL;
+	if (data->minimap)
+		free(data->minimap);
+	data->minimap = NULL;
 }
 
 void	free_data(t_data *data)
