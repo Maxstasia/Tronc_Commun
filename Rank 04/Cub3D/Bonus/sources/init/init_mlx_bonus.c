@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:22:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:10:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:51:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	load_textures(t_data *data)
 			data->map->texture_east, &width, &height);
 	if (!data->map->img_east)
 		return (print_error(TEXTURE_ERROR, data), 1);
-	data->map->tex_width = width;
-	data->map->tex_height = height;
-	return (0);
+	data->map->img_door = mlx_xpm_file_to_image(data->mlx_ptr,
+			data->map->texture_door, &width, &height);
+	if (!data->map->img_door)
+		return (print_error(TEXTURE_ERROR, data), 1);
+	return (data->map->tex_width = width, data->map->tex_height = height, 0);
 }
 
 void	init_mlx(t_data *data)

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 11:37:56 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:07:19 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,10 @@ int			validate_map(t_data *data, t_map *map);
 int			parse_colors(t_data *data, char *line);
 int			validate_colors(t_data *data);
 
+/* ------- parse_door.c ------- */
+int			asignation_door(t_data *data, char *path,
+				char *line, char **split);
+
 /* ------- parse_map_lines.c ------- */
 int			parse_map_lines(t_data *data, t_parser *parser);
 
@@ -85,6 +89,9 @@ void		init_minimap(t_data *data);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- events --------------- */
+/* ------- interaction_movement.c ------- */
+void		interact_door(t_data *data);
+
 /* ------- keyboard_event.c ------- */
 int			handle_keypress(int keysym, t_data *data);
 int			handle_keyrelease(int keysym, t_data *data);
@@ -98,6 +105,10 @@ void		move_forward(t_data *data);
 void		move_backward(t_data *data);
 void		move_left(t_data *data);
 void		move_right(t_data *data);
+
+/* ------- rotation_movement.c ------- */
+void		rotate_left(t_data *data);
+void		rotate_right(t_data *data);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- init --------------- */

@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_ray_bonus.c                                   :+:      :+:    :+:   */
+/*   parse_door_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 14:22:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 18:07:07 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/10/01 13:14:18 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/10/10 17:37:30 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d_bonus.h"
 
-void	init_ray(t_data *data)
+int	asignation_door(t_data *data, char *path, char *line, char **split)
 {
-	data->ray->dir.x = 0;
-	data->ray->dir.y = 0;
-	data->ray->perp_dist = 0;
-	data->ray->map_x = 0;
-	data->ray->map_y = 0;
-	data->ray->side = 0;
-	data->ray->side_dist_x = 0;
-	data->ray->side_dist_y = 0;
-	data->ray->delta_dist_x = 0;
-	data->ray->delta_dist_y = 0;
-	data->ray->step_x = 0;
-	data->ray->step_y = 0;
-	data->ray->is_door = false;
+	if (ft_strncmp(line, "DO ", 3) == 0)
+	{
+		if (data->map->texture_door)
+			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);
+		else
+		{
+			data->map->texture_door = ft_strdup(path);
+			if (!data->map->texture_door)
+				return (free_split(split), print_error(MALLOC_ERROR, data), 1);
+		}
+	}
+	return (0);
 }

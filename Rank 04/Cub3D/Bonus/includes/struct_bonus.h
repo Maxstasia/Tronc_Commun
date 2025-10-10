@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 14:14:39 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:57:42 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef struct s_ray {
 	double		delta_dist_y;
 	int			step_x;
 	int			step_y;
+	bool		is_door;
 }				t_ray;
 
 typedef struct s_texture
@@ -137,6 +138,8 @@ typedef struct s_minimap
 	int		offset_x;
 	int		offset_y;
 	int		wall_color;
+	int		door_color;
+	int		door_open_color;
 	int		floor_color;
 	int		player_color;
 	int		border_color;

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:40 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 14:09:44 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:43:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	check_closed_map(t_data *data)
 	int	i;
 	int	j;
 
-	i = 0;
-	while (data->map->map[i])
+	i = -1;
+	while (i ++, data->map->map[i])
 	{
 		j = 0;
 		while (data->map->map[i][j])
@@ -42,7 +42,6 @@ static int	check_closed_map(t_data *data)
 			}
 			j++;
 		}
-		i++;
 	}
 	return (0);
 }

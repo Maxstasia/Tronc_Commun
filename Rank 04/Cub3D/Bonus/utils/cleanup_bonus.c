@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:10:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:42:03 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,6 @@ void	destroy_sprites(t_data *data)
 		mlx_destroy_image(data->mlx_ptr, data->map->img_west);
 	if (data->map->img_east)
 		mlx_destroy_image(data->mlx_ptr, data->map->img_east);
+	if (data->map->img_door)
+		mlx_destroy_image(data->mlx_ptr, data->map->img_door);
 }

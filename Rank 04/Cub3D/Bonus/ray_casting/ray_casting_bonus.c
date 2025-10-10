@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:56:36 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:10:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:16:24 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,9 @@ static void	cacl_step_and_dist(t_data *data)
 	}
 }
 
-static void	dda(t_data *data)
+static int	dda(t_data *data)
 {
-	bool	hit;
-
-	hit = false;
-	while (!hit)
+	while (1)
 	{
 		if (data->ray->side_dist_x < data->ray->side_dist_y)
 		{
@@ -75,8 +72,11 @@ static void	dda(t_data *data)
 			data->ray->side = 1;
 		}
 		if (data->map->map[data->ray->map_y][data->ray->map_x] == '1')
-			hit = true;
+			return (data->ray->is_door = false, 0);
+		else if (data->map->map[data->ray->map_y][data->ray->map_x] == 'P')
+			return (data->ray->is_door = true, 0);
 	}
+	return (0);
 }
 
 static void	draw_wall_slice(t_data *data, int x, int wall_height)

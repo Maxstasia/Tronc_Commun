@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:21:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 11:12:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:41:45 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	free_map(t_map *map)
 	if (map->texture_east)
 		free(map->texture_east);
 	map->texture_east = NULL;
+	if (map->texture_door)
+		free(map->texture_door);
+	map->texture_door = NULL;
 	if (map->color_floor)
 		free(map->color_floor);
 	if (map->color_ceiling)

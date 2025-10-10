@@ -6,45 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:38:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 13:22:12 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:49:23 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d_bonus.h"
-
-static void	rotate_left(t_data *data)
-{
-	double	old_dir_x;
-	double	old_fov_x;
-
-	old_dir_x = data->player->dir_p.x;
-	data->player->dir_p.x = data->player->dir_p.x * cos(-ROT_SPEED)
-		- data->player->dir_p.y * sin(-ROT_SPEED);
-	data->player->dir_p.y = old_dir_x * sin(-ROT_SPEED)
-		+ data->player->dir_p.y * cos(-ROT_SPEED);
-	old_fov_x = data->player->fov.x;
-	data->player->fov.x = data->player->fov.x * cos(-ROT_SPEED)
-		- data->player->fov.y * sin(-ROT_SPEED);
-	data->player->fov.y = old_fov_x * sin(-ROT_SPEED)
-		+ data->player->fov.y * cos(-ROT_SPEED);
-}
-
-static void	rotate_right(t_data *data)
-{
-	double	old_dir_x;
-	double	old_fov_x;
-
-	old_dir_x = data->player->dir_p.x;
-	data->player->dir_p.x = data->player->dir_p.x * cos(ROT_SPEED)
-		- data->player->dir_p.y * sin(ROT_SPEED);
-	data->player->dir_p.y = old_dir_x * sin(ROT_SPEED)
-		+ data->player->dir_p.y * cos(ROT_SPEED);
-	old_fov_x = data->player->fov.x;
-	data->player->fov.x = data->player->fov.x * cos(ROT_SPEED)
-		- data->player->fov.y * sin(ROT_SPEED);
-	data->player->fov.y = old_fov_x * sin(ROT_SPEED)
-		+ data->player->fov.y * cos(ROT_SPEED);
-}
 
 int	handle_keypress(int keysym, t_data *data)
 {
@@ -67,6 +33,8 @@ int	handle_keypress(int keysym, t_data *data)
 		data->keys->right = 1;
 	if (keysym == XK_Shift_L || keysym == XK_Shift_R)
 		data->keys->shift = 1;
+	if (keysym == XK_space || keysym == XK_F || keysym == XK_f)
+		interact_door(data);
 	return (0);
 }
 

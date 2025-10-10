@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 11:27:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:10:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:11:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,21 @@ static char	*draw_wall_slice_norm(t_data *data)
 	return (tex_data);
 }
 
+static char	*if_is_door(t_data *data)
+{
+	char	*tex_data;
+
+	if (data->ray->is_door == true)
+	{
+		tex_data = mlx_get_data_addr(data->map->img_door,
+				&data->texture->bpp, &data->texture->l_len,
+				&data->texture->endian);
+		return (tex_data);
+	}
+	tex_data = draw_wall_slice_norm(data);
+	return (tex_data);
+}
+
 void	draw_wall_slice_helper(t_data *data, int x, int wall_height, int tex_x)
 {
 	int		wall_start;
@@ -60,7 +75,7 @@ void	draw_wall_slice_helper(t_data *data, int x, int wall_height, int tex_x)
 	y = wall_start;
 	while (y < wall_end)
 	{
-		img_pix_put(data->img, x, y, *(int *)(draw_wall_slice_norm(data)
+		img_pix_put(data->img, x, y, *(int *)(if_is_door(data)
 				+ (((int)tex_pos & (data->map->tex_height - 1))
 					* data->texture->l_len + tex_x
 					* (data->texture->bpp / 8))));

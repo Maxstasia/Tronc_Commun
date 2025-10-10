@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 00:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 11:19:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:59:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	init_minimap(t_data *data)
 	data->minimap->offset_x = WIN_WIDTH - data->minimap->size - 20;
 	data->minimap->offset_y = 20;
 	data->minimap->wall_color = 0x333333;
+	data->minimap->door_color = 0x996633;
+	data->minimap->door_open_color = 0x00FF00;
 	data->minimap->floor_color = 0xCCCCCC;
 	data->minimap->player_color = 0xFF0000;
 	data->minimap->border_color = 0x000000;
@@ -81,8 +83,10 @@ static void	draw_square(t_data *data, int x, int y, int color)
 		j = 0;
 		while (j < data->minimap->tile_size)
 		{
-			screen_x = data->minimap->offset_x + x * data->minimap->tile_size + i;
-			screen_y = data->minimap->offset_y + y * data->minimap->tile_size + j;
+			screen_x = data->minimap->offset_x + x
+				* data->minimap->tile_size + i;
+			screen_y = data->minimap->offset_y + y
+				* data->minimap->tile_size + j;
 			if (screen_x >= data->minimap->offset_x
 				&& screen_x < data->minimap->offset_x + data->minimap->size
 				&& screen_y >= data->minimap->offset_y
@@ -117,9 +121,11 @@ static void	draw_player(t_data *data, int center_x, int center_y)
 			if (dx * dx + dy * dy <= radius * radius)
 			{
 				if (center_x + i >= data->minimap->offset_x
-					&& center_x + i < data->minimap->offset_x + data->minimap->size
+					&& center_x + i
+					< data->minimap->offset_x + data->minimap->size
 					&& center_y + j >= data->minimap->offset_y
-					&& center_y + j < data->minimap->offset_y + data->minimap->size)
+					&& center_y + j
+					< data->minimap->offset_y + data->minimap->size)
 					img_pix_put(data->img, center_x + i - 2, center_y + j - 2,
 						data->minimap->player_color);
 			}
@@ -146,7 +152,8 @@ static void	draw_minimap_border(t_data *data)
 			data->minimap->border_color);
 		img_pix_put(data->img, data->minimap->offset_x,
 			data->minimap->offset_y + i, data->minimap->border_color);
-		img_pix_put(data->img, data->minimap->offset_x + data->minimap->size - 1,
+		img_pix_put(data->img, data->minimap->offset_x
+			+ data->minimap->size - 1,
 			data->minimap->offset_y + i, data->minimap->border_color);
 		i++;
 	}
@@ -175,10 +182,15 @@ void	draw_minimap(t_data *data)
 	{
 		x = 0;
 		map_width = ft_strlen(data->map->map[y]);
-		while (x < map_width && x < data->minimap->size / data->minimap->tile_size)
+		while (x < map_width && x < data->minimap->size
+			/ data->minimap->tile_size)
 		{
 			if (data->map->map[y][x] == '1')
 				draw_square(data, x, y, data->minimap->wall_color);
+			if (data->map->map[y][x] == 'P')
+				draw_square(data, x, y, data->minimap->door_color);
+			if (data->map->map[y][x] == '2')
+				draw_square(data, x, y, data->minimap->door_open_color);
 			else if (data->map->map[y][x] == '0'
 				|| data->map->map[y][x] == 'N'
 				|| data->map->map[y][x] == 'S'
