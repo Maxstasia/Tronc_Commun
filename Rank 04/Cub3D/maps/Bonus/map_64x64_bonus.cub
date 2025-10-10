@@ -2,6 +2,7 @@ NO textures/Brick_Wall_Cracked_64x64.xpm
 SO textures/Green_Wall_Rocks_64x64.xpm
 WE textures/Wooden_Floor_Horizontal_64x64.xpm
 EA textures/Wooden_Floor_Vertical_64x64.xpm
+PO textures/door_64x64.xpm
 
 F 222,184,135
 C 135,206,235

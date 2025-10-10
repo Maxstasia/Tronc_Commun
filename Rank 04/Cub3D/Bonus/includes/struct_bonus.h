@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 11:28:51 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/10 14:14:39 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ typedef struct s_map
 	char	*texture_south;
 	char	*texture_west;
 	char	*texture_east;
+	char	*texture_door;
 	void	*img_north;
 	void	*img_south;
 	void	*img_west;
 	void	*img_east;
+	void	*img_door;
 	int		tex_width;
 	int		tex_height;
 	char	*color_floor;
