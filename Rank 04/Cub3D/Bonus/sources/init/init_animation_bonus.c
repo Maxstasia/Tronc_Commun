@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interaction_movement_bonus.c                       :+:      :+:    :+:   */
+/*   init_animation_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 18:30:23 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 13:14:00 by mstasiak         ###   ########.fr       */
+/*   Created: 2025/10/13 00:00:00 by mstasiak          #+#    #+#             */
+/*   Updated: 2025/10/13 16:33:33 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d_bonus.h"
 
-void	interact_door(t_data *data)
+static void	init_anim_texture(t_anim *anim)
 {
-	int	door_x;
-	int	door_y;
+	anim->frames = NULL;
+	anim->frame_count = 0;
+	anim->current_frame = 0;
+	anim->is_animated = 0;
+}
 
-	door_x = (int)(data->player->pos.x + data->player->dir_p.x);
-	door_y = (int)(data->player->pos.y + data->player->dir_p.y);
-	if (data->player->pos.x == door_x && data->player->pos.y == door_y)
-		return ;
-	if (data->map->map[door_y][door_x] == 'P')
-		data->map->map[door_y][door_x] = '2';
-	else if (data->map->map[door_y][door_x] == '2')
-		data->map->map[door_y][door_x] = 'P';
+void	init_animations(t_data *data)
+{
+	init_anim_texture(&data->map->anim_north);
+	init_anim_texture(&data->map->anim_south);
+	init_anim_texture(&data->map->anim_west);
+	init_anim_texture(&data->map->anim_east);
+	init_anim_texture(&data->map->anim_door);
+	data->anim_counter = 0;
+	data->anim_speed = 5;
 }

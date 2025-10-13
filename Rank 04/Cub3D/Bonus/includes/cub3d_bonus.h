@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 19:07:19 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:49:00 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
 # define MOV_SPEED 0.1
-# define ROT_SPEED 0.05
+# define ROT_SPEED 0.075
 # define FOV 90
 
 # define MLX_ERROR 1
@@ -71,6 +71,22 @@ int			parse_file(t_data *data, t_parser *parser);
 int			count_map_lines(char **map);
 
 /* ------------------------------ ray_casting ------------------------------ */
+/* ------- animation.c ------- */
+char		*create_frame_path(char *base_path, int frame_num);
+int			load_all_animations(t_data *data);
+void		update_animations(t_data *data);
+
+/* ------- load_texture.c ------- */
+char		*create_frame_path(char *base_path, int frame_num);
+int			load_all_animations(t_data *data);
+void		update_animations(t_data *data);
+
+/* ------- minimap.c ------- */
+void		draw_minimap(t_data *data, t_minimap *minimap);
+
+/* ------- minimap_helper.c ------- */
+void		draw_minimap_helper(t_data *data, t_minimap *minimap, int x, int y);
+
 /* ------- ray_casting.c ------- */
 int			ray_casting(t_data *data);
 
@@ -79,13 +95,9 @@ void		draw_wall_slice_helper(t_data *data, int x,
 				int wall_height, int tex_x);
 
 /* ------- render.c ------- */
+void		precalculate_colors(t_data *data);
 void		img_pix_put(t_image *img, int x, int y, int color);
 int			render_frame(t_data *data);
-void		precalculate_colors(t_data *data);
-
-/* ------- minimap.c ------- */
-void		draw_minimap(t_data *data);
-void		init_minimap(t_data *data);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- events --------------- */
@@ -112,8 +124,14 @@ void		rotate_right(t_data *data);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- init --------------- */
+/* ------- init_animation.c ------- */
+void		init_animations(t_data *data);
+
 /* ------- init_data.c ------- */
 int			init_data(t_data *data);
+
+/* ------- init_keys.c ------- */
+void		init_keys(t_data *data);
 
 /* ------- init_main.c ------- */
 int			init_all(t_data *data);
@@ -121,21 +139,20 @@ int			init_all(t_data *data);
 /* ------- init_map.c ------- */
 void		init_map(t_data *data);
 
+/* ------- init_minimap.c ------- */
+void		init_minimap(t_data *data);
+
 /* ------- init_mlx.c ------- */
-void		init_mlx(t_data *data);
 int			setup_mlx(t_data *data);
-int			load_textures(t_data *data);
 int			loop(t_data *data);
+void		init_mlx(t_data *data);
 
 /* ------- init_paser.c ------- */
 int			init_parser(t_data *data);
 
 /* ------- init_player.c ------- */
-void		init_player(t_data *data);
 void		find_player_position(t_data *data);
-
-/* ------- init_keys.c ------- */
-void		init_keys(t_data *data);
+void		init_player(t_data *data);
 
 /* ------- init_ray.c ------- */
 void		init_ray(t_data *data);

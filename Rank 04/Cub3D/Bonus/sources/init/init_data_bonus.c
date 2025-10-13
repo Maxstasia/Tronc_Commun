@@ -6,13 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:19:37 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 12:08:44 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:47:28 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d_bonus.h"
 
-int	init_data_norm(t_data *data)
+static int	init_data_norm(t_data *data)
 {
 	data->player = malloc(sizeof(t_player));
 	if (!data->player)

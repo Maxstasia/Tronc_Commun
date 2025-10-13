@@ -30,4 +30,5 @@ void	init_map(t_data *data)
 	data->map->color_ceiling = NULL;
 	data->map->map = NULL;
 	data->map->player_direction = '\0';
+	init_animations(data);
 }

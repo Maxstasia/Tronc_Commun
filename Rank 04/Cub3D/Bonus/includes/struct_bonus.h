@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 18:57:42 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:18:30 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,21 @@ typedef struct s_image
 	int		endian;
 }				t_image;
 
+typedef struct s_anim
+{
+	void	**frames;
+	int		frame_count;
+	int		current_frame;
+	int		is_animated;
+}				t_anim;
+
 typedef struct s_map
 {
+	t_anim	anim_north;
+	t_anim	anim_south;
+	t_anim	anim_west;
+	t_anim	anim_east;
+	t_anim	anim_door;
 	char	*texture_north;
 	char	*texture_south;
 	char	*texture_west;
@@ -133,6 +146,8 @@ typedef struct s_texture
 
 typedef struct s_minimap
 {
+	int		map_height;
+	int		map_width;
 	int		size;
 	int		tile_size;
 	int		offset_x;
@@ -162,6 +177,8 @@ typedef struct s_data
 	bool		nothing_after_map;
 	int			floor_color;
 	int			ceiling_color;
+	int			anim_counter;
+	int			anim_speed;
 }				t_data;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:07:11 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 11:12:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:40:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	render_frame(t_data *data)
 {
 	draw_floor_ceiling(data);
 	ray_casting(data);
-	draw_minimap(data);
+	draw_minimap(data, data->minimap);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->img->mlx_img, 0, 0);
 	return (0);

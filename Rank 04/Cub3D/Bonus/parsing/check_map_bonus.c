@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:40 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 17:43:07 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/13 11:14:26 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,26 @@
 static int	is_player(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
+}
+
+static int	has_doors_in_map(t_map *map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map->map[i])
+	{
+		j = 0;
+		while (map->map[i][j])
+		{
+			if (map->map[i][j] == 'P')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
 static int	check_closed_map(t_data *data)
@@ -85,6 +105,12 @@ int	validate_map(t_data *data, t_map *map)
 		|| !map->color_floor || !map->color_ceiling
 		|| !map->map)
 		return (print_error(MAP_ERROR, data), 1);
+	if (has_doors_in_map(map) && !map->texture_door)
+	{
+		map->texture_door = ft_strdup("textures/door_64x64.xpm");
+		if (!map->texture_door)
+			return (print_error(MALLOC_ERROR, data), 1);
+	}
 	if (validate_colors(data))
 		return (1);
 	if (validate_map_structure(data))
