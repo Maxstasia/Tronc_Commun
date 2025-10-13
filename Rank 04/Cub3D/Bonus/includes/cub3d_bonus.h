@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:49:00 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/13 16:56:52 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void		update_animations(t_data *data);
 char		*create_frame_path(char *base_path, int frame_num);
 int			load_all_animations(t_data *data);
 void		update_animations(t_data *data);
+int			load_textures(t_data *data);
 
 /* ------- minimap.c ------- */
 void		draw_minimap(t_data *data, t_minimap *minimap);
