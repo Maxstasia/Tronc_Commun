@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:56:52 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:30:54 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@
 # endif
 
 // Macros
-//# define WIN_WIDTH 800
-//# define WIN_HEIGHT 600
-# define WIN_WIDTH 1920
-# define WIN_HEIGHT 1080
+# define WIN_WIDTH 2560
+# define WIN_HEIGHT 1440
+//# define WIN_WIDTH 1920
+//# define WIN_HEIGHT 1080
 # define MOV_SPEED 0.1
 # define ROT_SPEED 0.075
 # define FOV 90
+# define MOUSE_SENSITIVITY 0.002
 
 # define MLX_ERROR 1
 
@@ -112,6 +113,7 @@ void		update_player(t_data *data);
 
 /* ------- mouse_event.c ------- */
 int			handle_destroy(t_data *data);
+int			handle_mouse_move(int x, int y, t_data *data);
 
 /* ------- movement.c ------- */
 void		move_forward(t_data *data);
@@ -122,6 +124,7 @@ void		move_right(t_data *data);
 /* ------- rotation_movement.c ------- */
 void		rotate_left(t_data *data);
 void		rotate_right(t_data *data);
+void		rotate_by_angle(t_data *data, double angle);
 
 /* ------------------------------ sources ------------------------------ */
 /* --------------- init --------------- */

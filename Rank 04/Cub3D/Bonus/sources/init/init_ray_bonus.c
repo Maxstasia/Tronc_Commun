@@ -6,11 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:22:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 18:07:07 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:10:32 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d_bonus.h"
+#include "../../includes/cub3d_bonus.h"
 
 void	init_ray(t_data *data)
 {

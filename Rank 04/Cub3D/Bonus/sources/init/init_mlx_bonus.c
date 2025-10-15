@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:22:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:48:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:29:24 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	setup_mlx(t_data *data)
 			&data->img->bpp, &data->img->l_len, &data->img->endian);
 	if (data->img->addr == NULL)
 		return (print_error(IMAGE_ADDR_ERROR, data), MLX_ERROR);
+	mlx_mouse_move(data->mlx_ptr, data->win_ptr, WIN_WIDTH / 2, WIN_HEIGHT / 2);
 	return (0);
 }
 
@@ -49,6 +50,8 @@ int	loop(t_data *data)
 			KeyRelease, KeyReleaseMask, &handle_keyrelease, data);
 		mlx_hook(data->win_ptr,
 			DestroyNotify, NoEventMask, &handle_destroy, data);
+		mlx_hook(data->win_ptr,
+			MotionNotify, PointerMotionMask, &handle_mouse_move, data);
 		mlx_loop_hook(data->mlx_ptr, &game_loop, data);
 		mlx_loop(data->mlx_ptr);
 	}

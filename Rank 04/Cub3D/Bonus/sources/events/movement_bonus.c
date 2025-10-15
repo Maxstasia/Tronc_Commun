@@ -6,11 +6,11 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:05:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 18:22:39 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 13:10:12 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d_bonus.h"
+#include "../../includes/cub3d_bonus.h"
 
 void	move_forward(t_data *data)
 {

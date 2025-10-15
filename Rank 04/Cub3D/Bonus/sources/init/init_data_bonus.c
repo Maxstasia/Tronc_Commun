@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:19:37 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:47:28 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:29:24 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ int	init_data(t_data *data)
 	data->nothing_after_map = true;
 	data->floor_color = 0;
 	data->ceiling_color = 0;
+	data->last_mouse_x = -1;
+	data->mouse_sensitivity = MOUSE_SENSITIVITY;
 	return (0);
 }

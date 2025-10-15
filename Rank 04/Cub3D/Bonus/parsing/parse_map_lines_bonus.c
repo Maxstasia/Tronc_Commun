@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:01:06 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 17:39:44 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:19:02 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,5 @@ int	parse_map_lines(t_data *data, t_parser *parser)
 	parser->line = NULL;
 	parser->map[parser->count] = NULL;
 	data->map->map = parser->map;
-	return (close(parser->fd), parser->fd = 0, get_next_line(-1), 0);
+	return (close(parser->fd), get_next_line(-1), 0);
 }

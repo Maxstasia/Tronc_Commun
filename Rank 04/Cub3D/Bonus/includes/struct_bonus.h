@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:18:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:29:23 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,8 @@ typedef struct s_data
 	int			ceiling_color;
 	int			anim_counter;
 	int			anim_speed;
+	int			last_mouse_x;
+	double		mouse_sensitivity;
 }				t_data;
 
 #endif
