@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 13:30:54 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:44:33 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,14 @@
 
 // Function prototypes
 /* ------------------------------ parsing ------------------------------ */
+/* ------- check_doors.c ------- */
+int			check_doors(t_data *data);
+
 /* ------- check_map.c ------- */
 int			validate_map(t_data *data, t_map *map);
+
+/* ------- check_teleporters.c ------- */
+int			check_teleporters(t_data *data);
 
 /* ------- parse_colors.c ------- */
 int			parse_colors(t_data *data, char *line);
@@ -59,6 +65,8 @@ int			validate_colors(t_data *data);
 
 /* ------- parse_door.c ------- */
 int			asignation_door(t_data *data, char *path,
+				char *line, char **split);
+int			assignation_teleport(t_data *data, char *path,
 				char *line, char **split);
 
 /* ------- parse_map_lines.c ------- */

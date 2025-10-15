@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:08 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/09 19:10:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:52:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	print_error(int error_code, t_data *data)
 		ft_putstr_fd((char *)"Error\nInvalid color format\n", 2);
 	else if (error_code == MAP_ERROR)
 		ft_putstr_fd((char *)"Error\nInvalid map\n", 2);
+	else if (error_code == TOO_MANY_TELEPORTERS_ERROR)
+		ft_putstr_fd((char *)"Error\nToo many teleporters of one type\n", 2);
 	else
 		ft_putstr_fd((char *)"Error\nAn unknown error occurred\n", 2);
 	clean_up(data);

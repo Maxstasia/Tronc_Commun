@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 11:29:23 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:51:40 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef enum e_error
 	TEXTURE_ERROR,
 	COLOR_ERROR,
 	MAP_ERROR,
+	TOO_MANY_TELEPORTERS_ERROR,
 	UNKNOWN_ERROR
 }				t_error;
 
@@ -58,29 +59,51 @@ typedef struct s_anim
 	int		is_animated;
 }				t_anim;
 
+typedef struct s_vector
+{
+	double	x;
+	double	y;
+}				t_vector;
+
+typedef struct s_teleporter
+{
+	int			numbers;
+	t_vector	pos;
+}				t_teleporter;
+
 typedef struct s_map
 {
-	t_anim	anim_north;
-	t_anim	anim_south;
-	t_anim	anim_west;
-	t_anim	anim_east;
-	t_anim	anim_door;
-	char	*texture_north;
-	char	*texture_south;
-	char	*texture_west;
-	char	*texture_east;
-	char	*texture_door;
-	void	*img_north;
-	void	*img_south;
-	void	*img_west;
-	void	*img_east;
-	void	*img_door;
-	int		tex_width;
-	int		tex_height;
-	char	*color_floor;
-	char	*color_ceiling;
-	char	**map;
-	char	player_direction;
+	t_anim			anim_north;
+	t_anim			anim_south;
+	t_anim			anim_west;
+	t_anim			anim_east;
+	t_anim			anim_door;
+	t_anim			anim_teleport;
+	t_teleporter	*teleporter_3;
+	t_teleporter	*teleporter_4;
+	t_teleporter	*teleporter_5;
+	t_teleporter	*teleporter_6;
+	t_teleporter	*teleporter_7;
+	t_teleporter	*teleporter_8;
+	t_teleporter	*teleporter_9;
+	char			*texture_north;
+	char			*texture_south;
+	char			*texture_west;
+	char			*texture_east;
+	char			*texture_door;
+	char			*texture_teleport;
+	void			*img_north;
+	void			*img_south;
+	void			*img_west;
+	void			*img_east;
+	void			*img_door;
+	void			*img_teleport;
+	int				tex_width;
+	int				tex_height;
+	char			*color_floor;
+	char			*color_ceiling;
+	char			**map;
+	char			player_direction;
 }				t_map;
 
 typedef struct s_parser
@@ -96,12 +119,6 @@ typedef struct s_parser
 	int		i;
 	int		j;
 }				t_parser;
-
-typedef struct s_vector
-{
-	double	x;
-	double	y;
-}				t_vector;
 
 typedef struct s_player
 {
@@ -155,6 +172,13 @@ typedef struct s_minimap
 	int		wall_color;
 	int		door_color;
 	int		door_open_color;
+	int		teleport_color_3;
+	int		teleport_color_4;
+	int		teleport_color_5;
+	int		teleport_color_6;
+	int		teleport_color_7;
+	int		teleport_color_8;
+	int		teleport_color_9;
 	int		floor_color;
 	int		player_color;
 	int		border_color;

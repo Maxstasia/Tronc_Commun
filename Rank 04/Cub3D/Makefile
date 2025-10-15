@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/10/13 16:38:54 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/10/15 16:44:16 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,9 @@ SRC_BONUS			=										\
 			$(GNL_DIR_BONUS)/get_next_line.c				\
 			$(GNL_DIR_BONUS)/get_next_line_utils.c			\
 			\
+			$(PARSER_DIR_BONUS)/check_doors_bonus.c			\
 			$(PARSER_DIR_BONUS)/check_map_bonus.c			\
+			$(PARSER_DIR_BONUS)/check_teleporters_bonus.c	\
 			$(PARSER_DIR_BONUS)/parse_colors_bonus.c		\
 			$(PARSER_DIR_BONUS)/parse_door_bonus.c			\
 			$(PARSER_DIR_BONUS)/parse_map_lines_bonus.c		\

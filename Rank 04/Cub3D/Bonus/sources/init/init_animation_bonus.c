@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 00:00:00 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:33:33 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 15:15:22 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_animations(t_data *data)
 	init_anim_texture(&data->map->anim_west);
 	init_anim_texture(&data->map->anim_east);
 	init_anim_texture(&data->map->anim_door);
+	init_anim_texture(&data->map->anim_teleport);
 	data->anim_counter = 0;
 	data->anim_speed = 5;
 }

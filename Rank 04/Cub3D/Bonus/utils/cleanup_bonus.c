@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:57:44 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:16:26 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 15:57:43 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	destroy_sprites(t_data *data)
 	destroy_anim_frames(data, &data->map->anim_west);
 	destroy_anim_frames(data, &data->map->anim_east);
 	destroy_anim_frames(data, &data->map->anim_door);
+	destroy_anim_frames(data, &data->map->anim_teleport);
 	if (data->map->img_north)
 		mlx_destroy_image(data->mlx_ptr, data->map->img_north);
 	if (data->map->img_south)
@@ -69,4 +70,6 @@ void	destroy_sprites(t_data *data)
 		mlx_destroy_image(data->mlx_ptr, data->map->img_east);
 	if (data->map->img_door)
 		mlx_destroy_image(data->mlx_ptr, data->map->img_door);
+	if (data->map->img_teleport)
+		mlx_destroy_image(data->mlx_ptr, data->map->img_teleport);
 }

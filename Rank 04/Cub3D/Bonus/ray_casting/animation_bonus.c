@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 16:20:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:35:23 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:58:15 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ int	load_all_animations(t_data *data)
 	if (data->map->texture_door && data->map->anim_door.is_animated)
 		if (load_single_animation(data, &data->map->anim_door,
 				data->map->texture_door) < 0)
+			return (-1);
+	if (data->map->texture_teleport && data->map->anim_teleport.is_animated)
+		if (load_single_animation(data, &data->map->anim_teleport,
+				data->map->texture_teleport) < 0)
 			return (-1);
 	return (0);
 }

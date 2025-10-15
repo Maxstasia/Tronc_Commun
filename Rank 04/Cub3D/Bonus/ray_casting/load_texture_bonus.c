@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:40:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 16:16:30 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 16:58:02 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ static int	load_textures_helper(t_data *data, int width, int height)
 	detect_animation(data, &data->map->anim_east, data->map->texture_east);
 	if (data->map->texture_door)
 		detect_animation(data, &data->map->anim_door, data->map->texture_door);
+	if (data->map->texture_teleport)
+		detect_animation(data, &data->map->anim_teleport,
+			data->map->texture_teleport);
 	if (load_all_animations(data) < 0)
 		return (print_error(TEXTURE_ERROR, data), 1);
 	data->map->img_north = mlx_xpm_file_to_image(data->mlx_ptr,

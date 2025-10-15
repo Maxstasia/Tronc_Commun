@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:14:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 14:21:06 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/15 15:40:49 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static int	set_textures(t_data *data, char *path, char *line, char **split)
 	if (asignation_ea_we(data, path, line, split))
 		return (1);
 	if (asignation_door(data, path, line, split))
+		return (1);
+	if (assignation_teleport(data, path, line, split))
 		return (1);
 	return (0);
 }
