@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 15:48:36 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/16 11:04:03 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:02:17 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ static int	has_teleporters_in_map(t_map *map)
 	{
 		j = -1;
 		while (j ++, map->map[i][j])
-		{
-			if (teleporters_3_to_6(map, i, j))
-				return (1);
-		}
+			teleporters_3_to_6(map, i, j);
 	}
+	if (map->teleporter_3->numbers > 0 || map->teleporter_4->numbers > 0
+		|| map->teleporter_5->numbers > 0 || map->teleporter_6->numbers > 0)
+		return (1);
 	return (0);
 }
 
@@ -56,5 +56,14 @@ int	check_teleporters(t_data *data)
 		|| data->map->teleporter_5->numbers > 1
 		|| data->map->teleporter_6->numbers > 1)
 		return (print_error(TOO_MANY_TELEPORTERS_ERROR, data), 1);
+	if ((data->map->teleporter_3->numbers
+			&& !data->map->teleporter_4->numbers)
+		|| (data->map->teleporter_4->numbers
+			&& !data->map->teleporter_3->numbers)
+		|| (data->map->teleporter_5->numbers
+			&& !data->map->teleporter_6->numbers)
+		|| (data->map->teleporter_6->numbers
+			&& !data->map->teleporter_5->numbers))
+		return (print_error(MAP_ERROR, data), 1);
 	return (0);
 }

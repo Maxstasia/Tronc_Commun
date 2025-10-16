@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 13:40:27 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/16 11:10:48 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:36:21 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	init_teleport_colors(t_minimap *minimap)
 {
-	minimap->teleport_color_3 = 0xFFFF00;
-	minimap->teleport_color_4 = 0xFFA500;
-	minimap->teleport_color_5 = 0x800080;
-	minimap->teleport_color_6 = 0x008000;
+	minimap->teleport_color_3 = 0x0000FF;
+	minimap->teleport_color_4 = 0x0000FF;
+	minimap->teleport_color_5 = 0xFF00FF;
+	minimap->teleport_color_6 = 0xFF00FF;
 }
 
 void	init_minimap(t_data *data)

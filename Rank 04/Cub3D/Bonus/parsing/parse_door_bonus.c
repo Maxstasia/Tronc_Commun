@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:14:18 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 15:42:01 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:08:10 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	asignation_door(t_data *data, char *path, char *line, char **split)
 
 int	assignation_teleport(t_data *data, char *path, char *line, char **split)
 {
-	if (ft_strncmp(line, "TE ", 3) == 0 || ft_strncmp(line, "T ", 2) == 0)
+	if (ft_strncmp(line, "TP ", 3) == 0 || ft_strncmp(line, "T ", 2) == 0)
 	{
 		if (data->map->texture_teleport)
 			return (free_split(split), print_error(TEXTURE_ERROR, data), 1);

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/16 13:59:49 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:20:01 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int			render_frame(t_data *data);
 /* --------------- events --------------- */
 /* ------- interaction_movement.c ------- */
 void		interact_door(t_data *data);
+void		interact_tp(t_data *data);
 
 /* ------- keyboard_event.c ------- */
 int			handle_keypress(int keysym, t_data *data);

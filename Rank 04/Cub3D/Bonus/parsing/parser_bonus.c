@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:50:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 15:37:41 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:08:14 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	is_valid_name(t_parser *parser)
 		&& ft_strncmp(parser->first_line, "WE ", 3) != 0
 		&& ft_strncmp(parser->first_line, "EA ", 3) != 0
 		&& ft_strncmp(parser->first_line, "DO ", 3) != 0
-		&& ft_strncmp(parser->first_line, "TE ", 3) != 0
+		&& ft_strncmp(parser->first_line, "TP ", 3) != 0
 		&& ft_strncmp(parser->first_line, "N ", 2) != 0
 		&& ft_strncmp(parser->first_line, "S ", 2) != 0
 		&& ft_strncmp(parser->first_line, "W ", 2) != 0

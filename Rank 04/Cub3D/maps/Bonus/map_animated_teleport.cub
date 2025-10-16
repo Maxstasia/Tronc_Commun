@@ -2,7 +2,6 @@ NO textures/animate_sprite/north.xpm
 SO textures/animate_sprite/south.xpm
 WE textures/animate_sprite/west.xpm
 EA textures/animate_sprite/east.xpm
-DO textures/animate_sprite/porte.xpm
 
 F 220,100,0
 C 225,30,0

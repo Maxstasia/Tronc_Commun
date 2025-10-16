@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 13:38:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 13:29:05 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:20:10 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ int	handle_keypress(int keysym, t_data *data)
 	if (mouvement_keypress(keysym, data))
 		return (1);
 	if (keysym == XK_space || keysym == XK_F || keysym == XK_f)
+	{
 		interact_door(data);
+		interact_tp(data);
+	}
 	if (keysym == XK_Shift_L || keysym == XK_Shift_R)
 		data->keys->shift = 1;
 	if (keysym == XK_Left || keysym == XK_q || keysym == XK_Q)

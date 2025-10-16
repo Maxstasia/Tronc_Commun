@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:40 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/16 13:54:45 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:48:30 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,22 @@ static int	check_closed_map(t_data *data)
 	i = -1;
 	while (i ++, data->map->map[i])
 	{
-		j = 0;
-		while (data->map->map[i][j])
+		j = -1;
+		while (j ++, data->map->map[i][j])
 		{
 			if (data->map->map[i][j] == '0' || is_player(data->map->map[i][j])
-				|| data->map->map[i][j] == 'P')
+				|| data->map->map[i][j] == 'P' || data->map->map[i][j] == '3'
+				|| data->map->map[i][j] == '4' || data->map->map[i][j] == '5'
+				|| data->map->map[i][j] == '6')
 			{
-				if (i == 0 || !data->map->map[i + 1] || j == 0
-					|| !data->map->map[i][j + 1]
-					|| data->map->map[i - 1][j] == ' '
+				if (i == 0 || j == 0 || data->map->map[i - 1][j] == ' '
+					|| !data->map->map[i + 1] || !data->map->map[i][j + 1]
 					|| data->map->map[i + 1][j] == ' ')
 					return (print_error(MAP_ERROR, data), 1);
 				if (data->map->map[i][j - 1] == ' '
 					|| data->map->map[i][j + 1] == ' ')
 					return (print_error(MAP_ERROR, data), 1);
 			}
-			j++;
 		}
 	}
 	return (0);
@@ -74,7 +74,17 @@ static int	validate_map_structure(t_data *data)
 	{
 		j = -1;
 		while (++ j, data->map->map[i][j])
+		{
+			if (data->map->map[i][j] == '3')
+				data->map->teleporter_3->pos = (t_vector){j, i};
+			else if (data->map->map[i][j] == '4')
+				data->map->teleporter_4->pos = (t_vector){j, i};
+			else if (data->map->map[i][j] == '5')
+				data->map->teleporter_5->pos = (t_vector){j, i};
+			else if (data->map->map[i][j] == '6')
+				data->map->teleporter_6->pos = (t_vector){j, i};
 			player_count = map_structure_norm(data, player_count, i, j);
+		}
 	}
 	if (player_count != 1)
 		return (print_error(MAP_ERROR, data), 1);
