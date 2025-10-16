@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 14:21:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 15:56:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:47:36 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	free_data(t_data *data)
 {
 	if (!data)
 		return ;
+	free_teleporters(data->map);
 	if (data->map)
 		free_map(data->map);
 	data->map = NULL;

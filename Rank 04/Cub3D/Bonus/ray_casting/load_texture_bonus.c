@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:40:39 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 16:58:02 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:03:59 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,25 @@ static int	load_textures_helper(t_data *data, int width, int height)
 	return (data->map->tex_width = width, data->map->tex_height = height, 0);
 }
 
+static int	for_tp_and_door(t_data *data, int width, int height)
+{
+	if (data->map->texture_door)
+	{
+		data->map->img_door = mlx_xpm_file_to_image(data->mlx_ptr,
+				data->map->texture_door, &width, &height);
+		if (!data->map->img_door)
+			return (print_error(TEXTURE_ERROR, data), 1);
+	}
+	if (data->map->texture_teleport)
+	{
+		data->map->img_teleport = mlx_xpm_file_to_image(data->mlx_ptr,
+				data->map->texture_teleport, &width, &height);
+		if (!data->map->img_teleport)
+			return (print_error(TEXTURE_ERROR, data), 1);
+	}
+	return (data->map->tex_width = width, data->map->tex_height = height, 0);
+}
+
 int	load_textures(t_data *data)
 {
 	int	width;
@@ -97,12 +116,6 @@ int	load_textures(t_data *data)
 			data->map->texture_east, &width, &height);
 	if (!data->map->img_east)
 		return (print_error(TEXTURE_ERROR, data), 1);
-	if (data->map->texture_door)
-	{
-		data->map->img_door = mlx_xpm_file_to_image(data->mlx_ptr,
-				data->map->texture_door, &width, &height);
-		if (!data->map->img_door)
-			return (print_error(TEXTURE_ERROR, data), 1);
-	}
+	for_tp_and_door(data, width, height);
 	return (data->map->tex_width = width, data->map->tex_height = height, 0);
 }

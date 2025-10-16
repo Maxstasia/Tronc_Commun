@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 13:19:37 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 11:29:24 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:57:35 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	init_data_norm(t_data *data)
 	init_keys(data);
 	init_ray(data);
 	init_minimap(data);
+	init_teleporters(data->map);
 	return (0);
 }
 

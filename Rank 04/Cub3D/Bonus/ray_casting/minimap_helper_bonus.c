@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 14:26:22 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 14:27:17 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:01:50 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,30 @@ static void	draw_square(t_data *data, int x, int y, int color)
 	}
 }
 
+static void	minimap_checker(t_data *data, t_minimap *minimap, int x, int y)
+{
+	if (data->map->map[y][x] == '1')
+		draw_square(data, x, y, minimap->wall_color);
+	if (data->map->map[y][x] == 'P')
+		draw_square(data, x, y, minimap->door_color);
+	if (data->map->map[y][x] == '2')
+		draw_square(data, x, y, minimap->door_open_color);
+	if (data->map->map[y][x] == '3')
+		draw_square(data, x, y, minimap->teleport_color_3);
+	if (data->map->map[y][x] == '4')
+		draw_square(data, x, y, minimap->teleport_color_4);
+	if (data->map->map[y][x] == '5')
+		draw_square(data, x, y, minimap->teleport_color_5);
+	if (data->map->map[y][x] == '6')
+		draw_square(data, x, y, minimap->teleport_color_6);
+	else if (data->map->map[y][x] == '0'
+		|| data->map->map[y][x] == 'N'
+		|| data->map->map[y][x] == 'S'
+		|| data->map->map[y][x] == 'E'
+		|| data->map->map[y][x] == 'W')
+		draw_square(data, x, y, minimap->floor_color);
+}
+
 void	draw_minimap_helper(t_data *data, t_minimap *minimap, int x, int y)
 {
 	y = -1;
@@ -50,19 +74,6 @@ void	draw_minimap_helper(t_data *data, t_minimap *minimap, int x, int y)
 		minimap->map_width = ft_strlen(data->map->map[y]);
 		while (x ++, x < minimap->map_width
 			&& x < minimap->size / minimap->tile_size)
-		{
-			if (data->map->map[y][x] == '1')
-				draw_square(data, x, y, minimap->wall_color);
-			if (data->map->map[y][x] == 'P')
-				draw_square(data, x, y, minimap->door_color);
-			if (data->map->map[y][x] == '2')
-				draw_square(data, x, y, minimap->door_open_color);
-			else if (data->map->map[y][x] == '0'
-				|| data->map->map[y][x] == 'N'
-				|| data->map->map[y][x] == 'S'
-				|| data->map->map[y][x] == 'E'
-				|| data->map->map[y][x] == 'W')
-				draw_square(data, x, y, minimap->floor_color);
-		}
+			minimap_checker(data, minimap, x, y);
 	}
 }

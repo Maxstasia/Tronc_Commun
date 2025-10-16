@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 16:20:56 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 16:58:15 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 14:05:34 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,21 @@ int	load_all_animations(t_data *data)
 	return (0);
 }
 
+static void	anim_door_and_tp(t_data *data)
+{
+	if (data->map->texture_door && data->map->anim_door.is_animated)
+		data->map->anim_door.current_frame
+			= (data->map->anim_door.current_frame + 1)
+			% data->map->anim_door.frame_count;
+	if (data->map->texture_teleport && data->map->anim_teleport.is_animated)
+		data->map->anim_teleport.current_frame
+			= (data->map->anim_teleport.current_frame + 1)
+			% data->map->anim_teleport.frame_count;
+}
+
 void	update_animations(t_data *data)
 {
-	data->anim_counter++;
-	if (data->anim_counter >= data->anim_speed)
+	if (++ data->anim_counter >= data->anim_speed)
 	{
 		data->anim_counter = 0;
 		if (data->map->anim_north.is_animated)
@@ -120,9 +131,6 @@ void	update_animations(t_data *data)
 			data->map->anim_east.current_frame
 				= (data->map->anim_east.current_frame + 1)
 				% data->map->anim_east.frame_count;
-		if (data->map->texture_door && data->map->anim_door.is_animated)
-			data->map->anim_door.current_frame
-				= (data->map->anim_door.current_frame + 1)
-				% data->map->anim_door.frame_count;
+		anim_door_and_tp(data);
 	}
 }

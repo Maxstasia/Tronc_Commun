@@ -6,7 +6,7 @@
 #    By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/08 11:38:53 by mstasiak          #+#    #+#              #
-#    Updated: 2025/10/15 16:44:16 by mstasiak         ###   ########.fr        #
+#    Updated: 2025/10/16 13:58:50 by mstasiak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,6 +97,7 @@ SRC_BONUS			=										\
 			$(PARSER_DIR_BONUS)/parser_bonus.c				\
 			\
 			$(RAY_DIR_BONUS)/animation_bonus.c				\
+			$(RAY_DIR_BONUS)/if_is_door_bonus.c				\
 			$(RAY_DIR_BONUS)/load_texture_bonus.c			\
 			$(RAY_DIR_BONUS)/minimap_bonus.c				\
 			$(RAY_DIR_BONUS)/minimap_helper_bonus.c			\
@@ -120,6 +121,7 @@ SRC_BONUS			=										\
 			$(INIT_DIR_BONUS)/init_parser_bonus.c			\
 			$(INIT_DIR_BONUS)/init_player_bonus.c			\
 			$(INIT_DIR_BONUS)/init_ray_bonus.c				\
+			$(INIT_DIR_BONUS)/init_teleporters_bonus.c		\
 			\
 			$(SOURCES_DIR_BONUS)/error_bonus.c				\
 			\

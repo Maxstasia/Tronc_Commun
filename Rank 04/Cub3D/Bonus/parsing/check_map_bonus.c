@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:18:40 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 16:54:55 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:54:45 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,22 @@ static int	check_closed_map(t_data *data)
 	return (0);
 }
 
+static int	map_structure_norm(t_data *data, int player_count, int i, int j)
+{
+	if (data->map->map[i][j] == 'N' || data->map->map[i][j] == 'S' ||
+		data->map->map[i][j] == 'E' || data->map->map[i][j] == 'W')
+	{
+		player_count++;
+		data->map->player_direction = data->map->map[i][j];
+	}
+	else if (data->map->map[i][j] != '0' && data->map->map[i][j] != '1'
+		&& data->map->map[i][j] != ' ' && data->map->map[i][j] != 'P'
+		&& data->map->map[i][j] != '3' && data->map->map[i][j] != '4'
+		&& data->map->map[i][j] != '5' && data->map->map[i][j] != '6')
+		return (print_error(MAP_ERROR, data), 2);
+	return (player_count);
+}
+
 static int	validate_map_structure(t_data *data)
 {
 	int		player_count;
@@ -58,21 +74,7 @@ static int	validate_map_structure(t_data *data)
 	{
 		j = -1;
 		while (++ j, data->map->map[i][j])
-		{
-			if (data->map->map[i][j] == 'N' || data->map->map[i][j] == 'S' ||
-				data->map->map[i][j] == 'E' || data->map->map[i][j] == 'W')
-			{
-				player_count++;
-				data->map->player_direction = data->map->map[i][j];
-			}
-			else if (data->map->map[i][j] != '0' && data->map->map[i][j] != '1'
-				&& data->map->map[i][j] != ' ' && data->map->map[i][j] != 'P'
-				&& data->map->map[i][j] != '3' && data->map->map[i][j] != '4'
-				&& data->map->map[i][j] != '5' && data->map->map[i][j] != '6'
-				&& data->map->map[i][j] != '7' && data->map->map[i][j] != '8'
-				&& data->map->map[i][j] != '9')
-				return (print_error(MAP_ERROR, data), 1);
-		}
+			player_count = map_structure_norm(data, player_count, i, j);
 	}
 	if (player_count != 1)
 		return (print_error(MAP_ERROR, data), 1);

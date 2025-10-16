@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 14:22:49 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 13:10:32 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:55:45 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ void	init_ray(t_data *data)
 	data->ray->step_x = 0;
 	data->ray->step_y = 0;
 	data->ray->is_door = false;
+	data->ray->is_tp = false;
 }

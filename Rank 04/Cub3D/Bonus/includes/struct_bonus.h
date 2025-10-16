@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:24:58 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 16:51:40 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:55:18 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,6 @@ typedef struct s_map
 	t_teleporter	*teleporter_4;
 	t_teleporter	*teleporter_5;
 	t_teleporter	*teleporter_6;
-	t_teleporter	*teleporter_7;
-	t_teleporter	*teleporter_8;
-	t_teleporter	*teleporter_9;
 	char			*texture_north;
 	char			*texture_south;
 	char			*texture_west;
@@ -152,6 +149,7 @@ typedef struct s_ray {
 	int			step_x;
 	int			step_y;
 	bool		is_door;
+	bool		is_tp;
 }				t_ray;
 
 typedef struct s_texture
@@ -176,9 +174,6 @@ typedef struct s_minimap
 	int		teleport_color_4;
 	int		teleport_color_5;
 	int		teleport_color_6;
-	int		teleport_color_7;
-	int		teleport_color_8;
-	int		teleport_color_9;
 	int		floor_color;
 	int		player_color;
 	int		border_color;

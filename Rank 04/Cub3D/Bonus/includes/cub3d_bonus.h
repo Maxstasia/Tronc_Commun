@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 11:21:57 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/15 16:44:33 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:59:49 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@
 # endif
 
 // Macros
-# define WIN_WIDTH 2560
-# define WIN_HEIGHT 1440
-//# define WIN_WIDTH 1920
-//# define WIN_HEIGHT 1080
+//# define WIN_WIDTH 2560
+//# define WIN_HEIGHT 1440
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 # define MOV_SPEED 0.1
 # define ROT_SPEED 0.075
 # define FOV 90
@@ -85,6 +85,10 @@ char		*create_frame_path(char *base_path, int frame_num);
 int			load_all_animations(t_data *data);
 void		update_animations(t_data *data);
 
+/* ------- if_is_door.c ------- */
+char		*if_is_door(t_data *data, t_map *map);
+char		*if_is_teleporter(t_data *data, t_map *map);
+
 /* ------- load_texture.c ------- */
 char		*create_frame_path(char *base_path, int frame_num);
 int			load_all_animations(t_data *data);
@@ -103,6 +107,7 @@ int			ray_casting(t_data *data);
 /* ------- ray_casting_norm.c ------- */
 void		draw_wall_slice_helper(t_data *data, int x,
 				int wall_height, int tex_x);
+char		*draw_wall_slice_norm(t_data *data, t_map *map);
 
 /* ------- render.c ------- */
 void		precalculate_colors(t_data *data);
@@ -169,6 +174,9 @@ void		init_player(t_data *data);
 /* ------- init_ray.c ------- */
 void		init_ray(t_data *data);
 
+/* ------- init_teleporters.c ------- */
+void		init_teleporters(t_map *map);
+
 /* ------------------------------ sources ------------------------------ */
 /* ------- error.c ------- */
 void		print_error(int error_code, t_data *data);
@@ -181,6 +189,7 @@ void		destroy_sprites(t_data *data);
 
 /* ------- free_all.c ------- */
 void		free_split(char **split);
+void		free_teleporters(t_map *map);
 void		free_all(t_data *data);
 
 /* ------- free_data.c ------- */

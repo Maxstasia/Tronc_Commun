@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 11:27:01 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/13 13:30:01 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:59:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char	*draw_wall_no_so(t_data *data, t_map *map)
 	return (tex_data);
 }
 
-static char	*draw_wall_slice_norm(t_data *data, t_map *map)
+char	*draw_wall_slice_norm(t_data *data, t_map *map)
 {
 	char	*tex_data;
 
@@ -79,32 +79,6 @@ static char	*draw_wall_slice_norm(t_data *data, t_map *map)
 		tex_data = draw_wall_ea_we(data, map);
 	else
 		tex_data = draw_wall_no_so(data, map);
-	return (tex_data);
-}
-
-static char	*if_is_door(t_data *data, t_map *map)
-{
-	char	*tex_data;
-	void	*current_img;
-
-	tex_data = NULL;
-	if (data->ray->is_door == true)
-	{
-		if (!map->img_door)
-		{
-			tex_data = draw_wall_slice_norm(data, map);
-			return (tex_data);
-		}
-		if (map->anim_door.is_animated)
-			current_img = map->anim_door.frames[map->anim_door.current_frame];
-		else
-			current_img = map->img_door;
-		tex_data = mlx_get_data_addr(current_img,
-				&data->texture->bpp, &data->texture->l_len,
-				&data->texture->endian);
-		return (tex_data);
-	}
-	tex_data = draw_wall_slice_norm(data, map);
 	return (tex_data);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 12:56:36 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/10/10 18:16:24 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/10/16 13:55:32 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	ray_cast_init(t_data *data, int x)
 	data->ray->delta_dist_y = fabs(1 / data->ray->dir.y);
 }
 
-// Calculate step and initial sideDist
 static void	cacl_step_and_dist(t_data *data)
 {
 	if (data->ray->dir.x < 0)
@@ -72,9 +71,14 @@ static int	dda(t_data *data)
 			data->ray->side = 1;
 		}
 		if (data->map->map[data->ray->map_y][data->ray->map_x] == '1')
-			return (data->ray->is_door = false, 0);
+			return (data->ray->is_door = false, data->ray->is_tp = false, 0);
 		else if (data->map->map[data->ray->map_y][data->ray->map_x] == 'P')
 			return (data->ray->is_door = true, 0);
+		else if (data->map->map[data->ray->map_y][data->ray->map_x] == '3'
+			|| data->map->map[data->ray->map_y][data->ray->map_x] == '4'
+			|| data->map->map[data->ray->map_y][data->ray->map_x] == '5'
+			|| data->map->map[data->ray->map_y][data->ray->map_x] == '6')
+			return (data->ray->is_tp = true, 0);
 	}
 	return (0);
 }
