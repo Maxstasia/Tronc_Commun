@@ -1,17 +1,24 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
-RUN apt-get update && apt-get install -y \
-    mariadb-server \
-    mariadb-client \
-    && rm -rf /var/lib/apt/lists/*
+# Install MariaDB
+RUN apt update && \
+    apt install -y mariadb-server mariadb-client && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy configuration script
-COPY tools/setup.sh /tmp/setup.sh
+# Crée un user mysql dédié (PID 1 safe)
+RUN useradd -r -s /bin/false mysql
 
-RUN chmod +x /tmp/setup.sh
+# Copie les fichiers
+COPY ./conf/my.cnf /etc/mysql/my.cnf
+COPY ./tools/init.sql /docker-entrypoint-initdb.d/init.sql
 
-# Expose MariaDB port
+# Prépare les dossiers
+RUN mkdir -p /var/run/mysqld /var/lib/mysql && \
+    chown mysql:mysql /var/run/mysqld /var/lib/mysql
+
+# Expose
 EXPOSE 3306
 
-CMD ["/tmp/setup.sh"]
-
+# Démarre en user mysql
+USER mysql
+CMD ["mysqld", "--bind-address=0.0.0.0"]

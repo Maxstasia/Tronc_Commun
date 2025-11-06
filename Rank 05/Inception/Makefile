@@ -1,29 +1,15 @@
-NAME = inception
-
-DATA_PATH = /home/mstasiak/data
-
 all:
-	@mkdir -p $(DATA_PATH)/wordpress
-	@mkdir -p $(DATA_PATH)/mariadb
-	@docker-compose -f srcs/docker-compose.yml up -d --build
+	docker compose -f ./srcs/docker-compose.yml up -d --build
 
 down:
-	@docker-compose -f srcs/docker-compose.yml down
-
-stop:
-	@docker-compose -f srcs/docker-compose.yml stop
-
-start:
-	@docker-compose -f srcs/docker-compose.yml start
+	docker compose -f ./srcs/docker-compose.yml down
 
 clean: down
-	@docker system prune -af
+	docker system prune -a
 
 fclean: clean
-	@sudo rm -rf $(DATA_PATH)/wordpress
-	@sudo rm -rf $(DATA_PATH)/mariadb
-	@docker volume rm srcs_wordpress srcs_mariadb 2>/dev/null || true
+	sudo rm -rf /home/$(USER)/data
 
 re: fclean all
 
-.PHONY: all down stop start clean fclean re
+.PHONY: all down clean fclean re
