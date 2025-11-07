@@ -1,13 +1,15 @@
 FROM debian:bookworm
 
-# Crée un user mysql dédié (PID 1 safe)
-RUN useradd -r -s /bin/false mysql
-
 # Install MariaDB
-RUN apt update && \
+RUN apt update && apt upgrade -y && \
     apt install -y mariadb-server mariadb-client && \
     rm -rf /var/lib/apt/lists/*
 
+RUN sudo systemctl start mariadb && \
+	sudo systemctl enable mariadb
+
+# Crée un user mysql dédié (PID 1 safe)
+RUN useradd -r -s /bin/false mysql
 
 # Copie les fichiers
 COPY ./conf/my.cnf /etc/mysql/my.cnf
