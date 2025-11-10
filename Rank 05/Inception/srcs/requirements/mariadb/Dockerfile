@@ -1,27 +1,29 @@
+# inception/srcs/requirements/mariadb/Dockerfile
 FROM debian:bookworm
 
-# Install MariaDB
-RUN apt update && apt upgrade -y && \
+# 1. Install MariaDB
+RUN apt update && \
+    apt upgrade -y && \
     apt install -y mariadb-server mariadb-client && \
     rm -rf /var/lib/apt/lists/*
 
-RUN sudo systemctl start mariadb && \
-	sudo systemctl enable mariadb
-
-# Crée un user mysql dédié (PID 1 safe)
+# 2. Crée le user mysql (mais on reste root pour la config)
 RUN useradd -r -s /bin/false mysql
 
-# Copie les fichiers
+# 3. Prépare les dossiers AVANT de changer d'user
+RUN mkdir -p /var/run/mysqld /var/lib/mysql && \
+    chown mysql:mysql /var/run/mysqld /var/lib/mysql && \
+    chmod 750 /var/run/mysqld
+
+# 4. Copie les fichiers
 COPY ./conf/my.cnf /etc/mysql/my.cnf
 COPY ./tools/init.sql /docker-entrypoint-initdb.d/init.sql
 
-# Prépare les dossiers
-RUN mkdir -p /var/run/mysqld /var/lib/mysql && \
-    chown mysql:mysql /var/run/mysqld /var/lib/mysql
-
-# Expose port
+# 5. Expose le port
 EXPOSE 3306
 
-# Démarre en user mysql
+# 6. Change d'user JUSTE avant CMD
 USER mysql
+
+# 7. Démarre MariaDB (PID 1 = mysqld)
 CMD ["mysqld", "--bind-address=0.0.0.0"]
