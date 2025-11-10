@@ -1,6 +1,6 @@
 NAME		= inception
 
-all: volumes
+all: sudo volumes
 	@docker compose -f ./srcs/docker-compose.yml up -d --build
 
 down:
@@ -18,5 +18,8 @@ re: fclean all
 volumes:
 	@mkdir -p /home/$(USER)/data/db
 	@mkdir -p /home/$(USER)/data/wp
+
+sudo:
+	sudo test
 
 .PHONY: all down clean fclean re volumes
