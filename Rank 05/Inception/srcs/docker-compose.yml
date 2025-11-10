@@ -1,14 +1,21 @@
 services:
   mariadb:
     container_name: mariadb
-    build: ./requirements/mariadb
-    env_file: ./.env
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    env_file:
+      - ./.env
     volumes:
       - db_data:/var/lib/mysql
-      - ./requirements/mariadb/tools/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./requirements/mariadb/tools/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - inception
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
 volumes:
   db_data:

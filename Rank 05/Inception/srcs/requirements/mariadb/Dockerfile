@@ -19,7 +19,7 @@ COPY ./tools/init.sql /docker-entrypoint-initdb.d/init.sql
 RUN mkdir -p /var/run/mysqld /var/lib/mysql && \
     chown mysql:mysql /var/run/mysqld /var/lib/mysql
 
-# Expose
+# Expose port
 EXPOSE 3306
 
 # Démarre en user mysql
