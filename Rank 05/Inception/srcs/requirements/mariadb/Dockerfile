@@ -8,13 +8,13 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 # 2. Prépare les dossiers
-RUN mkdir -p /var/run/mysqld /var/lib/mysql /etc/mysql /docker-entrypoint-initdb.d && \
-    chown mysql:mysql /var/run/mysqld /var/lib/mysql && \
+RUN mkdir -p /var/run/mysqld /var/lib/mysql /etc/mysql /docker-entrypoint-initdb && \
+    chown mysql:mysql /var/run/mysqld /var/lib/mysql /etc/mysql /docker-entrypoint-initdb && \
     chmod 755 /var/run/mysqld
 
 # 3. Copie les fichiers
 COPY ./conf/my.cnf /etc/mysql/my.cnf
-COPY ./tools/init.sql /docker-entrypoint-initdb.d/init.sql
+COPY ./tools/init.sql /docker-entrypoint-initdb/init.sql
 
 # 4. Expose le port
 EXPOSE 3306
