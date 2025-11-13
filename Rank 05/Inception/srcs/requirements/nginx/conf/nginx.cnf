@@ -1,0 +1,24 @@
+server {
+	listen       443 ssl;
+	server_name  localhost;
+
+	ssl_certificate      /etc/nginx/ssl/inception.crt;
+	ssl_certificate_key  /etc/nginx/ssl/inception.key;
+
+	location / {
+		root   /var/www/html;
+		index  index.html index.htm index.php;
+		try_files $uri $uri/ =404;
+	}
+
+	location ~ \.php$ {
+		root           /var/www/html;
+		include        snippets/fastcgi-php.conf;
+		fastcgi_pass   wordpress:9000;
+	}
+
+	error_page   500 502 503 504  /50x.html;
+	location = /50x.html {
+		root   /usr/share/nginx/html;
+	}
+}

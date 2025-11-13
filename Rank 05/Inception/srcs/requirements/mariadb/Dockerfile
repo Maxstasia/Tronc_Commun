@@ -5,6 +5,7 @@ FROM debian:bookworm
 RUN apt update && \
     apt upgrade -y && \
     apt install -y mariadb-server mariadb-client gettext-base && \
+	apt install -y vim curl && \
     rm -rf /var/lib/apt/lists/*
 
 # 2. Prépare les dossiers

@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./.env
+    ports:
+      - "${MARIADB_PORT}:3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./requirements/mariadb/tools/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
@@ -14,8 +16,42 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
       timeout: 20s
       retries: 10
+
+
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+      args:
+        NGINX_HOST: ${NGINX_HOST}
+        UID: ${UID}
+    env_file:
+      - ./.env
+    ports:
+      - "${NGINX_PORT}:443"
+    volumes:
+      - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./requirements/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./requirements/nginx/ssl:/etc/nginx/ssl:ro
+    networks:
+      - inception
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+
 
 volumes:
   db_data:
