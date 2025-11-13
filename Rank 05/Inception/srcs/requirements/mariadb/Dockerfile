@@ -1,10 +1,10 @@
 # inception/srcs/requirements/mariadb/Dockerfile
 FROM debian:bookworm
 
-# 1. Install MariaDB
+# 1. Install MariaDB + envsubst
 RUN apt update && \
     apt upgrade -y && \
-    apt install -y mariadb-server mariadb-client && \
+    apt install -y mariadb-server mariadb-client gettext-base && \
     rm -rf /var/lib/apt/lists/*
 
 # 2. Prépare les dossiers
@@ -15,12 +15,16 @@ RUN mkdir -p /var/run/mysqld /var/lib/mysql /etc/mysql /docker-entrypoint-initdb
 # 3. Copie les fichiers
 COPY ./conf/my.cnf /etc/mysql/my.cnf
 COPY ./tools/init.sql /docker-entrypoint-initdb/init.sql
+COPY ./tools/setup.sh /usr/local/bin/setup.sh
 
-# 4. Expose le port
+# 4. Rend le script exécutable
+RUN chmod +x /usr/local/bin/setup.sh
+
+# 5. Expose le port
 EXPOSE 3306
 
-# 5. Change d'user JUSTE avant CMD
+# 6. Change d'user JUSTE avant CMD
 USER mysql
 
-# 6. Démarre MariaDB (PID 1 = mysqld)
-CMD ["mysqld", "--bind-address=0.0.0.0"]
+# 7. Démarre MariaDB avec le script de setup
+CMD ["setup.sh"]

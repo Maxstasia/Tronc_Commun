@@ -1,23 +1,19 @@
--- Root user
-ALTER USER IF EXISTS 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${DB_ROOT}';
-CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED WITH mysql_native_password BY '${DB_ROOT}';
--- Privilèges root
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+-- Réactiver le système de permissions
+FLUSH PRIVILEGES;
 
+-- Configuration du root user
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASS}';
 
--- Création DB
+-- Création de la base de données
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
--- Users
+
+-- Création des utilisateurs
 CREATE USER IF NOT EXISTS '${DB_ADMIN}'@'%' IDENTIFIED BY '${DB_ADMIN_PASS}';
 CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASS}';
--- Permissions
+
+-- Attribution des privilèges
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_ADMIN}'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON ${DB_NAME}.* TO '${DB_USER}'@'%';
-FLUSH PRIVILEGES;
--- Privilèges
-GRANT ALL PRIVILEGES ON `${DB_NAME}`.* TO '${DB_ADMIN}'@'%';
-GRANT SELECT, INSERT, UPDATE, DELETE ON `${DB_NAME}`.* TO '${DB_USER}'@'%';
 
-
--- Finalisation
+-- Application des changements
 FLUSH PRIVILEGES;
