@@ -8,7 +8,7 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 # 2. Prépare les dossiers
-RUN mkdir -p /var/run/mysqld /var/lib/mysql && \
+RUN mkdir -p /var/run/mysqld /var/lib/mysql /etc/mysql /docker-entrypoint-initdb.d && \
     chown mysql:mysql /var/run/mysqld /var/lib/mysql && \
     chmod 755 /var/run/mysqld
 
