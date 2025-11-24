@@ -31,4 +31,4 @@ RUN mkdir -p /home/${USER}/data/wordpress
 EXPOSE 9000
 
 # 7. Démarre PHP-FPM
-CMD ["usr/sbin/php-fpm7.3", "-F"]
+CMD ["/usr/sbin/php-fpm8.2", "-F"]
