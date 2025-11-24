@@ -1,10 +1,10 @@
-# inception/srcs/requirements/mariadb/Dockerfile
+# inception/srcs/requirements/nginx/Dockerfile
 FROM debian:bookworm
 
 ARG NGINX_HOST
 ARG UID
 
-# 1. Install MariaDB + envsubst
+# 1. Install nginx et openssl
 RUN apt update && \
     apt upgrade -y && \
     apt install -y nginx OpenSSL && \
@@ -20,14 +20,11 @@ RUN mkdir -p /etc/nginx/ssl /var/run/nginx && \
 # 3. Copie les fichiers
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
-# 4. Rend le script exécutable
-RUN chmod +x /usr/local/bin/setup.sh
-
-# 5. Expose le port
+# 4. Expose le port
 EXPOSE 3306
 
-# 6. Change d'user JUSTE avant CMD
+# 5. Change d'user JUSTE avant CMD
 USER mysql
 
-# 7. Démarre MariaDB avec le script de setup
+# 6. Démarre MariaDB avec le script de setup
 CMD ["nginx", "-g", "daemon off;"]

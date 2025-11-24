@@ -14,7 +14,7 @@ RUN mkdir -p /var/run/mysqld /var/lib/mysql /etc/mysql /docker-entrypoint-initdb
     chmod 755 /var/run/mysqld
 
 # 3. Copie les fichiers
-COPY ./conf/my.cnf /etc/mysql/my.cnf
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./tools/init.sql /docker-entrypoint-initdb/init.sql
 COPY ./tools/setup.sh /usr/local/bin/setup.sh
 

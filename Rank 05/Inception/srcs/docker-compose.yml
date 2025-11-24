@@ -8,6 +8,8 @@ services:
       - ./.env
     ports:
       - "${MARIADB_PORT}:3306"
+    expose:
+      - "3306"
     volumes:
       - db_data:/var/lib/mysql
       - ./requirements/mariadb/tools/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
@@ -36,6 +38,7 @@ services:
     ports:
       - "${NGINX_PORT}:443"
     volumes:
+      - wordpress:/var/www/wordpress
       - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./requirements/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./requirements/nginx/ssl:/etc/nginx/ssl:ro
@@ -53,6 +56,37 @@ services:
 
 
 
+services:
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID}
+    env_file:
+      - ./.env
+    ports:
+      - "${WORDPRESS_PORT}:9000"
+    expose:
+      - "9000"
+    volumes:
+      - wordpress:/var/www/wordpress
+      - ./requirements/wordpress/wp-content:/var/www/html/wp-content
+    networks:
+      - inception
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+
+
 volumes:
   db_data:
     driver: local
@@ -60,6 +94,12 @@ volumes:
       type: none
       o: bind
       device: /home/${USER}/data/db
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${USER}/data/wordpress
 
 networks:
   inception:
