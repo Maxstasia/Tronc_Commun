@@ -1,23 +1,50 @@
-server {
-	#SSL/TLS Configuration
-	listen 443 ssl;
-	ssl_protocols TLSv1.2 TLSv1.3;
-	ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
-	ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+worker_processes auto;
+pid /run/nginx.pid;
 
-	#root and index and server_name
-	root /var/www/html;
-	server_name localhost;
-	index index.html index.htm index.nginx-debian.html;
+events {
+	worker_connections 768;
+}
 
-	#Main Location
-	location / {
-		try_files $uri $uri/ =404;
-	}
+http {
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
 
-	#PHP Processing
-	location ~ \.php$ {
-		include snippets/fastcgi-php.conf;
-		fastcgi_pass wordpress:9000;
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	access_log /var/log/nginx/access.log;
+	error_log /var/log/nginx/error.log;
+
+	gzip on;
+
+	server {
+		# SSL/TLS Configuration
+		listen 443 ssl;
+		listen [::]:443 ssl;
+		
+		ssl_protocols TLSv1.2 TLSv1.3;
+		ssl_certificate /etc/nginx/ssl/inception.crt;
+		ssl_certificate_key /etc/nginx/ssl/inception.key;
+
+		# Root and index and server_name
+		root /var/www/wordpress;
+		server_name mstasiak.42.fr;
+		index index.php index.html index.htm;
+
+		# Main Location
+		location / {
+			try_files $uri $uri/ /index.php?$args;
+		}
+
+		# PHP Processing
+		location ~ \.php$ {
+			include snippets/fastcgi-php.conf;
+			fastcgi_pass wordpress:9000;
+			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+			include fastcgi_params;
+		}
 	}
 }

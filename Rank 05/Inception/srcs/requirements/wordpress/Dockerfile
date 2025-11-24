@@ -4,7 +4,7 @@ FROM debian:bookworm
 # 1. Install WordPress et dépendances
 RUN apt update && \
 	apt upgrade -y && \
-	apt-get -y install wget php7.3 php-fpm php-mysql mariadb-client && \
+	apt-get -y install wget php php-fpm php-mysql mariadb-client && \
 	rm -rf /var/lib/apt/lists/*
 
 # 2. Télécharge et décompresse WordPress
@@ -13,7 +13,7 @@ RUN cd /var/www && tar -xzf wordpress-6.0-fr_FR.tar.gz && rm wordpress-6.0-fr_FR
 RUN chown -R root:root /var/www/wordpress
 
 # 3. Copie les fichiers de configuration
-COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY ./conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 # 4. Installe WP-CLI
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -25,6 +25,7 @@ ENTRYPOINT ["/usr/local/bin/auto_config.sh"]
 
 # 5. Crée les dossiers nécessaires
 RUN mkdir -p /var/run/php
+RUN mkdir -p /home/${USER}/data/wordpress
 
 # 6. Expose le port
 EXPOSE 9000

@@ -22,9 +22,6 @@ services:
       timeout: 20s
       retries: 10
 
-
-
-services:
   nginx:
     container_name: nginx
     build:
@@ -39,9 +36,6 @@ services:
       - "${NGINX_PORT}:443"
     volumes:
       - wordpress:/var/www/wordpress
-      - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./requirements/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./requirements/nginx/ssl:/etc/nginx/ssl:ro
     networks:
       - inception
     depends_on:
@@ -54,9 +48,6 @@ services:
       timeout: 10s
       retries: 10
 
-
-
-services:
   wordpress:
     container_name: wordpress
     build:

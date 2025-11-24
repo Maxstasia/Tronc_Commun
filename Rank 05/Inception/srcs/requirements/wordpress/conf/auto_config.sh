@@ -7,8 +7,8 @@ sleep 10
 if [ ! -f /var/www/wordpress/wp-config.php ]; then
 	wp config create	--allow-root \
 						--dbname=$DB_NAME \
-						--dbuser=$DB_USER \
-						--dbpass=$DB_PASS \
+						--dbuser=$DB_ADMIN \
+						--dbpass=$DB_ADMIN_PASS \
 						--dbhost=mariadb:3306 \
 						--path='/var/www/wordpress'
 fi
@@ -40,4 +40,4 @@ if [ ! -d /run/php ]; then
 fi
 
 # Lancer PHP-FPM en mode foreground
-/usr/sbin/php-fpm7.3 -F
+/usr/sbin/php-fpm8.2 -F
