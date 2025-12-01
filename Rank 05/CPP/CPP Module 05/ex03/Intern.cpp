@@ -26,40 +26,31 @@ Intern	&Intern::operator=(Intern const &rhs)
 }
 
 // Methods
-AForm	*Intern::makeForm(std::string const &formName, std::string const &target)
+AForm *Intern::makeForm(std::string formName, std::string target)
 {
-	std::string formNames[3] = {
-		"shrubbery creation",
-		"robotomy request",
-		"presidential pardon"
-	};
+    std::string formNames[3] = {
+        "shrubbery creation",
+        "robotomy request",
+        "presidential pardon"
+    };
 
-	AForm	*forms[3] = {
-		new ShrubberyCreationForm(target),
-		new RobotomyRequestForm(target),
-		new PresidentialPardonForm(target)
-	};
-
-	int i;
-	for (i = 0; i < 3; i++)
-	{
-		if (formName == formNames[i])
-		{
-			std::cout << "Intern creates " << formName << std::endl;
-			// Delete the forms we didn't use
-			for (int j = 0; j < 3; j++)
-			{
-				if (j != i)
-					delete forms[j];
-			}
-			return (forms[i]);
-		}
-	}
-
-	// If no match found, delete all forms and return NULL
-	for (int j = 0; j < 3; j++)
-		delete forms[j];
-	
-	std::cout << "Error: Form name \"" << formName << "\" is unknown" << std::endl;
-	return (NULL);
+    // Trouve l'index AVANT de créer
+    for (int i = 0; i < 3; i++)
+    {
+        if (formName == formNames[i])
+        {
+            std::cout << "Intern creates " << formName << std::endl;
+            
+            // Crée SEULEMENT le bon formulaire
+            if (i == 0)
+                return new ShrubberyCreationForm(target);
+            else if (i == 1)
+                return new RobotomyRequestForm(target);
+            else
+                return new PresidentialPardonForm(target);
+        }
+    }
+    
+    std::cout << "Error: Form \"" << formName << "\" unknown" << std::endl;
+    return NULL;
 }

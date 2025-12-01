@@ -18,7 +18,7 @@ class Intern
 		Intern &operator=(Intern const &rhs);
 
 		// Methods
-		AForm	*makeForm(std::string const &formName, std::string const &target);
+		AForm	*makeForm(std::string const formName, std::string const target);
 };
 
 #endif

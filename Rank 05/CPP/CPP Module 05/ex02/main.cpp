@@ -30,7 +30,7 @@ int main()
 		std::cout << form2 << std::endl;
 		bob.signForm(form2);
 		bob.executeForm(form2);
-		bob.executeForm(form2); // Try again for different result
+		bob.executeForm(form2);
 	}
 	catch (std::exception &e)
 	{
