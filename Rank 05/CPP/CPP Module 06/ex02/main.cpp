@@ -6,6 +6,7 @@
 #include "B.hpp"
 #include "C.hpp"
 
+// Génère aléatoirement une instance de A, B ou C et retourne un pointeur sur la classe de base
 Base* generate(void)
 {
 	int random = std::rand() % 3;
@@ -26,6 +27,7 @@ Base* generate(void)
 	}
 }
 
+// Identifie le type de l'objet pointé par p et affiche A, B ou C
 void identify(Base* p)
 {
 	if (dynamic_cast<A*>(p))
@@ -38,6 +40,8 @@ void identify(Base* p)
 		std::cout << "Unknown type";
 }
 
+// Interdit d'utiliser un pointeur dans cette fonction (sinon c'est trop facile)
+// Identifie le type de l'objet référencé par p et affiche A, B ou C
 void identify(Base& p)
 {
 	try
@@ -46,7 +50,7 @@ void identify(Base& p)
 		std::cout << "A";
 		return;
 	}
-	catch (std::exception &e)
+	catch (std::exception)
 	{
 	}
 
@@ -56,7 +60,7 @@ void identify(Base& p)
 		std::cout << "B";
 		return;
 	}
-	catch (std::exception &e)
+	catch (std::exception)
 	{
 	}
 
@@ -66,7 +70,7 @@ void identify(Base& p)
 		std::cout << "C";
 		return;
 	}
-	catch (std::exception &e)
+	catch (std::exception)
 	{
 	}
 
