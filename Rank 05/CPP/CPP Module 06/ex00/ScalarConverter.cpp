@@ -35,22 +35,22 @@ ScalarConverter::Type ScalarConverter::detectType(std::string const &literal)
 	if (isPseudoLiteral(literal))
 		return DOUBLE;
 
-	// Check for char
+	// Check pour char
 	if (literal.length() == 1 && !std::isdigit(literal[0]))
 		return CHAR;
 
-	// Check for single quoted char
+	// Check pour une char entre quotes
 	if (literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'')
 		return CHAR;
 
-	// Check for float (ends with 'f')
+	// Check pour float (finissant par 'f')
 	if (literal[literal.length() - 1] == 'f')
 		return FLOAT;
 
-	// Check if it contains a decimal point
+	// Check si c'est un double (contient un '.')
 	bool hasDecimal = literal.find('.') != std::string::npos;
 
-	// Try to parse as int
+	// Essayez de le convertir en int
 	char *end;
 	errno = 0;
 	long val = std::strtol(literal.c_str(), &end, 10);
@@ -58,7 +58,7 @@ ScalarConverter::Type ScalarConverter::detectType(std::string const &literal)
 		&& val <= std::numeric_limits<int>::max())
 		return INT;
 
-	// If it has a decimal point, it's a double
+	// S'il y a un point décimal, c'est un double
 	if (hasDecimal)
 		return DOUBLE;
 
