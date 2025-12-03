@@ -1,22 +1,27 @@
 #ifndef ARRAY_TPP
 # define ARRAY_TPP
 
+// Implémentation des méthodes de la classe Array
+// Constructeur par défaut
 template <typename T>
 Array<T>::Array(void) : _elements(NULL), _size(0)
 {
 }
 
+// Constructeur avec taille
 template <typename T>
 Array<T>::Array(unsigned int n) : _elements(new T[n]()), _size(n)
 {
 }
 
+// Constructeur de copie
 template <typename T>
 Array<T>::Array(Array const &src) : _elements(NULL), _size(0)
 {
 	*this = src;
 }
 
+// Opérateur d'affectation
 template <typename T>
 Array<T> &Array<T>::operator=(Array const &rhs)
 {
@@ -36,12 +41,15 @@ Array<T> &Array<T>::operator=(Array const &rhs)
 	return *this;
 }
 
+// Destructeur
 template <typename T>
 Array<T>::~Array(void)
 {
 	delete[] _elements;
 }
 
+
+// Opérateur d'accès
 template <typename T>
 T &Array<T>::operator[](unsigned int index)
 {
@@ -50,6 +58,7 @@ T &Array<T>::operator[](unsigned int index)
 	return _elements[index];
 }
 
+// Opérateur d'accès constant
 template <typename T>
 T const &Array<T>::operator[](unsigned int index) const
 {
@@ -58,6 +67,7 @@ T const &Array<T>::operator[](unsigned int index) const
 	return _elements[index];
 }
 
+// Getter de la taille
 template <typename T>
 unsigned int Array<T>::size(void) const
 {
