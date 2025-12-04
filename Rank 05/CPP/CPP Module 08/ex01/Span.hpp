@@ -21,13 +21,24 @@ class Span
 		Span& operator=(const Span& other);
 		~Span();
 		
-		// Member functions
-		void addNumber(int number);
-		void addNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end);
-		int shortestSpan() const;
-		int longestSpan() const;
-		
-		// Getters
+	// Member functions
+	void addNumber(int number);
+	
+	// Template method to add range of iterators
+	template <typename Iterator>
+	void addNumber(Iterator begin, Iterator end)
+	{
+		while (begin != end)
+		{
+			if (_numbers.size() >= _maxSize)
+				throw SpanFullException();
+			_numbers.push_back(*begin);
+			++begin;
+		}
+	}
+	
+	int shortestSpan() const;
+	int longestSpan() const;		// Getters
 		unsigned int getSize() const;
 		unsigned int getMaxSize() const;
 		

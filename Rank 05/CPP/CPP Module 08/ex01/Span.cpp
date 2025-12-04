@@ -35,17 +35,6 @@ void Span::addNumber(int number)
 	_numbers.push_back(number);
 }
 
-void Span::addNumber(std::vector<int>::iterator begin, std::vector<int>::iterator end)
-{
-	while (begin != end)
-	{
-		if (_numbers.size() >= _maxSize)
-			throw SpanFullException();
-		_numbers.push_back(*begin);
-		++begin;
-	}
-}
-
 int Span::shortestSpan() const
 {
 	if (_numbers.size() < 2)
