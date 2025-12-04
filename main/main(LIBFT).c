@@ -6,12 +6,13 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 16:00:16 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/01/08 14:48:31 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/12/04 10:36:38 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <ctype.h>
+#include <stdio.h>
 
 void	test_ft_atoi(void)
 {
