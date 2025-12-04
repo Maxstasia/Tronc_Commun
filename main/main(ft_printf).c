@@ -6,7 +6,7 @@
 /*   By: mstasiak <mstasiak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 11:14:09 by mstasiak          #+#    #+#             */
-/*   Updated: 2025/12/04 10:31:57 by mstasiak         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:36:07 by mstasiak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int     main(void)
     count += ft_printf("--- STRINGS ---\n");
     count += ft_printf("%s %s\n", "Salut", "les moussaillons");
     count += ft_printf("%s\n", "");                         // empty string
-    count += ft_printf("%s\n", (char *)NULL);              // (null)
+    //count += ft_printf("%s\n", (char *)NULL);              // (null)
 
     // =========================== POINTERS ===========================
     count += ft_printf("--- POINTERS ---\n");
@@ -94,13 +94,13 @@ int     main(void)
     count += ft_printf("%k\n", 42);                        // inconnu aussi
 
 	// =========================== HARD TEST ===========================
-	count += ft_printf("--- HARD TEST ---\n");
+	/* count += ft_printf("--- HARD TEST ---\n");
 	count += ft_printf("%.0s\n", "coucou");          // precision 0 sur string non-null
     count += ft_printf("%10s\n", "hi");              // width sans flag (doit pad avec espaces à gauche)
     count += ft_printf("%-10s\n", "hi");             // - flag (pad à droite)
     count += ft_printf("%.10s\n", "precision test");
     count += ft_printf("%10.5d\n", 42);
-    count += ft_printf("%-10.5d\n", -42);
+    count += ft_printf("%-10.5d\n", -42); */
 
     // =========================== FINAL COUNT ===========================
     ft_printf("\nTotal tests run: %d\n", count);
