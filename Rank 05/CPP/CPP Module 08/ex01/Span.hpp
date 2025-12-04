@@ -38,28 +38,30 @@ class Span
 	}
 	
 	int shortestSpan() const;
-	int longestSpan() const;		// Getters
-		unsigned int getSize() const;
-		unsigned int getMaxSize() const;
-		
-		// Exceptions
-		class SpanFullException : public std::exception
-		{
-			public:
-				virtual const char* what() const throw()
-				{
-					return "Span is full, cannot add more numbers";
-				}
-		};
-		
-		class NoSpanException : public std::exception
-		{
-			public:
-				virtual const char* what() const throw()
-				{
-					return "Not enough numbers to calculate span";
-				}
-		};
+	int longestSpan() const;
+	
+	// Getters
+	unsigned int getSize() const;
+	unsigned int getMaxSize() const;
+	
+	// Exceptions
+	class SpanFullException : public std::exception
+	{
+		public:
+			virtual const char* what() const throw()
+			{
+				return "Span is full, cannot add more numbers";
+			}
+	};
+	
+	class NoSpanException : public std::exception
+	{
+		public:
+			virtual const char* what() const throw()
+			{
+				return "Not enough numbers to calculate span";
+			}
+	};
 };
 
 #endif

@@ -163,10 +163,10 @@ void testConstIterators()
 
 int main()
 {
-	std::cout << "╔════════════════════════════════════╗" << std::endl;
-	std::cout << "║   CPP Module 08 - Exercise 02     ║" << std::endl;
-	std::cout << "║       MutantStack                 ║" << std::endl;
-	std::cout << "╚════════════════════════════════════╝" << std::endl;
+	std::cout << "╔═════════════════════════════════╗" << std::endl;
+	std::cout << "║   CPP Module 08 - Exercise 02   ║" << std::endl;
+	std::cout << "║           MutantStack           ║" << std::endl;
+	std::cout << "╚═════════════════════════════════╝" << std::endl;
 	
 	testSubject();
 	testWithList();

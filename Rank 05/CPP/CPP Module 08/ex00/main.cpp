@@ -63,8 +63,8 @@ void testList()
 	
 	try
 	{
-		easyfind(lst, 9);
-		std::cout << "Found 9 in list" << std::endl;
+		std::list<int>::iterator it = easyfind(lst, 9);
+		std::cout << "Found 9 at position: " << std::distance(lst.begin(), it) << std::endl;
 	}
 	catch (std::exception& e)
 	{
@@ -73,8 +73,8 @@ void testList()
 	
 	try
 	{
-		easyfind(lst, 7);
-		std::cout << "Found 7 in list" << std::endl;
+		std::list<int>::iterator it = easyfind(lst, 7);
+		std::cout << "Found 7 at position: " << std::distance(lst.begin(), it) << std::endl;
 	}
 	catch (std::exception& e)
 	{
@@ -122,10 +122,10 @@ void testDeque()
 
 int main()
 {
-	std::cout << "╔════════════════════════════════════╗" << std::endl;
-	std::cout << "║   CPP Module 08 - Exercise 00     ║" << std::endl;
-	std::cout << "║         Easy find                 ║" << std::endl;
-	std::cout << "╚════════════════════════════════════╝" << std::endl;
+	std::cout << "╔═════════════════════════════════╗" << std::endl;
+	std::cout << "║   CPP Module 08 - Exercise 00   ║" << std::endl;
+	std::cout << "║            Easy find            ║" << std::endl;
+	std::cout << "╚═════════════════════════════════╝" << std::endl;
 	
 	testVector();
 	testList();

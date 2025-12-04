@@ -135,10 +135,10 @@ void testCopyConstructor()
 
 int main()
 {
-	std::cout << "╔════════════════════════════════════╗" << std::endl;
-	std::cout << "║   CPP Module 08 - Exercise 01     ║" << std::endl;
-	std::cout << "║            Span                   ║" << std::endl;
-	std::cout << "╚════════════════════════════════════╝" << std::endl;
+	std::cout << "╔═════════════════════════════════╗" << std::endl;
+	std::cout << "║   CPP Module 08 - Exercise 01   ║" << std::endl;
+	std::cout << "║              Span               ║" << std::endl;
+	std::cout << "╚═════════════════════════════════╝" << std::endl;
 	
 	testBasic();
 	testExceptions();
