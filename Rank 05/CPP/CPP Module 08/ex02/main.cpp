@@ -25,9 +25,11 @@ void testSubject()
 	MutantStack<int>::iterator it = mstack.begin();
 	MutantStack<int>::iterator ite = mstack.end();
 	
+	// Prouve que l'itérateur fonctionne correctement
 	++it;
 	--it;
 	
+	// Affichage des éléments de la pile via les itérateurs
 	std::cout << "Iterating through stack: ";
 	while (it != ite)
 	{
