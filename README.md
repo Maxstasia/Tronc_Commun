@@ -109,27 +109,27 @@ J'ai commencé le cursus principal en novembre 2024. Voici un résumé des proje
 **Description :** Implémentation d'un moteur de raycasting inspiré de Wolfenstein 3D, utilisant la MiniLibX.
 
 - **Commencé le :** Septembre 2025
-- **Terminé le :** [Insère la date]
+- **Terminé le :** Novembre 2025
 
 ### 12 - CPP05, CPP06, CPP07, CPP08, CPP09
 
 **Description :** Mini piscine pour approfondir nos connaissance du C++.
 
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
+- **Commencé le :** Novembre 2025
+- **Terminé le :** Décembre 2025
 
 ### 13 - Inception
 
 **Description :** Création et gestion de plusieurs conteneurs Docker dans une machine virtuelle, pour approfondir la compréhension de la virtualisation et des services interconnectés.
 
-- **Commencé le :** [Insère la date]
-- **Terminé le :** [Insère la date]
+- **Commencé le :** Novembre 2025
+- **Terminé le :** Décembre 2025
 
 ### 14 - Webserv
 
 **Description :** Développement d’un serveur HTTP conforme à la RFC, capable de gérer des requêtes web et testé avec un navigateur réel.
 
-- **Commencé le :** [Insère la date]
+- **Commencé le :** Décembre 2025
 - **Terminé le :** [Insère la date]
 
 ### 15 - ft_transcendence
@@ -164,9 +164,9 @@ Tous les projets suivent strictement la norme 42, qui impose des règles rigoure
 
 ---
 
-## 🔹 **Crédits**
+## 🔹 **Remerciment**
 
-Merci de parcourir mon parcours à 42. Je suis toujours ouvert aux suggestions, aux critiques constructives et aux collaborations !
+Merci pour votre attention. Je suis toujours ouvert aux suggestions, aux critiques constructives et aux collaborations !
 
 ---
 
@@ -272,27 +272,27 @@ I started the main curriculum in November 2024. Below is a summary of the projec
 **Description:** Implementation of a raycasting engine inspired by Wolfenstein 3D, using MinilibX.
 
 - **Started on:** September 2025
-- **Finished on:** [Insert date]
+- **Finished on:** November 2025
 
 ### 12 - CPP05, CPP06, CPP07, CPP08, CPP09
 
 **Description :** Mini pool to deepen our knowledge of C++.
 
-- **Started on:** [Insert date]
-- **Finished on:** [Insert date]
+- **Started on:** November 2025
+- **Finished on:** December 2025
 
 ### 13 - Inception
 
 **Description :** Creation and management of multiple Docker containers in a virtual machine, to deepen understanding of virtualization and interconnected services.
 
-- **Started on:** [Insert date]
-- **Finished on:** [Insert date]
+- **Started on:** November 2025
+- **Finished on:** December 2025
 
 ### 14 - Webserv
 
 **Description :** Development of an RFC-compliant HTTP server capable of handling web requests and tested with a real browser.
 
-- **Started on:** [Insert date]
+- **Started on:** December 2025
 - **Finished on:** [Insert date]
 
 ### 15 - ft_transcendence
@@ -329,4 +329,4 @@ All projects strictly follow the 42 Norm, which enforces rigorous rules for code
 
 ## 🔹 **Credits**
 
-Thank you for checking out my 42 journey. I'm always open to suggestions, constructive criticism, and collaborations!
+Thanks for your attention. I'm always open to suggestions, constructive criticism, and collaborations!
