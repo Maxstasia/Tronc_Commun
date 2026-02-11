@@ -122,6 +122,14 @@ void PmergeMe::fordJohnsonSort(Container &container)
 		return;
 	
 	// Étape 1: Créer des paires et trier chaque paire (larger, smaller)
+	// DEBUG START
+	std::cout << "\n=== ETAPE 1: Creation des paires ===\n";
+	std::cout << "Input: ";
+	for (size_t i = 0; i < size; i++)
+		std::cout << container[i] << " ";
+	std::cout << "\n";
+	// DEBUG END
+	
 	std::vector<std::pair<int, int> > pairs;
 	int straggler = -1;
 	bool hasStraggler = (size % 2 != 0);
@@ -134,11 +142,23 @@ void PmergeMe::fordJohnsonSort(Container &container)
 			pairs.push_back(std::make_pair(b, a));
 		else
 			pairs.push_back(std::make_pair(a, b));
+		// DEBUG START
+		std::cout << "Pair " << (i/2 + 1) << ": (" << pairs.back().first << ", " << pairs.back().second << ") [smaller, larger]\n";
+		// DEBUG END
 	}
 	
 	// Gérer l'élément "straggler" s'il existe
 	if (hasStraggler)
+	{
 		straggler = container[size - 1];
+		// DEBUG START
+		std::cout << "Straggler (element impair): " << straggler << "\n";
+		// DEBUG END
+	}
+	// DEBUG START
+	std::cout << "Total pairs: " << pairs.size() << "\n";
+	std::cout << "=====================================\n";
+	// DEBUG END
 	
 	// Étape 2: Trier récursivement les paires selon leur élément "larger"
 	// On utilise une approche récursive sur les "larger" elements
@@ -146,11 +166,32 @@ void PmergeMe::fordJohnsonSort(Container &container)
 	{
 		// Créer un conteneur avec les éléments "larger"
 		Container largerElements;
+		// DEBUG START
+		std::cout << "\n=== ETAPE 2: Tri recursif des larger ===\n";
+		std::cout << "Larger elements avant tri recursif: ";
+		// DEBUG END
 		for (size_t i = 0; i < pairs.size(); i++)
+		{
 			largerElements.push_back(pairs[i].second);
+			// DEBUG START
+			std::cout << pairs[i].second << " ";
+			// DEBUG END
+		}
+		// DEBUG START
+		std::cout << "\n";
+		std::cout << ">>> DEBUT RECURSION >>>\n";
+		// DEBUG END
 		
 		// Trier récursivement
 		fordJohnsonSort(largerElements);
+		
+		// DEBUG START
+		std::cout << "<<< FIN RECURSION <<<\n";
+		std::cout << "Larger elements apres tri recursif: ";
+		for (size_t i = 0; i < largerElements.size(); i++)
+			std::cout << largerElements[i] << " ";
+		std::cout << "\n";
+		// DEBUG END
 		
 		// Réorganiser les paires selon l'ordre trié des "larger"
 		std::vector<std::pair<int, int> > sortedPairs;
@@ -167,6 +208,14 @@ void PmergeMe::fordJohnsonSort(Container &container)
 			}
 		}
 		pairs = sortedPairs;
+		
+		// DEBUG START
+		std::cout << "Pairs reordonnees: ";
+		for (size_t i = 0; i < pairs.size(); i++)
+			std::cout << "(" << pairs[i].first << "," << pairs[i].second << ") ";
+		std::cout << "\n";
+		std::cout << "========================================\n";
+		// DEBUG END
 	}
 	
 	// Étape 3: Construire la chaîne principale (main chain)
@@ -189,27 +238,98 @@ void PmergeMe::fordJohnsonSort(Container &container)
 			pend.push_back(pairs[i].first);
 	}
 	
+	// DEBUG START
+	std::cout << "\n=== ETAPE 3: Construction mainChain et pend ===\n";
+	std::cout << "mainChain: ";
+	for (size_t i = 0; i < mainChain.size(); i++)
+		std::cout << mainChain[i] << " ";
+	std::cout << "\npend: ";
+	for (size_t i = 0; i < pend.size(); i++)
+		std::cout << pend[i] << " ";
+	std::cout << "\n";
+	if (hasStraggler)
+		std::cout << "straggler: " << straggler << "\n";
+	std::cout << "===============================================\n\n";
+	// DEBUG END
+	
 	// Étape 4: Insérer les éléments de pend en utilisant l'ordre de Jacobsthal
 	if (!pend.empty())
 	{
 		std::vector<size_t> insertOrder = generateJacobsthalSequence(pend.size());
+		
+		// DEBUG START
+		std::cout << "\n=== ETAPE 4: Insertion avec Jacobsthal ===\n";
+		std::cout << "Ordre d'insertion Jacobsthal: ";
+		for (size_t i = 0; i < insertOrder.size(); i++)
+			std::cout << insertOrder[i] << " ";
+		std::cout << "\n";
+		// DEBUG END
+		
 		for (size_t i = 0; i < insertOrder.size(); i++)
 		{
 			size_t idx = insertOrder[i] - 1; // Convertir en index 0-based
 			if (idx < pend.size())
 			{
 				int value = pend[idx];
+				
+				// DEBUG START
+				std::cout << "Insertion de pend[" << idx << "] = " << value << "\n";
+				std::cout << "  mainChain avant: ";
+				for (size_t k = 0; k < mainChain.size(); k++)
+					std::cout << mainChain[k] << " ";
+				std::cout << "\n";
+				// DEBUG END
+
 				typename Container::iterator pos = binarySearchInsert(mainChain, mainChain.end(), value);
+				
+				// DEBUG START
+				size_t insertPos = pos - mainChain.begin();
+				// DEBUG END
+
 				mainChain.insert(pos, value);
+				
+				// DEBUG START
+				std::cout << "  Position inseree: " << insertPos << "\n";
+				std::cout << "  mainChain apres:  ";
+				for (size_t k = 0; k < mainChain.size(); k++)
+					std::cout << mainChain[k] << " ";
+				std::cout << "\n";
+				// DEBUG END
 			}
 		}
+		// DEBUG START
+		std::cout << "==========================================\n\n";
+		// DEBUG END
 	}
 	
 	// Étape 5: Insérer le straggler s'il existe
 	if (hasStraggler)
 	{
+		// DEBUG START
+		std::cout << "\n=== ETAPE 5: Insertion du straggler ===\n";
+		std::cout << "straggler = " << straggler << "\n";
+		std::cout << "mainChain avant: ";
+		for (size_t k = 0; k < mainChain.size(); k++)
+			std::cout << mainChain[k] << " ";
+		std::cout << "\n";
+		// DEBUG END
+		
 		typename Container::iterator pos = binarySearchInsert(mainChain, mainChain.end(), straggler);
+
+		// DEBUG START
+		size_t insertPos = pos - mainChain.begin();
+		// DEBUG END
+
 		mainChain.insert(pos, straggler);
+		
+		// DEBUG START
+		std::cout << "Position inseree: " << insertPos << "\n";
+		std::cout << "mainChain apres:  ";
+		for (size_t k = 0; k < mainChain.size(); k++)
+			std::cout << mainChain[k] << " ";
+		std::cout << "\n";
+		std::cout << "=======================================\n\n";
+		// DEBUG END
 	}
 	
 	// Copier le résultat
@@ -222,6 +342,21 @@ void PmergeMe::sortVector(void)
 		return;
 	
 	fordJohnsonSort(_vector);
+
+	// DEBUG START
+	std::cout << "==============================================\n";
+	std::cout << "==============================================\n";
+	std::cout << "==============================================\n";
+	std::cout << "=== Résultat du tri Ford-Johnson sur vector ===\n";
+	std::cout << "Sorted vector: ";
+	for (size_t i = 0; i < _vector.size(); i++)
+		std::cout << _vector[i] << " ";
+	std::cout << "\n";
+	std::cout << "==============================================\n";
+	std::cout << "==============================================\n";
+	std::cout << "==============================================\n";
+	std::cout << "==============================================\n\n";
+	// DEBUG END
 }
 
 void PmergeMe::sortDeque(void)
@@ -230,6 +365,21 @@ void PmergeMe::sortDeque(void)
 		return;
 	
 	fordJohnsonSort(_deque);
+
+	// DEBUG START
+	std::cout << "=============================================\n";
+	std::cout << "=============================================\n";
+	std::cout << "=============================================\n";
+	std::cout << "=== Résultat du tri Ford-Johnson sur deque ===\n";
+	std::cout << "Sorted deque: ";
+	for (size_t i = 0; i < _deque.size(); i++)
+		std::cout << _deque[i] << " ";
+	std::cout << "\n";
+	std::cout << "=============================================\n";
+	std::cout << "=============================================\n";
+	std::cout << "=============================================\n";
+	std::cout << "=============================================\n\n";
+	// DEBUG END
 }
 
 void PmergeMe::displayBefore(void) const

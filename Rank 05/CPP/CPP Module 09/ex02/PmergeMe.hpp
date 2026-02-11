@@ -3,7 +3,9 @@
 
 # include <vector>
 # include <deque>
-# include <string>
+# include <iostream>
+# include <cstdlib>
+# include <iomanip>
 
 class PmergeMe
 {
@@ -14,16 +16,17 @@ class PmergeMe
 		PmergeMe(PmergeMe const &src);
 		PmergeMe &operator=(PmergeMe const &rhs);
 		
-		// Tri par insertion pour petites séquences
+		// Génère les indices de Jacobsthal pour l'ordre d'insertion
+		std::vector<size_t> generateJacobsthalSequence(size_t n);
+		
+		// Recherche binaire pour l'insertion
 		template <typename Container>
-		void insertionSort(Container &container, int left, int right);
+		typename Container::iterator binarySearchInsert(Container &container,
+			typename Container::iterator end, int value);
 		
 		// Algorithme Ford-Johnson (merge-insertion sort)
 		template <typename Container>
-		void mergeInsertSort(Container &container, int left, int right);
-		
-		template <typename Container>
-		void merge(Container &container, int left, int mid, int right);
+		void fordJohnsonSort(Container &container);
 
 	public:
 		PmergeMe(void);
@@ -34,8 +37,6 @@ class PmergeMe
 		void		sortDeque(void);
 		void		displayBefore(void) const;
 		void		displayAfter(void) const;
-		double		getVectorTime(void) const;
-		double		getDequeTime(void) const;
 		
 		std::vector<int> const	&getVector(void) const;
 		std::deque<int> const	&getDeque(void) const;
