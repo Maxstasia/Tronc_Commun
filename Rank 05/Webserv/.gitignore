@@ -1,0 +1,32 @@
+
+# fichiers ELF (Linux) et Mach-O (macOS)
+*.out
+*.run
+*.txt
+
+# ----- COMPILATION / BINAIRES -----
+obj/*
+*.o
+*.obj
+*.a
+*.lib
+*.d
+webserv
+README.md
+# ----- ARCHIVES / PACKAGES -----
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.txt
+# ----- OS -----
+.DS_Store
+Thumbs.db
+
+# ----- EDITOR -----
+.vscode/
+.idea/
+
+# ----- CLAUDE -----
+CLAUDE.md

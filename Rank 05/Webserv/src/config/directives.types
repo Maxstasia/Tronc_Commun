@@ -1,0 +1,15 @@
+types {
+    location;
+    server
+    listen;
+    host;
+    server_name;
+    root;
+    index;
+    error_page;
+    client_max_body_size;
+    allow_methods;
+    autoindex;
+    return;
+    upload_path;
+}

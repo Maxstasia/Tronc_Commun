@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<link rel="icon" type="image/png" sizes="150x150" href="/webservm.png">
+	<title>Webserv - Test Dashboard</title>
+	<style>
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f1a; color: #e0e0e0; min-height: 100vh; }
+
+		/* ── Header ── */
+		header { background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 20px 40px; border-bottom: 2px solid #0f3460; display: flex; justify-content: space-between; align-items: center; }
+		header h1 { font-size: 24px; color: #e94560; }
+		header .status { display: flex; align-items: center; gap: 8px; }
+		header .dot { width: 10px; height: 10px; border-radius: 50%; background: #00e676; animation: pulse 2s infinite; }
+		@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+		/* ── Layout ── */
+		.container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px 40px; max-width: 1400px; margin: 0 auto; }
+		.full-width { grid-column: 1 / -1; }
+
+		/* ── Cards ── */
+		.card { background: #1a1a2e; border: 1px solid #2a2a4a; border-radius: 12px; padding: 20px; }
+		.card h2 { color: #e94560; font-size: 16px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #2a2a4a; }
+
+		/* ── Buttons ── */
+		.btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+		.btn:hover { transform: translateY(-1px); }
+		.btn-primary    { background: #e94560; color: white; }
+		.btn-primary:hover    { background: #ff6b81; }
+		.btn-success    { background: #00b894; color: white; }
+		.btn-success:hover    { background: #00d9a3; }
+		.btn-danger     { background: #d63031; color: white; }
+		.btn-danger:hover     { background: #ff4444; }
+		.btn-info       { background: #0984e3; color: white; }
+		.btn-info:hover       { background: #2d9cef; }
+		.btn-warning    { background: #fdcb6e; color: #333; }
+		.btn-warning:hover    { background: #ffeaa7; }
+		.btn-small { padding: 4px 10px; font-size: 11px; }
+
+		/* Upload zone */
+		.upload-zone { border: 2px dashed #2a2a4a; border-radius: 8px; padding: 30px; text-align: center; transition: all 0.3s; cursor: pointer; }
+		.upload-zone:hover, .upload-zone.dragover { border-color: #e94560; background: rgba(233, 69, 96, 0.05); }
+		.upload-zone input { display: none; }
+		.upload-zone p { color: #888; margin-top: 8px; font-size: 13px; }
+
+		/* Log */
+		.log-container { background: #0a0a15; border-radius: 8px; padding: 12px; max-height: 300px; overflow-y: auto; font-family: 'Courier New', monospace; font-size: 12px; }
+		.log-entry { padding: 4px 0; border-bottom: 1px solid #1a1a2e; }
+		.log-entry.success { color: #00e676; }
+		.log-entry.error { color: #ff5252; }
+		.log-entry.info { color: #448aff; }
+		.log-entry .time { color: #666; margin-right: 8px; }
+
+		/* File list */
+		.file-list { list-style: none; max-height: 250px; overflow-y: auto; }
+		.file-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid #2a2a4a; }
+		.file-item:hover { background: rgba(233, 69, 96, 0.05); }
+		.file-name { font-size: 13px; }
+		.file-actions { display: flex; gap: 6px; }
+
+		/* Test results */
+		.test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+		.test-item { background: #0f0f1a; padding: 10px 14px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+		.badge { padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+		.badge-pass { background: #00b89433; color: #00e676; }
+		.badge-fail { background: #d6303133; color: #ff5252; }
+		.badge-wait { background: #fdcb6e33; color: #fdcb6e; }
+
+		/* Request builder */
+		.form-group { margin-bottom: 12px; }
+		.form-group label { display: block; font-size: 12px; color: #888; margin-bottom: 4px; }
+		.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; background: #0f0f1a; border: 1px solid #2a2a4a; border-radius: 6px; color: #e0e0e0; font-size: 13px; font-family: inherit; }
+		.form-group textarea { min-height: 60px; resize: vertical; font-family: 'Courier New', monospace; }
+		.form-row { display: flex; gap: 10px; }
+		.form-row .form-group { flex: 1; }
+
+		/* Response viewer */
+		.response-box { background: #0a0a15; border-radius: 8px; padding: 12px; font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap; max-height: 200px; overflow-y: auto; min-height: 80px; }
+		.response-status { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+		.response-status.s2xx { color: #00e676; }
+		.response-status.s3xx { color: #fdcb6e; }
+		.response-status.s4xx { color: #ff5252; }
+		.response-status.s5xx { color: #ff5252; }
+
+		/* Stats bar */
+		.stats-bar { display: flex; gap: 20px; padding: 15px 40px; background: #1a1a2e; border-bottom: 1px solid #2a2a4a; }
+		.stat { text-align: center; }
+		.stat .value { font-size: 24px; font-weight: 700; color: #e94560; }
+		.stat .label { font-size: 11px; color: #888; margin-top: 2px; }
+
+		/* Tabs */
+		.tabs { display: flex; gap: 4px; margin-bottom: 15px; }
+		.tab { padding: 6px 14px; border-radius: 6px 6px 0 0; background: #0f0f1a; border: 1px solid #2a2a4a; border-bottom: none; cursor: pointer; font-size: 12px; color: #888; }
+		.tab.active { background: #1a1a2e; color: #e94560; border-color: #e94560; }
+
+		/* petit bonus visuel */
+		.cookie-list { font-size: 12px; color: #aaa; margin-top: 8px; }
+		.cookie-list strong { color: #e94560; }
+
+		/* Scrollbar */
+		::-webkit-scrollbar { width: 6px; }
+		::-webkit-scrollbar-track { background: #0f0f1a; }
+		::-webkit-scrollbar-thumb { background: #2a2a4a; border-radius: 3px; }
+	</style>
+</head>
+<body>
+
+<header>
+	<h1>WEBSERV Test Dashboard</h1>
+	<div class="status">
+		<div class="dot"></div>
+		<span style="font-size:13px;">Server running on port 8080</span>
+	</div>
+</header>
+
+<div class="stats-bar">
+	<div class="stat"><div class="value" id="statRequests">0</div><div class="label">Requests</div></div>
+	<div class="stat"><div class="value" id="statSuccess">0</div><div class="label">Success</div></div>
+	<div class="stat"><div class="value" id="statErrors">0</div><div class="label">Errors</div></div>
+	<div class="stat"><div class="value" id="statTime">0ms</div><div class="label">Last Response</div></div>
+</div>
+
+<div class="container">
+
+	<!-- Upload -->
+	<div class="card">
+		<h2>Upload de fichiers (POST multipart)</h2>
+		<div class="upload-zone" id="uploadZone">
+			<input type="file" id="fileInput" multiple>
+			<p style="font-size:18px;">Glisser des fichiers ici</p>
+			<p>ou cliquer pour selectionner</p>
+		</div>
+		<div style="margin-top:12px; display:flex; gap:8px; align-items:center;">
+			<input type="text" id="uploadPath" value="/uploads/" placeholder="URI destination (ex: /uploads/)" style="flex:1; padding:8px 12px; background:#0f0f1a; border:1px solid #2a2a4a; border-radius:6px; color:#e0e0e0; font-size:13px;">
+			<button class="btn btn-primary" onclick="uploadFiles()">Upload</button>
+		</div>
+		<div id="uploadProgress" style="margin-top:8px; font-size:12px; color:#888;"></div>
+	</div>
+
+	<!-- Cookies -->
+	<div class="card">
+		<h2>Cookies & Sessions</h2>
+		<div class="form-row">
+			<div class="form-group">
+				<label>Set-Cookie (nom=valeur)</label>
+				<input type="text" id="cookieSet" placeholder="session=abc123; Max-Age=3600">
+			</div>
+			<div class="form-group">
+				<label>Basic Auth (user:pass)</label>
+				<input type="text" id="basicAuth" placeholder="admin:password42" value="user42:webserv">
+			</div>
+		</div>
+		<div style="display:flex; gap:8px; flex-wrap:wrap;">
+			<button class="btn btn-success"  onclick="sendSetCookie()">Set Cookie</button>
+			<button class="btn btn-info"     onclick="sendWithBasicAuth()">Test Basic Auth</button>
+			<button class="btn btn-danger"   onclick="deleteCookie()">Delete Cookie</button>
+			<button class="btn btn-warning"  onclick="getWithCookie()">GET + Cookie</button>
+		</div>
+		<div id="cookieDisplay" class="cookie-list">Cookies actuels : aucun</div>
+	</div>
+
+	<!-- File Manager -->
+	<div class="card">
+		<h2>Gestionnaire de fichiers</h2>
+		<div style="display:flex; gap:8px; margin-bottom:12px;">
+			<input type="text" id="browsePath" value="/uploads/" placeholder="Chemin a lister" style="flex:1; padding:8px 12px; background:#0f0f1a; border:1px solid #2a2a4a; border-radius:6px; color:#e0e0e0; font-size:13px;">
+			<button class="btn btn-info" onclick="listFiles()">Lister (GET)</button>
+		</div>
+		<ul class="file-list" id="fileList">
+			<li class="file-item" style="color:#666; justify-content:center;">Cliquer sur "Lister" pour voir les fichiers</li>
+		</ul>
+	</div>
+
+	<!-- Request Builder -->
+	<div class="card">
+		<h2>Constructeur de requetes HTTP</h2>
+		<div class="form-row">
+			<div class="form-group">
+				<label>Methode</label>
+				<select id="reqMethod">
+					<option value="GET">GET</option>
+					<option value="POST">POST</option>
+					<option value="DELETE">DELETE</option>
+					<option value="HEAD">HEAD</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>URI</label>
+				<input type="text" id="reqUri" value="/" placeholder="/">
+			</div>
+		</div>
+		<div class="form-group">
+			<label>Headers (un par ligne, format: Cle: Valeur)</label>
+			<textarea id="reqHeaders" placeholder="Content-Type: text/plain"></textarea>
+		</div>
+		<div class="form-group">
+			<label>Body</label>
+			<textarea id="reqBody" placeholder="Corps de la requete (pour POST)"></textarea>
+		</div>
+		<button class="btn btn-primary" onclick="sendCustomRequest()">Envoyer</button>
+	</div>
+
+	<!-- Response Viewer (avec cookies) -->
+	<div class="card">
+		<h2>Réponse du serveur</h2>
+		<div class="response-status" id="respStatus">En attente...</div>
+		<div id="cookieDisplayResp" class="cookie-list" style="margin:8px 0;"></div>
+		<div class="tabs">
+			<div class="tab active" onclick="showRespTab('headers')">Headers</div>
+			<div class="tab" onclick="showRespTab('body')">Body</div>
+			<div class="tab" onclick="showRespTab('raw')">Raw</div>
+		</div>
+		<div class="response-box" id="respHeaders">Envoyer une requete pour voir la reponse</div>
+		<div class="response-box" id="respBody" style="display:none;"></div>
+		<div class="response-box" id="respRaw" style="display:none;"></div>
+	</div>
+
+	<!-- Requêtes rapides / stress -->
+	<div class="card">
+		<h2>Requêtes rapides / stress</h2>
+		<div class="form-row">
+			<div class="form-group">
+				<label>URI à spammer</label>
+				<input type="text" id="spamUri" value="/big_file_10Mo" placeholder="/">
+			</div>
+			<div class="form-group">
+				<label>Nombre de requêtes</label>
+				<input type="number" id="spamCount" value="20" min="1" max="200">
+			</div>
+		</div>
+		<button class="btn btn-warning" onclick="spamRequests()">Lancer le spam</button>
+		<div id="spamResult" style="margin-top:12px; font-size:13px; color:#fdcb6e;"></div>
+	</div>
+
+	<!-- Tests automatiques -->
+	<div class="card full-width">
+		<h2>Tests automatiques</h2>
+		<div style="margin-bottom:12px; display:flex; gap:8px; flex-wrap:wrap;">
+			<button class="btn btn-success" onclick="runAllTests()">Lancer tous les tests</button>
+			<button class="btn btn-warning" onclick="resetTests()">Reset</button>
+		</div>
+		<div class="test-grid" id="testGrid">
+			<div class="test-item"><span>GET / (page index)</span><span class="badge badge-wait" id="test-get-index">--</span></div>
+			<div class="test-item"><span>GET /nonexistent (404)</span><span class="badge badge-wait" id="test-get-404">--</span></div>
+			<div class="test-item"><span>HEAD / (pas de body)</span><span class="badge badge-wait" id="test-head">--</span></div>
+			<div class="test-item"><span>DELETE /nonexistent (404)</span><span class="badge badge-wait" id="test-del-404">--</span></div>
+			<div class="test-item"><span>POST body (upload texte)</span><span class="badge badge-wait" id="test-post-body">--</span></div>
+			<div class="test-item"><span>GET autoindex /uploads/</span><span class="badge badge-wait" id="test-autoindex">--</span></div>
+			<div class="test-item"><span>Methode inconnue (501)</span><span class="badge badge-wait" id="test-unknown">--</span></div>
+			<div class="test-item"><span>POST multipart (fichier)</span><span class="badge badge-wait" id="test-multipart">--</span></div>
+			<div class="test-item"><span>Body trop grand (413)</span><span class="badge badge-wait" id="test-toolarge">--</span></div>
+			<div class="test-item"><span>DELETE fichier uploade</span><span class="badge badge-wait" id="test-delete-file">--</span></div>
+			<div class="test-item"><span>OPTIONS / (Allowed)</span><span class="badge badge-wait" id="test-options">--</span></div>
+			<div class="test-item"><span>Range bytes=0-99 (206)</span><span class="badge badge-wait" id="test-range">--</span></div>
+			<div class="test-item"><span>URI très longue (> 4k)</span><span class="badge badge-wait" id="test-long-uri">--</span></div>
+			<div class="test-item"><span>POST chunked encoding</span><span class="badge badge-wait" id="test-chunked">--</span></div>
+			<div class="test-item"><span>Redirection 301/302</span><span class="badge badge-wait" id="test-redirect">--</span></div>
+		</div>
+	</div>
+
+	<!-- Log -->
+	<div class="card full-width">
+		<h2>Journal des requetes</h2>
+		<div style="margin-bottom:8px; display:flex; gap:8px;">
+			<button class="btn btn-small btn-danger" onclick="clearLog()">Vider le log</button>
+		</div>
+		<div class="log-container" id="logContainer"></div>
+	</div>
+
+</div>
+
+<script>
+var stats = { requests: 0, success: 0, errors: 0 };
+
+function getTime() {
+	var d = new Date();
+	return d.getHours().toString().padStart(2, '0') + ':' +
+		d.getMinutes().toString().padStart(2, '0') + ':' +
+		d.getSeconds().toString().padStart(2, '0');
+}
+
+function log(msg, type) {
+	var c = document.getElementById('logContainer');
+	var e = document.createElement('div');
+	e.className = 'log-entry ' + (type || 'info');
+	e.innerHTML = '<span class="time">[' + getTime() + ']</span>' + escapeHtml(msg);
+	c.insertBefore(e, c.firstChild);
+}
+
+function escapeHtml(s) {
+	var d = document.createElement('div');
+	d.appendChild(document.createTextNode(s));
+	return d.innerHTML;
+}
+
+function updateStats(ok, time) {
+	stats.requests++;
+	if (ok) stats.success++; else stats.errors++;
+	document.getElementById('statRequests').textContent = stats.requests;
+	document.getElementById('statSuccess').textContent = stats.success;
+	document.getElementById('statErrors').textContent = stats.errors;
+	document.getElementById('statTime').textContent = time + 'ms';
+}
+
+/* ===== Upload ===== */
+var uploadZone = document.getElementById('uploadZone');
+var fileInput = document.getElementById('fileInput');
+
+uploadZone.addEventListener('click', function() { fileInput.click(); });
+uploadZone.addEventListener('dragover', function(e) { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', function() { uploadZone.classList.remove('dragover'); });
+uploadZone.addEventListener('drop', function(e) {
+	e.preventDefault();
+	uploadZone.classList.remove('dragover');
+	fileInput.files = e.dataTransfer.files;
+	document.getElementById('uploadProgress').textContent = e.dataTransfer.files.length + ' fichier(s) selectionne(s)';
+});
+fileInput.addEventListener('change', function() {
+	document.getElementById('uploadProgress').textContent = fileInput.files.length + ' fichier(s) selectionne(s)';
+});
+
+function uploadFiles() {
+	var files = fileInput.files;
+	if (!files.length) { log('Aucun fichier selectionne', 'error'); return; }
+	var path = document.getElementById('uploadPath').value || '/uploads/';
+	var fd = new FormData();
+	for (var i = 0; i < files.length; i++) fd.append('file' + i, files[i]);
+	log('POST ' + path + ' (' + files.length + ' fichier(s))', 'info');
+	var start = Date.now();
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', path, true);
+	xhr.onload = function() {
+		var time = Date.now() - start;
+		var ok = xhr.status >= 200 && xhr.status < 300;
+		updateStats(ok, time);
+		showResponse(xhr);
+		log('Reponse: ' + xhr.status + ' ' + xhr.statusText + ' (' + time + 'ms)', ok ? 'success' : 'error');
+	};
+	xhr.onerror = function() { log('Erreur reseau', 'error'); updateStats(false, 0); };
+	xhr.send(fd);
+}
+
+/* ===== File list ===== */
+function listFiles() {
+	var path = document.getElementById('browsePath').value || '/uploads/';
+	log('GET ' + path + ' (listing)', 'info');
+	var start = Date.now();
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', path, true);
+	xhr.onload = function() {
+		var time = Date.now() - start;
+		var ok = xhr.status >= 200 && xhr.status < 300;
+		updateStats(ok, time);
+		showResponse(xhr);
+		log('Reponse: ' + xhr.status + ' (' + time + 'ms)', ok ? 'success' : 'error');
+		parseFileList(xhr.responseText, path);
+	};
+	xhr.onerror = function() { log('Erreur reseau', 'error'); updateStats(false, 0); };
+	xhr.send();
+}
+
+function parseFileList(html, basePath) {
+	var list = document.getElementById('fileList');
+	list.innerHTML = '';
+	var parser = new DOMParser();
+	var doc = parser.parseFromString(html, 'text/html');
+	var links = doc.querySelectorAll('a');
+	if (links.length === 0) {
+		list.innerHTML = '<li class="file-item" style="color:#666; justify-content:center;">Aucun fichier ou autoindex desactive</li>';
+		return;
+	}
+	for (var i = 0; i < links.length; i++) {
+		var name = links[i].textContent;
+		var href = links[i].getAttribute('href');
+		if (name === '..') continue;
+		var li = document.createElement('li');
+		li.className = 'file-item';
+		var isDir = name.charAt(name.length - 1) === '/';
+		li.innerHTML = '<span class="file-name">' + (isDir ? '&#128193; ' : '&#128196; ') + escapeHtml(name) + '</span>' +
+			'<span class="file-actions">' +
+			(isDir ? '<button class="btn btn-small btn-info" onclick="browseDir(\'' + escapeHtml(href) + '\')">Ouvrir</button>' :
+			'<button class="btn btn-small btn-success" onclick="downloadFile(\'' + escapeHtml(href) + '\')">GET</button>' +
+			'<button class="btn btn-small btn-danger" onclick="deleteFile(\'' + escapeHtml(href) + '\')">DELETE</button>') +
+			'</span>';
+		list.appendChild(li);
+	}
+	if (list.children.length === 0)
+		list.innerHTML = '<li class="file-item" style="color:#666; justify-content:center;">Dossier vide</li>';
+}
+
+function browseDir(path) {
+	document.getElementById('browsePath').value = path;
+	listFiles();
+}
+
+function downloadFile(path) {
+	log('GET ' + path, 'info');
+	var start = Date.now();
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', path, true);
+	xhr.onload = function() {
+		var time = Date.now() - start;
+		var ok = xhr.status >= 200 && xhr.status < 300;
+		updateStats(ok, time);
+		showResponse(xhr);
+		log('GET ' + path + ' -> ' + xhr.status + ' (' + time + 'ms)', ok ? 'success' : 'error');
+	};
+	xhr.onerror = function() { log('Erreur reseau', 'error'); updateStats(false, 0); };
+	xhr.send();
+}
+
+function deleteFile(path) {
+	if (!confirm('Supprimer ' + decodeURIComponent(path) + ' ?')) return;
+	log('DELETE ' + path, 'info');
+	var start = Date.now();
+	var xhr = new XMLHttpRequest();
+	xhr.open('DELETE', path, true);
+	xhr.onload = function() {
+		var time = Date.now() - start;
+		var ok = xhr.status >= 200 && xhr.status < 300;
+		updateStats(ok, time);
+		showResponse(xhr);
+		log('DELETE ' + path + ' -> ' + xhr.status + ' (' + time + 'ms)', ok ? 'success' : 'error');
+		if (ok) listFiles();
+	};
+	xhr.onerror = function() { log('Erreur reseau', 'error'); updateStats(false, 0); };
+	xhr.send();
+}
+
+/* ===== Request builder ===== */
+function sendCustomRequest() {
+	var method = document.getElementById('reqMethod').value;
+	var uri = document.getElementById('reqUri').value || '/';
+	var headersText = document.getElementById('reqHeaders').value;
+	var body = document.getElementById('reqBody').value;
+	log(method + ' ' + uri, 'info');
+	var start = Date.now();
+	var xhr = new XMLHttpRequest();
+	xhr.open(method, uri, true);
+	if (headersText) {
+		var lines = headersText.split('\n');
+		for (var i = 0; i < lines.length; i++) {
+			var parts = lines[i].split(':');
+			if (parts.length >= 2) {
+				var key = parts[0].trim();
+				var val = parts.slice(1).join(':').trim();
+				try { xhr.setRequestHeader(key, val); } catch(e) {}
+			}
+		}
+	}
+	xhr.onload = function() {
+		var time = Date.now() - start;
+		var ok = xhr.status >= 200 && xhr.status < 300;
+		updateStats(ok, time);
+		showResponse(xhr);
+		log(method + ' ' + uri + ' -> ' + xhr.status + ' ' + xhr.statusText + ' (' + time + 'ms)', ok ? 'success' : 'error');
+	};
+	xhr.onerror = function() { log('Erreur reseau', 'error'); updateStats(false, 0); };
+	xhr.send(body || null);
+}
+
+/* ===== Response viewer ===== */
+function showResponse(xhr) {
+	var code = xhr.status;
+	var cls = 's' + Math.floor(code / 100) + 'xx';
+	document.getElementById('respStatus').textContent = code + ' ' + xhr.statusText;
+	document.getElementById('respStatus').className = 'response-status ' + cls;
+
+	document.getElementById('respHeaders').textContent = xhr.getAllResponseHeaders() || '(aucun header)';
+	document.getElementById('respBody').textContent = xhr.responseText || '(vide)';
+	document.getElementById('respRaw').textContent = 'HTTP/1.1 ' + code + ' ' + xhr.statusText + '\r\n' +
+		(xhr.getAllResponseHeaders() || '') + '\r\n' + (xhr.responseText || '');
+
+	// Affichage cookies reçus
+	let cookies = xhr.getResponseHeader('Set-Cookie');
+	let cookieEl = document.getElementById('cookieDisplayResp');
+	cookieEl.innerHTML = cookies ? '<strong>Set-Cookie:</strong> ' + escapeHtml(cookies) : '';
+}
+
+function showRespTab(tab) {
+	var tabs = ['headers', 'body', 'raw'];
+	for (var i = 0; i < tabs.length; i++) {
+		document.getElementById('resp' + tabs[i].charAt(0).toUpperCase() + tabs[i].slice(1)).style.display = tabs[i] === tab ? 'block' : 'none';
+	}
+	var btns = document.querySelectorAll('.tabs .tab');
+	for (var j = 0; j < btns.length; j++) btns[j].className = 'tab' + (btns[j].textContent.toLowerCase() === tab ? ' active' : '');
+}
+
+/* ===== Cookies & Auth tests ===== */
+function sendSetCookie() {
+	sendCustomRequestHeadersOnly('GET', '/setcookie', {}, "Set-Cookie test");
+}
+
+function deleteCookie() {
+	sendCustomRequestHeadersOnly('GET', '/deletecookie', {}, "Delete cookie");
+}
+
+function sendWithBasicAuth() {
+	let cred = document.getElementById('basicAuth').value.trim();
+	if (!cred) return log("Remplis user:pass", 'error');
+
+	let b64 = btoa(cred);
+	sendCustomRequestHeadersOnly('GET', '/', {"Authorization": "Basic " + b64}, "Basic Auth test");
+}
+
+function getWithCookie() {
+	sendCustomRequestHeadersOnly('GET', '/showcookies', {}, "GET /showcookies avec cookies");
+}
+
+function sendCustomRequestHeadersOnly(method, uri, headers, logmsg) {
+	log((logmsg||method) + ' ' + uri, 'info');
+	var start = Date.now();
+	var xhr = new XMLHttpRequest();
+	xhr.open(method, uri, true);
+	for (let k in headers) {
+		try { xhr.setRequestHeader(k, headers[k]); } catch(e) {}
+	}
+	xhr.onload = () => {
+		let time = Date.now() - start;
+		let ok = xhr.status >= 200 && xhr.status < 300;
+		updateStats(ok, time);
+		showResponse(xhr);
+		log((logmsg||method) + ' → ' + xhr.status + ' (' + time + 'ms)', ok ? 'success' : 'error');
+	};
+	xhr.onerror = () => { log('Erreur réseau', 'error'); updateStats(false, 0); };
+	xhr.send();
+}
+
+/* ===== Requêtes rapides / stress ===== */
+function spamRequests() {
+	let uri   = document.getElementById('spamUri').value || '/';
+	let count = parseInt(document.getElementById('spamCount').value) || 10;
+	let done  = 0;
+	let okCount = 0;
+	let startAll = Date.now();
+
+	document.getElementById('spamResult').textContent = `En cours... 0/${count}`;
+
+	for (let i = 0; i < count; i++) {
+		let xhr = new XMLHttpRequest();
+		xhr.open('GET', uri, true);
+		xhr.onload = () => {
+			done++;
+			if (xhr.status >= 200 && xhr.status < 300) okCount++;
+			document.getElementById('spamResult').textContent =
+				`Terminé : ${done}/${count}  -  OK: ${okCount}  (${Math.round((Date.now()-startAll)/1000)}s)`;
+		};
+		xhr.onerror = () => { done++; };
+		xhr.send();
+	}
+}
+
+/* ===== Tests automatiques ===== */
+function setTestResult(id, pass) {
+	var el = document.getElementById(id);
+	el.textContent = pass ? 'PASS' : 'FAIL';
+	el.className = 'badge ' + (pass ? 'badge-pass' : 'badge-fail');
+}
+
+function resetTests() {
+	var badges = document.querySelectorAll('.test-grid .badge');
+	for (var i = 0; i < badges.length; i++) {
+		badges[i].textContent = '--';
+		badges[i].className = 'badge badge-wait';
+	}
+}
+
+function testRequest(method, uri, body, headers, cb) {
+	var xhr = new XMLHttpRequest();
+	xhr.open(method, uri, true);
+	if (headers) {
+		for (var k in headers) {
+			try { xhr.setRequestHeader(k, headers[k]); } catch(e) {}
+		}
+	}
+	xhr.onload = function() { cb(xhr); };
+	xhr.onerror = function() { cb(null); };
+	xhr.send(body || null);
+}
+
+function runAllTests() {
+	resetTests();
+	log('=== Lancement des tests automatiques ===', 'info');
+
+	/* 1. GET index */
+	testRequest('GET', '/', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 200;
+		setTestResult('test-get-index', ok);
+		log('Test GET / : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 2. GET 404 */
+	testRequest('GET', '/this_file_does_not_exist_42', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 404;
+		setTestResult('test-get-404', ok);
+		log('Test GET 404 : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 3. HEAD */
+	testRequest('HEAD', '/', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 200 && (xhr.responseText === '' || xhr.responseText === null);
+		setTestResult('test-head', ok);
+		log('Test HEAD / : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', body=' + (xhr ? xhr.responseText.length : '?') + ' bytes)', ok ? 'success' : 'error');
+	});
+
+	/* 4. DELETE 404 */
+	testRequest('DELETE', '/this_file_does_not_exist_42', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 404;
+		setTestResult('test-del-404', ok);
+		log('Test DELETE 404 : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 5. POST body text */
+	testRequest('POST', '/uploads/', 'Hello from test', {'Content-Type': 'text/plain'}, function(xhr) {
+		var ok = xhr && xhr.status === 200;
+		setTestResult('test-post-body', ok);
+		log('Test POST body : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 6. Autoindex */
+	testRequest('GET', '/uploads/', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('<a') !== -1;
+		setTestResult('test-autoindex', ok);
+		log('Test autoindex : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 7. Unknown method (501) - use PATCH */
+	testRequest('PATCH', '/', null, null, function(xhr) {
+		var ok = xhr && (xhr.status === 501 || xhr.status === 405);
+		setTestResult('test-unknown', ok);
+		log('Test PATCH 501/405 : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 8. POST multipart (file upload) */
+	var fd = new FormData();
+	var blob = new Blob(['test file content from webserv dashboard'], {type: 'text/plain'});
+	fd.append('file', blob, '_webserv_test_upload.txt');
+	var xhr8 = new XMLHttpRequest();
+	xhr8.open('POST', '/uploads/', true);
+	xhr8.onload = function() {
+		var ok = xhr8.status === 201 || xhr8.status === 200;
+		setTestResult('test-multipart', ok);
+		log('Test POST multipart : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + xhr8.status + ')', ok ? 'success' : 'error');
+
+		/* 10. DELETE the uploaded file (depends on 8) */
+		setTimeout(function() {
+			testRequest('DELETE', '/uploads/_webserv_test_upload.txt', null, null, function(xhr2) {
+				var ok2 = xhr2 && (xhr2.status === 204 || xhr2.status === 200);
+				setTestResult('test-delete-file', ok2);
+				log('Test DELETE fichier : ' + (ok2 ? 'PASS' : 'FAIL') + ' (status=' + (xhr2 ? xhr2.status : 'err') + ')', ok2 ? 'success' : 'error');
+			});
+		}, 300);
+	};
+	xhr8.onerror = function() {
+		setTestResult('test-multipart', false);
+		log('Test POST multipart : FAIL (erreur reseau)', 'error');
+	};
+	xhr8.send(fd);
+
+	/* 9. Body too large (413) */
+	var bigBody = '';
+	for (var i = 0; i < 1100000; i++) bigBody += 'AAAAAAAAAA';
+	testRequest('POST', '/uploads/', bigBody, {'Content-Type': 'text/plain'}, function(xhr) {
+		var ok = xhr && xhr.status === 413;
+		setTestResult('test-toolarge', ok);
+		log('Test body trop grand : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', size=' + bigBody.length + ')', ok ? 'success' : 'error');
+	});
+
+	/* 11. OPTIONS / (Allow header) */
+	testRequest('OPTIONS', '/', null, null, function(xhr) {
+		var ok = xhr && (xhr.status === 200 || xhr.status === 501);
+		setTestResult('test-options', ok);
+		log('Test OPTIONS / : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', Allow=' + (xhr ? xhr.getResponseHeader('Allow') : 'N/A') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 12. Range request (206 Partial Content) */
+	testRequest('GET', '/', null, {'Range':'bytes=0-199'}, function(xhr) {
+		var ok = xhr && (xhr.status === 206 || xhr.status === 200);
+		setTestResult('test-range', ok);
+		log('Test Range bytes=0-199 : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', non supporté si 200)', ok ? 'success' : 'error');
+	});
+
+	/* 13. Long URI (414 or 400 or 5xx or acceptée) */
+	var longUri = '/?' + 'a'.repeat(5000);
+	testRequest('GET', longUri, null, null, function(xhr) {
+		var ok = xhr && (xhr.status === 414 || xhr.status === 400 || xhr.status >= 500 || xhr.status === 200);
+		setTestResult('test-long-uri', ok);
+		log('Test long URI (5000 chars) : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', rejeté si 414 sinon OK)', ok ? 'success' : 'error');
+	});
+
+	/* 14. Chunked encoding POST */
+	var xhrChunk = new XMLHttpRequest();
+	xhrChunk.open('POST', '/uploads/', true);
+	xhrChunk.setRequestHeader('Transfer-Encoding', 'chunked');
+	xhrChunk.onload = function() {
+		var ok = xhrChunk.status < 300;
+		setTestResult('test-chunked', ok);
+		log('Test chunked encoding : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + xhrChunk.status + ')', ok ? 'success' : 'error');
+	};
+	xhrChunk.onerror = function() {
+		setTestResult('test-chunked', false);
+		log('Test chunked encoding : FAIL (erreur reseau)', 'error');
+	};
+	xhrChunk.send("4\r\ntest\r\n4\r\n1234\r\n0\r\n\r\n");
+
+	/* 15. Redirection (301/302) */
+	testRequest('GET', '/oldpage', null, null, function(xhr) {
+		var ok = xhr && (xhr.status >= 300 && xhr.status < 400);
+		setTestResult('test-redirect', ok);
+		log('Test redirection : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', nécessite config serveur)', ok ? 'success' : 'error');
+	});
+}
+
+/* ===== Log ===== */
+function clearLog() { document.getElementById('logContainer').innerHTML = ''; }
+
+/* Init */
+log('Dashboard chargé – version enrichie – bonne chance pour le webserv !', 'success');
+</script>
+
+</body>
+</html>
