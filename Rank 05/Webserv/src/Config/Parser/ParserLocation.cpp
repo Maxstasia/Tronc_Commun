@@ -6,19 +6,40 @@
 /*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 17:05:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/01/21 10:24:04 by rcini-ha         ###   ########.fr       */
+/*   Updated: 2026/02/13 19:11:22 by rcini-ha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Parser.hpp"
 #include "Validator.hpp"
 
+/**
+ * @brief Parse la directive 'autoindex' pour activer/désactiver le listing de répertoire
+ *
+ * Lit la valeur "on" ou autre et configure l'autoindex de la location.
+ *
+ * @param location Référence vers l'objet Location à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si la valeur est manquante ou invalide
+ */
 void Parser::parseAutoindex(Location &location, lst_iterator &it, const list_pair_str_int &tokens) const
 {
 	const string value = readSingleValue(it, tokens, "Parser: Expected value after autoindex directive", "Parser: Unexpected value after value of autoindex directive");
 	location.setAutoindex(value == "on");
 }
 
+/**
+ * @brief Parse la directive 'allow_methods' pour définir les méthodes HTTP autorisées
+ *
+ * Lit une liste de méthodes HTTP (GET, POST, DELETE, etc.) et valide chacune d'elles.
+ * Configure la liste des méthodes autorisées pour la location.
+ *
+ * @param location Référence vers l'objet Location à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si aucune méthode n'est spécifiée ou si une méthode est invalide
+ */
 void Parser::parseAllowMethods(Location &location, lst_iterator &it, const list_pair_str_int &tokens) const
 {
 	const string valid_methods_array[] = {VALID_HTTP_METHODS};
@@ -45,11 +66,32 @@ void Parser::parseAllowMethods(Location &location, lst_iterator &it, const list_
 	it = last_value;
 }
 
+/**
+ * @brief Parse la directive 'return' pour configurer une redirection
+ *
+ * Lit la valeur de la directive return (code de statut ou URL) et l'assigne à la location.
+ *
+ * @param location Référence vers l'objet Location à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si la valeur est manquante ou invalide
+ */
 void Parser::parseReturn(Location &location, lst_iterator &it, const list_pair_str_int &tokens) const
 {
 	location.setReturn(readSingleValue(it, tokens, "Parser: Expected value after return directive", "Parser: Unexpected value after value of return directive"));
 }
 
+/**
+ * @brief Parse et traite une directive spécifique à un bloc location
+ *
+ * Identifie le type de directive (root, index, upload_path, autoindex, allow_methods,
+ * return, cgi_extension, cgi_path) et délègue son traitement à la fonction appropriée.
+ *
+ * @param location Référence vers l'objet Location à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si la directive ou sa valeur est invalide
+ */
 void Parser::parseLocationDirective(Location &location, lst_iterator &it, const list_pair_str_int &tokens) const
 {
 	const string &directive = it->first;
@@ -77,5 +119,15 @@ void Parser::parseLocationDirective(Location &location, lst_iterator &it, const 
 		parseAllowMethods(location, it, tokens);
 	else if (directive == "return")
 		parseReturn(location, it, tokens);
+	else if (directive == "cgi_extension")
+	{
+		const string ext = readSingleValue(it, tokens, "Parser: Expected value after cgi_extension directive", "Parser: Unexpected value after value of cgi_extension directive");
+		location.setCgiExtension(ext);
+	}
+	else if (directive == "cgi_path")
+	{
+		const string path = readSingleValue(it, tokens, "Parser: Expected value after cgi_path directive", "Parser: Unexpected value after value of cgi_path directive");
+		location.setCgiPath(path);
+	}
 }
 

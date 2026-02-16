@@ -6,7 +6,7 @@
 /*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:03:14 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/01/26 10:44:55 by rcini-ha         ###   ########.fr       */
+/*   Updated: 2026/02/13 19:10:36 by rcini-ha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ Parser::~Parser()
 {}
 
 
+/**
+ * @brief Parse les tokens pour extraire les blocs de configuration des serveurs
+ *
+ * Parcourt la liste de tokens et identifie chaque bloc "server", puis construit
+ * un objet Server pour chacun d'eux.
+ *
+ * @param tokens Liste des tokens à analyser
+ * @return Vecteur contenant tous les serveurs parsés
+ * @throws std::runtime_error Si aucun token n'est fourni ou si un bloc serveur est vide
+ */
 std::vector<Server> Parser::parseServers(const list_pair_str_int &tokens)
 {
 	std::vector<Server> servers;
@@ -56,6 +66,17 @@ std::vector<Server> Parser::parseServers(const list_pair_str_int &tokens)
 	return (servers);
 }
 
+/**
+ * @brief Vérifie qu'une valeur suit une directive
+ *
+ * Incrémente l'itérateur et vérifie que le token suivant est bien de type VALUE.
+ *
+ * @param directive_it Itérateur pointant sur la directive
+ * @param tokens Liste complète des tokens
+ * @param error_msg Message d'erreur à afficher si la valeur est manquante
+ * @return Itérateur pointant sur la valeur
+ * @throws std::runtime_error Si aucune valeur ne suit la directive
+ */
 lst_iterator Parser::expectValue(lst_iterator directive_it, const list_pair_str_int &tokens, const string &error_msg) const
 {
 	lst_iterator value_it = directive_it;
@@ -65,6 +86,16 @@ lst_iterator Parser::expectValue(lst_iterator directive_it, const list_pair_str_
 	return value_it;
 }
 
+/**
+ * @brief Parse la directive 'root' d'un serveur
+ *
+ * Lit la valeur de la directive root, valide le chemin et l'assigne au serveur.
+ *
+ * @param server Référence vers l'objet Server à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si la valeur est manquante ou invalide
+ */
 void Parser::parseRoot(Server &server, lst_iterator &it, const list_pair_str_int &tokens) const
 {
 	const string root_path = readSingleValue(it, tokens, "Parser: Expected value after root directive", "Parser: Unexpected value after value of root directive");
@@ -72,6 +103,19 @@ void Parser::parseRoot(Server &server, lst_iterator &it, const list_pair_str_int
 	server.setRoot(root_path);
 }
 
+/**
+ * @brief Lit une valeur unique après une directive
+ *
+ * Vérifie qu'une seule valeur suit la directive, retire le point-virgule final
+ * et retourne la valeur nettoyée.
+ *
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @param missing_msg Message d'erreur si la valeur est manquante
+ * @param extra_msg Message d'erreur s'il y a des valeurs supplémentaires
+ * @return La valeur nettoyée (sans point-virgule final)
+ * @throws std::runtime_error Si la valeur est manquante ou multiple
+ */
 string Parser::readSingleValue(lst_iterator &it, const list_pair_str_int &tokens, const string &missing_msg, const string &extra_msg) const
 {
 	lst_iterator value_it = expectValue(it, tokens, missing_msg);
@@ -80,6 +124,17 @@ string Parser::readSingleValue(lst_iterator &it, const list_pair_str_int &tokens
 	return stripTrailingSemicolon(value_it->first);
 }
 
+/**
+ * @brief Parse un bloc de configuration location
+ *
+ * Extrait le chemin de la location, crée un nouvel objet Location et parse
+ * toutes les directives contenues dans le bloc.
+ *
+ * @param server Référence vers le serveur auquel ajouter la location
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si le format du bloc location est invalide ou incomplet
+ */
 void Parser::parseLocationBlock(Server &server, lst_iterator &it, const list_pair_str_int &tokens) const
 {
 	if (it == tokens.end())
@@ -122,6 +177,16 @@ void Parser::parseLocationBlock(Server &server, lst_iterator &it, const list_pai
 }
 
 
+/**
+ * @brief Parse la directive 'index' d'un serveur
+ *
+ * Lit la valeur de la directive index, valide le chemin et l'assigne au serveur.
+ *
+ * @param server Référence vers l'objet Server à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si la valeur est manquante ou invalide
+ */
 void Parser::parseIndex(Server &server, lst_iterator &it, const list_pair_str_int &tokens) const
 {
 	const string index_path = readSingleValue(it, tokens, "Parser: Expected value after index directive", "Parser: Unexpected value after value of index directive");

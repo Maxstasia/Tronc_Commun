@@ -33,6 +33,9 @@
 #include <sys/epoll.h>
 #include <sys/stat.h>
 #include <poll.h>
+#include <csignal>
+
+extern volatile sig_atomic_t	g_shutdown;
 
 // Config paths
 #define SERV_CONF "serv.conf"
@@ -44,10 +47,26 @@
 #define VALID_HTTP_METHODS "GET", "POST", "DELETE", "HEAD", "PUT"
 #define VALID_HTTP_METHODS_COUNT 5
 
+// HTTP Status Messages
+#define HTTP_200 200, "OK"
+#define HTTP_201 201, "Created"
+#define HTTP_204 204, "No Content"
+#define HTTP_301 301, "Moved Permanently"
+#define HTTP_400 400, "Bad Request"
+#define HTTP_403 403, "Forbidden"
+#define HTTP_404 404, "Not Found"
+#define HTTP_405 405, "Method Not Allowed"
+#define HTTP_413 413, "Request Entity Too Large"
+#define HTTP_500 500, "Internal Server Error"
+#define HTTP_501 501, "Not Implemented"
+#define HTTP_502 502, "Bad Gateway"
+#define HTTP_504 504, "Gateway Timeout"
+#define HTTP_505 505, "HTTP Version Not Supported"
+
 // Network / Epoll
 #define EPOLL_MAX_EVENTS 128
 #define EPOLL_TIMEOUT_MS 1000
-#define SOCKET_BUFFER_SIZE 4096
+#define SOCKET_BUFFER_SIZE 8192
 #define CLIENT_TIMEOUT_SEC 60
 
 // Token types

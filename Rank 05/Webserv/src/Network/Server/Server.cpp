@@ -56,6 +56,13 @@ Server::~Server()
 	clearLocations();
 }
 
+/**
+ * @brief Efface toutes les locations du serveur.
+ *
+ * Vide le vecteur _locations.
+ *
+ * @return Aucune valeur de retour.
+ */
 void Server::clearLocations()
 {
 	_locations.clear();

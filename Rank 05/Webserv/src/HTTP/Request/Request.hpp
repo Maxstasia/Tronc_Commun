@@ -25,6 +25,7 @@ class Request{
 
 		void setError(int code, const string &message);
 		bool parseRequestLine(istringstream &stream);
+		bool validateVersion(const string &version);
 		void parseHeaders(istringstream &stream);
 		bool validateContentLength();
 		bool validateHost();
@@ -37,6 +38,7 @@ class Request{
 		void appendRequest(const char* buffer, size_t size);
 		bool isHeaderFull() const;
 		bool isRequestComplete() const;
+		long getRawContentLength() const;
 		void parseRequest();
 		string getMethod() const;
 		string getUri() const;
@@ -49,6 +51,5 @@ class Request{
 		int getParseError() const;
 		string getParseErrorMessage() const;
 		long getContentLength() const;
-		void printHeaders() const;
 	string getCookie(const string &name) const;
 };

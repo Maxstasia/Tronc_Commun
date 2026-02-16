@@ -110,7 +110,7 @@
 	<h1>WEBSERV Test Dashboard</h1>
 	<div class="status">
 		<div class="dot"></div>
-		<span style="font-size:13px;">Server running on port 8080</span>
+		<span style="font-size:13px;">Server running</span>
 	</div>
 </header>
 
@@ -120,6 +120,7 @@
 	<div class="stat"><div class="value" id="statErrors">0</div><div class="label">Errors</div></div>
 	<div class="stat"><div class="value" id="statTime">0ms</div><div class="label">Last Response</div></div>
 </div>
+
 
 <div class="container">
 
@@ -143,19 +144,22 @@
 		<h2>Cookies & Sessions</h2>
 		<div class="form-row">
 			<div class="form-group">
-				<label>Set-Cookie (nom=valeur)</label>
-				<input type="text" id="cookieSet" placeholder="session=abc123; Max-Age=3600">
+				<label>Cookie custom (nom=valeur)</label>
+				<input type="text" id="cookieCustomName" placeholder="nom" style="margin-bottom:4px;">
+				<input type="text" id="cookieCustomValue" placeholder="valeur">
 			</div>
 			<div class="form-group">
 				<label>Basic Auth (user:pass)</label>
 				<input type="text" id="basicAuth" placeholder="admin:password42" value="user42:webserv">
 			</div>
 		</div>
-		<div style="display:flex; gap:8px; flex-wrap:wrap;">
-			<button class="btn btn-success"  onclick="sendSetCookie()">Set Cookie</button>
+		<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+			<button class="btn btn-success"  onclick="sendSetCookie()">Set Cookie (serveur)</button>
+			<button class="btn btn-info"     onclick="setCustomCookie()">Set Custom (local)</button>
+			<button class="btn btn-warning"  onclick="getWithCookie()">Voir Cookies (serveur)</button>
+			<button class="btn btn-danger"   onclick="deleteCookie()">Supprimer Cookie</button>
+			<button class="btn"              onclick="refreshCookieDisplay()">Rafraichir</button>
 			<button class="btn btn-info"     onclick="sendWithBasicAuth()">Test Basic Auth</button>
-			<button class="btn btn-danger"   onclick="deleteCookie()">Delete Cookie</button>
-			<button class="btn btn-warning"  onclick="getWithCookie()">GET + Cookie</button>
 		</div>
 		<div id="cookieDisplay" class="cookie-list">Cookies actuels : aucun</div>
 	</div>
@@ -216,6 +220,48 @@
 		<div class="response-box" id="respRaw" style="display:none;"></div>
 	</div>
 
+	<!-- CGI Test Panel -->
+	<div class="card full-width">
+		<h2>Tests CGI (Python & PHP)</h2>
+		<div class="form-row">
+			<div class="form-group">
+				<label>Script CGI</label>
+				<select id="cgiScript">
+					<option value="/cgi-bin/test.py">Python - /cgi-bin/test.py</option>
+					<option value="/cgi-php/test.php">PHP - /cgi-php/test.php</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Methode</label>
+				<select id="cgiMethod">
+					<option value="GET">GET</option>
+					<option value="POST">POST</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group">
+				<label>Query String (pour GET, ex: name=test&age=42)</label>
+				<input type="text" id="cgiQuery" placeholder="name=test&age=42">
+			</div>
+			<div class="form-group">
+				<label>POST Body (key=value&key2=value2)</label>
+				<input type="text" id="cgiBody" placeholder="name=webserv&lang=cpp">
+			</div>
+		</div>
+		<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+			<button class="btn btn-primary" onclick="sendCgiTest()">Envoyer</button>
+			<button class="btn btn-success" onclick="sendCgiQuick('GET','/cgi-bin/test.py','hello=world')">Python GET</button>
+			<button class="btn btn-success" onclick="sendCgiQuick('POST','/cgi-bin/test.py','','name=python&test=ok')">Python POST</button>
+			<button class="btn btn-info" onclick="sendCgiQuick('GET','/cgi-php/test.php','user=42&project=webserv')">PHP GET</button>
+			<button class="btn btn-info" onclick="sendCgiQuick('POST','/cgi-php/test.php','','name=webserv&lang=php')">PHP POST</button>
+			<button class="btn btn-danger" onclick="sendCgiQuick('GET','/cgi-bin/nonexistent.py','')">CGI 404</button>
+			<a href="/cgi-bin/test.py" class="btn btn-warning" style="text-decoration:none;">Page Python</a>
+			<a href="/cgi-php/test.php" class="btn btn-warning" style="text-decoration:none;">Page PHP</a>
+		</div>
+		<div class="response-box" id="cgiResult" style="min-height:120px;">Resultat CGI ici...</div>
+	</div>
+
 	<!-- Requêtes rapides / stress -->
 	<div class="card">
 		<h2>Requêtes rapides / stress</h2>
@@ -256,6 +302,13 @@
 			<div class="test-item"><span>URI très longue (> 4k)</span><span class="badge badge-wait" id="test-long-uri">--</span></div>
 			<div class="test-item"><span>POST chunked encoding</span><span class="badge badge-wait" id="test-chunked">--</span></div>
 			<div class="test-item"><span>Redirection 301/302</span><span class="badge badge-wait" id="test-redirect">--</span></div>
+			<div class="test-item"><span>CGI GET (test.py)</span><span class="badge badge-wait" id="test-cgi-get">--</span></div>
+			<div class="test-item"><span>CGI POST (test.py)</span><span class="badge badge-wait" id="test-cgi-post">--</span></div>
+			<div class="test-item"><span>CGI query string</span><span class="badge badge-wait" id="test-cgi-query">--</span></div>
+			<div class="test-item"><span>CGI 404 (script inexistant)</span><span class="badge badge-wait" id="test-cgi-404">--</span></div>
+			<div class="test-item"><span>PHP CGI GET</span><span class="badge badge-wait" id="test-php-get">--</span></div>
+			<div class="test-item"><span>PHP CGI POST ($_POST)</span><span class="badge badge-wait" id="test-php-post">--</span></div>
+			<div class="test-item"><span>PHP CGI query string</span><span class="badge badge-wait" id="test-php-query">--</span></div>
 		</div>
 	</div>
 
@@ -489,23 +542,62 @@ function showRespTab(tab) {
 
 /* ===== Cookies & Auth tests ===== */
 function sendSetCookie() {
-	sendCustomRequestHeadersOnly('GET', '/setcookie', {}, "Set-Cookie test");
+	sendCustomRequestHeadersOnly('GET', '/setcookie', {}, "Set-Cookie (serveur)");
+	setTimeout(refreshCookieDisplay, 500);
 }
 
 function deleteCookie() {
-	sendCustomRequestHeadersOnly('GET', '/deletecookie', {}, "Delete cookie");
+	sendCustomRequestHeadersOnly('GET', '/deletecookie', {}, "Delete cookie (serveur)");
+	setTimeout(refreshCookieDisplay, 500);
+}
+
+function setCustomCookie() {
+	var name = document.getElementById('cookieCustomName').value.trim();
+	var value = document.getElementById('cookieCustomValue').value.trim();
+	if (!name) return log('Remplis le nom du cookie', 'error');
+	document.cookie = name + '=' + value + '; path=/';
+	log('Cookie local defini : ' + name + '=' + value, 'success');
+	refreshCookieDisplay();
+}
+
+function refreshCookieDisplay() {
+	var el = document.getElementById('cookieDisplay');
+	var cookies = document.cookie;
+	if (!cookies || cookies.trim() === '') {
+		el.innerHTML = 'Cookies actuels : <em>aucun</em>';
+		return;
+	}
+	var parts = cookies.split(';');
+	var html = '<strong>Cookies actuels (' + parts.length + ') :</strong><br>';
+	for (var i = 0; i < parts.length; i++) {
+		var c = parts[i].trim();
+		var eq = c.indexOf('=');
+		if (eq > 0) {
+			var n = c.substring(0, eq);
+			var v = c.substring(eq + 1);
+			html += '<span style="color:#4ecca3">' + escapeHtml(n) + '</span>';
+			html += ' = <span style="color:#e94560">' + escapeHtml(v) + '</span>';
+			html += ' <a href="#" onclick="deleteOneCookie(\'' + escapeHtml(n) + '\');return false;" style="color:#888;font-size:10px;">[x]</a><br>';
+		}
+	}
+	el.innerHTML = html;
+}
+
+function deleteOneCookie(name) {
+	document.cookie = name + '=; path=/; Max-Age=0';
+	log('Cookie supprime : ' + name, 'info');
+	refreshCookieDisplay();
 }
 
 function sendWithBasicAuth() {
-	let cred = document.getElementById('basicAuth').value.trim();
+	var cred = document.getElementById('basicAuth').value.trim();
 	if (!cred) return log("Remplis user:pass", 'error');
-
-	let b64 = btoa(cred);
+	var b64 = btoa(cred);
 	sendCustomRequestHeadersOnly('GET', '/', {"Authorization": "Basic " + b64}, "Basic Auth test");
 }
 
 function getWithCookie() {
-	sendCustomRequestHeadersOnly('GET', '/showcookies', {}, "GET /showcookies avec cookies");
+	sendCustomRequestHeadersOnly('GET', '/showcookies', {}, "Voir cookies (serveur)");
 }
 
 function sendCustomRequestHeadersOnly(method, uri, headers, logmsg) {
@@ -613,7 +705,7 @@ function runAllTests() {
 
 	/* 5. POST body text */
 	testRequest('POST', '/uploads/', 'Hello from test', {'Content-Type': 'text/plain'}, function(xhr) {
-		var ok = xhr && xhr.status === 200;
+		var ok = xhr && xhr.status === 201;
 		setTestResult('test-post-body', ok);
 		log('Test POST body : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
 	});
@@ -705,11 +797,113 @@ function runAllTests() {
 	xhrChunk.send("4\r\ntest\r\n4\r\n1234\r\n0\r\n\r\n");
 
 	/* 15. Redirection (301/302) */
-	testRequest('GET', '/oldpage', null, null, function(xhr) {
-		var ok = xhr && (xhr.status >= 300 && xhr.status < 400);
+	fetch('/oldpage', {method: 'GET', redirect: 'manual'}).then(function(res) {
+		var ok = res.status >= 300 && res.status < 400;
+		if (res.type === 'opaqueredirect') ok = true;
 		setTestResult('test-redirect', ok);
-		log('Test redirection : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', nécessite config serveur)', ok ? 'success' : 'error');
+		log('Test redirection : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + res.status + ', type=' + res.type + ')', ok ? 'success' : 'error');
+	}).catch(function() {
+		setTestResult('test-redirect', false);
+		log('Test redirection : FAIL (erreur reseau)', 'error');
 	});
+
+	/* 16. CGI GET */
+	testRequest('GET', '/cgi-bin/test.py', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('CGI Test') !== -1;
+		setTestResult('test-cgi-get', ok);
+		log('Test CGI GET : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 17. CGI POST */
+	testRequest('POST', '/cgi-bin/test.py', 'hello=world', {'Content-Type': 'application/x-www-form-urlencoded'}, function(xhr) {
+		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('hello=world') !== -1;
+		setTestResult('test-cgi-post', ok);
+		log('Test CGI POST : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', body echoed=' + (xhr && xhr.responseText.indexOf('hello=world') !== -1) + ')', ok ? 'success' : 'error');
+	});
+
+	/* 18. CGI query string */
+	testRequest('GET', '/cgi-bin/test.py?foo=bar&num=42', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('foo=bar') !== -1;
+		setTestResult('test-cgi-query', ok);
+		log('Test CGI query string : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 19. CGI 404 (script inexistant) */
+	testRequest('GET', '/cgi-bin/nonexistent.py', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 404;
+		setTestResult('test-cgi-404', ok);
+		log('Test CGI 404 : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 20. PHP CGI GET */
+	testRequest('GET', '/cgi-php/test.php', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('PHP CGI Test') !== -1;
+		setTestResult('test-php-get', ok);
+		log('Test PHP GET : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+
+	/* 21. PHP CGI POST ($_POST) */
+	testRequest('POST', '/cgi-php/test.php', 'name=webserv&lang=php', {'Content-Type': 'application/x-www-form-urlencoded'}, function(xhr) {
+		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('webserv') !== -1;
+		setTestResult('test-php-post', ok);
+		log('Test PHP POST : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', $_POST parsed=' + (xhr && xhr.responseText.indexOf('webserv') !== -1) + ')', ok ? 'success' : 'error');
+	});
+
+	/* 22. PHP CGI query string */
+	testRequest('GET', '/cgi-php/test.php?user=42&project=webserv', null, null, function(xhr) {
+		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('user=42') !== -1;
+		setTestResult('test-php-query', ok);
+		log('Test PHP query string : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
+	});
+}
+
+/* ===== CGI Test Panel ===== */
+function sendCgiTest() {
+	var script = document.getElementById('cgiScript').value;
+	var method = document.getElementById('cgiMethod').value;
+	var query = document.getElementById('cgiQuery').value.trim();
+	var body = document.getElementById('cgiBody').value.trim();
+	var uri = script + (query ? '?' + query : '');
+	var headers = (method === 'POST') ? {'Content-Type': 'application/x-www-form-urlencoded'} : null;
+	sendCgiRequest(method, uri, method === 'POST' ? body : null, headers);
+}
+
+function sendCgiQuick(method, script, query, body) {
+	var uri = script + (query ? '?' + query : '');
+	var headers = (method === 'POST') ? {'Content-Type': 'application/x-www-form-urlencoded'} : null;
+	sendCgiRequest(method, uri, body || null, headers);
+}
+
+function sendCgiRequest(method, uri, body, headers) {
+	var box = document.getElementById('cgiResult');
+	box.textContent = 'Chargement...';
+	log('CGI ' + method + ' ' + uri, 'info');
+	var start = Date.now();
+	var xhr = new XMLHttpRequest();
+	xhr.open(method, uri, true);
+	if (headers) {
+		for (var k in headers) {
+			try { xhr.setRequestHeader(k, headers[k]); } catch(e) {}
+		}
+	}
+	xhr.onload = function() {
+		var time = Date.now() - start;
+		var ok = xhr.status >= 200 && xhr.status < 300;
+		updateStats(ok, time);
+		showResponse(xhr);
+		box.innerHTML = '<div style="margin-bottom:8px;"><span style="color:' + (ok ? '#00e676' : '#ff5252') +
+			';font-weight:bold;">' + xhr.status + ' ' + xhr.statusText +
+			'</span> <span style="color:#666;">(' + time + 'ms)</span></div>' +
+			'<div style="border-top:1px solid #2a2a4a;padding-top:8px;">' +
+			xhr.responseText + '</div>';
+		log('CGI ' + method + ' ' + uri + ' -> ' + xhr.status + ' (' + time + 'ms)', ok ? 'success' : 'error');
+	};
+	xhr.onerror = function() {
+		box.textContent = 'Erreur reseau';
+		log('CGI erreur reseau', 'error');
+		updateStats(false, 0);
+	};
+	xhr.send(body);
 }
 
 /* ===== Log ===== */
@@ -717,6 +911,7 @@ function clearLog() { document.getElementById('logContainer').innerHTML = ''; }
 
 /* Init */
 log('Dashboard chargé – version enrichie – bonne chance pour le webserv !', 'success');
+refreshCookieDisplay();
 </script>
 
 </body>

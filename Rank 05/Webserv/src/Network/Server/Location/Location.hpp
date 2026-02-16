@@ -24,6 +24,8 @@ class Location
 		vector_string	_allow_methods;
 		string			_return;
 		string			_upload_path;
+		string			_cgi_extension;
+		string			_cgi_path;
 
 	public:
 		Location();
@@ -38,6 +40,8 @@ class Location
 		const vector_string &getAllowMethods() const;
 		const string &getReturn() const;
 		const string &getUploadPath() const;
+		const string &getCgiExtension() const;
+		const string &getCgiPath() const;
 
 		string getEffectiveRoot(const string &serverRoot) const;
 		string getEffectiveIndex(const string &serverIndex) const;
@@ -50,6 +54,8 @@ class Location
 		void setAllowMethods(const vector_string &methods);
 		void setReturn(const string &ret);
 		void setUploadPath(const string &path);
+		void setCgiExtension(const string &ext);
+		void setCgiPath(const string &path);
 
 };
 

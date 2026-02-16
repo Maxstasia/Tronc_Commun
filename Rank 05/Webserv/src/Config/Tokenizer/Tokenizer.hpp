@@ -30,6 +30,7 @@ class Tokenizer
 	void parseDirective(const vector_string &tokens);
 
   public:
+	Tokenizer();
 	Tokenizer(const string &configFile);
 	~Tokenizer();
 	Tokenizer(const Tokenizer &other);

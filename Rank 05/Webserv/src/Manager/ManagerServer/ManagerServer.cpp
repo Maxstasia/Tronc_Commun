@@ -6,7 +6,7 @@
 /*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 14:25:05 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/10 17:19:51 by rcini-ha         ###   ########.fr       */
+/*   Updated: 2026/02/13 19:02:20 by rcini-ha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,15 @@ ManagerServer::ManagerServer(const std::string &configPath)
 {
 }
 
+/**
+ * @brief Lance le serveur web et demarre la boucle evenementielle.
+ *
+ * Initialise le gestionnaire d'evenements, configure le processeur de requetes,
+ * initialise les sockets d'ecoute, affiche la configuration des serveurs et
+ * demarre la boucle principale de traitement des evenements.
+ *
+ * @return Aucune valeur de retour.
+ */
 void ManagerServer::run()
 {
 	_eventManager.initialize();
@@ -42,7 +51,11 @@ ManagerServer &ManagerServer::operator=(const ManagerServer &other)
 	return (*this);
 }
 
-ManagerServer::~ManagerServer() {}
+ManagerServer::~ManagerServer()
+{
+	for (size_t i = 0; i < _servers_fd.size(); ++i)
+		close(_servers_fd[i]);
+}
 
 const std::vector<Server> &ManagerServer::getServers() const
 {

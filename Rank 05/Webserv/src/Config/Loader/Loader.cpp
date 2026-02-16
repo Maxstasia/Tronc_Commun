@@ -11,52 +11,20 @@
 /* ************************************************************************** */
 
 #include "Loader.hpp"
-#include "Tokenizer.hpp"
 #include "Validator.hpp"
-#include "MimeTypeRegistry.hpp"
-#include "DirectiveRegistry.hpp"
 
 Loader::~Loader(){}
 
-void Loader::Print_MIME()
-{
-	for (size_t i = 0; i < mime_type.size(); i++)
-	{
-		std::cout << mime_type[i].first << "-> " << mime_type[i].second << std::endl;
-	}
-}
+Loader::Loader(){}
+
 Loader::Loader(const string &configFile)
 {
 	try
 	{
 		_configFile = configFile;
-
-		// Load directive types
-		DirectiveRegistry directiveRegistry;
-		directiveRegistry.load();
-		directive_type = directiveRegistry.getDirectiveTypes();
-
-		// Tokenize config file
-		Tokenizer tokenizer(configFile);
-		listLexer = tokenizer.tokenize();
-		nb_brace = 0; // Reset after tokenization
-
-		// Validate tokens
-		try
-		{
-			Validator validator(directive_type, listLexer, nb_brace);
-			validator.validate();
-		}
-		catch (const std::exception &e)
-		{
-			std::cerr << e.what() << '\n';
-			exit(1);
-		}
-
-		// Load MIME types
-		MimeTypeRegistry mimeRegistry;
-		mimeRegistry.load();
-		mime_type = mimeRegistry.getMimeTypes();
+		_tokenizer = Tokenizer(configFile);
+		Validator validator(_directiveRegistry.getDirectiveTypes(),
+			_tokenizer.getTokens(), 0);
 	}
 	catch (const std::exception &e)
 	{
@@ -69,12 +37,14 @@ Loader::Loader(const Loader &other)
 {
 	*this = other;
 }
-// tode a evoir
 Loader &Loader::operator=(const Loader &other)
 {
 	if (this != &other)
 	{
 		_configFile = other._configFile;
+		_directiveRegistry = other._directiveRegistry;
+		_tokenizer = other._tokenizer;
+		_mimeRegistry = other._mimeRegistry;
 	}
 	return (*this);
 }

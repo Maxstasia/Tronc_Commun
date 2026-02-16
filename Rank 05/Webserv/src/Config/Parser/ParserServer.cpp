@@ -6,7 +6,7 @@
 /*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 16:09:59 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/09 17:34:10 by rcini-ha         ###   ########.fr       */
+/*   Updated: 2026/02/13 19:11:22 by rcini-ha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 #include "StringUtils.hpp"
 #include "Validator.hpp"
 
+/**
+ * @brief Assure qu'une seule valeur suit une directive
+ *
+ * Vérifie qu'après la valeur actuelle, il n'y a pas d'autres valeurs consécutives.
+ *
+ * @param value_it Itérateur pointant sur la première valeur
+ * @param tokens Liste complète des tokens
+ * @param error_msg Message d'erreur à afficher s'il y a plusieurs valeurs
+ * @throws std::runtime_error Si plusieurs valeurs sont détectées
+ */
 void Parser::ensureSingleValue(lst_iterator value_it,
 	const list_pair_str_int &tokens, const string &error_msg) const
 {
@@ -23,6 +33,12 @@ void Parser::ensureSingleValue(lst_iterator value_it,
 		throw std::runtime_error(error_msg);
 }
 
+/**
+ * @brief Supprime le point-virgule final d'une chaîne si présent
+ *
+ * @param raw La chaîne brute potentiellement terminée par un point-virgule
+ * @return La chaîne sans point-virgule final, ou la chaîne originale si pas de point-virgule
+ */
 string Parser::stripTrailingSemicolon(const string &raw) const
 {
 	if (!raw.empty() && raw[raw.size() - 1] == ';')
@@ -31,6 +47,16 @@ string Parser::stripTrailingSemicolon(const string &raw) const
 }
 
 
+/**
+ * @brief Parse la directive 'listen' pour configurer le port d'écoute
+ *
+ * Lit la valeur du port, la valide et l'assigne au serveur.
+ *
+ * @param server Référence vers l'objet Server à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si la valeur est manquante ou le port invalide
+ */
 void Parser::parseListen(Server &server, lst_iterator &it,
 	const list_pair_str_int &tokens) const
 {
@@ -43,6 +69,16 @@ void Parser::parseListen(Server &server, lst_iterator &it,
 	server.setPort(port);
 }
 
+/**
+ * @brief Parse la directive 'host' pour configurer l'adresse d'écoute
+ *
+ * Lit l'adresse IP, la valide et l'assigne au serveur.
+ *
+ * @param server Référence vers l'objet Server à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si l'adresse IP est manquante ou invalide
+ */
 void Parser::parseHost(Server &server, lst_iterator &it,const list_pair_str_int &tokens) const
 {
 	const string host_value = readSingleValue(it, tokens,"Parser: Expected value after 'host' directive","Parser: Unexpected value after value of host directive");
@@ -50,6 +86,17 @@ void Parser::parseHost(Server &server, lst_iterator &it,const list_pair_str_int 
 	server.setHost(host_value);
 }
 
+/**
+ * @brief Parse la directive 'server_name' pour configurer les noms de serveur
+ *
+ * Lit tous les noms de serveur (peut être multiple) et les assigne au serveur
+ * sous forme d'une chaîne séparée par des espaces.
+ *
+ * @param server Référence vers l'objet Server à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si aucun nom de serveur n'est fourni
+ */
 void Parser::parseServerName(Server &server, lst_iterator &it,
 	const list_pair_str_int &tokens) const
 {
@@ -74,6 +121,17 @@ void Parser::parseServerName(Server &server, lst_iterator &it,
 		it = value_it;
 }
 
+/**
+ * @brief Parse la directive 'error_page' pour configurer les pages d'erreur
+ *
+ * Lit les codes d'erreur HTTP et le chemin de la page d'erreur associée.
+ * Plusieurs codes peuvent pointer vers la même page.
+ *
+ * @param server Référence vers l'objet Server à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si moins de deux valeurs sont fournies (code + chemin)
+ */
 void Parser::parseErrorPage(Server &server, lst_iterator &it,
 	const list_pair_str_int &tokens) const
 {
@@ -97,6 +155,17 @@ void Parser::parseErrorPage(Server &server, lst_iterator &it,
 	it = last;
 }
 
+/**
+ * @brief Parse la directive 'client_max_body_size' pour limiter la taille des requêtes
+ *
+ * Lit la taille maximale autorisée pour le corps d'une requête HTTP et vérifie
+ * qu'elle est positive et n'excède pas 100 Mo.
+ *
+ * @param server Référence vers l'objet Server à configurer
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @throws std::runtime_error Si la taille est négative ou dépasse la limite
+ */
 void Parser::parseClientMaxBodySize(Server &server, lst_iterator &it,
 	const list_pair_str_int &tokens) const
 {
@@ -115,6 +184,16 @@ void Parser::parseClientMaxBodySize(Server &server, lst_iterator &it,
 	server.setClientMaxBodySize(static_cast<unsigned long>(size));
 }
 
+/**
+ * @brief Vérifie qu'une directive n'est pas dupliquée
+ *
+ * Contrôle si la directive fait partie de celles qui ne peuvent apparaître qu'une seule fois
+ * et vérifie qu'elle n'a pas déjà été rencontrée.
+ *
+ * @param seen Ensemble des directives déjà rencontrées (modifié par effet de bord)
+ * @param directive Nom de la directive à vérifier
+ * @throws std::runtime_error Si la directive est dupliquée
+ */
 void Parser::checkDuplicateDirective(std::set<string> &seen, const string &directive) const
 {
 	const string arr[] = {DENINE_DOUBLON};
@@ -125,6 +204,16 @@ void Parser::checkDuplicateDirective(std::set<string> &seen, const string &direc
 }
 
 
+/**
+ * @brief Parse un bloc complet de configuration serveur
+ *
+ * Parcourt toutes les directives d'un bloc server et construit l'objet Server correspondant.
+ * Gère les directives de niveau serveur et les blocs location imbriqués.
+ *
+ * @param it Itérateur sur les tokens (modifié par effet de bord)
+ * @param tokens Liste complète des tokens
+ * @return L'objet Server construit avec toutes ses configurations
+ */
 Server Parser::parseServerBlock(lst_iterator &it,
 	const list_pair_str_int &tokens) const
 {

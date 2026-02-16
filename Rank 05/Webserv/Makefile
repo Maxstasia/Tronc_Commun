@@ -38,8 +38,20 @@ SRCS = \
 	src/HTTP/Request/ParserRequest.cpp \
 	src/HTTP/Response/Response.cpp \
 	src/HTTP/Response/ResponseAccessor.cpp \
+	src/HTTP/CGI/CgiHandler.cpp \
+	src/HTTP/CGI/CgiHandlerAccessor.cpp \
+	src/HTTP/CGI/CgiHandlerExec.cpp \
+	src/HTTP/CGI/CgiHandlerEnv.cpp \
+	src/HTTP/CGI/CgiHandlerParse.cpp \
 	src/HTTP/RequestProcessor/RequestProcessor.cpp \
+	src/HTTP/RequestProcessor/RequestProcessorCore.cpp \
+	src/HTTP/RequestProcessor/RequestProcessorResponse.cpp \
+	src/HTTP/RequestProcessor/RequestProcessorPost.cpp \
+	src/HTTP/RequestProcessor/RequestProcessorGet.cpp \
 	src/Manager/ClientManager/ClientManager.cpp \
+	src/Manager/ClientManager/ClientManagerIO.cpp \
+	src/Manager/ClientManager/ClientManagerCgi.cpp \
+	src/Manager/ClientManager/ClientManagerAccessor.cpp \
 	src/Manager/ManagerServer/ManagerServer.cpp \
 	src/Manager/ManagerServer/ManagerServerBuild.cpp \
 	src/Manager/ManagerServer/ManagerServerPrint.cpp \
@@ -49,7 +61,7 @@ SRCS = \
 OBJS = $(SRCS:%.cpp=$(OBJDIR)/%.o)
 CXX = c++
 CC = gcc
-INCLUDES = -Isrc/Utils -Isrc/Config/Loader -Isrc/Config/Parser -Isrc/Config/Tokenizer -Isrc/Config/Validator -Isrc/Config/MimeTypeRegistry -Isrc/Config/DirectiveRegistry -Isrc/Network/EventManager -Isrc/Network/Server -Isrc/Network/Server/Location -Isrc/HTTP/Client -Isrc/HTTP/Request -Isrc/HTTP/Response -Isrc/HTTP/RequestProcessor -Isrc/Manager/ClientManager -Isrc/Manager/ManagerServer
+INCLUDES = -Isrc/Utils -Isrc/Config/Loader -Isrc/Config/Parser -Isrc/Config/Tokenizer -Isrc/Config/Validator -Isrc/Config/MimeTypeRegistry -Isrc/Config/DirectiveRegistry -Isrc/Network/EventManager -Isrc/Network/Server -Isrc/Network/Server/Location -Isrc/HTTP/Client -Isrc/HTTP/Request -Isrc/HTTP/Response -Isrc/HTTP/CGI -Isrc/HTTP/RequestProcessor -Isrc/Manager/ClientManager -Isrc/Manager/ManagerServer
 CXXFLAGS = -Wall -Wextra -Werror -std=c++98 $(INCLUDES)
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f

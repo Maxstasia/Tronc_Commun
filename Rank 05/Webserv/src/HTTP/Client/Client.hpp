@@ -5,6 +5,7 @@
 #include "FileUtils.hpp"
 #include <netinet/in.h>
 #include <ctime>
+#include <sys/types.h>
 
 class Server;
 class Location;
@@ -17,12 +18,17 @@ class Client {
 		Response _response; // EPOLLOUT
 		size_t _bytes;
 
-		// Reference au serveur virtuel qui gere ce client
 		Server* _server;
-		// Reference a la location matchee pour cette requete
 		const Location* _location;
 		bool _shouldClose;
 		time_t _lastActivity;
+
+		// CGI state
+		pid_t _cgiPid;
+		int _cgiPipeFd;
+		string _cgiOutput;
+		time_t _cgiStartTime;
+		bool _cgiRunning;
 
 	public:
 		Client();
@@ -49,4 +55,14 @@ class Client {
 
 		void reset();
 		bool isFullySent() const;
+
+		// CGI accessors
+		pid_t getCgiPid() const;
+		int getCgiPipeFd() const;
+		string &getCgiOutput();
+		time_t getCgiStartTime() const;
+		bool isCgiRunning() const;
+		void startCgi(pid_t pid, int pipeFd);
+		void appendCgiOutput(const char *data, size_t len);
+		void clearCgi();
 };

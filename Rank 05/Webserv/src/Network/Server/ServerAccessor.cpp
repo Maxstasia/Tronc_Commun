@@ -6,7 +6,7 @@
 /*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/13 16:36:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2026/01/26 10:05:11 by rcini-ha         ###   ########.fr       */
+/*   Updated: 2026/02/13 19:04:02 by rcini-ha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,15 @@ Location &Server::addLocation()
 	return _locations.back();
 }
 
+/**
+ * @brief Trouve la location correspondant le mieux a un URI.
+ *
+ * Utilise un algorithme de correspondance par prefixe le plus long.
+ * Parcourt toutes les locations et retourne celle avec le plus long prefixe correspondant.
+ *
+ * @param uri L'URI de la requete.
+ * @return Pointeur vers la Location correspondante, ou NULL si aucune correspondance.
+ */
 const Location* Server::matchLocation(const string &uri) const
 {
 	const Location* best_match = NULL;

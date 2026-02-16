@@ -15,6 +15,15 @@
 
 // ===== Static Semantic Validation Methods =====
 
+/**
+ * @brief Valide le format d'une adresse IP
+ *
+ * Vérifie que l'adresse est composée de 4 octets numériques séparés par des points,
+ * chaque octet devant être entre 0 et 255.
+ *
+ * @param host L'adresse IP à valider
+ * @throws std::runtime_error Si le format de l'adresse IP est invalide
+ */
 void Validator::validateIPAddress(const string &host)
 {
 	vector_string octets = StringUtils::split(host, '.');
@@ -37,6 +46,16 @@ void Validator::validateIPAddress(const string &host)
 	}
 }
 
+/**
+ * @brief Valide un chemin de fichier ou de répertoire
+ *
+ * Vérifie que le chemin n'est pas vide, ne contient pas de traversal (..),
+ * et ne contient pas de caractères invalides.
+ *
+ * @param path Le chemin à valider
+ * @param directive_name Nom de la directive utilisant ce chemin (pour les messages d'erreur)
+ * @throws std::runtime_error Si le chemin est invalide
+ */
 void Validator::validatePath(const string &path, const string &directive_name)
 {
 	if (path.empty())
@@ -53,12 +72,29 @@ void Validator::validatePath(const string &path, const string &directive_name)
 	}
 }
 
+/**
+ * @brief Valide un numéro de port
+ *
+ * Vérifie que le port est dans la plage valide 1-65535.
+ *
+ * @param port Le numéro de port à valider
+ * @throws std::runtime_error Si le port est hors de la plage valide
+ */
 void Validator::validatePort(int port)
 {
 	if (port < 1 || port > 65535)
 		throw std::runtime_error("Parser: Port must be between 1 and 65535");
 }
 
+/**
+ * @brief Valide une méthode HTTP
+ *
+ * Vérifie que la méthode fait partie des méthodes HTTP valides supportées
+ * (GET, POST, DELETE, HEAD, PUT).
+ *
+ * @param method Le nom de la méthode HTTP à valider
+ * @throws std::runtime_error Si la méthode n'est pas valide
+ */
 void Validator::validateHTTPMethod(const string &method)
 {
 	const string valid_methods[] = {"GET", "POST", "DELETE", "HEAD", "PUT"};

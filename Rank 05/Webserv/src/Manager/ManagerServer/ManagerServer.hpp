@@ -38,6 +38,8 @@ class ManagerServer
 	void runEventLoop();
 	void handleServerEvent(int fd, uint32_t event_flag);
 	void handleClientEvent(int fd, uint32_t event_flag);
+	void handleCgiEvent(int fd, uint32_t event_flag);
+	void dispatchEvent(int fd, uint32_t event_flag);
 	Server* selectServerForClient(int server_fd);
 
 	//ManagerServerAccessor
