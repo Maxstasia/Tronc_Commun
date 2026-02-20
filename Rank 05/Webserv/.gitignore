@@ -3,6 +3,7 @@
 *.out
 *.run
 *.txt
+compile_commands.json
 
 # ----- COMPILATION / BINAIRES -----
 obj/*
@@ -27,6 +28,3 @@ Thumbs.db
 # ----- EDITOR -----
 .vscode/
 .idea/
-
-# ----- CLAUDE -----
-CLAUDE.md

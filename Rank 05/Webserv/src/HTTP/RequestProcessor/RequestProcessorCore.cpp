@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   RequestProcessorCore.cpp                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 21:30:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:07:41 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "RequestProcessor.hpp"
 #include "Location.hpp"
 #include "StringUtils.hpp"
@@ -70,7 +58,12 @@ bool RequestProcessor::initRequestContext(Client &client)
 		sendErrorResponse(client, HTTP_500);
 		return false;
 	}
-	resolveVirtualHost(client);
+	if (!resolveVirtualHost(client))
+	{
+		determineConnectionBehavior(client);
+		sendErrorResponse(client, HTTP_400);
+		return false;
+	}
 	return true;
 }
 
@@ -86,7 +79,8 @@ bool RequestProcessor::initRequestContext(Client &client)
 bool RequestProcessor::validateRequestBody(Client &client, const Server &server)
 {
 	const Request &req = client.getRequest();
-	if (req.getMethod() == "POST" && req.getContentLength() < 0)
+	if (req.getMethod() == "POST" && req.getContentLength() < 0
+		&& req.getHeaders().find("transfer-encoding") == req.getHeaders().end())
 	{
 		determineConnectionBehavior(client);
 		sendErrorResponse(client, HTTP_400);
@@ -131,6 +125,45 @@ bool RequestProcessor::checkEarlyBodySize(Client &client)
 	return (true);
 }
 
+bool RequestProcessor::checkEarlyReceivedSize(Client &client)
+{
+	Request &req = client.getRequest();
+	if (!req.isHeaderFull())
+	{
+		if (req.getRequest().size() > MAX_HEADER_SIZE)
+		{
+			client.getResponse().setHttpVersion("HTTP/1.1");
+			client.setShouldClose(true);
+			client.getResponse().setHeader("Connection", "close");
+			sendErrorResponse(client, HTTP_400);
+			return (true);
+		}
+		return (false);
+	}
+	if (!client.getServer())
+		return (false);
+	unsigned long maxBody = client.getServer()->getClientMaxBodySize();
+	size_t received = req.getBodyBytesReceived();
+	if (received > maxBody)
+	{
+		client.getResponse().setHttpVersion("HTTP/1.1");
+		determineConnectionBehavior(client);
+		client.setShouldClose(true);
+		client.getResponse().setHeader("Connection", "close");
+		sendErrorResponse(client, HTTP_413);
+		return (true);
+	}
+	return (false);
+}
+
+void RequestProcessor::handleIncompleteRequest(Client &client)
+{
+	client.getResponse().setHttpVersion("HTTP/1.1");
+	client.setShouldClose(true);
+	client.getResponse().setHeader("Connection", "close");
+	sendErrorResponse(client, HTTP_400);
+}
+
 /**
  * @brief Résout l'hôte virtuel depuis l'en-tête Host
  *
@@ -138,13 +171,13 @@ bool RequestProcessor::checkEarlyBodySize(Client &client)
  *
  * @param client Référence vers le client
  */
-void RequestProcessor::resolveVirtualHost(Client &client)
+bool RequestProcessor::resolveVirtualHost(Client &client)
 {
 	if (!_servers || !client.getServer())
-		return;
+		return (true);
 	map_str_str::const_iterator it = client.getRequest().getHeaders().find("host");
 	if (it == client.getRequest().getHeaders().end())
-		return;
+		return (true);
 	string host = it->second;
 	size_t colon = host.find(':');
 	if (colon != string::npos)
@@ -156,9 +189,10 @@ void RequestProcessor::resolveVirtualHost(Client &client)
 			&& (*_servers)[i].getServerName() == host)
 		{
 			client.setServer(&(*_servers)[i]);
-			return;
+			return (true);
 		}
 	}
+	return (true);
 }
 
 /**
@@ -334,14 +368,14 @@ void RequestProcessor::dispatchRequest(Client &client, const Server &server,
 			sendErrorResponse(client, HTTP_400);
 			return;
 		}
-		if (!FileUtils::isPathSafe(filePath, server.getRoot()))
-		{
-			sendErrorResponse(client, HTTP_403);
-			return;
-		}
 		if (!FileUtils::fileExists(filePath))
 		{
 			handleMissingFile(client, server, loc, uri, method);
+			return;
+		}
+		if (!FileUtils::isPathSafe(filePath, server.getRoot()))
+		{
+			sendErrorResponse(client, HTTP_403);
 			return;
 		}
 		serveStaticFile(client, filePath);

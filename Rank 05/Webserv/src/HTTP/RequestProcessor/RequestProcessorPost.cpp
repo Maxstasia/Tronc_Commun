@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   RequestProcessorPost.cpp                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/11 21:30:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:08:12 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "RequestProcessor.hpp"
 #include "Location.hpp"
 #include <fstream>
@@ -95,9 +83,44 @@ string RequestProcessor::extractFilename(const string &headers) const
 }
 
 /**
+ * @brief Résout un nom de fichier unique dans un répertoire
+ *
+ * Si le fichier existe déjà, ajoute un suffixe (1), (2), etc.
+ * avant l'extension jusqu'à trouver un nom disponible.
+ *
+ * @param dir Répertoire cible (avec slash final)
+ * @param filename Nom de fichier original
+ * @return Nom de fichier unique disponible
+ */
+static string resolveUniqueFilename(const string &dir, const string &filename)
+{
+	string		base = filename;
+	string		ext;
+	size_t		dot = filename.find_last_of('.');
+	struct stat	st;
+
+	if (dot != string::npos && dot != 0)
+	{
+		base = filename.substr(0, dot);
+		ext = filename.substr(dot);
+	}
+	if (stat((dir + filename).c_str(), &st) != 0)
+		return (filename);
+	for (int i = 1; i <= 999; ++i)
+	{
+		stringstream ss;
+		ss << base << "(" << i << ")" << ext;
+		if (stat((dir + ss.str()).c_str(), &st) != 0)
+			return (ss.str());
+	}
+	return (filename);
+}
+
+/**
  * @brief Sauvegarde un fichier uploadé sur le disque
  *
- * Vérifie la sécurité du chemin avant d'écrire le fichier.
+ * Résout un nom unique si le fichier existe déjà,
+ * puis vérifie la sécurité du chemin avant d'écrire.
  *
  * @param uploadPath Répertoire d'upload
  * @param filename Nom du fichier à créer
@@ -107,7 +130,9 @@ string RequestProcessor::extractFilename(const string &headers) const
 bool RequestProcessor::saveUploadedFile(const string &uploadPath,
 	const string &filename, const string &content)
 {
-	string fullPath = FileUtils::ensureTrailingSlash(uploadPath) + filename;
+	string dir = FileUtils::ensureTrailingSlash(uploadPath);
+	string unique = resolveUniqueFilename(dir, filename);
+	string fullPath = dir + unique;
 	if (!FileUtils::isPathSafe(fullPath, uploadPath))
 		return false;
 	ofstream file(fullPath.c_str(), std::ios::binary);

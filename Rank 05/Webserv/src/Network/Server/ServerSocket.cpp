@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ServerSocket.cpp                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/24 21:19:15 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:04:02 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Server.hpp"
 
 /**
@@ -47,21 +35,21 @@
  * @return La structure sockaddr_in construite.
  * @throws std::runtime_error Si l'adresse IP est invalide.
  */
-sockaddr_in Server::buildAddress(const Server &server) const
+sockaddr_in Server::buildAddress(int port) const
 {
 	struct sockaddr_in addr;
 	std::memset(&addr, 0, sizeof(addr));
 
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(server.getPort());
+	addr.sin_port = htons(port);
 
 	// Gérer les cas spéciaux
-	if (server.getHost().empty() || server.getHost() == "*")
+	if (_host.empty() || _host == "*")
 		addr.sin_addr.s_addr = INADDR_ANY;
-	else if (server.getHost() == "localhost")
-		addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK); // 127.0.0.1
-	else if (inet_pton(AF_INET, server.getHost().c_str(), &addr.sin_addr) != 1)
-		throw std::runtime_error("Server: invalid listen host " + server.getHost());
+	else if (_host == "localhost")
+		addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+	else if (inet_pton(AF_INET, _host.c_str(), &addr.sin_addr) != 1)
+		throw std::runtime_error("Server: invalid listen host " + _host);
 
 	return addr;
 }
@@ -100,12 +88,12 @@ void Server::bindAndListen(int fd, const sockaddr_in &addr) const
  * @return Le descripteur de fichier du socket pret.
  * @throws std::runtime_error En cas d'echec a n'importe quelle etape.
  */
-int Server::setupServerSocket() const
+int Server::setupServerSocket(int port) const
 {
 	int fd = createSocket();
 	try
 	{
-		sockaddr_in addr = buildAddress(*this);
+		sockaddr_in addr = buildAddress(port);
 		bindAndListen(fd, addr);
 
 		if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1)

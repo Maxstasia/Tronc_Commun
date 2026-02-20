@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   RequestAccessor.cpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/03 00:00:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:06:20 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Request.hpp"
 #include "StringUtils.hpp"
 
@@ -122,6 +110,17 @@ string Request::getParseErrorMessage() const
 long Request::getContentLength() const
 {
 	return _contentLength;
+}
+
+size_t Request::getBodyBytesReceived() const
+{
+	size_t header_end = _raw_request.find("\r\n\r\n");
+	if (header_end == string::npos)
+		return (0);
+	size_t body_start = header_end + 4;
+	if (_raw_request.size() <= body_start)
+		return (0);
+	return (_raw_request.size() - body_start);
 }
 
 /**

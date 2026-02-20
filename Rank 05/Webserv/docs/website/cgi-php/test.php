@@ -54,5 +54,6 @@ foreach ($vars as $v) {
 	$val = getenv($v);
 	echo "<tr><td><b>$v</b></td><td>" . htmlspecialchars($val ? $val : "(not set)") . "</td></tr>";
 }
+sleep(4);
 echo "</table></body></html>";
 ?>

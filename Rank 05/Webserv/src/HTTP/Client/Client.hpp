@@ -26,6 +26,8 @@ class Client {
 		// CGI state
 		pid_t _cgiPid;
 		int _cgiPipeFd;
+		int _cgiWritePipeFd;
+		size_t _cgiBodySent;
 		string _cgiOutput;
 		time_t _cgiStartTime;
 		bool _cgiRunning;
@@ -59,10 +61,13 @@ class Client {
 		// CGI accessors
 		pid_t getCgiPid() const;
 		int getCgiPipeFd() const;
+		int getCgiWritePipeFd() const;
+		size_t &getCgiBodySent();
 		string &getCgiOutput();
 		time_t getCgiStartTime() const;
 		bool isCgiRunning() const;
 		void startCgi(pid_t pid, int pipeFd);
+		void setCgiWritePipeFd(int fd);
 		void appendCgiOutput(const char *data, size_t len);
 		void clearCgi();
 };

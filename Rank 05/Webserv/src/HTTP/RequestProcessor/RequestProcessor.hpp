@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   RequestProcessor.hpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 16:15:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/04 16:15:00 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
 
 #include "FileUtils.hpp"
@@ -27,7 +15,7 @@ class RequestProcessor
 	std::vector<Server> *_servers;
 	CgiHandler _cgiHandler;
 
-	void resolveVirtualHost(Client &client);
+	bool resolveVirtualHost(Client &client);
 	string buildFilePath(const string &uri, const Server &server, const Location *loc) const;
 	bool isMethodAllowed(const string &method, const Location *loc) const;
 	bool initRequestContext(Client &client);
@@ -66,4 +54,6 @@ class RequestProcessor
 	void setServers(std::vector<Server> *servers);
 	void processRequest(Client &client);
 	bool checkEarlyBodySize(Client &client);
+	bool checkEarlyReceivedSize(Client &client);
+	void handleIncompleteRequest(Client &client);
 };

@@ -1,19 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ServerAccessor.cpp                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 16:36:38 by mstasiak          #+#    #+#             */
-/*   Updated: 2026/02/13 19:04:02 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Server.hpp"
 #include "Location.hpp"
 
-int Server::getPort() const{return _port;}
+int Server::getPort() const{return _ports.empty() ? 8080 : _ports[0];}
+const std::vector<int> &Server::getPorts() const{return _ports;}
 string Server::getHost() const{return _host;}
 string Server::getRoot() const{return _root;}
 string Server::getIndex() const{return _index;}
@@ -22,9 +11,9 @@ string Server::getServerName() const{return _server_name;}
 map_int_string Server::getError() const{return _error;}
 const std::vector<Location> &Server::getLocations() const{return _locations;}
 
-Server &Server::setPort(int port)
+Server &Server::addPort(int port)
 {
-	_port = port;
+	_ports.push_back(port);
 	return *this;
 }
 

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   StringUtils.cpp                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 14:30:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 18:57:28 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "StringUtils.hpp"
 #include <sstream>
 
@@ -57,12 +45,13 @@ vector_string StringUtils::split(const string &s, char delim)
 	while (std::getline(iss, token, delim))
 		tokens.push_back(token);
 	return tokens;
+	return tokens;
 }
 
 /**
  * @brief Echappe les caracteres speciaux HTML dans une chaine.
  *
- * Remplace les caracteres <, >, &, et " par leurs entites HTML correspondantes.
+ * Remplace les caracteres <, >, &, et " par leurs entities HTML correspondents.
  *
  * @param s La chaine a echapper.
  * @return La chaine avec les caracteres HTML echappes.

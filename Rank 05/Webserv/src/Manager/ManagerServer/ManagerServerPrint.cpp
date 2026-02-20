@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ManagerServerPrint.cpp                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/17 17:45:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:02:20 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ManagerServer.hpp"
 #include "Location.hpp"
 
@@ -57,7 +45,9 @@ void ManagerServer::printServer(const Server &server, std::size_t index) const
 {
 	std::cout << "====================\n";
 	std::cout << "server #" << index << "\n";
-	std::cout << "  listen: " << server.getHost() << ':' << server.getPort() << "\n";
+	const std::vector<int> &ports = server.getPorts();
+	for (size_t p = 0; p < ports.size(); ++p)
+		std::cout << "  listen: " << server.getHost() << ':' << ports[p] << "\n";
 	if (!server.getServerName().empty())
 		std::cout << "  server_name: " << server.getServerName() << "\n";
 	if (!server.getRoot().empty())
@@ -91,7 +81,9 @@ void ManagerServer::printServers(const std::vector<Server> &servers) const
 		std::string host = it->getHost();
 		if (host == "0.0.0.0")
 			host = "localhost";
-		std::cout << "  http://" << host << ":" << it->getPort() << "/\n";
+		const std::vector<int> &ports = it->getPorts();
+		for (size_t p = 0; p < ports.size(); ++p)
+			std::cout << "  http://" << host << ":" << ports[p] << "/\n";
 	}
 	std::cout << "\n";
 }

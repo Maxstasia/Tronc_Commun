@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   CgiHandlerEnv.cpp                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 12:00:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/12 12:00:00 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "CgiHandler.hpp"
 #include <cstdlib>
 
@@ -99,7 +87,7 @@ char **CgiHandler::buildEnvp(const Request &req, const Server &server,
 
 	addEnvVar(env, "GATEWAY_INTERFACE", "CGI/1.1");
 	addEnvVar(env, "SERVER_PROTOCOL", req.getHttpVersion());
-	addEnvVar(env, "SERVER_SOFTWARE", "Webserv/1.0");
+	addEnvVar(env, "SERVER_SOFTWARE", "Webserv");
 	addEnvVar(env, "REQUEST_METHOD", req.getMethod());
 	addEnvVar(env, "QUERY_STRING", req.getQueryString());
 	addEnvVar(env, "SCRIPT_NAME", req.getUri());

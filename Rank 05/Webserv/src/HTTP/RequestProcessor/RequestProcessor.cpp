@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   RequestProcessor.cpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 16:15:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/12 21:30:00 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "RequestProcessor.hpp"
 
 RequestProcessor::RequestProcessor() : _loader(NULL), _servers(NULL)

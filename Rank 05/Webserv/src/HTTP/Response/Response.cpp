@@ -82,7 +82,7 @@ void Response::buildResponse() {
 	}
 
 	if (_headers.find("Server") == _headers.end())
-		_headers["Server"] = "Webserv/1.0";
+		_headers["Server"] = "Webserv";
 
 	if (!_body.empty() && _headers.find("Content-Type") == _headers.end())
 		_headers["Content-Type"] = "text/html";

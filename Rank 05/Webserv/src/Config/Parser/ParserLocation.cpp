@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ParserLocation.cpp                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/17 17:05:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:11:22 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Parser.hpp"
 #include "Validator.hpp"
 
@@ -26,6 +14,8 @@
 void Parser::parseAutoindex(Location &location, lst_iterator &it, const list_pair_str_int &tokens) const
 {
 	const string value = readSingleValue(it, tokens, "Parser: Expected value after autoindex directive", "Parser: Unexpected value after value of autoindex directive");
+	if(!(value == "on") && !(value  == "off"))
+		throw std::runtime_error("Autoindinx not valide");
 	location.setAutoindex(value == "on");
 }
 

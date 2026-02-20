@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/10 12:53:25 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/01/27 14:13:28 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
 
 #include "FileUtils.hpp"
@@ -23,7 +11,7 @@ class Location;
 class Server
 {
   private:
-	int _port;
+	std::vector<int> _ports;
 	string _host;
 	string _root;
 	string _index;
@@ -41,6 +29,7 @@ class Server
 	~Server();
 
 	int getPort() const;
+	const std::vector<int> &getPorts() const;
 	string getHost() const;
 	string getRoot() const;
 	string getIndex() const;
@@ -52,11 +41,11 @@ class Server
 
 	//ServerSocket
 	int createSocket() const;
-	sockaddr_in buildAddress(const Server &server) const;
+	sockaddr_in buildAddress(int port) const;
 	void bindAndListen(int fd, const sockaddr_in &addr) const;
-	int setupServerSocket() const;
+	int setupServerSocket(int port) const;
 
-	Server &setPort(int port);
+	Server &addPort(int port);
 	Server &setHost(const string &host);
 	Server &setRoot(const string &root);
 	Server &setIndex(const string &index);

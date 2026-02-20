@@ -110,7 +110,7 @@
 	<h1>WEBSERV Test Dashboard</h1>
 	<div class="status">
 		<div class="dot"></div>
-		<span style="font-size:13px;">Server running</span>
+		<span style="font-size:13px;">Server running on port 8080</span>
 	</div>
 </header>
 
@@ -120,7 +120,6 @@
 	<div class="stat"><div class="value" id="statErrors">0</div><div class="label">Errors</div></div>
 	<div class="stat"><div class="value" id="statTime">0ms</div><div class="label">Last Response</div></div>
 </div>
-
 
 <div class="container">
 
@@ -220,48 +219,6 @@
 		<div class="response-box" id="respRaw" style="display:none;"></div>
 	</div>
 
-	<!-- CGI Test Panel -->
-	<div class="card full-width">
-		<h2>Tests CGI (Python & PHP)</h2>
-		<div class="form-row">
-			<div class="form-group">
-				<label>Script CGI</label>
-				<select id="cgiScript">
-					<option value="/cgi-bin/test.py">Python - /cgi-bin/test.py</option>
-					<option value="/cgi-php/test.php">PHP - /cgi-php/test.php</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label>Methode</label>
-				<select id="cgiMethod">
-					<option value="GET">GET</option>
-					<option value="POST">POST</option>
-				</select>
-			</div>
-		</div>
-		<div class="form-row">
-			<div class="form-group">
-				<label>Query String (pour GET, ex: name=test&age=42)</label>
-				<input type="text" id="cgiQuery" placeholder="name=test&age=42">
-			</div>
-			<div class="form-group">
-				<label>POST Body (key=value&key2=value2)</label>
-				<input type="text" id="cgiBody" placeholder="name=webserv&lang=cpp">
-			</div>
-		</div>
-		<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
-			<button class="btn btn-primary" onclick="sendCgiTest()">Envoyer</button>
-			<button class="btn btn-success" onclick="sendCgiQuick('GET','/cgi-bin/test.py','hello=world')">Python GET</button>
-			<button class="btn btn-success" onclick="sendCgiQuick('POST','/cgi-bin/test.py','','name=python&test=ok')">Python POST</button>
-			<button class="btn btn-info" onclick="sendCgiQuick('GET','/cgi-php/test.php','user=42&project=webserv')">PHP GET</button>
-			<button class="btn btn-info" onclick="sendCgiQuick('POST','/cgi-php/test.php','','name=webserv&lang=php')">PHP POST</button>
-			<button class="btn btn-danger" onclick="sendCgiQuick('GET','/cgi-bin/nonexistent.py','')">CGI 404</button>
-			<a href="/cgi-bin/test.py" class="btn btn-warning" style="text-decoration:none;">Page Python</a>
-			<a href="/cgi-php/test.php" class="btn btn-warning" style="text-decoration:none;">Page PHP</a>
-		</div>
-		<div class="response-box" id="cgiResult" style="min-height:120px;">Resultat CGI ici...</div>
-	</div>
-
 	<!-- Requêtes rapides / stress -->
 	<div class="card">
 		<h2>Requêtes rapides / stress</h2>
@@ -306,9 +263,6 @@
 			<div class="test-item"><span>CGI POST (test.py)</span><span class="badge badge-wait" id="test-cgi-post">--</span></div>
 			<div class="test-item"><span>CGI query string</span><span class="badge badge-wait" id="test-cgi-query">--</span></div>
 			<div class="test-item"><span>CGI 404 (script inexistant)</span><span class="badge badge-wait" id="test-cgi-404">--</span></div>
-			<div class="test-item"><span>PHP CGI GET</span><span class="badge badge-wait" id="test-php-get">--</span></div>
-			<div class="test-item"><span>PHP CGI POST ($_POST)</span><span class="badge badge-wait" id="test-php-post">--</span></div>
-			<div class="test-item"><span>PHP CGI query string</span><span class="badge badge-wait" id="test-php-query">--</span></div>
 		</div>
 	</div>
 
@@ -834,76 +788,6 @@ function runAllTests() {
 		setTestResult('test-cgi-404', ok);
 		log('Test CGI 404 : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
 	});
-
-	/* 20. PHP CGI GET */
-	testRequest('GET', '/cgi-php/test.php', null, null, function(xhr) {
-		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('PHP CGI Test') !== -1;
-		setTestResult('test-php-get', ok);
-		log('Test PHP GET : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
-	});
-
-	/* 21. PHP CGI POST ($_POST) */
-	testRequest('POST', '/cgi-php/test.php', 'name=webserv&lang=php', {'Content-Type': 'application/x-www-form-urlencoded'}, function(xhr) {
-		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('webserv') !== -1;
-		setTestResult('test-php-post', ok);
-		log('Test PHP POST : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ', $_POST parsed=' + (xhr && xhr.responseText.indexOf('webserv') !== -1) + ')', ok ? 'success' : 'error');
-	});
-
-	/* 22. PHP CGI query string */
-	testRequest('GET', '/cgi-php/test.php?user=42&project=webserv', null, null, function(xhr) {
-		var ok = xhr && xhr.status === 200 && xhr.responseText.indexOf('user=42') !== -1;
-		setTestResult('test-php-query', ok);
-		log('Test PHP query string : ' + (ok ? 'PASS' : 'FAIL') + ' (status=' + (xhr ? xhr.status : 'err') + ')', ok ? 'success' : 'error');
-	});
-}
-
-/* ===== CGI Test Panel ===== */
-function sendCgiTest() {
-	var script = document.getElementById('cgiScript').value;
-	var method = document.getElementById('cgiMethod').value;
-	var query = document.getElementById('cgiQuery').value.trim();
-	var body = document.getElementById('cgiBody').value.trim();
-	var uri = script + (query ? '?' + query : '');
-	var headers = (method === 'POST') ? {'Content-Type': 'application/x-www-form-urlencoded'} : null;
-	sendCgiRequest(method, uri, method === 'POST' ? body : null, headers);
-}
-
-function sendCgiQuick(method, script, query, body) {
-	var uri = script + (query ? '?' + query : '');
-	var headers = (method === 'POST') ? {'Content-Type': 'application/x-www-form-urlencoded'} : null;
-	sendCgiRequest(method, uri, body || null, headers);
-}
-
-function sendCgiRequest(method, uri, body, headers) {
-	var box = document.getElementById('cgiResult');
-	box.textContent = 'Chargement...';
-	log('CGI ' + method + ' ' + uri, 'info');
-	var start = Date.now();
-	var xhr = new XMLHttpRequest();
-	xhr.open(method, uri, true);
-	if (headers) {
-		for (var k in headers) {
-			try { xhr.setRequestHeader(k, headers[k]); } catch(e) {}
-		}
-	}
-	xhr.onload = function() {
-		var time = Date.now() - start;
-		var ok = xhr.status >= 200 && xhr.status < 300;
-		updateStats(ok, time);
-		showResponse(xhr);
-		box.innerHTML = '<div style="margin-bottom:8px;"><span style="color:' + (ok ? '#00e676' : '#ff5252') +
-			';font-weight:bold;">' + xhr.status + ' ' + xhr.statusText +
-			'</span> <span style="color:#666;">(' + time + 'ms)</span></div>' +
-			'<div style="border-top:1px solid #2a2a4a;padding-top:8px;">' +
-			xhr.responseText + '</div>';
-		log('CGI ' + method + ' ' + uri + ' -> ' + xhr.status + ' (' + time + 'ms)', ok ? 'success' : 'error');
-	};
-	xhr.onerror = function() {
-		box.textContent = 'Erreur reseau';
-		log('CGI erreur reseau', 'error');
-		updateStats(false, 0);
-	};
-	xhr.send(body);
 }
 
 /* ===== Log ===== */

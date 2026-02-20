@@ -1,19 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   EventManager.cpp                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 16:00:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:04:02 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "EventManager.hpp"
-#include <unistd.h>
 #include <fcntl.h>
 #include <stdexcept>
+#include <unistd.h>
 
 EventManager::EventManager() : _epoll_fd(-1)
 {
@@ -42,9 +30,11 @@ void EventManager::initialize()
 }
 
 /**
- * @brief Ajoute un descripteur de fichier a epoll avec les evenements specifies.
+
+	* @brief Ajoute un descripteur de fichier a epoll avec les evenements specifies.
  *
- * Utilise EPOLL_CTL_ADD pour ajouter le descripteur avec les drapeaux d'evenements.
+
+	* Utilise EPOLL_CTL_ADD pour ajouter le descripteur avec les drapeaux d'evenements.
  *
  * @param fd Le descripteur de fichier a ajouter.
  * @param events Les drapeaux d'evenements epoll (EPOLLIN, EPOLLOUT, etc.).
@@ -60,7 +50,8 @@ void EventManager::addFd(int fd, uint32_t events)
 }
 
 /**
- * @brief Modifie les evenements pour un descripteur de fichier existant dans epoll.
+
+	* @brief Modifie les evenements pour un descripteur de fichier existant dans epoll.
  *
  * Utilise EPOLL_CTL_MOD pour mettre a jour les drapeaux d'evenements.
  *
@@ -89,7 +80,11 @@ void EventManager::modifyFd(int fd, uint32_t events)
 void EventManager::removeFd(int fd)
 {
 	if (epoll_ctl(_epoll_fd, EPOLL_CTL_DEL, fd, NULL) == -1)
+	{
+		if (errno == EBADF || errno == ENOENT)
+			return ;
 		throw std::runtime_error("epoll_ctl DEL failed");
+	}
 }
 
 /**
@@ -102,9 +97,10 @@ void EventManager::removeFd(int fd)
  * @param timeout Timeout en millisecondes.
  * @return Nombre de descripteurs prets, ou -1 en cas d'erreur.
  */
-int EventManager::waitEvents(struct epoll_event* events, int max_events, int timeout)
+int EventManager::waitEvents(struct epoll_event *events, int max_events,
+	int timeout)
 {
-	return epoll_wait(_epoll_fd, events, max_events, timeout);
+	return (epoll_wait(_epoll_fd, events, max_events, timeout));
 }
 
 /**
@@ -114,7 +110,7 @@ int EventManager::waitEvents(struct epoll_event* events, int max_events, int tim
  */
 int EventManager::getEpollFd() const
 {
-	return _epoll_fd;
+	return (_epoll_fd);
 }
 
 /**

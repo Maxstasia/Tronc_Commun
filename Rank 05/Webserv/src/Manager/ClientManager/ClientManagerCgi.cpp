@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ClientManagerCgi.cpp                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 21:30:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:03:14 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ClientManager.hpp"
 #include <sys/wait.h>
 #include <signal.h>
@@ -27,6 +15,13 @@
  */
 void ClientManager::cleanupCgi(Client &client)
 {
+	int writePipeFd = client.getCgiWritePipeFd();
+	if (writePipeFd != -1)
+	{
+		_eventManager.removeFd(writePipeFd);
+		close(writePipeFd);
+		_cgiWritePipeToClient.erase(writePipeFd);
+	}
 	int pipeFd = client.getCgiPipeFd();
 	pid_t pid = client.getCgiPid();
 	if (pid > 0)
@@ -73,7 +68,63 @@ void ClientManager::registerCgiPipe(int pipeFd, int clientFd)
  */
 bool ClientManager::isCgiPipe(int fd) const
 {
-	return _cgiPipeToClient.find(fd) != _cgiPipeToClient.end();
+	return _cgiPipeToClient.find(fd) != _cgiPipeToClient.end()
+		|| _cgiWritePipeToClient.find(fd) != _cgiWritePipeToClient.end();
+}
+
+void ClientManager::registerCgiWritePipe(int pipeFd, int clientFd)
+{
+	_cgiWritePipeToClient[pipeFd] = clientFd;
+	try
+	{
+		_eventManager.addFd(pipeFd, EPOLLOUT);
+	}
+	catch (const std::exception &e)
+	{
+		std::cerr << "Failed to add CGI write pipe to epoll: " << e.what() << std::endl;
+		_cgiWritePipeToClient.erase(pipeFd);
+		close(pipeFd);
+	}
+}
+
+void ClientManager::handleCgiPipeWrite(int fd)
+{
+	std::map<int, int>::iterator pipeIt = _cgiWritePipeToClient.find(fd);
+	if (pipeIt == _cgiWritePipeToClient.end())
+		return;
+
+	int clientFd = pipeIt->second;
+	std::map<int, Client>::iterator clientIt = _clients.find(clientFd);
+	if (clientIt == _clients.end())
+	{
+		_eventManager.removeFd(fd);
+		close(fd);
+		_cgiWritePipeToClient.erase(fd);
+		return;
+	}
+
+	Client &client = clientIt->second;
+	const string &body = client.getRequest().getBody();
+	size_t &sent = client.getCgiBodySent();
+	size_t total = body.size();
+
+	ssize_t w = write(fd, body.c_str() + sent, total - sent);
+	if (w < 0)
+	{
+		_eventManager.removeFd(fd);
+		close(fd);
+		_cgiWritePipeToClient.erase(fd);
+		client.setCgiWritePipeFd(-1);
+		return;
+	}
+	sent += static_cast<size_t>(w);
+	if (sent >= total)
+	{
+		_eventManager.removeFd(fd);
+		close(fd);
+		_cgiWritePipeToClient.erase(fd);
+		client.setCgiWritePipeFd(-1);
+	}
 }
 
 /**
@@ -134,6 +185,17 @@ void ClientManager::handleCgiPipeRead(int fd)
  */
 void ClientManager::handleCgiPipeError(int fd)
 {
+	std::map<int, int>::iterator writeIt = _cgiWritePipeToClient.find(fd);
+	if (writeIt != _cgiWritePipeToClient.end())
+	{
+		_eventManager.removeFd(fd);
+		close(fd);
+		_cgiWritePipeToClient.erase(fd);
+		std::map<int, Client>::iterator cIt = _clients.find(writeIt->second);
+		if (cIt != _clients.end())
+			cIt->second.setCgiWritePipeFd(-1);
+		return;
+	}
 	std::map<int, int>::iterator pipeIt = _cgiPipeToClient.find(fd);
 	if (pipeIt == _cgiPipeToClient.end())
 		return;

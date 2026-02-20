@@ -1,9 +1,9 @@
 #include "Client.hpp"
 
-Client::Client() : _client_fd(-1), _bytes(0), _server(NULL), _location(NULL), _shouldClose(false), _lastActivity(time(NULL)), _cgiPid(-1), _cgiPipeFd(-1), _cgiStartTime(0), _cgiRunning(false) {}
+Client::Client() : _client_fd(-1), _bytes(0), _server(NULL), _location(NULL), _shouldClose(false), _lastActivity(time(NULL)), _cgiPid(-1), _cgiPipeFd(-1), _cgiWritePipeFd(-1), _cgiBodySent(0), _cgiStartTime(0), _cgiRunning(false) {}
 
 Client::Client(int client_fd, struct sockaddr_in client_addr)
-	: _client_fd(client_fd), _client_addr(client_addr), _bytes(0), _server(NULL), _location(NULL), _shouldClose(false), _lastActivity(time(NULL)), _cgiPid(-1), _cgiPipeFd(-1), _cgiStartTime(0), _cgiRunning(false) {}
+	: _client_fd(client_fd), _client_addr(client_addr), _bytes(0), _server(NULL), _location(NULL), _shouldClose(false), _lastActivity(time(NULL)), _cgiPid(-1), _cgiPipeFd(-1), _cgiWritePipeFd(-1), _cgiBodySent(0), _cgiStartTime(0), _cgiRunning(false) {}
 
 Client::~Client() {}
 
@@ -36,6 +36,8 @@ void Client::reset() {
 	_lastActivity = time(NULL);
 	_cgiPid = -1;
 	_cgiPipeFd = -1;
+	_cgiWritePipeFd = -1;
+	_cgiBodySent = 0;
 	_cgiOutput.clear();
 	_cgiStartTime = 0;
 	_cgiRunning = false;

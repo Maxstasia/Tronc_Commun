@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ClientManager.hpp                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 16:10:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/04 16:10:00 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
 
 #include "FileUtils.hpp"
@@ -23,8 +11,10 @@ class ClientManager
   private:
 	std::map<int, Client> _clients;
 	std::map<int, int> _cgiPipeToClient;
+	std::map<int, int> _cgiWritePipeToClient;
 	EventManager& _eventManager;
 	CgiHandler _cgiHandler;
+	std::vector<int> _timedOutIncomplete;
 
   public:
 	ClientManager(EventManager& eventManager);
@@ -37,10 +27,13 @@ class ClientManager
 	void handleClientDisconnect(int fd);
 	void prepareClientForWriting(int fd);
 	void checkTimeouts();
+	std::vector<int> &getTimedOutIncomplete();
 
 	void registerCgiPipe(int pipeFd, int clientFd);
+	void registerCgiWritePipe(int pipeFd, int clientFd);
 	bool isCgiPipe(int fd) const;
 	void handleCgiPipeRead(int fd);
+	void handleCgiPipeWrite(int fd);
 	void handleCgiPipeError(int fd);
 
 	void cleanupCgi(Client &client);

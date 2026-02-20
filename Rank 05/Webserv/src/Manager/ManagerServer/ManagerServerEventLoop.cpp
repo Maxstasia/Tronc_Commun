@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ManagerServerEventLoop.cpp                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/21 10:08:12 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/15 15:52:02 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ManagerServer.hpp"
 #include "../../Network/Server/Location/Location.hpp"
 
@@ -27,14 +15,18 @@
  */
 void ManagerServer::initServerSockets()
 {
-	_servers_fd.reserve(_servers.size());
-
 	try
 	{
 		for (size_t i = 0; i < _servers.size(); ++i)
 		{
-			_servers_fd.push_back(_servers[i].setupServerSocket());
-			_eventManager.addFd(_servers_fd.back(), EPOLLIN | EPOLLRDHUP);
+			const std::vector<int> &ports = _servers[i].getPorts();
+			for (size_t p = 0; p < ports.size(); ++p)
+			{
+				int fd = _servers[i].setupServerSocket(ports[p]);
+				_servers_fd.push_back(fd);
+				_fd_to_server[fd] = &_servers[i];
+				_eventManager.addFd(fd, EPOLLIN | EPOLLRDHUP);
+			}
 		}
 	}
 	catch (...)
@@ -60,6 +52,8 @@ void ManagerServer::handleCgiEvent(int fd, uint32_t event_flag)
 {
 	if (event_flag & EPOLLERR)
 		_clientManager.handleCgiPipeError(fd);
+	else if (event_flag & EPOLLOUT)
+		_clientManager.handleCgiPipeWrite(fd);
 	else if (event_flag & (EPOLLIN | EPOLLHUP))
 		_clientManager.handleCgiPipeRead(fd);
 }
@@ -109,6 +103,16 @@ void ManagerServer::runEventLoop()
 			throw std::runtime_error("epoll_wait failed");
 		}
 		_clientManager.checkTimeouts();
+		std::vector<int> &incomplete = _clientManager.getTimedOutIncomplete();
+		for (size_t j = 0; j < incomplete.size(); ++j)
+		{
+			Client *c = _clientManager.getClient(incomplete[j]);
+			if (c)
+			{
+				_requestProcessor.handleIncompleteRequest(*c);
+				_clientManager.prepareClientForWriting(incomplete[j]);
+			}
+		}
 		if (nfds == 0)
 			continue;
 		for (int i = 0; i < nfds; i++)
@@ -148,41 +152,60 @@ void ManagerServer::handleServerEvent(int fd, uint32_t event_flag)
  * @param event_flag Les drapeaux d'evenements epoll.
  * @return Aucune valeur de retour.
  */
-void ManagerServer::handleClientEvent(int fd, uint32_t event_flag)
+void ManagerServer::handleClientRdhup(int fd)
 {
-	if (event_flag & (EPOLLERR | EPOLLHUP | EPOLLRDHUP))
+	Client* client = _clientManager.getClient(fd);
+	if (client && client->getRequest().isHeaderFull()
+		&& !client->getRequest().isRequestComplete())
 	{
-		_clientManager.handleClientDisconnect(fd);
+		_requestProcessor.handleIncompleteRequest(*client);
+		_clientManager.prepareClientForWriting(fd);
 		return;
 	}
+	_clientManager.handleClientDisconnect(fd);
+}
 
+void ManagerServer::processCompleteRequest(int fd, Client &client)
+{
+	_requestProcessor.processRequest(client);
+	if (client.isCgiRunning())
+	{
+		_clientManager.registerCgiPipe(client.getCgiPipeFd(), fd);
+		if (client.getCgiWritePipeFd() != -1)
+			_clientManager.registerCgiWritePipe(client.getCgiWritePipeFd(), fd);
+	}
+	else
+		_clientManager.prepareClientForWriting(fd);
+}
+
+void ManagerServer::handleClientReadEvent(int fd)
+{
+	_clientManager.handleClientRead(fd);
+	Client* client = _clientManager.getClient(fd);
+	if (!client)
+		return;
+	if (_requestProcessor.checkEarlyReceivedSize(*client))
+		return _clientManager.prepareClientForWriting(fd);
+	if (client->getRequest().isHeaderFull()
+		&& !client->getRequest().isRequestComplete()
+		&& _requestProcessor.checkEarlyBodySize(*client))
+		return _clientManager.prepareClientForWriting(fd);
+	if (client->getRequest().isRequestComplete())
+		processCompleteRequest(fd, *client);
+}
+
+void ManagerServer::handleClientEvent(int fd, uint32_t event_flag)
+{
+	if (!_clientManager.hasClient(fd))
+		return;
+	if (event_flag & (EPOLLERR | EPOLLHUP))
+		return _clientManager.handleClientDisconnect(fd);
+	if (event_flag & EPOLLRDHUP)
+		return handleClientRdhup(fd);
 	if (event_flag & EPOLLIN)
-	{
-		_clientManager.handleClientRead(fd);
-		Client* client = _clientManager.getClient(fd);
-		if (!client)
-			return;
-		if (client->getRequest().isHeaderFull()
-			&& !client->getRequest().isRequestComplete()
-			&& _requestProcessor.checkEarlyBodySize(*client))
-		{
-			_clientManager.prepareClientForWriting(fd);
-			return;
-		}
-		if (client->getRequest().isRequestComplete())
-		{
-			_requestProcessor.processRequest(*client);
-			if (client->isCgiRunning())
-				_clientManager.registerCgiPipe(client->getCgiPipeFd(), fd);
-			else
-				_clientManager.prepareClientForWriting(fd);
-		}
-	}
-
-	if (event_flag & EPOLLOUT)
-	{
+		handleClientReadEvent(fd);
+	else if (event_flag & EPOLLOUT)
 		_clientManager.handleClientWrite(fd);
-	}
 }
 
 /**
@@ -196,11 +219,9 @@ void ManagerServer::handleClientEvent(int fd, uint32_t event_flag)
  */
 Server* ManagerServer::selectServerForClient(int server_fd)
 {
-	for (size_t i = 0; i < _servers_fd.size(); ++i)
-	{
-		if (_servers_fd[i] == server_fd)
-			return &_servers[i];
-	}
+	std::map<int, Server*>::iterator it = _fd_to_server.find(server_fd);
+	if (it != _fd_to_server.end())
+		return it->second;
 	return NULL;
 }
 

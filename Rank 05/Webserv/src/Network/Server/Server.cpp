@@ -4,27 +4,14 @@
 #include <unistd.h>
 #include <cstring>
 #include <stdexcept>
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Server.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/10 12:53:28 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/01/21 09:54:43 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Server.hpp"
 #include "Location/Location.hpp"
 
-Server::Server() : _port(8080), _host("127.0.0.1"), _root(""), _index("index.html"), _client_max_body_size(1048576){}
+Server::Server() : _host("127.0.0.1"), _root(""), _index("index.html"), _client_max_body_size(1048576){}
 
 Server::Server(const Server &other)
 {
-	_port = other._port;
+	_ports = other._ports;
 	_host = other._host;
 	_root = other._root;
 	_index = other._index;
@@ -39,7 +26,7 @@ Server &Server::operator=(const Server &other)
 	if (this != &other)
 	{
 		clearLocations();
-		_port = other._port;
+		_ports = other._ports;
 		_host = other._host;
 		_root = other._root;
 		_index = other._index;

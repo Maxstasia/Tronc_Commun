@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ClientManagerIO.cpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 21:30:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:03:14 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ClientManager.hpp"
 #include <sys/socket.h>
 #include <sys/wait.h>
@@ -33,37 +21,29 @@
  */
 void ClientManager::acceptNewClient(int server_fd, Server* server)
 {
-	while (true)
+	struct sockaddr_in client_addr;
+	socklen_t client_len = sizeof(client_addr);
+
+	int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &client_len);
+
+	if (client_fd == -1)
+		return;
+	fcntl(client_fd, F_SETFL, O_NONBLOCK);
+	fcntl(client_fd, F_SETFD, FD_CLOEXEC);
+
+	Client new_client(client_fd, client_addr);
+	new_client.setServer(server);
+	_clients.insert(std::make_pair(client_fd, new_client));
+
+	try
 	{
-		struct sockaddr_in client_addr;
-		socklen_t client_len = sizeof(client_addr);
-
-		int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &client_len);
-
-		if (client_fd == -1)
-		{
-			if (errno == EAGAIN || errno == EWOULDBLOCK)
-				break;
-			std::cerr << "Error: " << strerror(errno) << std::endl;
-			break;
-		}
-		fcntl(client_fd, F_SETFL, O_NONBLOCK);
-		fcntl(client_fd, F_SETFD, FD_CLOEXEC);
-
-		Client new_client(client_fd, client_addr);
-		new_client.setServer(server);
-		_clients.insert(std::make_pair(client_fd, new_client));
-
-		try
-		{
-			_eventManager.addFd(client_fd, EPOLLIN | EPOLLRDHUP);
-		}
-		catch (const std::exception& e)
-		{
-			std::cerr << "Failed to add client to epoll: " << e.what() << std::endl;
-			_clients.erase(client_fd);
-			close(client_fd);
-		}
+		_eventManager.addFd(client_fd, EPOLLIN | EPOLLRDHUP);
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Failed to add client to epoll: " << e.what() << std::endl;
+		_clients.erase(client_fd);
+		close(client_fd);
 	}
 }
 
@@ -79,17 +59,11 @@ void ClientManager::acceptNewClient(int server_fd, Server* server)
 void ClientManager::handleClientDisconnect(int fd)
 {
 	std::map<int, Client>::iterator it = _clients.find(fd);
-	if (it != _clients.end() && it->second.isCgiRunning())
+	if (it == _clients.end())
+		return ;
+	if (it->second.isCgiRunning())
 		cleanupCgi(it->second);
-
-	try
-	{
-		_eventManager.removeFd(fd);
-	}
-	catch (const std::exception& e)
-	{
-		std::cerr << "Failed to remove fd from epoll: " << e.what() << std::endl;
-	}
+	_eventManager.removeFd(fd);
 	_clients.erase(fd);
 	close(fd);
 }

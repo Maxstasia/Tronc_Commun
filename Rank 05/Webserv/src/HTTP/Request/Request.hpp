@@ -25,10 +25,13 @@ class Request{
 
 		void setError(int code, const string &message);
 		bool parseRequestLine(istringstream &stream);
+		bool validateRequestLine(const string &method, const string &uri, string &version);
 		bool validateVersion(const string &version);
 		void parseHeaders(istringstream &stream);
 		bool validateContentLength();
 		bool validateHost();
+		bool validateTransferEncoding();
+		bool parseHeaderLine(const string &line);
 		bool decodeChunkedBody();
 
 	public:
@@ -39,6 +42,7 @@ class Request{
 		bool isHeaderFull() const;
 		bool isRequestComplete() const;
 		long getRawContentLength() const;
+		size_t getBodyBytesReceived() const;
 		void parseRequest();
 		string getMethod() const;
 		string getUri() const;

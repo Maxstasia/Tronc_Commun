@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ParserServer.cpp                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/17 16:09:59 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:11:22 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Parser.hpp"
 #include "StringUtils.hpp"
 #include "Validator.hpp"
@@ -66,7 +54,7 @@ void Parser::parseListen(Server &server, lst_iterator &it,
 
 	int port = std::atoi(value.c_str());
 	Validator::validatePort(port);
-	server.setPort(port);
+	server.addPort(port);
 }
 
 /**
@@ -224,10 +212,7 @@ Server Parser::parseServerBlock(lst_iterator &it,
 	{
 		const string &directive = it->first;
 		if (directive == "listen")
-		{
-			checkDuplicateDirective(seen_directives, "listen");
 			parseListen(server, it, tokens);
-		}
 		else if (directive == "host")
 		{
 			checkDuplicateDirective(seen_directives, "host");
@@ -262,6 +247,12 @@ Server Parser::parseServerBlock(lst_iterator &it,
 			parseLocationBlock(server, it, tokens);
 		++it;
 	}
+	if (server.getPorts().empty())
+		throw std::runtime_error("Parser: Missing 'listen' directive in server block");
+	if (seen_directives.find("host") == seen_directives.end())
+		throw std::runtime_error("Parser: Missing 'host' directive in server block");
+	if (server.getRoot().empty())
+		throw std::runtime_error("Parser: Missing 'root' directive in server block");
 	return (server);
 }
 

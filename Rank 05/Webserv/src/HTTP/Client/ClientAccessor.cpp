@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ClientAccessor.cpp                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/03 00:00:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:06:20 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Client.hpp"
 #include "Server.hpp"
 #include "Location.hpp"
@@ -143,6 +131,10 @@ pid_t Client::getCgiPid() const { return _cgiPid; }
  * @return Descripteur de fichier du pipe de lecture CGI, ou -1 si aucun
  */
 int Client::getCgiPipeFd() const { return _cgiPipeFd; }
+int Client::getCgiWritePipeFd() const { return _cgiWritePipeFd; }
+size_t &Client::getCgiBodySent() { return _cgiBodySent; }
+
+void Client::setCgiWritePipeFd(int fd) { _cgiWritePipeFd = fd; }
 /**
  * @brief Récupère le buffer de sortie du CGI
  *
@@ -197,6 +189,8 @@ void Client::clearCgi()
 {
 	_cgiPid = -1;
 	_cgiPipeFd = -1;
+	_cgiWritePipeFd = -1;
+	_cgiBodySent = 0;
 	_cgiOutput.clear();
 	_cgiStartTime = 0;
 	_cgiRunning = false;

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ManagerServerAccessor.cpp                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 14:20:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:02:20 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ManagerServer.hpp"
 
 // Getters
@@ -45,10 +33,5 @@ vect_int& ManagerServer::getServersFd()
  */
 bool ManagerServer::isServerSocket(int fd) const
 {
-	for (size_t i = 0; i < _servers_fd.size(); ++i)
-	{
-		if (_servers_fd[i] == fd)
-			return true;
-	}
-	return false;
+	return _fd_to_server.find(fd) != _fd_to_server.end();
 }

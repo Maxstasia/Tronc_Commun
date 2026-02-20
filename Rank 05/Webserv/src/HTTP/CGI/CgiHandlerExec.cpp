@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   CgiHandlerExec.cpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 12:00:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/12 12:00:00 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "CgiHandler.hpp"
 #include <cstdlib>
 #include <errno.h>
@@ -108,6 +96,7 @@ void CgiHandler::executeCgiChild(int pipe_in[2], int pipe_out[2],
 	argv[1] = const_cast<char *>(scriptPath.c_str());
 	argv[2] = NULL;
 	execve(cgiPath.c_str(), argv, envp);
+	std::cout << "Executing CGI: " << cgiPath.c_str() << " with script: " << scriptPath << std::endl;
 	_exit(1);
 }
 
@@ -127,19 +116,13 @@ void CgiHandler::executeCgiParent(Client &client, pid_t pid,
 {
 	freeEnvp(envp);
 	const string &body = client.getRequest().getBody();
-	if (!body.empty())
+	if (body.empty())
+		close(pipeWriteEnd);
+	else
 	{
-		size_t total = body.size();
-		size_t sent = 0;
-		while (sent < total)
-		{
-			ssize_t w = write(pipeWriteEnd, body.c_str() + sent, total - sent);
-			if (w <= 0)
-				break ;
-			sent += w;
-		}
+		fcntl(pipeWriteEnd, F_SETFL, O_NONBLOCK);
+		client.setCgiWritePipeFd(pipeWriteEnd);
 	}
-	close(pipeWriteEnd);
 	fcntl(pipeReadEnd, F_SETFL, O_NONBLOCK);
 	client.startCgi(pid, pipeReadEnd);
 }

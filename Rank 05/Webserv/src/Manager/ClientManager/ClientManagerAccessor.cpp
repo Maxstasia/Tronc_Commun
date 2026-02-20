@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ClientManagerAccessor.cpp                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 21:30:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/02/13 19:03:14 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ClientManager.hpp"
 #include <sys/wait.h>
 #include <signal.h>
@@ -102,6 +90,7 @@ void ClientManager::checkTimeouts()
 	time_t now = time(NULL);
 	std::vector<int> toDisconnect;
 	std::vector<int> cgiTimedOut;
+	_timedOutIncomplete.clear();
 
 	std::map<int, Client>::iterator it;
 	for (it = _clients.begin(); it != _clients.end(); ++it)
@@ -113,10 +102,21 @@ void ClientManager::checkTimeouts()
 			continue;
 		}
 		if (now - it->second.getLastActivity() > CLIENT_TIMEOUT_SEC)
-			toDisconnect.push_back(it->first);
+		{
+			if (it->second.getRequest().isHeaderFull()
+				&& !it->second.getRequest().isRequestComplete())
+				_timedOutIncomplete.push_back(it->first);
+			else
+				toDisconnect.push_back(it->first);
+		}
 	}
 	for (size_t i = 0; i < cgiTimedOut.size(); ++i)
 		handleCgiTimeout(cgiTimedOut[i]);
 	for (size_t i = 0; i < toDisconnect.size(); ++i)
 		handleClientDisconnect(toDisconnect[i]);
+}
+
+std::vector<int> &ClientManager::getTimedOutIncomplete()
+{
+	return (_timedOutIncomplete);
 }

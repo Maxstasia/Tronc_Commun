@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ManagerServer.hpp                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rcini-ha <rcini-ha@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/13 14:25:00 by rcini-ha          #+#    #+#             */
-/*   Updated: 2026/01/28 14:59:53 by rcini-ha         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
 
 #include "../../Config/Loader/Loader.hpp"
@@ -27,6 +15,7 @@ class ManagerServer
 			 ClientManager _clientManager;
 			 RequestProcessor _requestProcessor;
 			 vect_int _servers_fd;
+			 std::map<int, Server*> _fd_to_server;
 
 	//ManagerPrint
 	void printServers(const std::vector<Server> &servers) const;
@@ -38,6 +27,9 @@ class ManagerServer
 	void runEventLoop();
 	void handleServerEvent(int fd, uint32_t event_flag);
 	void handleClientEvent(int fd, uint32_t event_flag);
+	void handleClientRdhup(int fd);
+	void handleClientReadEvent(int fd);
+	void processCompleteRequest(int fd, Client &client);
 	void handleCgiEvent(int fd, uint32_t event_flag);
 	void dispatchEvent(int fd, uint32_t event_flag);
 	Server* selectServerForClient(int server_fd);
