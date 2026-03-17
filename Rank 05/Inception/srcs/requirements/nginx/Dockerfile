@@ -20,7 +20,7 @@ RUN mkdir -p /etc/nginx/ssl /var/run/nginx && \
 	chmod 644 /etc/nginx/ssl/inception.key
 
 # 3. Copie les fichiers
-COPY ./conf/nginx.cnf /etc/nginx/nginx.conf
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 # 4. Expose le port
 EXPOSE 443
