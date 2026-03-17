@@ -6,8 +6,6 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./.env
-    ports:
-      - "${MARIADB_PORT}:3306"
     expose:
       - "3306"
     volumes:
@@ -57,8 +55,6 @@ services:
         UID: ${UID}
     env_file:
       - ./.env
-    ports:
-      - "${WORDPRESS_PORT}:9000"
     expose:
       - "9000"
     volumes:

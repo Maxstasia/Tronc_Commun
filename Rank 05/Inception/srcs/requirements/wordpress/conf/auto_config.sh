@@ -11,21 +11,22 @@ if [ ! -f /var/www/wordpress/wp-config.php ]; then
 						--dbpass=$DB_ADMIN_PASS \
 						--dbhost=mariadb:3306 \
 						--path='/var/www/wordpress'
-fi
+# fi
 
 # Installation de WordPress si elle n'est pas déjà faite
-if ! wp core is-installed --allow-root --path='/var/www/wordpress'; then
+# if ! wp core is-installed --allow-root --path='/var/www/wordpress'; then
 	wp core install		--allow-root \
 						--url=$DOMAIN_NAME \
 						--title="$WP_TITLE" \
 						--admin_user=$WP_ADMIN_USER \
 						--admin_password=$WP_ADMIN_PASS \
 						--admin_email=$WP_ADMIN_EMAIL \
+						--skip-email \
 						--path='/var/www/wordpress'
-fi
+# fi
 
 # Création du deuxième utilisateur s'il n'existe pas déjà
-if ! wp user get $WP_USER --allow-root --path='/var/www/wordpress' > /dev/null 2>&1; then
+# if ! wp user get $WP_USER --allow-root --path='/var/www/wordpress' > /dev/null 2>&1; then
 	wp user create		--allow-root \
 						$WP_USER \
 						$WP_USER_EMAIL \

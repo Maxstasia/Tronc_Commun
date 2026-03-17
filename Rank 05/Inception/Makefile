@@ -5,13 +5,13 @@ all: hosts volumes
 	@docker compose -f ./srcs/docker-compose.yml up -d --build
 
 down:
-	@sudo rm -rf /home/$(USER)/data/db /home/$(USER)/data/wordpress
 	@docker compose -f ./srcs/docker-compose.yml down
 
 clean: down
 	@docker system prune -a --volumes -f
 
 fclean: clean remove_hosts
+	@sudo rm -rf /home/$(USER)/data/db /home/$(USER)/data/wordpress
 	@sudo rm -rf /home/$(USER)/data
 	@sudo rm -rf ./srcs/requirements/wordpress/wp-content
 
