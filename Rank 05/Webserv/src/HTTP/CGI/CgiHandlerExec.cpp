@@ -96,7 +96,6 @@ void CgiHandler::executeCgiChild(int pipe_in[2], int pipe_out[2],
 	argv[1] = const_cast<char *>(scriptPath.c_str());
 	argv[2] = NULL;
 	execve(cgiPath.c_str(), argv, envp);
-	std::cout << "Executing CGI: " << cgiPath.c_str() << " with script: " << scriptPath << std::endl;
 	_exit(1);
 }
 
