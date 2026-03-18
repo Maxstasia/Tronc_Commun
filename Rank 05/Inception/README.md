@@ -1,347 +1,168 @@
-# Inception - README
+*This project has been created as part of the 42 Common Core by mstasiak.*
 
----
-
-## Description
-Inception est un projet d’administration système réalisé dans le cadre du cursus de l’école 42. Il vise à approfondir les compétences en virtualisation et en gestion de conteneurs en utilisant **Docker**. L’objectif est de mettre en place une infrastructure multi-conteneurs avec **docker-compose**, comprenant plusieurs services interconnectés (NGINX, WordPress, MariaDB) fonctionnant dans une machine virtuelle. Ce projet met l’accent sur la configuration des conteneurs, la gestion des volumes, des réseaux Docker, et la sécurité (TLS, gestion des variables d’environnement).
-
-L’objectif est de maîtriser les concepts suivants :
-- Utilisation de Docker et docker-compose pour la virtualisation de services.
-- Création et configuration de Dockerfiles personnalisés.
-- Mise en place d’une infrastructure avec NGINX, WordPress, et MariaDB.
-- Gestion des volumes et réseaux Docker.
-- Configuration sécurisée avec TLSv1.2 ou TLSv1.3 et variables d’environnement.
-- Implémentation de services bonus (Redis, FTP, Adminer, etc.).
-
-## Structure du projet
-Le projet est organisé comme suit :
-- **Dossier principal** : Contient le dossier `srcs` avec les fichiers de configuration (Dockerfiles, docker-compose.yml, scripts).
-- **Dossier srcs** : Contient les Dockerfiles pour chaque service (NGINX, WordPress, MariaDB) et le fichier `docker-compose.yml`.
-- **Dossier bonus (optionnel)** : Contient les Dockerfiles et configurations pour les services bonus (Redis, FTP, Adminer, etc.).
-- **Dossier /home/login/data** : Contient les volumes pour la base de données WordPress et les fichiers du site.
-- **Makefile** : Pour automatiser la construction et la gestion des conteneurs.
-
-Les fichiers clés incluent :
-- **Dockerfiles** : Un par service (NGINX, WordPress, MariaDB, et bonus).
-- **docker-compose.yml** : Définit les services, volumes, et réseaux.
-- **.env** : Stocke les variables d’environnement (ex. : identifiants, mots de passe).
-- **Makefile** : Automatise la compilation et le déploiement des conteneurs.
-
-## Prérequis
-- Une machine virtuelle Linux (Debian ou Alpine recommandé).
-- Docker et docker-compose installés.
-- Connaissances de base en administration système (gestion des conteneurs, réseaux, TLS).
-- Connaissance des services web (NGINX, WordPress, MariaDB).
-- Accès à un terminal pour configurer le nom de domaine local (ex. : mstasiak.42.fr).
-
-## Installation
-1. **Cloner le dépôt Git** :
-   ```bash
-   git clone <votre-dépôt-git>
-   cd inception
-   ```
-2. **Configurer le fichier .env** :
-   - Créez un fichier `.env` dans le dossier `srcs` pour définir les variables d’environnement (ex. : `DB_USER`, `DB_PASSWORD`).
-   - Assurez-vous que les mots de passe ne sont pas inclus dans les Dockerfiles.
-3. **Compiler et lancer les conteneurs** :
-   ```bash
-   make
-   ```
-   - Construit les images Docker et lance les conteneurs via `docker-compose.yml`.
-4. **Compiler les bonus (si implémentés)** :
-   ```bash
-   make bonus
-   ```
-   - Construit et lance les services bonus.
-5. **Nettoyer les conteneurs et images** :
-   ```bash
-   make clean
-   ```
-6. **Supprimer tous les volumes et données** :
-   ```bash
-   make fclean
-   ```
-7. **Recompiler tout** :
-   ```bash
-   make re
-   ```
-
-## Utilisation
-### Commandes principales
-1. **Lancer l’infrastructure** :
-   ```bash
-   make
-   ```
-   - Lance les conteneurs NGINX, WordPress, et MariaDB.
-   - Le site WordPress est accessible via `https://mstasiak.42.fr` (remplacez `mstasiak` par votre login).
-2. **Accéder au site** :
-   - Ouvrez un navigateur et accédez à `https://mstasiak.42.fr`.
-   - NGINX sert de point d’entrée unique sur le port 443 avec TLSv1.2 ou TLSv1.3.
-3. **Gérer les conteneurs** :
-   - Arrêter les conteneurs : `make stop`.
-   - Redémarrer les conteneurs : `make restart`.
-
-### Structure des services
-- **NGINX** :
-  - Point d’entrée unique de l’infrastructure.
-  - Configuré avec TLSv1.2 ou TLSv1.3 sur le port 443.
-  - Redirige les requêtes vers le conteneur WordPress.
-- **WordPress + php-fpm** :
-  - Contient WordPress avec php-fpm (sans NGINX).
-  - Connecté à la base de données MariaDB.
-  - Utilise un volume pour stocker les fichiers du site dans `/home/mstasiak/data/wp`.
-- **MariaDB** :
-  - Base de données pour WordPress.
-  - Utilise un volume pour stocker les données dans `/home/mstasiak/data/db`.
-  - Contient deux utilisateurs : un administrateur (sans `admin` dans le nom) et un utilisateur standard.
-- **Docker Network** :
-  - Connecte les conteneurs pour permettre la communication interne.
-  - L’utilisation de `network: host`, `--link`, ou `links:` est interdite.
-- **Volumes** :
-  - Volume pour la base de données : `/home/mstasiak/data/db`.
-  - Volume pour les fichiers WordPress : `/home/mstasiak/data/wp`.
-
-### Configuration du domaine
-- Configurez le fichier `/etc/hosts` sur la machine hôte pour pointer `mstasiak.42.fr` vers l’adresse IP locale (ex. : `127.0.0.1`).
-  ```bash
-  echo "127.0.0.1 mstasiak.42.fr" >> /etc/hosts
-  ```
-- Assurez-vous que le certificat TLS est correctement configuré pour sécuriser la connexion.
-
-## Fonctionnement détaillé
-### Partie obligatoire
-- **NGINX** :
-  - Construit à partir de l’avant-dernière version stable d’Alpine ou Debian.
-  - Configure un serveur web sécurisé avec TLSv1.2 ou TLSv1.3.
-  - Sert de reverse proxy pour rediriger les requêtes vers WordPress.
-- **WordPress + php-fpm** :
-  - Installe et configure WordPress avec php-fpm.
-  - Connecté à MariaDB via des variables d’environnement (ex. : `DB_HOST`, `DB_USER`).
-  - Les fichiers du site sont persistants via un volume.
-- **MariaDB** :
-  - Base de données relationnelle pour WordPress.
-  - Configure deux utilisateurs : un administrateur et un utilisateur standard.
-  - Les données sont persistantes via un volume.
-- **Docker Compose** :
-  - Le fichier `docker-compose.yml` définit les services, réseaux, et volumes.
-  - Les conteneurs redémarrent automatiquement en cas de crash (`restart: always`).
-  - Les variables d’environnement sont gérées via un fichier `.env` ou Docker secrets.
-- **Bonnes pratiques** :
-  - Les Dockerfiles suivent les bonnes pratiques (PID 1, éviter les boucles infinies comme `tail -f` ou `sleep infinity`).
-  - Aucun mot de passe n’est codé en dur dans les Dockerfiles.
-  - Les images sont construites localement (pas d’utilisation de DockerHub, sauf pour Alpine/Debian).
-
-### Partie bonus
-- **Redis Cache** : Mise en cache des données WordPress pour améliorer les performances.
-- **Serveur FTP** : Accès au volume WordPress pour le transfert de fichiers.
-- **Site statique** : Un site web dans un langage autre que PHP (ex. : HTML/CSS, Python Flask).
-- **Adminer** : Interface web pour gérer la base de données MariaDB.
-- **Service personnalisé** : Un service supplémentaire justifié (ex. : monitoring, backup).
-
-### Makefile
-Le Makefile inclut les règles suivantes :
-- `all` : Construit et lance les conteneurs via `docker-compose.yml`.
-- `clean` : Arrête et supprime les conteneurs et images.
-- `fclean` : Supprime également les volumes et données persistantes.
-- `re` : Recompile et relance tout.
-- `bonus` : Construit et lance les services bonus.
-
-## Gestion des erreurs
-- Vérifiez que les conteneurs gèrent correctement les erreurs : fichiers de configuration absents, ports occupés, certificats TLS invalides.
-- Assurez-vous que les Dockerfiles respectent les bonnes pratiques (ex. : gestion du PID 1).
-- Testez avec des cas limites : crash de conteneurs, variables d’environnement manquantes.
-- Les volumes doivent être correctement montés dans `/home/mstasiak/data`.
-- Les conteneurs doivent redémarrer automatiquement en cas de crash.
-
-## Limitations
-- Le projet doit être réalisé dans une machine virtuelle.
-- Les images doivent être construites à partir de l’avant-dernière version stable d’Alpine ou Debian.
-- L’utilisation de `network: host`, `--link`, ou `links:` est interdite.
-- Les boucles infinies (`tail -f`, `sleep infinity`, etc.) sont interdites.
-- Les mots de passe ne doivent pas être codés en dur dans les Dockerfiles.
-- Le tag `latest` est interdit pour les images.
-- Les bonus ne sont évalués que si la partie obligatoire est parfaite.
-
----
-
-## Auteur
-- **Nom** : mstasiak
-- **Email** : mstasiak@student.42.fr
-- **Date** : Avril 2025 - Avril 2025
-
-## Remerciements
-Merci à l’école 42 pour ce projet qui m’a permis d’explorer Docker, docker-compose, et la gestion d’une infrastructure multi-conteneurs, tout en approfondissant mes compétences en administration système et en sécurité.
-
----
-
-# Inception - README
+# Inception
 
 ## Description
-Inception is a system administration project developed as part of the 42 school curriculum. It aims to deepen containerization skills using **Docker**. The goal is to set up a multi-container infrastructure with **docker-compose**, including interconnected services (NGINX, WordPress, MariaDB) running in a virtual machine. The project emphasizes container configuration, volume and network management, and security (TLS, environment variables).
 
-The goal is to master the following concepts:
-- Using Docker and docker-compose for service virtualization.
-- Creating and configuring custom Dockerfiles.
-- Setting up an infrastructure with NGINX, WordPress, and MariaDB.
-- Managing Docker volumes and networks.
-- Implementing secure configurations with TLSv1.2 or TLSv1.3 and environment variables.
-- Adding bonus services (Redis, FTP, Adminer, etc.).
+Inception is a system administration project from the 42 Common Core. The goal is to set up a small but complete web infrastructure using Docker and Docker Compose, entirely inside a virtual machine.
 
-## Project Structure
-The project is organized as follows:
-- **Main Directory**: Contains the `srcs` folder with configuration files (Dockerfiles, docker-compose.yml, scripts).
-- **srcs Folder**: Contains Dockerfiles for each service (NGINX, WordPress, MariaDB) and the `docker-compose.yml` file.
-- **Bonus Folder (optional)**: Contains Dockerfiles and configurations for bonus services (Redis, FTP, Adminer, etc.).
-- **/home/login/data Folder**: Hosts volumes for the WordPress database and site files.
-- **Makefile**: Automates container building and management.
+The stack consists of three services running in dedicated containers:
 
-Key files include:
-- **Dockerfiles**: One per service (NGINX, WordPress, MariaDB, and bonuses).
-- **docker-compose.yml**: Defines services, volumes, and networks.
-- **.env**: Stores environment variables (e.g., `DB_USER`, `DB_PASSWORD`).
-- **Makefile**: Automates building and deployment of containers.
+- **NGINX** — the sole entry point, serving HTTPS on port 443 with TLSv1.2/TLSv1.3 and acting as a reverse proxy toward WordPress.
+- **WordPress + PHP-FPM** — the CMS, running without any embedded web server, communicating with NGINX via FastCGI on port 9000.
+- **MariaDB** — the relational database backend for WordPress.
 
-## Prerequisites
-- A Linux virtual machine (Debian or Alpine recommended).
-- Docker and docker-compose installed.
-- Basic knowledge of system administration (container management, networks, TLS).
-- Familiarity with web services (NGINX, WordPress, MariaDB).
-- Access to a terminal to configure the local domain name (e.g., mstasiak.42.fr).
-
-## Installation
-1. **Clone the Git repository**:
-   ```bash
-   git clone <your-git-repository>
-   cd inception
-   ```
-2. **Configure the .env file**:
-   - Create a `.env` file in the `srcs` folder to define environment variables (e.g., `DB_USER`, `DB_PASSWORD`).
-   - Ensure passwords are not hardcoded in Dockerfiles.
-3. **Build and run containers**:
-   ```bash
-   make
-   ```
-   - Builds Docker images and starts containers via `docker-compose.yml`.
-4. **Build bonus services (if implemented)**:
-   ```bash
-   make bonus
-   ```
-   - Builds and starts bonus services.
-5. **Clean containers and images**:
-   ```bash
-   make clean
-   ```
-6. **Remove all volumes and data**:
-   ```bash
-   make fclean
-   ```
-7. **Rebuild everything**:
-   ```bash
-   make re
-   ```
-
-## Usage
-### Key Commands
-1. **Start the infrastructure**:
-   ```bash
-   make
-   ```
-   - Starts NGINX, WordPress, and MariaDB containers.
-   - The WordPress site is accessible at `https://mstasiak.42.fr` (replace `mstasiak` with your login).
-2. **Access the site**:
-   - Open a browser and navigate to `https://mstasiak.42.fr`.
-   - NGINX serves as the single entry point on port 443 with TLSv1.2 or TLSv1.3.
-3. **Manage containers**:
-   - Stop containers: `make stop`.
-   - Restart containers: `make restart`.
-
-### Service Structure
-- **NGINX**:
-  - Single entry point for the infrastructure.
-  - Configured with TLSv1.2 or TLSv1.3 on port 443.
-  - Proxies requests to the WordPress container.
-- **WordPress + php-fpm**:
-  - Runs WordPress with php-fpm (no NGINX).
-  - Connected to MariaDB.
-  - Uses a volume for site files in `/home/mstasiak/data/wp`.
-- **MariaDB**:
-  - Database for WordPress.
-  - Uses a volume for data in `/home/mstasiak/data/db`.
-  - Includes two users: an admin (no `admin` in the name) and a standard user.
-- **Docker Network**:
-  - Connects containers for internal communication.
-  - Use of `network: host`, `--link`, or `links:` is forbidden.
-- **Volumes**:
-  - Database volume: `/home/mstasiak/data/db`.
-  - WordPress files volume: `/home/mstasiak/data/wp`.
-
-### Domain Configuration
-- Configure `/etc/hosts` on the host machine to point `mstasiak.42.fr` to the local IP (e.g., `127.0.0.1`).
-  ```bash
-  echo "127.0.0.1 mstasiak.42.fr" >> /etc/hosts
-  ```
-- Ensure the TLS certificate is properly configured for secure connections.
-
-## Detailed Functionality
-### Mandatory Part
-- **NGINX**:
-  - Built from the second-to-last stable version of Alpine or Debian.
-  - Configures a secure web server with TLSv1.2 or TLSv1.3.
-  - Acts as a reverse proxy to forward requests to WordPress.
-- **WordPress + php-fpm**:
-  - Installs and configures WordPress with php-fpm.
-  - Connected to MariaDB via environment variables (e.g., `DB_HOST`, `DB_USER`).
-  - Site files are persistent via a volume.
-- **MariaDB**:
-  - Relational database for WordPress.
-  - Configures two users: an admin and a standard user.
-  - Data is persistent via a volume.
-- **Docker Compose**:
-  - The `docker-compose.yml` file defines services, networks, and volumes.
-  - Containers restart automatically on crash (`restart: always`).
-  - Environment variables are managed via a `.env` file or Docker secrets.
-- **Best Practices**:
-  - Dockerfiles follow best practices (PID 1, no infinite loops like `tail -f` or `sleep infinity`).
-  - Passwords are not hardcoded in Dockerfiles.
-  - Images are built locally (no DockerHub usage, except for Alpine/Debian).
-
-### Bonus Part
-- **Redis Cache**: Caches WordPress data to improve performance.
-- **FTP Server**: Provides access to the WordPress volume for file transfers.
-- **Static Site**: A non-PHP website (e.g., HTML/CSS, Python Flask).
-- **Adminer**: Web interface for managing the MariaDB database.
-- **Custom Service**: A justified additional service (e.g., monitoring, backup).
-
-### Makefile
-The Makefile includes:
-- `all`: Builds and starts containers via `docker-compose.yml`.
-- `clean`: Stops and removes containers and images.
-- `fclean`: Also removes volumes and persistent data.
-- `re`: Rebuilds and restarts everything.
-- `bonus`: Builds and starts bonus services.
-
-## Error Handling
-- Ensure containers handle errors correctly: missing configuration files, occupied ports, invalid TLS certificates.
-- Verify Dockerfiles follow best practices (e.g., PID 1 management).
-- Test edge cases: container crashes, missing environment variables.
-- Volumes must be correctly mounted in `/home/mstasiak/data`.
-- Containers must restart automatically on crash.
-
-## Limitations
-- The project must be executed in a virtual machine.
-- Images must be built from the second-to-last stable version of Alpine or Debian.
-- Use of `network: host`, `--link`, or `links:` is forbidden.
-- Infinite loops (`tail -f`, `sleep infinity`, etc.) are prohibited.
-- Passwords must not be hardcoded in Dockerfiles.
-- The `latest` tag is forbidden for images.
-- Bonuses are only evaluated if the mandatory part is perfect.
+All data is persisted through two Docker named volumes: one for the WordPress files, one for the database. The services communicate through a dedicated Docker bridge network called `inception`.
 
 ---
 
-## Author
-- **Name**: mstasiak
-- **Email**: mstasiak@student.42.fr
-- **Date**: April 2025 - April 2025
+## Project description
 
-## Acknowledgments
-Thanks to 42 school for this project, which allowed me to explore Docker, docker-compose, and multi-container infrastructure management while deepening my system administration and security skills.
+### Why Docker instead of a VM?
+
+| Aspect | Virtual Machine | Docker |
+|---|---|---|
+| Isolation | Full OS-level isolation | Process-level isolation via namespaces |
+| Weight | Heavy (GB, full OS) | Lightweight (MB, shares host kernel) |
+| Boot time | Minutes | Milliseconds |
+| Portability | Depends on hypervisor | Runs anywhere Docker is installed |
+| Use case | Full OS needed | Microservices, reproducible environments |
+
+Docker is chosen here because each service is simple and stateless enough to benefit from containerisation without the overhead of a full VM.
+
+### Secrets vs Environment Variables
+
+| | Secrets | Environment Variables |
+|---|---|---|
+| Storage | Mounted as a file in `/run/secrets/` | Passed as plain text to the process |
+| Security | Not visible in `docker inspect` or history | Visible in `docker inspect` |
+| Use case | Passwords, API keys | Non-sensitive config (ports, hostnames) |
+| Defined in | `secrets:` block in docker-compose.yml | `.env` file or `environment:` block |
+
+In this project, credentials are stored in a `.env` file (not committed to Git) and injected as environment variables. Docker secrets would be the more secure approach for production.
+
+### Docker Network vs Host Network
+
+| | Docker Network (bridge) | Host Network |
+|---|---|---|
+| Isolation | Containers have their own IP space | Containers share the host's network stack |
+| Communication | Via service name (DNS) | Via localhost |
+| Security | Better isolation between services | No isolation — any port conflict is fatal |
+| Forbidden by subject | No | **Yes** (`network: host` is prohibited) |
+
+This project uses a custom bridge network named `inception`. Services can reach each other by container name (e.g., `mariadb:3306`).
+
+### Docker Volumes vs Bind Mounts
+
+| | Docker Named Volumes | Bind Mounts |
+|---|---|---|
+| Managed by | Docker engine | Host filesystem directly |
+| Location | Docker's internal storage area | Any path on the host |
+| Portability | High | Low (depends on host paths) |
+| Performance | Optimised by Docker | Depends on the host FS |
+| Subject rule | **Required** for DB and WordPress data | **Forbidden** for the two main volumes |
+
+The two main volumes (`db_data` and `wordpress`) use `driver: local` with `driver_opts` to bind data to `/home/mstasiak/data/` on the host, satisfying both the named-volume requirement and the location requirement.
+
+### Design choices
+
+- Base image: `debian:bookworm` for all services (penultimate stable Debian as of project writing).
+- No password in any Dockerfile — all credentials come from `.env`.
+- NGINX generates a self-signed TLS certificate at build time using `openssl`.
+- MariaDB initialises via a `setup.sh` script that runs `envsubst` on `init.sql` to substitute environment variables before executing SQL.
+- WordPress is configured via WP-CLI in `auto_config.sh`.
+- All containers use `restart: always` and have `depends_on` with healthchecks.
+
+---
+
+## Instructions
+
+### Prerequisites
+
+- A Linux virtual machine with Docker and Docker Compose installed.
+- `sudo` access (needed for `/etc/hosts` modification and data directory creation).
+- No service already running on port 443.
+
+### Environment setup
+
+Create the file `srcs/.env` at the root of the `srcs/` directory. It must contain (adapt values to your setup):
+
+```env
+# Domain
+NGINX_HOST=mstasiak.42.fr
+NGINX_PORT=443
+DOMAIN_NAME=mstasiak.42.fr
+
+# System
+UID=1000
+USER=mstasiak
+
+# MariaDB
+DB_NAME=wordpress
+DB_ROOT_PASS=your_root_password
+DB_ADMIN=wp_admin_db
+DB_ADMIN_PASS=your_admin_db_password
+DB_USER=wp_user
+DB_PASS=your_user_password
+
+# WordPress
+WP_TITLE=My Inception Site
+WP_ADMIN_USER=wp_superuser
+WP_ADMIN_PASS=your_wp_admin_password
+WP_ADMIN_EMAIL=admin@mstasiak.42.fr
+WP_USER=wp_author
+WP_USER_EMAIL=author@mstasiak.42.fr
+WP_USER_PASS=your_wp_user_password
+```
+
+> **Important:** never commit `.env` to Git. Add it to `.gitignore`.
+
+### Build and run
+
+From the project root:
+
+```bash
+make        # builds images, creates volumes, adds hosts entry, starts containers
+make down   # stops and removes containers
+make clean  # stops containers and removes all Docker resources
+make fclean # full clean + removes data directories and hosts entry
+make re     # fclean + all
+```
+
+### Access
+
+Once running, open your browser at: `https://mstasiak.42.fr`
+
+The WordPress admin panel is at: `https://mstasiak.42.fr/wp-admin`
+
+---
+
+## Resources
+
+### Documentation
+
+- [Docker official documentation](https://docs.docker.com/)
+- [Docker Compose file reference](https://docs.docker.com/compose/compose-file/)
+- [NGINX documentation](https://nginx.org/en/docs/)
+- [MariaDB documentation](https://mariadb.com/kb/en/)
+- [PHP-FPM configuration](https://www.php.net/manual/en/install.fpm.configuration.php)
+- [WP-CLI documentation](https://wp-cli.org/)
+- [OpenSSL self-signed certificate](https://www.openssl.org/docs/man1.1.1/man1/req.html)
+- [Best practices for Dockerfiles](https://docs.docker.com/develop/develop-images/dockerfile_best-practices/)
+- [PID 1 and signal handling in containers](https://cloud.google.com/architecture/best-practices-for-building-containers#signal-handling)
+
+### Articles
+
+- [Understanding Docker volumes vs bind mounts](https://docs.docker.com/storage/volumes/)
+- [TLS/SSL in NGINX](https://nginx.org/en/docs/http/configuring_https_servers.html)
+- [FastCGI and PHP-FPM explained](https://www.digitalocean.com/community/tutorials/understanding-and-implementing-fastcgi-proxying-in-nginx)
+
+### AI usage
+
+AI was used during this project for the following tasks:
+
+- **Debugging**: identifying configuration errors in `nginx.conf`, `setup.sh`, and `docker-compose.yml`.
+- **Shell scripting**: reviewing the logic of `auto_config.sh` for idempotency.
+- **Documentation**: generating drafts of README.md, USER_DOC.md, and DEV_DOC.md, which were then reviewed and corrected manually.
+
+All AI-generated content was reviewed, tested, and understood before inclusion in the project.
