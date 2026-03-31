@@ -39,7 +39,7 @@ dev:
 build:
 	$(NPM) run build
 
-clean:
+clean: down
 	rm -rf backend/dist frontend/dist
 
 fclean: clean
