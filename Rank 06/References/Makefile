@@ -14,7 +14,7 @@ help:
 	@echo "  make dev-frontend  - Run React frontend (Vite)"
 	@echo "  make build         - Build backend and frontend"
 	@echo "  make clean         - Remove build artifacts"
-	@echo "  make fclean        - Remove build artifacts and node_modules"
+	@echo "  make fclean        - Deep clean: build artifacts, deps, lockfiles, npm user cache"
 	@echo "  make up            - Start Docker stack"
 	@echo "  make down          - Stop Docker stack"
 	@echo "  make logs          - Follow Docker logs"
@@ -43,7 +43,11 @@ clean:
 	rm -rf backend/dist frontend/dist
 
 fclean: clean
-	rm -rf node_modules
+	rm -rf node_modules backend/node_modules frontend/node_modules
+	rm -f package-lock.json backend/package-lock.json frontend/package-lock.json
+	$(NPM) cache clean --force
+	rm -rf ~/.npm/_cacache ~/.npm/_logs ~/.npm/_npx
+	
 
 require-compose:
 	@test -f $(COMPOSE_FILE) || { echo "docker-compose.yml not found at project root."; exit 1; }
