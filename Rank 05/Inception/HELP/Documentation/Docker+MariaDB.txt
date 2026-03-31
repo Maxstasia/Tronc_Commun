@@ -1,0 +1,85 @@
+# 0. Installer Docker et Docker Compose + MariaDB
+sudo apt update && sudo apt upgrade -y											//Met à jour la liste des paquets et met à jour le système
+sudo apt install -y docker.io docker-compose-plugin								//Installe Docker et Docker compose
+sudo apt install mariadb-server mariadb-client -y								//Installe MariaDB server et client
+sudo systemctl start docker														//Démarre le service Docker
+sudo systemctl enable docker													//Permet de démarrer Docker au boot
+
+
+
+# 1. Tester Docker
+docker --version																//Affiche la version actuellement installé de Docker
+docker compose version															//Affiche la version actuellement installé de Docker compose
+
+
+
+# 2. Création d'un dossier propre + sécuriser l’install (supprime users anonymes, etc.)
+mkdir -p ~/inception_data/db													//Crée un dossier pour stocker les données de MariaDB
+
+
+
+# 3. Lance MariaDB (image officielle)
+docker run -d \																	//Lance un container en arrière-plan (grace au -d)
+  --name mariadb_manual \														//Nom du container : mariadb_manual (grace à --name)
+  -e MYSQL_ROOT_PASSWORD=rootpass \												//Définit le mot de passe root de MariaDB 'rootpass' (grace à -e)
+  -e MYSQL_DATABASE=wordpress \													//Crée une base de données nommée 'wordpress' (grace à -e)
+  -e MYSQL_USER=wp_user \														//Crée un utilisateur 'wp_user' (grace à -e)
+  -e MYSQL_PASSWORD=wp_pass \													//Définit le mot de passe de 'wp_user' à 'wp_pass' (grace à -e)
+  -v ~/inception_data/db:/var/lib/mysql \										//Monte le volume pour persister les données (grace à -v)
+  -p 3306:3306 \																//Mappe le port 3306 du container au port 3306 de l'hôte (grace à -p)
+  mariadb:10.11																	//Utilise l'image officielle de MariaDB version 10.11
+
+
+
+# 4. Vérifier que le container MariaDB tourne
+docker ps | grep mariadb														//Liste les containers en cours et filtre pour 'mariadb'
+docker logs mariadb_manual | tail -20											//Affiche les 20 dernières lignes des logs du container mariadb_manual
+
+
+
+# 5. Se connecter à MariaDB depuis le container
+docker exec -it mariadb_manual bash												//Entre dans le container mariadb_manual
+# → -it = interactif avec un terminal bash
+mysql -u wp_user -p																//Se connecte à MariaDB en tant que 'wp_user'
+# → entrer le mot de passe 'wp_pass'
+
+
+
+# 6. Vérifier la base de données
+SHOW DATABASES;																	//Affiche les bases de données
+# → 'wordpress' doit apparaître
+USE wordpress;																	//Sélectionne la base de données 'wordpress'
+SHOW TABLES;																	//Affiche les tables dans la base de données
+# → aucune table pour l'instant
+EXIT;																			//Sortir du client MariaDB
+
+
+
+# 7. Arrêter et supprimer le container MariaDB
+exit																			//Sortir du container
+docker stop mariadb_manual														//Arrête le container mariadb_manual
+docker rm mariadb_manual														//Supprime le container mariadb_manual
+# → données restent dans ~/inception_data/db
+
+OU
+
+# 5. Connection depuis le terminal
+mysql -h 127.0.0.1 -P 3306 -u wp_user -p										//Se connecter à MariaDB sur localhost (127.0.0.1 grace à -h) au port 3306 (grace à -P) en tant que 'wp_user' (grace à -u) et demande le mot de passe (grace à -p)
+# → mot de passe : wp_pass
+
+
+
+# 6. Vérifier la base de données
+SHOW DATABASES;																	//Affiche les bases de données
+# → 'wordpress' doit apparaître
+USE wordpress;																	//Sélectionne la base de données 'wordpress'
+SHOW TABLES;																	//Affiche les tables dans la base de données
+# → aucune table pour l'instant
+EXIT;																			//Sortir du client MariaDB
+
+
+
+# 7. Arrêter et supprimer le container MariaDB
+docker stop mariadb_manual														//Arrête le container mariadb_manual
+docker rm mariadb_manual														//Supprime le container mariadb_manual
+# → données restent dans ~/inception_data/db

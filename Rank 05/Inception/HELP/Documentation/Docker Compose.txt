@@ -1,0 +1,72 @@
+# 0. Installer Docker et Docker Compose
+sudo apt update && sudo apt upgrade -y											//Met à jour la liste des paquets et met à jour le système
+sudo apt install -y docker.io docker-compose-plugin								//Installe Docker et Docker compose
+sudo apt install mariadb-client -y												//Installe le client MariaDB
+sudo systemctl start docker														//Démarre le service Docker
+sudo systemctl enable docker													//Permet de démarrer Docker au boot
+
+
+
+# 1. Aller dans un dossier propre
+mkdir ~/inception_test && cd ~/inception_test
+mkdir data_db
+
+
+
+# 2. Créer un docker-compose.yml minimal
+cat > docker-compose.yml << EOF
+services:																		//Définit les services
+  mariadb:																		//Nom du service
+    image: mariadb:10.11														//Image officielle MariaDB version 10.11
+    container_name: mariadb_compose												//Nom du container
+    environment:																//Variables d'environnement
+      MYSQL_ROOT_PASSWORD: rootpass												//Mot de passe root
+      MYSQL_DATABASE: wordpress													//Nom de la base de données
+      MYSQL_USER: wp_user														//Nom de l'utilisateur
+      MYSQL_PASSWORD: wp_pass													//Mot de passe de l'utilisateur
+    volumes:																	//Volumes pour persister les données
+      - ./data_db:/var/lib/mysql												//Monte le volume local ./data_db vers le dossier des données de MariaDB
+    ports:																		//Ports exposés
+      - "3306:3306"																//Mappe le port 3306 de l'hôte au port 3306 du container
+    restart: always																//Redémarre le container automatiquement en cas de crash ou au reboot
+EOF
+
+
+
+# 3. Lancer MariaDB avec compose EN LIGNE
+docker compose \
+  -p inception_test \
+  up -d \
+  --build \
+  mariadb
+# → -p = project name (évite conflits de noms entre projets)
+# → up = lance les services
+# → -d = détaché (arrière-plan)
+# → --build = build les images avant de lancer les containers
+
+
+
+# 4. Lance avec compose
+docker compose up -d
+
+
+
+# 5. Vérifier que le container tourne
+docker compose ps
+docker compose logs mariadb
+
+
+
+# 6. Teste la DB
+mysql -h 127.0.0.1 -u wp_user -p
+# → wp_pass
+SHOW DATABASES;
+# → wordpress doit apparaître
+EXIT;
+
+
+
+# 7. Arrête proprement
+docker compose down
+# → arrête et supprime les containers, réseaux, etc. créés par 'up'
+# → les données restent dans ./data_db

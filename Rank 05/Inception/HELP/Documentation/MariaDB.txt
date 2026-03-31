@@ -1,0 +1,40 @@
+# 1. Installer MariaDB
+sudo apt update && apt upgrade -y
+sudo apt install mariadb-server mariadb-client -y
+
+
+
+# 2. Démarre & active au boot
+sudo systemctl start mariadb													//Démarre le service MariaDB
+sudo systemctl enable mariadb													//Permet de démarrer MariaDB au boot
+
+
+
+# 3. Sécuriser l’install (supprime users anonymes, etc.)
+sudo mysql_secure_installation
+# → Appuyer sur Enter (pas de mot de passe root), puis :
+# Set root password? [Y/n] Y → tape un mot de passe fort
+# Remove anonymous users? [Y/n] Y
+# Disallow root login remotely? [Y/n] Y
+# Remove test database? [Y/n] Y
+# Reload privilege tables? [Y/n] Y
+
+
+
+# 4. Connexion
+sudo mysql -u root -p
+# → taper le mot de passe root
+
+
+
+# 5. Crée une DB WordPress + 2 users (comme dans le sujet)
+CREATE DATABASE wordpress;														//Créé une Data Base du nom de wordpress
+CREATE USER 'wp_user'@'localhost' IDENTIFIED BY 'super_password';				//Créé un utilisateur wp_user qui s'identifira avec ce mdp : 'super_password'
+CREATE USER 'wp_admin'@'localhost' IDENTIFIED BY 'admin_password';				//Créé un utilisateur wp_user qui s'identifira avec ce mdp : 'admin_password'
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wp_admin'@'localhost';					//Accorder tous les privilèges sur la DB 'wordpress' à 'wp_admin'
+GRANT SELECT, INSERT, UPDATE, DELETE ON wordpress.* TO 'wp_user'@'localhost';	//Accorder les privilèges de : Selection, Ajout, Mise à jour et Supression sur la DB 'wordpress' à 'wp_user'
+FLUSH PRIVILEGES;																//Mettre à jour les Privilège afin que les modification précédente puisse être pris en compte
+EXIT;																			//Sortir du terminal MariaDB
+
+mysql -u wp_admin -p -e "SHOW DATABASES;"
+# → 'wordpress' apparait (normalement)

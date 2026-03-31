@@ -1,0 +1,85 @@
+# 0. Installer Docker et Docker Compose + MariaDB
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y docker.io docker-compose-plugin
+sudo apt install mariadb-client -y
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+
+# 1. Tester Docker
+docker --version
+docker compose version
+
+
+
+# 2. Création d'un dossier propre + sécuriser l’install (supprime users anonymes, etc.)
+mkdir -p ~/inception_data/db
+
+
+
+# 3. Lance MariaDB (image officielle)
+docker run -d \
+  --name mariadb_manual \
+  -e MYSQL_ROOT_PASSWORD=rootpass \
+  -e MYSQL_DATABASE=wordpress \
+  -e MYSQL_USER=wp_user \
+  -e MYSQL_PASSWORD=wp_pass \
+  -v ~/inception_data/db:/var/lib/mysql \
+  -p 3306:3306 \
+  mariadb:10.11
+
+
+
+# 4. Vérifier que le container MariaDB tourne
+docker ps | grep mariadb
+docker logs mariadb_manual | tail -20
+
+
+
+# 5. Se connecter à MariaDB depuis le container
+docker exec -it mariadb_manual bash
+# → -it = interactif avec un terminal bash
+mysql -u wp_user -p
+# → entrer le mot de passe 'wp_pass'
+
+
+
+# 6. Vérifier la base de données
+SHOW DATABASES;
+# → 'wordpress' doit apparaître
+USE wordpress;
+SHOW TABLES;
+# → aucune table pour l'instant
+EXIT;
+
+
+
+# 7. Arrêter et supprimer le container MariaDB
+exit
+docker stop mariadb_manual
+docker rm mariadb_manual
+# → données restent dans ~/inception_data/db
+
+OU
+
+# 5. Connection depuis le terminal
+mysql -h 127.0.0.1 -P 3306 -u wp_user -p
+# → mot de passe : wp_pass
+
+
+
+# 6. Vérifier la base de données
+SHOW DATABASES;
+# → 'wordpress' doit apparaître
+USE wordpress;
+SHOW TABLES;
+# → aucune table pour l'instant
+EXIT;
+
+
+
+# 7. Arrêter et supprimer le container MariaDB
+docker stop mariadb_manual
+docker rm mariadb_manual
+# → données restent dans ~/inception_data/db

@@ -1,0 +1,53 @@
+# 0. Installer Docker et Docker Compose
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y docker.io docker-compose-plugin
+sudo systemctl start docker
+sudo systemctl enable docker
+
+
+
+# 1. Tester Docker
+docker --version
+docker compose version
+
+
+
+# 2. Lancer un container "hello-world"
+docker run --rm hello-world
+# → Si un message d'information s'affiche, Docker marche.
+# → --rm = supprime le container après exécution
+
+
+
+# 3. Lancer un container interactif (bash dedans)
+docker run -it debian:bookworm /bin/bash
+# → Normalement tu es dans le container. Tape :
+whoami
+cat /etc/os-release
+exit
+
+
+
+# 4. Lancer un container en arrière-plan avec un nom
+docker run -d --name mon_debian -it debian:bookworm bash
+# → -d = détaché, --name = nom custom
+
+
+
+# 5. Liste les containers
+docker ps
+docker ps -a
+
+
+
+# 6. Entre dans ton container
+docker exec -it mon_debian bash
+# → Tu es dedans. Tape :
+ls
+exit
+
+
+
+# 7. Arrête et supprime
+docker stop mon_debian
+docker rm mon_debian
