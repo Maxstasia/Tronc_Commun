@@ -58,7 +58,7 @@ MLX_A			= $(MLX_DIR)/libmlx.a
 
 # Compilateur et flags
 CC				= cc
-CFLAGS			= -Wall -Werror -Wextra -I $(INCLUDE_DIR) -g
+CFLAGS			= -Wall -Werror -Wextra -Wno-incompatible-pointer-types -std=gnu89 -I $(INCLUDE_DIR) -g
 LIBS			= $(PRINTF_A) $(MLX_A) -lm -lbsd -lX11 -lXext
 
 # Règles

@@ -36,10 +36,11 @@
 // # include <string.h>   // Pour strerror
 # include <stdlib.h>   // Pour malloc, free, exit
 # include <math.h>
+# include <X11/X.h>
+# include <X11/keysym.h>
 
 # include "ft_printf/ft_printf.h"
 # include "minilibx-linux/mlx.h"
-# include "minilibx-linux/mlx_int.h"
 
 /*--------------------structures--------------------*/
 
